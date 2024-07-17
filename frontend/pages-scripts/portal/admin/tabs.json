@@ -1,0 +1,16 @@
+{
+    "tabs": [
+        {
+            "link": "/portal/admin/user-management/system-users",
+            "name": "User Management"
+        },
+        {
+            "link": "/portal/admin/plugins",
+            "name": "Plugins"
+        },
+        {
+            "link": "/portal/admin/settings/organization/",
+            "name": "Settings"
+        }
+    ]
+}
