@@ -65,7 +65,7 @@ export async function middleware(req) {
 
       if (isTokenValid) {
 
-        return NextResponse.redirect(`${origin}/portal/profile`)
+        return NextResponse.redirect(`${origin}/portal/dashboard`)
       } 
       // else {
       //   return NextResponse.redirect(`${origin}/auth/signin?url=${returnURL}`)

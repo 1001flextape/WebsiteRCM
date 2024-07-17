@@ -68,7 +68,7 @@ function Page() {
         setUserToken({
           token: response.data.foundationAuth_signup.token,
         })
-        router.push("/client/vcs")
+        router.push("/portal/dashboard/")
       } else {
         switch (result.error) {
           case "0001":
