@@ -11,6 +11,11 @@ async function up({ context: queryInterface }) {
     width: {
       type: sequelize.STRING,
     },
+    
+    isChanged: {
+      type: sequelize.BOOLEAN,
+      default: false,
+    },
     isReady: {
       type: sequelize.BOOLEAN,
     },

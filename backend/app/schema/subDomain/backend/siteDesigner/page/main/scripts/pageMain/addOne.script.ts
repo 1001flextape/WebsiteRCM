@@ -6,11 +6,16 @@ import { returningSuccessObj } from "../../../../../../../utils/types/returningO
 import makeBackendSiteDesignerPageSql from "../../../preMain/backendSiteDesignerPage.sql";
 import { dependencies } from "../../../../../../../utils/dependencies/type/dependencyInjection.types";
 
-type input = { 
-  id?: string
+type input = {
   slug: string
   isReady?: boolean
+  isPublished?: boolean,
+  isChanged?: boolean,
+  isDraft?: boolean,
+  isRecentlyCreated?: boolean,
+  isRecentlyDeleted?: boolean,
 }
+
 
 export default function addOne(d: dependencies) {
 

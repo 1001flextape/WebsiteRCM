@@ -14,8 +14,14 @@ async function up({ context: queryInterface }) {
     varient: {
       type: sequelize.STRING,
     },
+    
+    isChanged: {
+      type: sequelize.BOOLEAN,
+      default: false,
+    },
     isReady: {
       type: sequelize.BOOLEAN,
+      default: false,
     },
     createdAt: {
       allowNull: false,

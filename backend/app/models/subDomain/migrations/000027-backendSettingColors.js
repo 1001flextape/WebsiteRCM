@@ -364,8 +364,12 @@ async function up({ context: queryInterface }) {
 
     isReady: {
       type: sequelize.BOOLEAN,
+      default: false,
     },
-    
+    isChanged: {
+      type: sequelize.BOOLEAN,
+      default: false,
+    },
     createdAt: {
       allowNull: false,
       type: sequelize.DATE

@@ -8,6 +8,7 @@ type input = {
   webAssetImport?: string
   menuJsonB?: string
   userAnswersJsonB?: string
+  isChanged?: boolean
   isReady?: boolean
   selectionType?: SelectionTypeEnum,
   selectionId?: string,
@@ -19,7 +20,10 @@ export default function upsertOne(d: dependencies) {
   return async (args: input): Promise<returningSuccessObj<Model<backendSettingHeader> | null>> => {
     
     // Use upsert instead of separate create or update
-    const [instance, created] = await db.backendSettingHeader.upsert(args, {
+    const [instance, created] = await db.backendSettingHeader.upsert({
+      isChanged: true,
+      ...args,
+    }, {
       returning: true,
       transaction: d.subDomainTransaction,
     }).catch(error => d.errorHandler(error, d.loggers))

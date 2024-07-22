@@ -14,6 +14,11 @@ async function up({ context: queryInterface }) {
     tab: {
       type: sequelize.STRING,
     },
+    
+    isChanged: {
+      type: sequelize.BOOLEAN,
+      default: false,
+    },
     isReady: {
       type: sequelize.BOOLEAN,
     },

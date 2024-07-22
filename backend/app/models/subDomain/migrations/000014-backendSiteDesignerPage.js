@@ -15,6 +15,26 @@ async function up({ context: queryInterface }) {
     isReady: {
       type: sequelize.BOOLEAN
     },
+    isPublished: {
+      type: sequelize.BOOLEAN,
+      default: false,
+    },
+    isChanged: {
+      type: sequelize.BOOLEAN,
+      default: false,
+    },
+    isDraft: {
+      type: sequelize.BOOLEAN,
+      default: false,
+    },
+    isRecentlyCreated: {
+      type: sequelize.BOOLEAN,
+      default: true,
+    },
+    isRecentlyDeleted: {
+      type: sequelize.BOOLEAN,
+      default: false,
+    },
     createdAt: {
       allowNull: false,
       type: sequelize.DATE

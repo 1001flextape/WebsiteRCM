@@ -8,6 +8,7 @@ type input = {
   title?: string
   description?: string
   image?: string
+  isChanged?: boolean
   isReady?: boolean
 }
 
@@ -17,7 +18,10 @@ export default function upsertOne(d: dependencies) {
   return async (args: input): Promise<returningSuccessObj<Model<backendSettingLink> | null>> => {
     
     // Use upsert instead of separate create or update
-    const [instance, created] = await db.backendSettingLink.upsert(args, {
+    const [instance, created] = await db.backendSettingLink.upsert({
+      isChanged: true,
+      ...args,
+    }, {
       returning: true,
       transaction: d.subDomainTransaction,
     }).catch(error => d.errorHandler(error, d.loggers))

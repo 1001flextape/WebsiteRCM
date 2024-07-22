@@ -28,4 +28,33 @@ export default class backendSiteDesignerPage extends Model {
   })
   isReady: boolean;
 
+  @Column({
+    type: sequelize.BOOLEAN,
+    defaultValue: false,
+  })
+  isPublished: boolean;
+
+  @Column({
+    type: sequelize.BOOLEAN,
+    defaultValue: false,
+  })
+  isChanged: boolean;
+  
+  @Column({
+    type: sequelize.BOOLEAN,
+    defaultValue: false,
+  })
+  isDraft: boolean;
+
+  @Column({
+    type: sequelize.BOOLEAN,
+    defaultValue: true,
+  })
+  isRecentlyCreated: boolean;
+
+  @Column({
+    type: sequelize.BOOLEAN,
+    defaultValue: false,
+  })
+  isRecentlyDeleted: boolean;
 }

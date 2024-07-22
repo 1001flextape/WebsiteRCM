@@ -7,7 +7,7 @@ type input = {
   id?: string
   favicon?: string
   tab?: string
-  isReady: boolean
+  isReady?: boolean
 }
 
 export default function upsertOne(d: dependencies) {
@@ -16,7 +16,10 @@ export default function upsertOne(d: dependencies) {
   return async (args: input): Promise<returningSuccessObj<Model<backendSettingSite> | null>> => {
     
     // Use upsert instead of separate create or update
-    const [instance, created] = await db.backendSettingSite.upsert(args, {
+    const [instance, created] = await db.backendSettingSite.upsert({
+      ...args,
+      isChanged: true,
+    }, {
       returning: true,
       transaction: d.subDomainTransaction,
     }).catch(error => d.errorHandler(error, d.loggers))

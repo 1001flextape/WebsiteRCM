@@ -138,7 +138,7 @@ function DashboardPage() {
       <Box sx={{ display: 'flex', mt: 2 }}>
 
         {/* New Pages */}
-        <Paper elevation={3} sx={{ flex: 1, m: 1 }}>
+        {/* <Paper elevation={3} sx={{ flex: 1, m: 1 }}>
           <List sx={{ p: 0 }}>
             <HeaderRow label='New Pages' />
             <ListItemButton onClick={() => navigate("/portal/dashboard/project/42/new-pages/total")}>
@@ -153,32 +153,9 @@ function DashboardPage() {
               </ListItem>
             </ListItemButton>
             <Divider />
-            <ListItemButton onClick={() => navigate("/portal/dashboard/project/42/new-pages/new")}>
-              <ListItem >
-
-                <ListItemIcon>
-                  <SmallAvatar variant="square">
-                    5
-                  </SmallAvatar>
-                </ListItemIcon>
-                <ListItemText primary="New" />
-              </ListItem>
-            </ListItemButton>
-            <Divider />
-            <ListItemButton onClick={() => navigate("/portal/dashboard/project/42/new-pages/deleted")}>
-              <ListItem >
-                <ListItemIcon>
-                  <SmallAvatar variant="square">
-                    3
-                  </SmallAvatar>
-                </ListItemIcon>
-                <ListItemText primary="Deleted" />
-              </ListItem>
-            </ListItemButton>
-            <Divider />
 
           </List>
-        </Paper>
+        </Paper> */}
 
         {/* Published Pages */}
         <Paper elevation={3} sx={{ flex: 1, m: 1 }}>
@@ -190,10 +167,23 @@ function DashboardPage() {
 
                 <ListItemIcon>
                   <SmallAvatar variant="square">
-                    5
+                    15
                   </SmallAvatar>
                 </ListItemIcon>
                 <ListItemText primary="Total" />
+              </ListItem>
+            </ListItemButton>
+            <Divider />
+            
+            <ListItemButton onClick={() => navigate("/portal/dashboard/project/42/new-pages/total")}>
+              <ListItem >
+
+                <ListItemIcon>
+                  <SmallAvatar variant="square">
+                    5
+                  </SmallAvatar>
+                </ListItemIcon>
+                <ListItemText primary="New" />
               </ListItem>
             </ListItemButton>
             <Divider />

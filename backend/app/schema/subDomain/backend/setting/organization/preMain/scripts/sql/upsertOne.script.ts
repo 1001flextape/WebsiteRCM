@@ -21,6 +21,7 @@ type input = {
   socialPinterest?: string,
   socialWhatsapp?: string,
   socialReddit?: string,
+  isReady?: boolean,
 }
 
 export default function upsertOne(d: dependencies) {
@@ -29,7 +30,10 @@ export default function upsertOne(d: dependencies) {
   return async (args: input): Promise<returningSuccessObj<Model<backendSettingOrganization> | null>> => {
     
     // Use upsert instead of separate create or update
-    const [instance, created] = await db.backendSettingOrganization.upsert(args, {
+    const [instance, created] = await db.backendSettingOrganization.upsert({
+      ...args,
+      isChanged: true,
+    }, {
       returning: true,
       transaction: d.subDomainTransaction,
     }).catch(error => d.errorHandler(error, d.loggers))

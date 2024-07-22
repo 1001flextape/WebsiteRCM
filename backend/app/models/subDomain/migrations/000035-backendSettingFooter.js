@@ -19,6 +19,11 @@ async function up({ context: queryInterface }) {
     userAnswersJsonB: {
       type: sequelize.JSONB,
     },
+    
+    isChanged: {
+      type: sequelize.BOOLEAN,
+      default: false,
+    },
     isReady: {
       type: sequelize.BOOLEAN,
     },

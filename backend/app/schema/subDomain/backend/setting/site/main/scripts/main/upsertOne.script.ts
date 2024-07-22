@@ -11,7 +11,7 @@ type input = {
   id?: string
   favicon?: string
   tab?: string
-  isReady: boolean
+  isReady?: boolean
 }
 
 export default function upsertOne(d: dependencies) {

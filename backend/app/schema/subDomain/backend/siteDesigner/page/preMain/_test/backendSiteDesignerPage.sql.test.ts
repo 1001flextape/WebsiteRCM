@@ -22,11 +22,21 @@ describe("test backendSiteDesignerPage.sql.js", () => {
     const addOne = await pageSql.addOne({
       slug: "/test/should-not-be-saved/",
       isReady: true,
+      isChanged: true,
+      isDraft: true,
+      isPublished: true,
+      isRecentlyCreated: true,
+      isRecentlyDeleted: true,
     })
     recordId = addOne.data.dataValues.id
 
     expect(addOne.data.dataValues.slug).toEqual("/test/should-not-be-saved/")
     expect(addOne.data.dataValues.isReady).toEqual(true)
+    expect(addOne.data.dataValues.isChanged).toEqual(true)
+    expect(addOne.data.dataValues.isDraft).toEqual(true)
+    expect(addOne.data.dataValues.isPublished).toEqual(true)
+    expect(addOne.data.dataValues.isRecentlyCreated).toEqual(true)
+    expect(addOne.data.dataValues.isRecentlyDeleted).toEqual(true)
   })
 
   test("getMany: can get all records.", async () => {
@@ -57,6 +67,24 @@ describe("test backendSiteDesignerPage.sql.js", () => {
     expect(getOneBySlug.data.dataValues.slug).toEqual("/test/should-not-be-saved/")
   })
 
+  test("resetRecentlyCreated: will mark documents not as recently created.", async () => {
+    const pageSql = makeBackendSiteDesignerPageSql(d)
+
+    await pageSql.resetRecentlyCreated()
+
+    const getOneById = await pageSql.getOneById({
+      id: recordId,
+    })
+    
+    expect(getOneById.data.dataValues.slug).toEqual("/test/should-not-be-saved/")
+    expect(getOneById.data.dataValues.isReady).toEqual(true)
+    expect(getOneById.data.dataValues.isChanged).toEqual(true)
+    expect(getOneById.data.dataValues.isDraft).toEqual(true)
+    expect(getOneById.data.dataValues.isPublished).toEqual(true)
+    expect(getOneById.data.dataValues.isRecentlyCreated).toEqual(false)
+    expect(getOneById.data.dataValues.isRecentlyDeleted).toEqual(true)
+  })
+ 
   test("updateOne: can update record.", async () => {
     const pageSql = makeBackendSiteDesignerPageSql(d)
 
@@ -95,6 +123,23 @@ describe("test backendSiteDesignerPage.sql.js", () => {
 
     expect(getOneById.data).toBe(null)
   })
+  
+  test("resetRecentlyDeleted: will mark documents not as recently deleted.", async () => {
+    const pageSql = makeBackendSiteDesignerPageSql(d)
+
+    const getDeletedOneById = await pageSql.getDeletedOneById({
+      id: recordId,
+    })
+    expect(getDeletedOneById.data.dataValues.isRecentlyDeleted).toEqual(true)
+
+    await pageSql.resetRecentlyDeleted()
+
+    const getDeletedOneById2 = await pageSql.getDeletedOneById({
+      id: recordId,
+    })
+    expect(getDeletedOneById2.data.dataValues.isRecentlyDeleted).toEqual(false)
+  })
+
 
   afterAll(async () => {
     await d.domainTransaction.rollback()

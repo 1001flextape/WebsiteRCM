@@ -7,7 +7,7 @@ import { Breadcrumbs, Divider, Link, List, ListItem, ListItemText, styled, useTh
 import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
 import NewPagesNewDataGrid from '@/pages-scripts/portal/dashboard/new-pages/new/components/NewPagesNewDataGrid';
 import ProjectNewPagesNewDataGrid from '@/pages-scripts/portal/dashboard/projects/new-pages/new/components/ProjectNewPagesNewDataGrid';
-import ProjectTotalPagesNewDataGrid from '@/pages-scripts/portal/dashboard/projects/new-pages/total/components/ProjectTotalPagesNewDataGrid';
+import ProjectTotalPagesNewDataGrid from '@/pages-scripts/portal/dashboard/projects/new-pages/total/components/ProjectNewPagesTotalDataGrid';
 
 
 function Page() {

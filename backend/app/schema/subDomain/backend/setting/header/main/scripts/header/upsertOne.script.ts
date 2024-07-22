@@ -9,6 +9,7 @@ import backendSettingHeader, { SelectionTypeEnum } from "../../../../../../../..
 type input = {
   id?: string
   userAnswers: string
+  isChanged?: boolean
   isReady?: boolean,
   selectionType?: SelectionTypeEnum,
   selectionId?: string,
@@ -54,6 +55,7 @@ export default function upsertOne(d: dependencies) {
       webAssetImport: webAssetImport,
       menuJsonB: menuJsonB,
       userAnswersJsonB: args.userAnswers,
+      isChanged: args.isChanged,
       isReady: args.isReady,
       selectionType: args.selectionType,
       selectionId: args.selectionId,

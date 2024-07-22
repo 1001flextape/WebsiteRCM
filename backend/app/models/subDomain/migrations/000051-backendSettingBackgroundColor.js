@@ -9,13 +9,19 @@ async function up({ context: queryInterface }) {
       primaryKey: true,
     },
     backgroundColor_day: {
-      type: sequelize.BOOLEAN,
+      type: sequelize.STRING,
     },
     backgroundColor_night: {
+      type: sequelize.STRING,
+    },
+    
+    isChanged: {
       type: sequelize.BOOLEAN,
+      default: false,
     },
     isReady: {
       type: sequelize.BOOLEAN,
+      default: false,
     },
     createdAt: {
       allowNull: false,

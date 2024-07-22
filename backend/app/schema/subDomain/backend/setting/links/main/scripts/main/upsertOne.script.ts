@@ -9,6 +9,7 @@ type input = {
   title?: string
   description?: string
   image?: string
+  isChanged?: boolean
   isReady?: boolean
 }
 
@@ -22,6 +23,7 @@ export default function upsertOne(d: dependencies) {
       title: args.title,
       description: args.description,
       image: args.image,
+      isChanged: args.isChanged,
       isReady: args.isReady,
     }).catch(error => d.errorHandler(error, d.loggers))
 

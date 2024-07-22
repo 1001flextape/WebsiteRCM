@@ -12,6 +12,11 @@ type input = {
   id: string
   slug?: string
   isReady?: boolean
+  isPublished?: boolean,
+  isChanged?: boolean,
+  isDraft?: boolean,
+  isRecentlyCreated?: boolean,
+  isRecentlyDeleted?: boolean,
 }
 
 export default function updateOne(d: dependencies) {

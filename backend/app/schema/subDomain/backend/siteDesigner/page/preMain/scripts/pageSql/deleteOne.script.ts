@@ -9,6 +9,17 @@ export default function deleteOne(d: dependencies) {
 
   return async (where: input): Promise<returningSuccessObj<number | null>> => {
 
+    // set is recently deleted
+    await db.backendSiteDesignerPage.update(
+      {
+        isRecentlyDeleted: true,
+      },
+      {
+        where,
+        transaction: d.subDomainTransaction,
+      }).catch(error => d.errorHandler(error, d.loggers))
+
+    // delete
     const data = await db.backendSiteDesignerPage.destroy({
       where,
       transaction: d.subDomainTransaction,

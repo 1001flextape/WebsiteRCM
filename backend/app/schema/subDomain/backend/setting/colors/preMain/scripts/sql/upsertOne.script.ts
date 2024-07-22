@@ -96,6 +96,7 @@ type input = {
   color9Dark2?: string
   color9Dark3?: string
   color9Dark4?: string
+  isChanged?: boolean
   isReady?: boolean
 }
 
@@ -109,7 +110,9 @@ export default function upsertOne(d: dependencies) {
     }
 
     // Use upsert instead of separate create or update
-    const [instance, created] = await db.backendSettingColors.upsert(args, {
+    const [instance, created] = await db.backendSettingColors.upsert({
+      ...args,
+    }, {
       returning: true,
       transaction: d.subDomainTransaction,
     }).catch(error => d.errorHandler(error, d.loggers))

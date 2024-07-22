@@ -20,9 +20,9 @@ export function SiteDesignerPublishProvider({ children }) {
 
   useEffect(() => {
     getPublishRecordGraphQL({ page, pageSize }).then(response => {
-      const data = response.data.backendSiteDesignerPublishRecord_getManyWithPagination
+      // const data = response.data.backendSiteDesignerPublishRecord_getManyWithPagination
 
-      setPublishRecords(data.rows)
+      // setPublishRecords(data.rows)
 
       setIsLoaded(true)
     })

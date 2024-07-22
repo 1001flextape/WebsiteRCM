@@ -10,7 +10,7 @@ async function up({ context: queryInterface }) {
 
       selectionType: "BUILT_IN",
       selectionId: "5ce91223-9685-4ee7-93c2-6e38bae8804f",
-
+      isReady: false,
       //standard
       createdAt: new Date(),
       updatedAt: new Date(),

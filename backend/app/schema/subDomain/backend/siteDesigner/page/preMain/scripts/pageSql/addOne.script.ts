@@ -3,9 +3,14 @@ import backendSiteDesignerPage from "../../../../../../../../models/subDomain/ba
 import { returningSuccessObj } from "../../../../../../../utils/types/returningObjs.types";
 import { dependencies } from "../../../../../../../utils/dependencies/type/dependencyInjection.types";
 
-type input = { 
+type input = {
   slug: string
   isReady?: boolean
+  isPublished?: boolean,
+  isChanged?: boolean,
+  isDraft?: boolean,
+  isRecentlyCreated?: boolean,
+  isRecentlyDeleted?: boolean,
 }
 
 export default function addOne(d: dependencies) {
@@ -20,7 +25,8 @@ export default function addOne(d: dependencies) {
         transaction: d.subDomainTransaction,
         returning: true,
       }
-    ).catch(error => d.errorHandler(error, d.loggers))
+    )
+    // .catch(error => d.errorHandler(error, d.loggers))
 
     return {
       success: true,

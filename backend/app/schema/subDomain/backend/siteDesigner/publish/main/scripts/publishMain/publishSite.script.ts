@@ -23,12 +23,10 @@ import makeBackendSiteDesignerPageLinkMain from "../../../../page/main/backendSi
 import makeBackendSiteDesignerPageSectionLoudMain from "../../../../page/main/backendSiteDesignerPageSectionLoud.main";
 import makeBackendSiteDesignerPageSectionNormalMain from "../../../../page/main/backendSiteDesignerPageSectionNormal.main";
 import endMainFromError from "../../../../../../../utils/graphql/endMainFromError.func";
-import makeBackendSiteDesignerPublishRecordMain from "../../backendSiteDesignerPublishRecord.main";
-import backendSiteDesignerPublishRecord from "../../../../../../../../models/subDomain/backend/siteDesigner/publish/backendSiteDesignerPublishRecord.model";
 import { Model } from "sequelize";
 
 export default function publishSite(d: dependencies) {
-  return async (): Promise<returningSuccessObj<Model<backendSiteDesignerPublishRecord> | null>> => {
+  return async (): Promise<returningSuccessObj<null>> => {
 
     try {
       //import
@@ -123,13 +121,15 @@ export default function publishSite(d: dependencies) {
         await clientSitePageSectionNormal.setList(pageSectionNormal.data.map(p => p.dataValues))
       }
 
-      //record:
-      const publishRecord = makeBackendSiteDesignerPublishRecordMain(d)
-      const response = await publishRecord.addOne({
-        numberOfPages: page.data.length
-      })
+      //update project:
+      // const publishRecord = makeBackendSiteDesignerPublishRecordMain(d)
+      // const response = await publishRecord.addOne({
+      //   numberOfPages: page.data.length
+      // })
 
-      return response
+      return {
+        success: true,
+      }
 
     } catch (ex) {
       return endMainFromError({

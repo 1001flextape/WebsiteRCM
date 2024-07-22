@@ -33,6 +33,12 @@ export default class backendSettingLink extends Model {
 
   @Column({
     type: sequelize.BOOLEAN,
+    defaultValue: false,
+  })
+  isChanged: boolean;
+  
+  @Column({
+    type: sequelize.BOOLEAN,
   })
   isReady: boolean;
 }

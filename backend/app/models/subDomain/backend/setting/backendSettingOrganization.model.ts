@@ -96,4 +96,16 @@ export default class backendSettingOrganization extends Model {
   })
   socialReddit: string;
 
+  @Column({
+    type: sequelize.BOOLEAN,
+    defaultValue: false,
+  })
+  isChanged: boolean;
+  
+  @Column({
+    type: sequelize.BOOLEAN,
+    defaultValue: false,
+  })
+  isReady: boolean;
+  
 }

@@ -596,6 +596,12 @@ export default class backendSettingColors extends Model {
 
   @Column({
     type: sequelize.BOOLEAN,
+    defaultValue: false,
+  })
+  isChanged: boolean;
+  
+  @Column({
+    type: sequelize.BOOLEAN,
   })
   isReady: boolean;
 }

@@ -25,7 +25,6 @@ import makeBackendSiteDesignerPageLinkMain from "../../../../page/main/backendSi
 import makeBackendSiteDesignerPageSectionLoudMain from "../../../../page/main/backendSiteDesignerPageSectionLoud.main";
 import makeBackendSiteDesignerPageSectionNormalMain from "../../../../page/main/backendSiteDesignerPageSectionNormal.main";
 import { SelectionTypeEnum } from "../../../../../../../../models/subDomain/backend/setting/backendSettingHeader.model";
-import makeBackendSiteDesignerPublishRecordMain from "../../backendSiteDesignerPublishRecord.main";
 jest.setTimeout(100000)
 
 describe("test backendSiteDesignerPublish.main.js", () => {
@@ -270,7 +269,6 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     const clientSitePageLink = makeClientSitePageLinkMain(d)
     const clientSitePageSectionLoud = makeClientSitePageSectionLoudMain(d)
     const clientSitePageSectionNormal = makeClientSitePageSectionNormalMain(d)
-    const backendSiteDesignerPublishRecord = makeBackendSiteDesignerPublishRecordMain(d)
 
 
 
@@ -522,10 +520,10 @@ describe("test backendSiteDesignerPublish.main.js", () => {
 
 
 
-    // page record:
-    const publishRecord = await backendSiteDesignerPublishRecord.getMany()
+    // project finished, new project begins:
+    // const publishRecord = await backendSiteDesignerPublishRecord.getMany()
 
-    expect(publishRecord.data.length).toBeGreaterThan(0)
+    // expect(publishRecord.data.length).toBeGreaterThan(0)
 
 
   })

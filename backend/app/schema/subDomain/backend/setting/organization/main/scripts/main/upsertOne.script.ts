@@ -22,6 +22,7 @@ type input = {
   socialPinterest?: string,
   socialWhatsapp?: string,
   socialReddit?: string,
+  isReady?: boolean,
 }
 
 export default function updateOne(d: dependencies) {
