@@ -7,8 +7,7 @@ export const postReleaseWebsiteGraphQL = () => {
       query: `
       mutation {
         backendSiteDesignerPublish_publishSite {
-          numberOfPages
-          createdAt
+           success
         }
       }
       `

@@ -9,6 +9,7 @@ import { useTheme } from '@mui/material';
 import { getClientPageIdBySlugGraphQL } from '@/pages-scripts/p/store/getClientPageId.store';
 import { callSubDomainApiMiddlewareWithToken } from '@/utils/graphql/backend-api.middleware';
 import { getClientPageGraphQL } from '@/pages-scripts/p/store/getClientPage.store';
+import UnderConstructionScene from '@/components/under-contruction/UnderConstructionScene';
 
 const createComponentProps = ({ organization, userAnswers, webAssetImport }) => {
   if (typeof (userAnswers) === "string") {
@@ -87,45 +88,63 @@ const Page = (props) => {
 
   }, [router.query]);
 
+  useEffect(() => {
+    console.log('!!!!!!!!blah', props)
+
+    if (props.isConstructionPage) {
+      setIsLoaded(true)
+      console.log('!!!!!!!!Loaded')
+    }
+  }, [])
+
   return (
     <>
       {isLoaded && (
-        <div
-          style={{
-            backgroundColor: backgroundColor,
-            minHeight: "390px",
-          }}
-        >
-          {props?.header?.webAssetImport && (
-            <DynamicComponent
-              filePath={props.header.webAssetImport}
-              props={props.header}
-            />
+        <>
+          {props.isConstructionPage && (
+            <UnderConstructionScene />
           )}
+          {!props.isConstructionPage && (
+            <>
+              <div
+                style={{
+                  backgroundColor: backgroundColor,
+                  minHeight: "390px",
+                }}
+              >
+                {props?.header?.webAssetImport && (
+                  <DynamicComponent
+                    filePath={props.header.webAssetImport}
+                    props={props.header}
+                  />
+                )}
 
-          {props?.loudSection?.webAssetImport && (
-            <DynamicComponent
-              filePath={props.loudSection.webAssetImport}
-              props={props.loudSection}
-            />
+                {props?.loudSection?.webAssetImport && (
+                  <DynamicComponent
+                    filePath={props.loudSection.webAssetImport}
+                    props={props.loudSection}
+                  />
+                )}
+
+                {props?.sections && props?.sections.map(section => (
+                  <DynamicComponent
+                    filePath={section.webAssetImport}
+                    props={section}
+                  />
+                )
+                )}
+
+
+                {props?.footer?.webAssetImport && (
+                  <DynamicComponent
+                    filePath={props.footer.webAssetImport}
+                    props={props.footer}
+                  />
+                )}
+              </div>
+            </>
           )}
-
-          {props?.sections && props?.sections.map(section => (
-            <DynamicComponent
-              filePath={section.webAssetImport}
-              props={section}
-            />
-          )
-          )}
-
-
-          {props?.footer?.webAssetImport && (
-            <DynamicComponent
-              filePath={props.footer.webAssetImport}
-              props={props.footer}
-            />
-          )}
-        </div>
+        </>
       )}
     </>
   );
@@ -137,6 +156,14 @@ export async function getServerSideProps(context) {
     slug: `/`,
   })
 
+  if (!response?.clientSitePage_getOneBySlug?.id) {
+    return {
+      props: {
+        isConstructionPage: true,
+      },
+    }
+  }
+
   const pageId = response.clientSitePage_getOneBySlug.id
 
   const pageData = await getClientPageGraphQL({
@@ -145,6 +172,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
+      isConstructionPage: false,
       header: createComponentProps({
         webAssetImport: pageData.clientSiteHeader_getOne.webAssetImport,
         userAnswers: JSON.parse(pageData.clientSiteHeader_getOne?.userAnswersJsonB || "{}"),

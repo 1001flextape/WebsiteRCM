@@ -102,22 +102,27 @@ const PublishPage = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {publishRecords.map((entry, index) => (
-                        <TableRow key={index}>
-                          <TableCell>{moment(parseInt(entry.createdAt)).fromNow()}</TableCell>
-                          <TableCell>{entry.numberOfPages}</TableCell>
-                        </TableRow>
-                      ))}
+                      {publishRecords && (
+                        <>
 
-                      {publishRecords.length === 0 && (
-                        <TableRow>
-                          <TableCell
-                            className='text-center'
-                            colSpan={2}
-                          >
-                            Nothing here.
-                          </TableCell>
-                        </TableRow>
+                          {publishRecords.map((entry, index) => (
+                            <TableRow key={index}>
+                              <TableCell>{moment(parseInt(entry.createdAt)).fromNow()}</TableCell>
+                              <TableCell>{entry.numberOfPages}</TableCell>
+                            </TableRow>
+                          ))}
+
+                          {publishRecords.length === 0 && (
+                            <TableRow>
+                              <TableCell
+                                className='text-center'
+                                colSpan={2}
+                              >
+                                Nothing here.
+                              </TableCell>
+                            </TableRow>
+                          )}
+                        </>
                       )}
                     </TableBody>
                   </Table>
