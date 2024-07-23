@@ -5,7 +5,6 @@ import backendSettingBackgroundColor from "../../../../../../../../models/subDom
 import { dependencies } from "../../../../../../../utils/dependencies/type/dependencyInjection.types";
 
 type input = {
-  id?: string
   backgroundColor_day?: string
   backgroundColor_night?: string
   isChanged?: boolean

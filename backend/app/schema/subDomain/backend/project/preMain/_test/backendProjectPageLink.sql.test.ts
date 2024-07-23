@@ -35,7 +35,6 @@ describe("test backendProjectPageLink.sql.js", () => {
     const newPage = await backendProjectPage.addOne({
       projectId: project.id,
       slug: "/test/shouldnt-save",
-      isReady: false,
     })
 
     page = newPage.data.dataValues

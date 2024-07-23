@@ -16,7 +16,6 @@ type input = {
   userAnswersJsonB?: string;
   webAssetImport?: string;
   menuJsonB?: string;
-  isReady?: boolean;
 };
 
 export default function addOne(d: dependencies) {

@@ -41,7 +41,6 @@ describe("test backendProjectFooter.main.js", () => {
       menuJsonB: JSON.stringify({testing: "testing"}),
       userAnswersJsonB: JSON.stringify({testing: "testing"}),
       webAssetImport: "webAssetImport",
-      isReady: true,
       selectionType: SelectionTypeEnum.BUILT_IN,
     })
     record = addOne.data.dataValues
@@ -49,7 +48,6 @@ describe("test backendProjectFooter.main.js", () => {
     expect(addOne.data.dataValues.menuJsonB).toEqual(JSON.stringify({testing: "testing"}))
     expect(addOne.data.dataValues.userAnswersJsonB).toEqual(JSON.stringify({testing: "testing"}))
     expect(addOne.data.dataValues.webAssetImport).toEqual("webAssetImport")
-    expect(addOne.data.dataValues.isReady).toBe(true)
     expect(addOne.data.dataValues.selectionType).toEqual(SelectionTypeEnum.BUILT_IN)
 
   })
@@ -64,7 +62,6 @@ describe("test backendProjectFooter.main.js", () => {
     expect(getOneById.data.dataValues.menuJsonB).toEqual(JSON.stringify({testing: "testing"}))
     expect(getOneById.data.dataValues.userAnswersJsonB).toEqual(JSON.stringify({testing: "testing"}))
     expect(getOneById.data.dataValues.webAssetImport).toEqual("webAssetImport")
-    expect(getOneById.data.dataValues.isReady).toBe(true)
   })
 
   test("getOneByProjectId: can get record.", async () => {
@@ -77,7 +74,6 @@ describe("test backendProjectFooter.main.js", () => {
     expect(getOneByProjectId.data.dataValues.menuJsonB).toEqual(JSON.stringify({testing: "testing"}))
     expect(getOneByProjectId.data.dataValues.userAnswersJsonB).toEqual(JSON.stringify({testing: "testing"}))
     expect(getOneByProjectId.data.dataValues.webAssetImport).toEqual("webAssetImport")
-    expect(getOneByProjectId.data.dataValues.isReady).toBe(true)
   })
 
   afterAll(async () => {

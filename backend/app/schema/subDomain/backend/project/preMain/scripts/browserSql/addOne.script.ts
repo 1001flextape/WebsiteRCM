@@ -4,29 +4,46 @@ import { returningSuccessObj } from "../../../../../../utils/types/returningObjs
 import backendProjectBrowser from "../../../../../../../models/subDomain/backend/project/backendProjectBrowser.model";
 
 type input = {
-  projectId: string
+  projectId: string;
 
-  id?: string
-  favicon?: string
-  tab?: string
-  isReady?: boolean
+  id?: string;
+  favicon?: string;
+  tab?: string;
 }
 
 export default function addOne(d: dependencies) {
   const db = d.subDomainDb.models;
 
   return async (args: input): Promise<returningSuccessObj<Model<backendProjectBrowser> | null>> => {
-    
-    // Create new instance
-    const instance = await db.backendProjectBrowser.create(args, {
-      transaction: d.subDomainTransaction,
-    })
-    // .catch(error => d.errorHandler(error, d.loggers))
+    try {
+      // Find the existing record by projectId
+      let instance = await db.backendProjectBrowser.findOne({
+        where: { projectId: args.projectId },
+        transaction: d.subDomainTransaction,
+      });
 
-    // Return the newly created instance
-    return {
-      success: true,
-      data: instance,
+      if (instance) {
+        // Update the existing record
+        instance = await instance.update(args, {
+          transaction: d.subDomainTransaction,
+        });
+      } else {
+        // Create a new record
+        instance = await db.backendProjectBrowser.create(args, {
+          transaction: d.subDomainTransaction,
+        });
+      }
+
+      return {
+        success: true,
+        data: instance,
+      };
+    } catch (error) {
+      d.errorHandler(error, d.loggers);
+      return {
+        success: false,
+        data: null,
+      };
     }
-  }
+  };
 }

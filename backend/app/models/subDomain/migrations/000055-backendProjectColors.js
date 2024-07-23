@@ -373,9 +373,6 @@ async function up({ context: queryInterface }) {
 
 
 
-    isReady: {
-      type: sequelize.BOOLEAN,
-    },
     
     createdAt: {
       allowNull: false,

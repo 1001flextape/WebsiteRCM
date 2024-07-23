@@ -4,44 +4,48 @@ import { dependencies } from "../../../../../../../utils/dependencies/type/depen
 import backendSettingHeader, { SelectionTypeEnum } from "../../../../../../../../models/subDomain/backend/setting/backendSettingHeader.model";
 
 type input = {
-  id?: string
-  webAssetImport?: string
-  menuJsonB?: string
-  userAnswersJsonB?: string
-  isChanged?: boolean
-  isReady?: boolean
-  selectionType?: SelectionTypeEnum,
-  selectionId?: string,
+  webAssetImport?: string;
+  menuJsonB?: string;
+  userAnswersJsonB?: string;
+  isChanged?: boolean;
+  isReady?: boolean;
+  selectionType?: SelectionTypeEnum;
+  selectionId?: string;
 }
 
 export default function upsertOne(d: dependencies) {
   const db = d.subDomainDb.models;
 
   return async (args: input): Promise<returningSuccessObj<Model<backendSettingHeader> | null>> => {
-    
-    // Use upsert instead of separate create or update
-    const [instance, created] = await db.backendSettingHeader.upsert({
-      isChanged: true,
-      ...args,
-    }, {
-      returning: true,
-      transaction: d.subDomainTransaction,
-    }).catch(error => d.errorHandler(error, d.loggers))
+    try {
+      // Check if a record exists
+      let instance = await db.backendSettingHeader.findOne({
+        transaction: d.subDomainTransaction,
+      });
 
-    // `created` is a boolean indicating whether a new instance was created
-    // `instance` is the model instance itself
-    if (created) {
-      // New instance created
+      if (instance) {
+        // Update the existing record
+        instance = await instance.update(args, {
+          transaction: d.subDomainTransaction,
+        });
+      } else {
+        // Create a new record
+        instance = await db.backendSettingHeader.create(args, {
+          transaction: d.subDomainTransaction,
+        });
+      }
+
       return {
         success: true,
         data: instance,
-      }
-    } else {
-      // Existing instance updated
+      };
+    } catch (error) {
+      d.errorHandler(error, d.loggers);
       return {
-        success: true,
-        data: instance,
-      }
+        success: false,
+        data: null,
+        humanMessage: "Error during upsert operation",
+      };
     }
-  }
+  };
 }

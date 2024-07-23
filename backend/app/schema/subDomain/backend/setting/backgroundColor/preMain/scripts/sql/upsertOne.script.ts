@@ -4,7 +4,6 @@ import backendSettingBackgroundColor from "../../../../../../../../models/subDom
 import { dependencies } from "../../../../../../../utils/dependencies/type/dependencyInjection.types";
 
 type input = {
-  id?: string
   backgroundColor_day?: string
   backgroundColor_night?: string
   isChanged?: boolean
@@ -15,28 +14,41 @@ export default function upsertOne(d: dependencies) {
   const db = d.subDomainDb.models;
 
   return async (args: input): Promise<returningSuccessObj<Model<backendSettingBackgroundColor> | null>> => {
+    try {
+      // Check if a record exists
+      let instance = await db.backendSettingBackgroundColor.findOne({
+        transaction: d.subDomainTransaction,
+      });
 
-    // Use upsert instead of separate create or update
-    const [instance, created] = await db.backendSettingBackgroundColor.upsert(args, {
-      returning: true,
-      transaction: d.subDomainTransaction,
-    })
-    // .catch(error => d.errorHandler(error, d.loggers))
+      if (instance) {
+        // Update the existing record
+        instance = await instance.update({
+          ...args,
+          isChanged: true,
+        }, {
+          transaction: d.subDomainTransaction,
+        });
+      } else {
+        // Create a new record
+        instance = await db.backendSettingBackgroundColor.create({
+          ...args,
+          isChanged: true,
+        }, {
+          transaction: d.subDomainTransaction,
+        });
+      }
 
-    // `created` is a boolean indicating whether a new instance was created
-    // `instance` is the model instance itself
-    if (created) {
-      // New instance created
       return {
         success: true,
         data: instance,
-      }
-    } else {
-      // Existing instance updated
+      };
+    } catch (error) {
+      d.errorHandler(error, d.loggers);
       return {
-        success: true,
-        data: instance,
-      }
+        success: false,
+        data: null,
+        humanMessage: "Error during upsert operation",
+      };
     }
-  }
+  };
 }

@@ -33,10 +33,5 @@ export default class backendProjectBrowser extends Model {
   })
   tab: string;
 
-  @Column({
-    type: sequelize.BOOLEAN,
-  })
-  isReady: boolean;
-
 }
 

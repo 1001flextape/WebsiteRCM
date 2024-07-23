@@ -23,14 +23,27 @@ export default function addOne(d: dependencies) {
 
     // bug fix
     if (args.id === null) {
-      args.id = undefined
+      args.id = undefined;
     }
 
     try {
-      // Create new instance
-      const instance = await db.backendProjectPageLink.create(args, {
+      // Find the existing record by projectId and pageId
+      let instance = await db.backendProjectPageLink.findOne({
+        where: { projectId: args.projectId, pageId: args.pageId },
         transaction: d.subDomainTransaction,
       });
+
+      if (instance) {
+        // Update the existing record
+        instance = await instance.update(args, {
+          transaction: d.subDomainTransaction,
+        });
+      } else {
+        // Create a new record
+        instance = await db.backendProjectPageLink.create(args, {
+          transaction: d.subDomainTransaction,
+        });
+      }
 
       return {
         success: true,

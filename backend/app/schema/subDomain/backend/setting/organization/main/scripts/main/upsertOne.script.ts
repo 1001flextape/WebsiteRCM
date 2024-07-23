@@ -1,11 +1,10 @@
 import { Model } from "sequelize";
 import { returningSuccessObj } from "../../../../../../../utils/types/returningObjs.types";
-import backendSetting_church from "../../../../../../../../models/subDomain/backend/setting/backendSettingOrganization.model";
 import makeBackendSettingOrganizationSql from "../../../preMain/backendSettingOrganization.sql";
 import { dependencies } from "../../../../../../../utils/dependencies/type/dependencyInjection.types";
+import backendSettingOrganization from "../../../../../../../../models/subDomain/backend/setting/backendSettingOrganization.model";
 
 type input = {
-  id?: string,
   logo?: string,
   name?: string,
   shouldApplyToTopNavMenu?: boolean,
@@ -22,16 +21,16 @@ type input = {
   socialPinterest?: string,
   socialWhatsapp?: string,
   socialReddit?: string,
+  isChanged?: boolean,
   isReady?: boolean,
 }
 
 export default function updateOne(d: dependencies) {
-  return async (args: input): Promise<returningSuccessObj<Model<backendSetting_church> | null>> => {
+  return async (args: input): Promise<returningSuccessObj<Model<backendSettingOrganization> | null>> => {
 
     const backendUserRequestSql = makeBackendSettingOrganizationSql(d);
     
     const response = backendUserRequestSql.upsertOne({
-      id: args.id,
       logo: args.logo,
       name: args.name,
       shouldApplyToTopNavMenu: args.shouldApplyToTopNavMenu,
@@ -48,6 +47,8 @@ export default function updateOne(d: dependencies) {
       socialX: args.socialX,
       socialYouTube: args.socialYouTube,
       stateProvinceRegion: args.stateProvinceRegion,
+      isChanged: args.isChanged,
+      isReady: args.isReady,
     }).catch(error => d.errorHandler(error, d.loggers))
 
     return response

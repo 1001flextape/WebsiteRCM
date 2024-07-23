@@ -40,11 +40,6 @@ export default class backendProjectFooter extends Model {
     type: sequelize.JSONB,
   })
   userAnswersJsonB: any;
-
-  @Column({
-    type: sequelize.BOOLEAN,
-  })
-  isReady: boolean;
   
   @Column({
     type: sequelize.ENUM("BUILT_IN", "PLUGIN", "MARKET"),

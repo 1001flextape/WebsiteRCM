@@ -1,11 +1,12 @@
 import { returningSuccessObj } from "../../../../../../utils/types/returningObjs.types";
 import { dependencies } from "../../../../../../utils/dependencies/type/dependencyInjection.types";
+import { Op } from "sequelize";
 
 type input = {
-  id: string
+  projectId: string
 }
 
-export default function getPublishedPagesChangedCount(d: dependencies) {
+export default function getPublishedPagesDeletedCount(d: dependencies) {
 
   const db = d.subDomainDb.models;
 
@@ -13,10 +14,12 @@ export default function getPublishedPagesChangedCount(d: dependencies) {
 
     const data = await db.backendProjectPage.count({
       where:{
-        id: args.id,
-        isChanged: true,
+        projectId: args.projectId,
         isPublished: true,
-        isDraft: false,
+        isDraft: {
+          [Op.not]: true,
+        },
+        isDeleted: true,
       },
       transaction: d.subDomainTransaction,
     }).catch(error => d.errorHandler(error, d.loggers))

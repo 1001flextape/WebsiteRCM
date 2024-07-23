@@ -28,9 +28,6 @@ async function up({ context: queryInterface }) {
     image: {
       type: sequelize.STRING,
     },
-    isReady: {
-      type: sequelize.BOOLEAN,
-    },
     createdAt: {
       allowNull: false,
       type: sequelize.DATE

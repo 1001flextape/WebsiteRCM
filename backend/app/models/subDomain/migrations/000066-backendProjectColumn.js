@@ -22,9 +22,6 @@ async function up({ context: queryInterface }) {
     width: {
       type: sequelize.STRING,
     },
-    isReady: {
-      type: sequelize.BOOLEAN,
-    },
     createdAt: {
       allowNull: false,
       type: sequelize.DATE

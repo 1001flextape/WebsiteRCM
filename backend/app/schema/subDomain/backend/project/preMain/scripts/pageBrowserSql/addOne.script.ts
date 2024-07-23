@@ -4,7 +4,7 @@ import { returningSuccessObj } from "../../../../../../utils/types/returningObjs
 import backendProjectPageBrowser from "../../../../../../../models/subDomain/backend/project/backendProjectPageBrowser.model";
 
 type input = {
-  projectId: String;
+  projectId: string;
   pageId: string;
 
   id?: string;
@@ -18,10 +18,23 @@ export default function addOne(d: dependencies) {
     args: input
   ): Promise<returningSuccessObj<Model<backendProjectPageBrowser> | null>> => {
     try {
-      // Create new instance
-      const instance = await db.backendProjectPageBrowser.create(args, {
+      // Find the existing record by projectId and pageId
+      let instance = await db.backendProjectPageBrowser.findOne({
+        where: { projectId: args.projectId, pageId: args.pageId },
         transaction: d.subDomainTransaction,
       });
+
+      if (instance) {
+        // Update the existing record
+        instance = await instance.update(args, {
+          transaction: d.subDomainTransaction,
+        });
+      } else {
+        // Create a new record
+        instance = await db.backendProjectPageBrowser.create(args, {
+          transaction: d.subDomainTransaction,
+        });
+      }
 
       return {
         success: true,

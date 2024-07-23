@@ -35,7 +35,6 @@ describe("test backendProjectPageSectionLoud.sql.js", () => {
     const newPage = await backendProjectPage.addOne({
       projectId: project.id,
       slug: "/test/shouldnt-save",
-      isReady: false,
     })
 
     page = newPage.data.dataValues
@@ -50,7 +49,6 @@ describe("test backendProjectPageSectionLoud.sql.js", () => {
       projectId: project.id,
       pageId: page.id,
       author: "author",
-      isReady: false,
       menuJsonB: '{"test":"test"}',
       userAnswersJsonB: '{"test":"test"}',
       name: "name",
@@ -60,7 +58,6 @@ describe("test backendProjectPageSectionLoud.sql.js", () => {
 
     expect(addOne.data.dataValues.pageId).toEqual(page.id)
     expect(addOne.data.dataValues.author).toEqual("author")
-    expect(addOne.data.dataValues.isReady).toBe(false)
     expect(addOne.data.dataValues.menuJsonB).toEqual('{"test":"test"}')
     expect(addOne.data.dataValues.userAnswersJsonB).toEqual('{"test":"test"}')
     expect(addOne.data.dataValues.name).toEqual("name")
@@ -76,7 +73,6 @@ describe("test backendProjectPageSectionLoud.sql.js", () => {
 
     expect(getOneById.data.dataValues.pageId).toEqual(page.id)
     expect(getOneById.data.dataValues.author).toEqual("author")
-    expect(getOneById.data.dataValues.isReady).toBe(false)
     expect(getOneById.data.dataValues.menuJsonB).toEqual('{"test":"test"}')
     expect(getOneById.data.dataValues.userAnswersJsonB).toEqual('{"test":"test"}')
     expect(getOneById.data.dataValues.name).toEqual("name")
@@ -92,7 +88,6 @@ describe("test backendProjectPageSectionLoud.sql.js", () => {
 
     expect(getOneByPageId.data.dataValues.pageId).toEqual(page.id)
     expect(getOneByPageId.data.dataValues.author).toEqual("author")
-    expect(getOneByPageId.data.dataValues.isReady).toBe(false)
     expect(getOneByPageId.data.dataValues.menuJsonB).toEqual('{"test":"test"}')
     expect(getOneByPageId.data.dataValues.userAnswersJsonB).toEqual('{"test":"test"}')
     expect(getOneByPageId.data.dataValues.name).toEqual("name")

@@ -89,7 +89,6 @@ type input = {
   color9Dark2?: string
   color9Dark3?: string
   color9Dark4?: string
-  isReady?: boolean
 }
 
 
@@ -182,7 +181,6 @@ export default function addOne(d: dependencies) {
       color9Dark2: args.color9Dark2,
       color9Dark3: args.color9Dark3,
       color9Dark4: args.color9Dark4,
-      isReady: args.isReady,
     })
     // .catch(error => errorHandler(error, loggers))
 

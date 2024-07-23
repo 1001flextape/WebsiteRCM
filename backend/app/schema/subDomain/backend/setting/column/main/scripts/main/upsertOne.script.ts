@@ -5,7 +5,6 @@ import backendSettingColumn from "../../../../../../../../models/subDomain/backe
 import { dependencies } from "../../../../../../../utils/dependencies/type/dependencyInjection.types";
 
 type input = {
-  id?: string
   width?: string
   isChanged?: boolean
   isReady?: boolean
@@ -17,7 +16,6 @@ export default function upsertOne(d: dependencies) {
     const sql = makeBackendSettingColumnSql(d);
     
     const response = sql.upsertOne({
-      id: args.id,
       width: args.width,
       isChanged: args.isChanged,
       isReady: args.isReady,

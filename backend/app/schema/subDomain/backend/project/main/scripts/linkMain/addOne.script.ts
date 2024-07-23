@@ -11,7 +11,6 @@ type input = {
   title?: string
   description?: string
   image?: string
-  isReady?: boolean
 }
 
 export default function addOne(d: dependencies) {
@@ -26,7 +25,6 @@ export default function addOne(d: dependencies) {
       title: args.title,
       description: args.description,
       image: args.image,
-      isReady: args.isReady,
     }).catch(error => d.errorHandler(error, d.loggers))
 
     return response

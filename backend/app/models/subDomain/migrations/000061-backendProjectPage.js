@@ -42,7 +42,7 @@ async function up({ context: queryInterface }) {
     },
     isDeleted: {
       type: sequelize.BOOLEAN,
-      allowNull: false,  
+      default: false,  
     },
     
     createdAt: {

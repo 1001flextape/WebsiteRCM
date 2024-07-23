@@ -53,11 +53,6 @@ export default class backendProjectPageSectionNormal extends Model {
   userAnswersJsonB: any;
 
   @Column({
-    type: sequelize.BOOLEAN,
-  })
-  isReady: boolean;
-
-  @Column({
     type: sequelize.INTEGER,
   })
   orderNumber: number;

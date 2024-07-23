@@ -7,6 +7,8 @@ import makeBackendSettingColorsMain from "../../../setting/colors/main/backendSe
 import makeBackendSettingBackgroundColorMain from "../../../setting/backgroundColor/main/backendSettingBackgroundColor.main";
 import backendSettingBackgroundColor from "../../../../../../models/subDomain/backend/setting/backendSettingBackgroundColor.model";
 import backendSettingColors from "../../../../../../models/subDomain/backend/setting/backendSettingColors.model";
+import makeBackendSettingColorsSql from "../../../setting/colors/preMain/backendSettingColors.sql";
+import makeBackendSettingBackgroundColorSql from "../../../setting/backgroundColor/preMain/backendSettingBackgroundColor.sql";
 jest.setTimeout(100000)
 
 
@@ -153,18 +155,14 @@ describe("test backendProjectStatusLists.sql.js", () => {
     record10 = page10.data.dataValues
 
     
-    const settingColors = makeBackendSettingColorsMain(d);
-    const currentSettingColors = await settingColors.getOne()
+    const settingColors = makeBackendSettingColorsSql(d);
     settingColorsRecord = (await settingColors.upsertOne({
-      id: currentSettingColors.data.dataValues.id,
       isChanged: true,
       isReady: true,
     })).data.dataValues
 
-    const settingBackgroundColors = makeBackendSettingBackgroundColorMain(d);
-    const currentSettingBackgroundColors = await settingBackgroundColors.getOne()
+    const settingBackgroundColors = makeBackendSettingBackgroundColorSql(d);
     settingBackgroundColorsRecord = (await settingBackgroundColors.upsertOne({
-      id: currentSettingBackgroundColors.data.dataValues.id,
       isChanged: true,
       isReady: true,
     })).data.dataValues

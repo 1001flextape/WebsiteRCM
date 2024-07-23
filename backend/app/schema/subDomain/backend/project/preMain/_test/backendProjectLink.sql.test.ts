@@ -38,14 +38,12 @@ describe("test backendProjectLink.sql.js", () => {
       description: "description",
       image: "image",
       title: "title",
-      isReady: true,
     })
     record = addOne.data.dataValues
 
     expect(addOne.data.dataValues.description).toEqual("description")
     expect(addOne.data.dataValues.image).toEqual("image")
     expect(addOne.data.dataValues.title).toEqual("title")
-    expect(addOne.data.dataValues.isReady).toBe(true)
 
   })
 
@@ -59,7 +57,6 @@ describe("test backendProjectLink.sql.js", () => {
     expect(getOneById.data.dataValues.description).toEqual("description")
     expect(getOneById.data.dataValues.image).toEqual("image")
     expect(getOneById.data.dataValues.title).toEqual("title")
-    expect(getOneById.data.dataValues.isReady).toBe(true)
   })
 
   test("getOneByProjectId: can get record.", async () => {
@@ -72,7 +69,6 @@ describe("test backendProjectLink.sql.js", () => {
     expect(getOneByProjectId.data.dataValues.description).toEqual("description")
     expect(getOneByProjectId.data.dataValues.image).toEqual("image")
     expect(getOneByProjectId.data.dataValues.title).toEqual("title")
-    expect(getOneByProjectId.data.dataValues.isReady).toBe(true)
   })
 
   afterAll(async () => {

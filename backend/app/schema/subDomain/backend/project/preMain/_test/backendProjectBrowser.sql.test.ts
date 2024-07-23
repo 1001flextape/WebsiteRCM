@@ -36,7 +36,6 @@ describe("test backendProjectSite.sql.js", () => {
     const addOne = await projectBrowser.addOne({
       favicon: "favicon",
       tab: "tab",
-      isReady: true,
       projectId: project.id,
     })
 
@@ -44,7 +43,6 @@ describe("test backendProjectSite.sql.js", () => {
 
     expect(addOne.data.dataValues.favicon).toEqual("favicon")
     expect(addOne.data.dataValues.tab).toEqual("tab")
-    expect(addOne.data.dataValues.isReady).toBe(true)
 
   })
 
@@ -57,7 +55,6 @@ describe("test backendProjectSite.sql.js", () => {
 
     expect(getOneById.data.dataValues.favicon).toEqual("favicon")
     expect(getOneById.data.dataValues.tab).toEqual("tab")
-    expect(getOneById.data.dataValues.isReady).toBe(true)
   })
 
   test("getOneByProjectId: can get record.", async () => {
@@ -69,7 +66,6 @@ describe("test backendProjectSite.sql.js", () => {
 
     expect(getOneById.data.dataValues.favicon).toEqual("favicon")
     expect(getOneById.data.dataValues.tab).toEqual("tab")
-    expect(getOneById.data.dataValues.isReady).toBe(true)
   })
   
 

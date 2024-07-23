@@ -53,11 +53,6 @@ export default class backendProjectPageSectionLoud extends Model {
   userAnswersJsonB: any;
 
   @Column({
-    type: sequelize.BOOLEAN,
-  })
-  isReady: boolean;
-
-  @Column({
     type: sequelize.ENUM("BUILT_IN", "PLUGIN", "MARKET"),
   })
   selectionType: SelectionTypeEnum;

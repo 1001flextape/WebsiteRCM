@@ -5,7 +5,6 @@ import backendSettingColors from "../../../../../../../../models/subDomain/backe
 import { dependencies } from "../../../../../../../utils/dependencies/type/dependencyInjection.types";
 
 type input = {
-  id?: string
   color1?: string
   color1Light1?: string
   color1Light2?: string
@@ -98,7 +97,6 @@ export default function upsertOne(d: dependencies) {
     const sql = makeBackendSettingColorsSql(d);
 
     const response = sql.upsertOne({
-      id: args.id,
       color1: args.color1,
       color1Light1: args.color1Light1,
       color1Light2: args.color1Light2,

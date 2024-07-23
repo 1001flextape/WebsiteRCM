@@ -35,9 +35,6 @@ async function up({ context: queryInterface }) {
     userAnswersJsonB: {
       type: sequelize.JSONB,
     },
-    isReady: {
-      type: sequelize.BOOLEAN,
-    },
 
     //selection
     selectionType: {

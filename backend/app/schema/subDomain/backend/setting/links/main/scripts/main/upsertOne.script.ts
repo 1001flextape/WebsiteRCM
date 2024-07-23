@@ -5,7 +5,6 @@ import backendSettingLink from "../../../../../../../../models/subDomain/backend
 import { dependencies } from "../../../../../../../utils/dependencies/type/dependencyInjection.types";
 
 type input = {
-  id?: string
   title?: string
   description?: string
   image?: string
@@ -19,7 +18,6 @@ export default function upsertOne(d: dependencies) {
     const sql = makeBackendSettingLinkSql(d);
     
     const response = sql.upsertOne({
-      id: args.id,
       title: args.title,
       description: args.description,
       image: args.image,

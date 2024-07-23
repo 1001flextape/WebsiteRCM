@@ -15,7 +15,6 @@ type input = {
   webAssetImport?: string;
   menuJsonB?: string;
   userAnswersJsonB?: string;
-  isReady?: boolean;
   selectionType?: SelectionTypeEnum;
   selectionId?: string;
 };
@@ -30,7 +29,6 @@ export default function upsertOne(d: dependencies) {
       pageId: args.pageId,
       projectId: args.projectId,
       author: args.author,
-      isReady: args.isReady,
       menuJsonB: args.menuJsonB,
       name: args.name,
       selectionId: args.selectionId,

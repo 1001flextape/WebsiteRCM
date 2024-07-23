@@ -1,18 +1,27 @@
-import { Model } from "sequelize";
 import { returningSuccessObj } from "../../../../../../utils/types/returningObjs.types";
 import { dependencies } from "../../../../../../utils/dependencies/type/dependencyInjection.types";
 import { Op } from "sequelize";
 
-export default function getPublishedPagesChangedCount(d: dependencies) {
+type input = {
+  projectId: string
+}
+
+export default function getPublishedPagesTotalCount(d: dependencies) {
 
   const db = d.subDomainDb.models;
 
-  return async (): Promise<returningSuccessObj<number>> => {
+  return async (args: input): Promise<returningSuccessObj<number>> => {
 
-    const data = await db.backendSiteDesignerPage.count({
+    const data = await db.backendProjectPage.count({
       where:{
+        projectId: args.projectId,
         isPublished: true,
-        isChanged: true,
+        isDraft: {
+          [Op.not]: true,
+        },
+        isDeleted: {
+          [Op.not]: true,
+        },
       },
       transaction: d.subDomainTransaction,
     }).catch(error => d.errorHandler(error, d.loggers))

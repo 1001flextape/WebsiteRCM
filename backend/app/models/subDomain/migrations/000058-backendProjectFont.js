@@ -25,9 +25,6 @@ async function up({ context: queryInterface }) {
     varient: {
       type: sequelize.STRING,
     },
-    isReady: {
-      type: sequelize.BOOLEAN,
-    },
     createdAt: {
       allowNull: false,
       type: sequelize.DATE

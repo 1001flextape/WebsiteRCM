@@ -6,7 +6,11 @@ import backendProjectPage from "../../../../../../../models/subDomain/backend/pr
 type input = { 
   projectId: string
   slug: string
-  isReady?: boolean
+  isPublished?: boolean
+  isDraft?: boolean
+  isNew?: boolean
+  isChanged?: boolean
+  isDeleted?: boolean
 }
 
 export default function addOne(d: dependencies) {

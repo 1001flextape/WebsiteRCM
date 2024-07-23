@@ -6,7 +6,6 @@ import backendProjectPageSectionLoud from "../../../../../../../models/subDomain
 
 type input = {
   projectId: string;
-
   pageId: string;
   id?: string;
   name?: string;
@@ -14,7 +13,6 @@ type input = {
   webAssetImport?: string;
   menuJsonB?: string;
   userAnswersJsonB?: string;
-  isReady?: boolean;
   selectionType?: SelectionTypeEnum;
   selectionId?: string;
 };
@@ -25,10 +23,23 @@ export default function addOne(d: dependencies) {
 
   return async (args: input): Promise<returningSuccessObj<Model<backendProjectPageSectionLoud> | null>> => {
     try {
-      // Create new instance
-      const instance = await db.backendProjectPageSectionLoud.create(args, {
+      // Find the existing record by projectId and pageId
+      let instance = await db.backendProjectPageSectionLoud.findOne({
+        where: { projectId: args.projectId, pageId: args.pageId },
         transaction: subDomainTransaction,
       });
+
+      if (instance) {
+        // Update the existing record
+        instance = await instance.update(args, {
+          transaction: subDomainTransaction,
+        });
+      } else {
+        // Create a new record
+        instance = await db.backendProjectPageSectionLoud.create(args, {
+          transaction: subDomainTransaction,
+        });
+      }
 
       return {
         success: true,

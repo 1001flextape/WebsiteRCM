@@ -1,11 +1,9 @@
 import { Model } from "sequelize";
 import { returningSuccessObj } from "../../../../../../../utils/types/returningObjs.types";
 import backendSettingColors from "../../../../../../../../models/subDomain/backend/setting/backendSettingColors.model";
-import { v4 as uuidv4 } from "uuid"
 import { dependencies } from "../../../../../../../utils/dependencies/type/dependencyInjection.types";
 
 type input = {
-  id?: string
   // color 1
   color1?: string
   color1Light1?: string
@@ -104,33 +102,39 @@ export default function upsertOne(d: dependencies) {
   const db = d.subDomainDb.models;
 
   return async (args: input): Promise<returningSuccessObj<Model<backendSettingColors> | null>> => {
-    
-    if (!args.id) {
-      args.id = uuidv4();
-    }
+    try {
+      // Check if a record exists
+      let instance = await db.backendSettingColors.findOne({
+        transaction: d.subDomainTransaction,
+      });
 
-    // Use upsert instead of separate create or update
-    const [instance, created] = await db.backendSettingColors.upsert({
-      ...args,
-    }, {
-      returning: true,
-      transaction: d.subDomainTransaction,
-    }).catch(error => d.errorHandler(error, d.loggers))
+      if (instance) {
+        // Update the existing record
+        instance = await instance.update({
+          ...args,
+        }, {
+          transaction: d.subDomainTransaction,
+        });
+      } else {
+        // Create a new record
+        instance = await db.backendSettingColors.create({
+          ...args,
+        }, {
+          transaction: d.subDomainTransaction,
+        });
+      }
 
-    // `created` is a boolean indicating whether a new instance was created
-    // `instance` is the model instance itself
-    if (created) {
-      // New instance created
       return {
         success: true,
         data: instance,
-      }
-    } else {
-      // Existing instance updated
+      };
+    } catch (error) {
+      d.errorHandler(error, d.loggers);
       return {
-        success: true,
-        data: instance,
-      }
+        success: false,
+        data: null,
+        humanMessage: "Error during upsert operation",
+      };
     }
-  }
+  };
 }

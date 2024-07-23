@@ -11,7 +11,6 @@ type input = {
 
   id?: string
   slug: string
-  isReady?: boolean
 }
 
 export default function addOne(d: dependencies) {

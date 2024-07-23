@@ -4,42 +4,46 @@ import backendSettingLink from "../../../../../../../../models/subDomain/backend
 import { dependencies } from "../../../../../../../utils/dependencies/type/dependencyInjection.types";
 
 type input = {
-  id?: string
-  title?: string
-  description?: string
-  image?: string
-  isChanged?: boolean
-  isReady?: boolean
+  title?: string;
+  description?: string;
+  image?: string;
+  isChanged?: boolean;
+  isReady?: boolean;
 }
 
 export default function upsertOne(d: dependencies) {
   const db = d.subDomainDb.models;
 
   return async (args: input): Promise<returningSuccessObj<Model<backendSettingLink> | null>> => {
-    
-    // Use upsert instead of separate create or update
-    const [instance, created] = await db.backendSettingLink.upsert({
-      isChanged: true,
-      ...args,
-    }, {
-      returning: true,
-      transaction: d.subDomainTransaction,
-    }).catch(error => d.errorHandler(error, d.loggers))
+    try {
+      // Check if a record exists
+      let instance = await db.backendSettingLink.findOne({
+        transaction: d.subDomainTransaction,
+      });
 
-    // `created` is a boolean indicating whether a new instance was created
-    // `instance` is the model instance itself
-    if (created) {
-      // New instance created
+      if (instance) {
+        // Update the existing record
+        instance = await instance.update(args, {
+          transaction: d.subDomainTransaction,
+        });
+      } else {
+        // Create a new record
+        instance = await db.backendSettingLink.create(args, {
+          transaction: d.subDomainTransaction,
+        });
+      }
+
       return {
         success: true,
         data: instance,
-      }
-    } else {
-      // Existing instance updated
+      };
+    } catch (error) {
+      d.errorHandler(error, d.loggers);
       return {
-        success: true,
-        data: instance,
-      }
+        success: false,
+        data: null,
+        humanMessage: "Error during upsert operation",
+      };
     }
-  }
+  };
 }

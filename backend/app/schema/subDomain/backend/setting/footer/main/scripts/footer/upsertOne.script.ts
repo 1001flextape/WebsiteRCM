@@ -7,7 +7,6 @@ import makeBackendSettingFooterBuiltInMain from "../../backendSettingFooterBuilt
 import { SelectionTypeEnum } from "../../../../../../../../models/subDomain/backend/setting/backendSettingHeader.model";
 
 type input = {
-  id?: string
   userAnswers: string
   isChanged?: boolean
   isReady?: boolean,
@@ -51,7 +50,6 @@ export default function upsertOne(d: dependencies) {
     // userAnswersJsonB?: string
 
     const response = sql.upsertOne({
-      id: args.id,
       webAssetImport: webAssetImport,
       menuJsonB: menuJsonB,
       userAnswersJsonB: args.userAnswers,

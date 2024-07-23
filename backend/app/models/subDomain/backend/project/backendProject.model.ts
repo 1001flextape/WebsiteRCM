@@ -28,17 +28,6 @@ export default class backendProject extends Model {
   })
   color: string;
 
-  @Column({
-    type: DataType.BOOLEAN,
-    allowNull: false,
-  })
-  isChanged: boolean;
-
-  @Column({
-    type: DataType.BOOLEAN,
-    allowNull: false,
-  })
-  isDeleted: boolean;
 
   @Column({
     type: DataType.DATE,

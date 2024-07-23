@@ -17,7 +17,6 @@ type input = {
   userAnswersJsonB?: string;
   webAssetImport?: string;
   menuJsonB?: string;
-  isReady?: boolean;
 };
 
 // selectionType: SelectionTypeEnum;
@@ -31,7 +30,6 @@ export default function addOne(d: dependencies) {
       pageId: args.pageId,
       projectId: args.projectId,
       author: args.author,
-      isReady: args.isReady,
       menuJsonB: args.menuJsonB,
       name: args.name,
       orderNumber: args.orderNumber,

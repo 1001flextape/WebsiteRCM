@@ -37,12 +37,10 @@ describe("test backendProjectPage.sql.js", () => {
     const addOne = await pageSql.addOne({
       projectId: project.id,
       slug: "/test/should-not-be-saved/",
-      isReady: true,
     })
     record = addOne.data.dataValues
 
     expect(addOne.data.dataValues.slug).toEqual("/test/should-not-be-saved/")
-    expect(addOne.data.dataValues.isReady).toEqual(true)
   })
 
   test("getManyByProjectId: can get all records.", async () => {

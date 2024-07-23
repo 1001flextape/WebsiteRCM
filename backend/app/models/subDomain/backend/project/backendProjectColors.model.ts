@@ -600,9 +600,4 @@ export default class backendProjectColors extends Model {
   })
   color9Dark4: string;
 
-
-  @Column({
-    type: sequelize.BOOLEAN,
-  })
-  isReady: boolean;
 }

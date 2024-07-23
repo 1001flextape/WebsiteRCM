@@ -37,12 +37,10 @@ describe("test backendProjectPage.main.js", () => {
     const addOne = await pageMain.addOne({
       projectId: project.id,
       slug: "/test/should-not-be-saved/",
-      isReady: true,
     })
     record = addOne.data.dataValues
 
     expect(addOne.data.dataValues.slug).toEqual("/test/should-not-be-saved/")
-    expect(addOne.data.dataValues.isReady).toEqual(true)
   })
 
   test("getManyWithPagination: can get all records.", async () => {

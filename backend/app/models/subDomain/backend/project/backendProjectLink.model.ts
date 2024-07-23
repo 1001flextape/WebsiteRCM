@@ -38,8 +38,4 @@ export default class backendProjectLink extends Model {
   })
   image: string;
 
-  @Column({
-    type: sequelize.BOOLEAN,
-  })
-  isReady: boolean;
 }

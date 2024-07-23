@@ -5,7 +5,6 @@ import backendSettingFont from "../../../../../../../../models/subDomain/backend
 import { dependencies } from "../../../../../../../utils/dependencies/type/dependencyInjection.types";
 
 type input = {
-  id?: string
   font?: string
   varient?: string
   isChanged?: boolean
@@ -18,7 +17,6 @@ export default function upsertOne(d: dependencies) {
     const sql = makeBackendSettingFontSql(d);
     
     const response = sql.upsertOne({
-      id: args.id,
       font: args.font,
       varient: args.varient,
       isChanged: args.isChanged,

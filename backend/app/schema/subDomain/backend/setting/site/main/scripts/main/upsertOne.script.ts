@@ -8,10 +8,10 @@ import makeBackendSettingSiteSql from "../../../preMain/backendSettingSite.sql";
 import { dependencies } from "../../../../../../../utils/dependencies/type/dependencyInjection.types";
 
 type input = {
-  id?: string
-  favicon?: string
-  tab?: string
-  isReady?: boolean
+  favicon?: string;
+  tab?: string;
+  isChanged?: boolean;
+  isReady?: boolean;
 }
 
 export default function upsertOne(d: dependencies) {
@@ -55,8 +55,8 @@ export default function upsertOne(d: dependencies) {
     }
 
     const response = await sql.upsertOne({
-      id: args.id || undefined,
       isReady: args.isReady,
+      isChanged: args.isChanged,
       favicon,
       tab: args.tab,
     }).catch(error => d.errorHandler(error, d.loggers))

@@ -25,9 +25,6 @@ async function up({ context: queryInterface }) {
     backgroundColor_night: {
       type: sequelize.STRING,
     },
-    isReady: {
-      type: sequelize.BOOLEAN,
-    },
     createdAt: {
       allowNull: false,
       type: sequelize.DATE

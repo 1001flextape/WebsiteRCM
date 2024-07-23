@@ -12,7 +12,6 @@ type input = {
   webAssetImport?: string
   menuJsonB?: string
   userAnswersJsonB?: string
-  isReady?: boolean
   selectionType?: SelectionTypeEnum,
   selectionId?: string,
 }
@@ -30,7 +29,6 @@ export default function addOne(d: dependencies) {
       webAssetImport: args.webAssetImport,
       menuJsonB: args.menuJsonB,
       userAnswersJsonB: args.userAnswersJsonB,
-      isReady: args.isReady,
       selectionType: args.selectionType,
       selectionId: args.selectionId,
 

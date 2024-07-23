@@ -29,6 +29,7 @@ export default function getManyDraftedPagesNewWithPagination(d: dependencies) {
 
     let search: FindAndCountOptions = {
       where: {
+        isPublished: false,
         isDraft: true,
         isRecentlyCreated: true,
       },

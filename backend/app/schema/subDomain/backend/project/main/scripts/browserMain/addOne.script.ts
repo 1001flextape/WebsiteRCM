@@ -10,7 +10,6 @@ type input = {
   id?: string
   favicon?: string
   tab?: string
-  isReady: boolean
 }
 
 export default function addOne(d: dependencies) {
@@ -21,7 +20,6 @@ export default function addOne(d: dependencies) {
     const response = await sql.addOne({
       projectId: args.projectId,
       id: args.id || undefined,
-      isReady: args.isReady,
       favicon: args.favicon,
       tab: args.tab,
     }).catch(error => d.errorHandler(error, d.loggers))
