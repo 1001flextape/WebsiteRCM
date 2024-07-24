@@ -39,7 +39,6 @@ const backendSettingSiteGqlResolver = {
       const main = makeBackendSettingSiteMain(ctx.d)
 
       const response = await main.upsertOne({
-        id: args.id,
         favicon: args.favicon,
         tab: args.tab,
         isReady: args.isReady,

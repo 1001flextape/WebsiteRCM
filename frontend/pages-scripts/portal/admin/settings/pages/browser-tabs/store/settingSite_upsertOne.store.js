@@ -10,9 +10,9 @@ export const postSettingSiteGraphQL = ({
 
     const response = await callSubDomainApi({
       query: `
-      mutation($id: ID, $favicon: String, $tab: String, $isReady: Boolean) {
-        backendSettingSite_upsertOne(id: $id, favicon: $favicon, tab: $tab, isReady: $isReady) {
-          id
+      mutation($favicon: String, $tab: String, $isReady: Boolean) {
+        backendSettingSite_upsertOne(favicon: $favicon, tab: $tab, isReady: $isReady) {
+          favicon
         }
       }
       `,

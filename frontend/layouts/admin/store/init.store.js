@@ -28,7 +28,6 @@ export const getAdminLayoutInitGraphQL = () => {
         backendNotification_getUnseenNotificationCount
 
         backendSettingOrganization_getOne {
-          id
           logo
           shouldApplyToTopNavMenu
           name

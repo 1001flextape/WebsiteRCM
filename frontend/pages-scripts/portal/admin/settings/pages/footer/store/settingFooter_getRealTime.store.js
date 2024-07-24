@@ -7,7 +7,6 @@ export const getSettingFooterRealTimeGraphQL = ({ socketId }) => {
       query: `
       query($socketId: ID!) {
         backendSettingFooter_getOneRealTime(socketId: $socketId) {
-          id
           entity
           webAssetImport
           menuJsonB

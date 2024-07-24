@@ -7,7 +7,6 @@ export const getSettingHeaderRealTimeGraphQL = ({ socketId }) => {
       query: `
       query($socketId: ID!) {
         backendSettingHeader_getOneRealTime(socketId: $socketId) {
-          id
           entity
           webAssetImport
           menuJsonB

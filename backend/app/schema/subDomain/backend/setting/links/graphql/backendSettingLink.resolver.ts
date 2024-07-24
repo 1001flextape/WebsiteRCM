@@ -38,7 +38,6 @@ const backendSettingLinkGqlResolver = {
       const main = makeBackendSettingLinkMain(ctx.d)
 
       const response = await main.upsertOne({
-        id: args.id,
         title: args.title,
         description: args.description,
         image: args.image,

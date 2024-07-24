@@ -11,8 +11,8 @@ export const postSettingBackgroundColorGraphQL = ({
     const response = await callSubDomainApi({
       query: `
       mutation($id: ID, $favicon: String, $tab: String, $isReady: Boolean) {
-        backendSettingBackgroundColor_upsertOne(id: $id, favicon: $favicon, tab: $tab, isReady: $isReady) {
-          id
+        backendSettingBackgroundColor_upsertOne(favicon: $favicon, tab: $tab, isReady: $isReady) {
+          isReady
         }
       }
       `,

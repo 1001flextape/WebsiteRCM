@@ -24,8 +24,7 @@ const applicationType = gql`
     createdAt: String,
   }
 
-  type BackendOrganizationType {
-    id: String
+  type BackendSettingOrganizationType {
     logo: String,
     name: String,
     shouldApplyToTopNavMenu: Boolean,
@@ -47,10 +46,10 @@ const applicationType = gql`
 
   type Query {
     backendSettingOrganization_getOneRealTime(socketId: String): BackendOrganizationRealTimeType
-    backendSettingOrganization_getOne: BackendOrganizationType
+    backendSettingOrganization_getOne: BackendSettingOrganizationType
   }
   type Mutation {
-    backendSettingOrganization_updateOne(id: ID!, logo: String, name: String, shouldApplyToTopNavMenu: Boolean, addressLine1: String addressLine2: String, cityLocality: String, stateProvinceRegion: String, postalCode: String, socialFacebook: String, socialX: String, socialInstagram: String, socialLinkedIn: String, socialYouTube: String, socialPinterest: String, socialWhatsapp: String, socialReddit: String): BackendOrganizationRealTimeType
+    backendSettingOrganization_updateOne(logo: String, name: String, shouldApplyToTopNavMenu: Boolean, addressLine1: String addressLine2: String, cityLocality: String, stateProvinceRegion: String, postalCode: String, socialFacebook: String, socialX: String, socialInstagram: String, socialLinkedIn: String, socialYouTube: String, socialPinterest: String, socialWhatsapp: String, socialReddit: String): BackendOrganizationRealTimeType
   }
 `
 

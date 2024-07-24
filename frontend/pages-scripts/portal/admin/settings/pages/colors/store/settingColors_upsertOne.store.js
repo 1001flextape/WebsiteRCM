@@ -72,7 +72,6 @@ export const postSettingColorsGraphQL = ({
     const response = await callSubDomainApi({
       query: `
       mutation(
-        $id: ID
         $isReady: Boolean
         $color1: String
         $color1Light1: String
@@ -139,7 +138,6 @@ export const postSettingColorsGraphQL = ({
         $color7Dark4: String
       ) {
         backendSettingColors_upsertOne(
-          id: $id
           isReady: $isReady
           color1: $color1
           color1Light1: $color1Light1
@@ -213,7 +211,7 @@ export const postSettingColorsGraphQL = ({
           color7Dark3: $color7Dark3
           color7Dark4: $color7Dark4
         ) {
-          id
+          isReady
         }
       }
       `,

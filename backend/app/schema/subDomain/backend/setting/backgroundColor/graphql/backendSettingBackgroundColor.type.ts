@@ -8,7 +8,6 @@ const backendSettingBackgroundColorGraphQLType = gql`
 #   isReady: RealTimeSwitch
 # }
   type BackendSettingBackgroundColorType {
-    id: String,
     backgroundColor_day: String,
     backgroundColor_night: String,  
     isReady: Boolean
@@ -19,7 +18,7 @@ const backendSettingBackgroundColorGraphQLType = gql`
     # backendSettingBackgroundColor_getOneRealTime(socketId: String!): BackendSettingBackgroundColorRealTimeType
   }
   type Mutation {
-    backendSettingBackgroundColor_upsertOne(id: ID!, backgroundColor_day: String, backgroundColor_night: String, isReady: Boolean): BackendSettingBackgroundColorType
+    backendSettingBackgroundColor_upsertOne(backgroundColor_day: String, backgroundColor_night: String, isReady: Boolean): BackendSettingBackgroundColorType
   }
 `
 

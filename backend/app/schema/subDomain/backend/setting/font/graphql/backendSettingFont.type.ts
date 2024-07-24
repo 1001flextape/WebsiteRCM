@@ -12,7 +12,6 @@ const backendSettingFontGraphQLType = gql`
 # }
 
   type BackendSettingFontType {
-    id: String,
     font: String,
     varient: String,
     isChanged: Boolean,
@@ -24,7 +23,7 @@ const backendSettingFontGraphQLType = gql`
     # backendSettingFont_getOneRealTime(socketId: String!): BackendSettingFontRealTimeType
   }
   type Mutation {
-    backendSettingFont_upsertOne(id: ID!, font: String, varient: String, isChanged: Boolean, isReady: Boolean): BackendSettingFontType
+    backendSettingFont_upsertOne(font: String, varient: String, isChanged: Boolean, isReady: Boolean): BackendSettingFontType
   }
 `
 

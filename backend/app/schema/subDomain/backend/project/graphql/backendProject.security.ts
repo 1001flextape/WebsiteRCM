@@ -3,6 +3,6 @@ import { isAuthenticated, isAdmin, isPublic, hasPermissions } from "../../../../
 
 export default {
   Query: {
-    backendProject_getManyWithPagination: isAuthenticated,
+    // backendProject_getManyWithPagination: isAuthenticated,
   },
 }

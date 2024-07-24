@@ -12,14 +12,12 @@ export const postSettingHeaderGraphQL = ({
     const response = await callSubDomainApi({
       query: `
       mutation(
-        $id: ID!
         $selectionType: SelectionTypeEnum!
         $selectionId: ID!
         $userAnswers: String
         $isReady: Boolean!
       ) {
         backendSettingHeader_upsertOne(
-          id: $id
           selectionType: $selectionType
           selectionId: $selectionId
           userAnswers: $userAnswers

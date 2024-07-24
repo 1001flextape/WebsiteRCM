@@ -38,7 +38,6 @@ const backendSettingBackgroundColorGqlResolver = {
       const main = makeBackendSettingBackgroundColorMain(ctx.d)
 
       const response = await main.upsertOne({
-        id: args.id,
         backgroundColor_day: args.backgroundColor_day,
         backgroundColor_night: args.backgroundColor_night,
         isChanged: true,

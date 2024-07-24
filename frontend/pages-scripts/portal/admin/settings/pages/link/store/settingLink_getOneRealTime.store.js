@@ -7,7 +7,6 @@ export const getSettingLinkGraphQL = ({ socketId }) => {
       query: `
       query($socketId: String!) {
         backendSettingLink_getOneRealTime(socketId: $socketId) {
-          id
           entity
           title {
             order

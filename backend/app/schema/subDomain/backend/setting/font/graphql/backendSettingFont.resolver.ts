@@ -38,10 +38,8 @@ const backendSettingFontGqlResolver = {
       const main = makeBackendSettingFontMain(ctx.d)
 
       const response = await main.upsertOne({
-        id: args.id,
         font: args.font,
         varient: args.varient,
-        isChanged: args.isChanged,
         isReady: args.isReady,
       })
 

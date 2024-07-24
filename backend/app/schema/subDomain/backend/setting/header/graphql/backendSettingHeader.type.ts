@@ -9,7 +9,6 @@ const backendSettingHeaderGraphQLType = gql`
   }
 
   type BackendSettingHeaderRealTimeType {
-    id: String,
     entity: String,
     webAssetImport: String,
     menuJsonB: String,
@@ -34,7 +33,7 @@ const backendSettingHeaderGraphQLType = gql`
     backendSettingHeaderBuiltIn_getMany:[BackendSettingHeaderBuiltInType]
   }
   type Mutation {
-    backendSettingHeader_upsertOne(id: ID!, selectionType: SelectionTypeEnum!, selectionId: ID!, userAnswers: String, isReady: Boolean): GlobalSuccessType
+    backendSettingHeader_upsertOne(selectionType: SelectionTypeEnum!, selectionId: ID!, userAnswers: String, isReady: Boolean): GlobalSuccessType
     backendSettingHeader_selectHeader(id: ID!, type: SelectionTypeEnum!, socketId: ID!): BackendSettingHeaderRealTimeType
   }
 `

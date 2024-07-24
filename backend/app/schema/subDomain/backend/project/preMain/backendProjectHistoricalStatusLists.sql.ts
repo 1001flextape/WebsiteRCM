@@ -8,7 +8,7 @@ import getManyPublishedPagesDeletedWithPagination from "./scripts/historicalStat
 import getManyPublishedPagesNewWithPagination from "./scripts/historicalStatusLists/getManyPublishedPagesNewWithPagination.script"
 import getManyPublishedPagesTotalWithPagination from "./scripts/historicalStatusLists/getManyPublishedPagesTotalWithPagination.script"
 
-export default function makeBackendProjectHistoricalCounterSql(d: dependencies) {
+export default function makeBackendProjectHistoricalStatusListsSql(d: dependencies) {
 
   return {
     getConfiguration: getConfiguration(d),

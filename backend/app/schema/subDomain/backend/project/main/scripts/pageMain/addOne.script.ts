@@ -8,9 +8,12 @@ import endMainFromError from "../../../../../../utils/graphql/endMainFromError.f
 
 type input = { 
   projectId: string
-
-  id?: string
   slug: string
+  isPublished?: boolean
+  isDraft?: boolean
+  isNew?: boolean
+  isChanged?: boolean
+  isDeleted?: boolean
 }
 
 export default function addOne(d: dependencies) {

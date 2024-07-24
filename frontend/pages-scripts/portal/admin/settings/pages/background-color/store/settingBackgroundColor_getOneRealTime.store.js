@@ -7,7 +7,7 @@ export const getSettingBackgroundColorGraphQL = ({ socketId }) => {
       query: `
       query($socketId: ID!) {
         backendSettingBackgroundColor_getOneRealTime(socketId: $socketId) {
-          id
+          # id
           entity
           tab {
             order

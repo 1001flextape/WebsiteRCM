@@ -40,7 +40,6 @@ const backendSettingHeaderGqlResolver = {
       const main = makeBackendSettingHeaderMain(ctx.d)
 
       const response = await main.upsertOne({
-        id: args.id,
         userAnswers: args.userAnswers,
         isReady: args.isReady,
         selectionType: args.selectionType,

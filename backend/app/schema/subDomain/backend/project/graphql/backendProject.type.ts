@@ -5,36 +5,55 @@ const backendProjectType = gql`
 
   type BackendProjectType {
     id: ID
-    numberOfPages: Int
+    # numberOfPages: Int
     createdAt: String
   }
+
+  #==============================
+  # curent
+  #------------------------------
 
   type BackendProjectSummaryType {
     id: ID
     name: String
     startedAt: String
 
-    newPagesTotalCount: Int
-    newPagesReadyCount: Int
-    newPagesNewCount: Int
-    newPagesNotReadyCount: Int
-    newPagesDeletedCount: Int
-
-    publishedPagesTotalCount: Int
-    publishedPagesReadyCount: Int
-    publishedPagesNewCount: Int
-    publishedPagesNotReadyCount: Int
-    publishedPagesDeletedCount: Int
+    # Configuration
+    getConfigurationChangedCount: Int,
+    getConfigurationNotReadyCount: Int,
+    getConfigurationProgress: Int,
     
-    configurationReadyCount: Int
-    configurationChangesCount: Int
-    configurationNotReadyCount: Int
+    # Draft Pages
+    getDraftedPagesDeletedCount: Int,
+    getDraftedPagesNewCount: Int,
+    getDraftedPagesTotalCount: Int,
 
-    draftedPagesTotalCount: Int
-    draftedPagesNewCount: Int
-    draftedPagesDeletedCount: Int
+    # New Pages
+    getNewPagesDeletedCount: Int,
+    getNewPagesNewCount: Int,
+    getNewPagesNotReadyCount: Int,
+    getNewPagesProgress: Int,
+    getNewPagesTotalCount: Int,
+
+    # published Pages
+    getPublishedPagesChangedCount: Int,
+    getPublishedPagesDeletedCount: Int,
+    getPublishedPagesNotReadyCount: Int,
+    getPublishedPagesProgress: Int,
+    getPublishedPagesTotalCount: Int,
   }
   
+  
+  type BackendProjectConfigurationType {
+    name: String
+    isReady: Boolean
+  }
+
+
+  #==============================
+  # historical
+  #------------------------------
+
   type BackendProjectHistoricalSummaryType {
     id: ID
     name: String
@@ -57,9 +76,12 @@ const backendProjectType = gql`
 
   ${paginationType("BackendProjectPaginationType", "BackendProjectType")}
 
-  type Query {
-    backendProject_getManyWithPagination(q: String, page: Int, pageSize: Int): BackendProjectPaginationType
+  # type Query {
+    # current
+    # backendProject_getConfigurationChanged: 
+    # BackendSiteDesignerPageType
+    # backendProject_getManyWithPagination(q: String, page: Int, pageSize: Int): BackendProjectPaginationType
     #backendProject_getCurrentProject:
-  }
+  # }
 `;
 export default backendProjectType;

@@ -7,7 +7,6 @@ export const getSettingOrganizationGraphQL = ({ socketId }) => {
       query: `
       query($socketId: String!) {
         backendSettingOrganization_getOneRealTime(socketId: $socketId) {
-          id
           entity
           logo {
             order

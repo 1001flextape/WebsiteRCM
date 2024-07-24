@@ -38,7 +38,6 @@ const backendSettingColumnGqlResolver = {
       const main = makeBackendSettingColumnMain(ctx.d)
 
       const response = await main.upsertOne({
-        id: args.id,
         width: args.width,
         isReady: args.isReady,
       })

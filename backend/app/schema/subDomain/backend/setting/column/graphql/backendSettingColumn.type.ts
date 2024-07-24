@@ -12,7 +12,6 @@ const backendSettingColumnGraphQLType = gql`
 # }
 
   type BackendSettingColumnType {
-    id: String,
     width: String,
     isReady: Boolean
   }
@@ -22,7 +21,7 @@ const backendSettingColumnGraphQLType = gql`
     # backendSettingColumn_getOneRealTime(socketId: String!): BackendSettingColumnRealTimeType
   }
   type Mutation {
-    backendSettingColumn_upsertOne(id: ID!, width: String, isReady: Boolean): BackendSettingColumnType
+    backendSettingColumn_upsertOne(width: String, isReady: Boolean): BackendSettingColumnType
   }
 `
 

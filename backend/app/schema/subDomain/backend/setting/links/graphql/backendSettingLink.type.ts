@@ -3,7 +3,6 @@ import gql from "graphql-tag"
 const backendSettingLinkGraphQLType = gql`
 
 type BackendSettingLinkRealTimeType {
-  id: String,
   entity: String,
   title: RealTimeTextField,
   description: RealTimeTextField,
@@ -11,7 +10,6 @@ type BackendSettingLinkRealTimeType {
   isReady: RealTimeSwitch
 }
   type BackendSettingLinkType {
-    id: String,
     title: String,
     description: String,
     image: String,
@@ -23,7 +21,7 @@ type BackendSettingLinkRealTimeType {
     backendSettingLink_getOneRealTime(socketId: String!): BackendSettingLinkRealTimeType
   }
   type Mutation {
-    backendSettingLink_upsertOne(id: ID!, title: String, description: String, image: String, isReady: Boolean): BackendSettingLinkType
+    backendSettingLink_upsertOne(title: String, description: String, image: String, isReady: Boolean): BackendSettingLinkType
   }
 `
 

@@ -3,7 +3,6 @@ import gql from "graphql-tag"
 const applicationType = gql`
 
   type SettingColorsType {    
-    id: String
     color1: String
     color1Light1: String
     color1Light2: String
@@ -71,7 +70,6 @@ const applicationType = gql`
   }
 
   type SettingColorsRealTimeType {    
-    id: String
     entity: String
     color1: RealTimeColorPicker
     color2: RealTimeColorPicker
@@ -90,7 +88,6 @@ const applicationType = gql`
 
   type Mutation {
     backendSettingColors_upsertOne(
-      id: ID,
       color1: String,
       color1Light1: String,
       color1Light2: String,

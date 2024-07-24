@@ -22,7 +22,7 @@ const applicationType = gql`
     backendSettingSite_getOneRealTime(socketId: ID!): SettingSiteRealTimeType
   }
   type Mutation {
-    backendSettingSite_upsertOne(id: ID, favicon: String, tab: String, isReady: Boolean): SettingSiteType
+    backendSettingSite_upsertOne(favicon: String, tab: String, isReady: Boolean): SettingSiteType
   }
 `
 

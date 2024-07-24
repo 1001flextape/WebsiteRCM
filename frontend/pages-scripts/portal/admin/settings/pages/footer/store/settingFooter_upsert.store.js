@@ -12,14 +12,12 @@ export const postSettingFooterGraphQL = ({
     const response = await callSubDomainApi({
       query: `
       mutation(
-        $id: ID!
         $selectionType: SelectionTypeEnum!
         $selectionId: ID!
         $userAnswers: String
         $isReady: Boolean!
       ) {
         backendSettingFooter_upsertOne(
-          id: $id
           selectionType: $selectionType
           selectionId: $selectionId
           userAnswers: $userAnswers

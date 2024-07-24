@@ -40,7 +40,6 @@ const backendSettingFooterGqlResolver = {
       const main = makeBackendSettingFooterMain(ctx.d)
 
       const response = await main.upsertOne({
-        id: args.id,
         userAnswers: args.userAnswers,
         isReady: args.isReady,
         selectionType: args.selectionType,

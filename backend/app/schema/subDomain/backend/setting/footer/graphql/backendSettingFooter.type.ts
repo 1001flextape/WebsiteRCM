@@ -3,7 +3,6 @@ import gql from "graphql-tag"
 const backendSettingFooterGraphQLType = gql`
 
   type BackendSettingFooterRealTimeType {
-    id: String,
     entity: String,
     webAssetImport: String,
     menuJsonB: String,
@@ -28,7 +27,7 @@ const backendSettingFooterGraphQLType = gql`
     backendSettingFooterBuiltIn_getMany:[BackendSettingFooterBuiltInType]
   }
   type Mutation {
-    backendSettingFooter_upsertOne(id: ID!, selectionType: SelectionTypeEnum!, selectionId: ID!, userAnswers: String, isReady: Boolean): GlobalSuccessType
+    backendSettingFooter_upsertOne(selectionType: SelectionTypeEnum!, selectionId: ID!, userAnswers: String, isReady: Boolean): GlobalSuccessType
     backendSettingFooter_selectFooter(id: ID!, type: SelectionTypeEnum!, socketId: ID!): BackendSettingFooterRealTimeType
   }
 `

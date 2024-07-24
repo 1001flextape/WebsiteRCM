@@ -154,17 +154,13 @@ describe("test backendProjectStatusLists.main.js", () => {
 
     
     const settingColors = makeBackendSettingColorsMain(d);
-    const currentSettingColors = await settingColors.getOne()
     settingColorsRecord = (await settingColors.upsertOne({
-      id: currentSettingColors.data.dataValues.id,
       isChanged: true,
       isReady: true,
     })).data.dataValues
 
     const settingBackgroundColors = makeBackendSettingBackgroundColorMain(d);
-    const currentSettingBackgroundColors = await settingBackgroundColors.getOne()
     settingBackgroundColorsRecord = (await settingBackgroundColors.upsertOne({
-      id: currentSettingBackgroundColors.data.dataValues.id,
       isChanged: true,
       isReady: true,
     })).data.dataValues
