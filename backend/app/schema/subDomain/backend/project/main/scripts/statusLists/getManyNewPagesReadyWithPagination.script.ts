@@ -15,7 +15,7 @@ export default function getManyNewPagesReadyWithPagination(d: dependencies) {
 
     const sql = makeBackendProjectStatusListSql(d);
 
-    const response = sql.getManyNewPagesReadyWithPagination(args).catch(error => d.errorHandler(error, d.loggers))
+    const response = await sql.getManyNewPagesReadyWithPagination(args).catch(error => d.errorHandler(error, d.loggers))
 
     return response
   }

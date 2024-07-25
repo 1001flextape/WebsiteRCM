@@ -3,7 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import MoreVert from '@mui/icons-material/MoreVert';
 import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
-import { useRouter } from 'next/navigation';
+import { getConfigurationNotReadyGraphQL } from '../store/getConfigurationNotReady.store';
 
 export default function ConfigurationStatusNotReadyDataGrid() {
 
@@ -14,6 +14,8 @@ export default function ConfigurationStatusNotReadyDataGrid() {
     //links
     navigate,
   } = React.useContext(AdminLayoutContext)
+
+  const [isLoaded, setIsLoaded] = useState(false)
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
@@ -40,11 +42,11 @@ export default function ConfigurationStatusNotReadyDataGrid() {
       },
     },
     {
-      field: 'feature',
+      field: 'name',
       headerName: 'Feature',
       width: 350,
       renderCell: (params) => {
-
+        console.log('params,', params)
         return (
           <>
             <p onClick={() => navigate(params.row.url)}
@@ -53,7 +55,7 @@ export default function ConfigurationStatusNotReadyDataGrid() {
                 cursor: "pointer",
               }}
             >
-              {params.row.feature}
+              {params.row.name}
             </p>
             {/* navigate(`/portal/site/pages/${params.id}`); */}
           </>
@@ -89,43 +91,80 @@ export default function ConfigurationStatusNotReadyDataGrid() {
     },
   ];
 
-  const [rows, setRows] = useState([
-    {
-      url: "/portal/admin/settings/website/settings/colors",
-      feature: "Website Setting / Colors",
-      id: 43,
-      isReady: false
-    },
-  ])
+  const [rows, setRows] = useState([])
 
-  // useEffect(() => {
-  //   getPagesGraphQL({}).then(response => {
-  //     const data = response.data.backendSiteDesignerPage_getManyWithPagination || { rows: [] }
+  useEffect(() => {
+    getConfigurationNotReadyGraphQL().then(response => {
+      const data = response.data.backendProjectStatusLists_getConfigurationNotReady || { rows: [] }
 
-  //     setRows(data.rows)
+      setRows(data.map((row, i) => {
+        let url;
 
+        switch (row.name.toLowerCase()) {
+          case "organization":
+            url = "/portal/admin/settings/organization"
+            break;
+          case "background color":
+            url = "/portal/admin/settings/website/settings/background-color"
+            break;
+          case "colors":
+            url = "/portal/admin/settings/website/settings/colors"
+            break;
+          case "column":
+            url = "/portal/admin/settings/website/settings/column"
+            break;
+          case "font":
+            url = "/portal/admin/settings/website/settings/font"
+            break;
+          case "footer":
+            url = "/portal/admin/settings/website/settings/footer"
+            break;
+          case "header":
+            url = "/portal/admin/settings/website/settings/header"
+            break;
+          case "link":
+            url = "/portal/admin/settings/website/settings/link"
+            break;
+          case "browser":
+            url = "/portal/admin/settings/website/settings/browser-tabs"
+            break;
+        }
 
-  //   })
-  // }, [])
+        return {
+          id: i,
+          ...row,
+          url,
+        }
+      }))
+      setIsLoaded(true)
+
+    })
+  }, [])
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={25}
-        getRowClassName={(params, rowIndex) =>
-          rowIndex % 2 === 0 ? 'even-row' : 'odd-row'
-        }
-        rowHover
-        disableColumnFilter // Disable column filters
-        disableColumnMenu   // Disable column menu (sorting options)
-        disableSelectionOnClick // Disable row selection click feedback
+    <>
+      {isLoaded && (
+        <>
+          <div style={{ height: 400, width: '100%' }}>
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              pageSize={25}
+              getRowClassName={(params, rowIndex) =>
+                rowIndex % 2 === 0 ? 'even-row' : 'odd-row'
+              }
+              rowHover
+              disableColumnFilter // Disable column filters
+              disableColumnMenu   // Disable column menu (sorting options)
+              disableSelectionOnClick // Disable row selection click feedback
 
-      // onRowClick={(params) => {
-      //   navigate(`/portal/site/pages/${params.id}`);
-      // }}
-      />
-    </div>
+            // onRowClick={(params) => {
+            //   navigate(`/portal/site/pages/${params.id}`);
+            // }}
+            />
+          </div>
+        </>
+      )}
+    </>
   );
 }

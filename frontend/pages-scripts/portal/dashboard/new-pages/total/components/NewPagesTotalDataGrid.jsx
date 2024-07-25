@@ -4,9 +4,9 @@ import { IconButton, Menu, MenuItem } from '@mui/material';
 import MoreVert from '@mui/icons-material/MoreVert';
 import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
 import { useRouter } from 'next/navigation';
-import { getNewPagesDeletedGraphQL } from '../store/getNewPagesDeleted.store';
+import { getNewPagesTotalGraphQL } from '../store/getNewPagesTotal.store';
 
-export default function NewPagesDeletedDataGrid() {
+export default function NewPagesTotalDataGrid() {
 
   const {
     //status circles
@@ -84,8 +84,8 @@ export default function NewPagesDeletedDataGrid() {
   const [rows, setRows] = useState([])
 
   useEffect(() => {
-    getNewPagesDeletedGraphQL({}).then(response => {
-      const data = response.data.backendProjectStatusLists_getManyNewPagesDeletedWithPagination || { rows: [] }
+    getNewPagesTotalGraphQL({}).then(response => {
+      const data = response.data.backendProjectStatusLists_getManyNewPagesTotalWithPagination || { rows: [] }
 
       setRows(data.rows)
       setIsLoaded(true)

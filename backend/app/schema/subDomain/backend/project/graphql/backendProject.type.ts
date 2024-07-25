@@ -16,6 +16,7 @@ const backendProjectType = gql`
   type BackendProjectSummaryType {
     id: ID
     name: String
+    color: String
     startedAt: String
 
     # Configuration
@@ -76,12 +77,33 @@ const backendProjectType = gql`
 
   ${paginationType("BackendProjectPaginationType", "BackendProjectType")}
 
-  # type Query {
+  type Query {
     # current
-    # backendProject_getConfigurationChanged: 
+    backendProject_getCurrentSummary: BackendProjectSummaryType
+    backendProjectStatusLists_getConfigurationChanged: [BackendProjectConfigurationType]
+    backendProjectStatusLists_getConfigurationNotReady: [BackendProjectConfigurationType]
+    backendProjectStatusLists_getConfigurationReady: [BackendProjectConfigurationType]
+    backendProjectStatusLists_getManyDraftedPagesDeletedWithPagination(q: String, page: Int, pageSize: Int): BackendSiteDesignerPagePaginationType 
+    backendProjectStatusLists_getManyDraftedPagesNewWithPagination(q: String, page: Int, pageSize: Int): BackendSiteDesignerPagePaginationType 
+    backendProjectStatusLists_getManyDraftedPagesTotalWithPagination(q: String, page: Int, pageSize: Int): BackendSiteDesignerPagePaginationType 
+    backendProjectStatusLists_getManyNewPagesDeletedWithPagination(q: String, page: Int, pageSize: Int): BackendSiteDesignerPagePaginationType 
+    backendProjectStatusLists_getManyNewPagesNewWithPagination(q: String, page: Int, pageSize: Int): BackendSiteDesignerPagePaginationType 
+    backendProjectStatusLists_getManyNewPagesNotReadyWithPagination(q: String, page: Int, pageSize: Int): BackendSiteDesignerPagePaginationType 
+    backendProjectStatusLists_getManyNewPagesReadyWithPagination(q: String, page: Int, pageSize: Int): BackendSiteDesignerPagePaginationType 
+    backendProjectStatusLists_getManyNewPagesTotalWithPagination(q: String, page: Int, pageSize: Int): BackendSiteDesignerPagePaginationType 
+    backendProjectStatusLists_getManyPublishedPagesChangeWithPagination(q: String, page: Int, pageSize: Int): BackendSiteDesignerPagePaginationType 
+    backendProjectStatusLists_getManyPublishedPagesDeletedWithPagination(q: String, page: Int, pageSize: Int): BackendSiteDesignerPagePaginationType 
+    backendProjectStatusLists_getManyPublishedPagesNotReadyWithPagination(q: String, page: Int, pageSize: Int): BackendSiteDesignerPagePaginationType 
+    backendProjectStatusLists_getManyPublishedPagesReadyWithPagination(q: String, page: Int, pageSize: Int): BackendSiteDesignerPagePaginationType 
+    backendProjectStatusLists_getManyPublishedPagesTotalWithPagination(q: String, page: Int, pageSize: Int): BackendSiteDesignerPagePaginationType 
+  
+  
+  
+  
+  
     # BackendSiteDesignerPageType
     # backendProject_getManyWithPagination(q: String, page: Int, pageSize: Int): BackendProjectPaginationType
     #backendProject_getCurrentProject:
-  # }
+  }
 `;
 export default backendProjectType;

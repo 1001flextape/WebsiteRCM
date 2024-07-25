@@ -1,12 +1,12 @@
 import { callSubDomainApi } from "@/utils/graphql/backend-api"
 
-export const getNewPagesNotReadyGraphQL = ({ q, page, pageSize }) => {
+export const getNewPagesTotalGraphQL = ({ q, page, pageSize }) => {
   return new Promise(async (resolve) => {
 
     const response = await callSubDomainApi({
       query: `
 query ($q: String, $page: Int, $pageSize: Int) {
-  backendProjectStatusLists_getManyNewPagesNotReadyWithPagination(q: $q, page: $page, pageSize: $pageSize) {
+  backendProjectStatusLists_getManyNewPagesTotalWithPagination(q: $q, page: $page, pageSize: $pageSize) {
     count
     page
     pageSize

@@ -11,38 +11,47 @@ export default function getConfigurationNotReady(d: dependencies) {
         WITH backendSettingOrganization AS (
           SELECT 'Organization' AS name, id, "isReady"
           FROM public."backendSettingOrganization"
+          WHERE "isReady" IS NOT TRUE
         ),
         backendSettingBackgroundColor AS (
           SELECT 'Background Color' AS name, id, "isReady"
           FROM public."backendSettingBackgroundColor"
+          WHERE "isReady" IS NOT TRUE
         ),
         backendSettingColors AS (
           SELECT 'Colors' AS name, id, "isReady"
           FROM public."backendSettingColors"
+          WHERE "isReady" IS NOT TRUE
         ),
         backendSettingColumn AS (
           SELECT 'Column' AS name, id, "isReady"
           FROM public."backendSettingColumn"
+          WHERE "isReady" IS NOT TRUE
         ),
         backendSettingFont AS (
           SELECT 'Font' AS name, id, "isReady"
           FROM public."backendSettingFont"
+          WHERE "isReady" IS NOT TRUE
         ),
         backendSettingFooter AS (
           SELECT 'Footer' AS name, id, "isReady"
           FROM public."backendSettingFooter"
+          WHERE "isReady" IS NOT TRUE
         ),
         backendSettingHeader AS (
           SELECT 'Header' AS name, id, "isReady"
           FROM public."backendSettingHeader"
+          WHERE "isReady" IS NOT TRUE
         ),
         backendSettingLink AS (
           SELECT 'Link' AS name, id, "isReady"
           FROM public."backendSettingLink"
+          WHERE "isReady" IS NOT TRUE
         ),
         backendSettingBrowser AS (
           SELECT 'Browser' AS name, id, "isReady"
           FROM public."backendSettingSite"
+          WHERE "isReady" IS NOT TRUE
         )
         SELECT * FROM backendSettingOrganization
         UNION ALL

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import AdminLayout from '@/layouts/admin/layout';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -9,7 +9,15 @@ import DraftedPagesDeletedDataGrid from '@/pages-scripts/portal/dashboard/drafte
 
 
 function Page() {
-  const { navigate } = useContext(AdminLayoutContext)
+  const { navigate, setTabs } = useContext(AdminLayoutContext)
+  // getDashboardGraphQL
+
+  useEffect(() => {
+    setTabs(prevState => ({
+      ...prevState,
+      tabs: [],
+    }))
+  }, [])
 
   return (
     <Box sx={{ flexGrow: 1, width: '100%', maxWidth: '900px', m: 'auto', mt: 2 }}>

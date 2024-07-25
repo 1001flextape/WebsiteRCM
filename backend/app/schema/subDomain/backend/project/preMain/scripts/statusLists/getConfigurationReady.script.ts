@@ -68,7 +68,8 @@ export default function getConfigurationReady(d: dependencies) {
       const data = Object.entries(results[0]).map(([name, count]) => ({
         name,
         count: Number(count),
-      })).filter(({name, count}) => count > 0);
+        isReady: true,
+      })).filter(({ count }) => count > 0);
 
       return {
         success: true,

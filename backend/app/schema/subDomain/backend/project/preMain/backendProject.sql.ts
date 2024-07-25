@@ -5,6 +5,7 @@ import getManyWithPagination from "./scripts/projectSql/getManyWithPagination.sc
 import getMany from "./scripts/projectSql/getMany.script"
 import getOneById from "./scripts/projectSql/getOneById.script"
 import updateOne from "./scripts/projectSql/updateOne.script"
+import getCurrentProject from "./scripts/projectSql/getCurrentProject.script"
 
 export default function makeBackendProjectSql(d: dependencies) {
 
@@ -14,6 +15,7 @@ export default function makeBackendProjectSql(d: dependencies) {
     getManyWithPagination: getManyWithPagination(d),
     getMany: getMany(d),
     getOneById: getOneById(d),
+    getCurrentProject: getCurrentProject(d),
     updateOne: updateOne(d),
   }
 }
