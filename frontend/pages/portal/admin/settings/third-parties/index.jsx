@@ -212,29 +212,6 @@ const Page = () => {
           </Paper>
           <br />
 
-          {/* ... (similar modifications for Email Services and Fonts Services) */}
-
-          <Paper elevation={3}>
-            <List sx={{ p: 0 }}>
-              <HeaderRow label="Fonts Services" />
-            </List>
-            <div className="admin-card">
-              <Button
-                variant="outlined"
-                color="primary"
-                startIcon={<AddIcon />}
-                onClick={() => console.log('New button clicked')}
-              >
-                New
-              </Button>
-            </div>
-            <List>
-              {fontServicesItems.map((service, index) => (
-                <ServiceListItem key={index} service={service} onDelete={() => console.log('Delete button clicked')} />
-              ))}
-            </List>
-          </Paper>
-
 
           <br />
         </>
