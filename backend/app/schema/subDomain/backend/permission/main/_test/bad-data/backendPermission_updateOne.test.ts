@@ -21,7 +21,7 @@ describe("test backendSiteDesigner_pageTemplate.main.js with bad data.", () => {
 
   }, 100000)
 
-  test("backendPermission_updateOne_error0001: works", async () => {
+  test("backendPermission_updateOne_error:0001: works", async () => {
     const permissionMain = makeBackendPermissionMain(d)
 
     const updateOne = await permissionMain.updateOne({
@@ -30,10 +30,10 @@ describe("test backendSiteDesigner_pageTemplate.main.js with bad data.", () => {
     })
 
     expect(updateOne.success).toBe(false)
-    expect(updateOne.errorIdentifier).toEqual("backendPermission_updateOne_error0001")
+    expect(updateOne.errorIdentifier).toEqual("backendPermission_updateOne_error:0001")
   })
 
-  test("backendPermission_updateOne_error0002: works", async () => {
+  test("backendPermission_updateOne_error:0002: works", async () => {
     const permissionMain = makeBackendPermissionMain(d)
 
     const updateOne = await permissionMain.updateOne({
@@ -42,10 +42,10 @@ describe("test backendSiteDesigner_pageTemplate.main.js with bad data.", () => {
     })
 
     expect(updateOne.success).toBe(false)
-    expect(updateOne.errorIdentifier).toEqual("backendPermission_updateOne_error0002")
+    expect(updateOne.errorIdentifier).toEqual("backendPermission_updateOne_error:0002")
   })
 
-  test("backendPermission_updateOne_error0003: works", async () => {
+  test("backendPermission_updateOne_error:0003: works", async () => {
     const permissionMain = makeBackendPermissionMain(d)
 
     const deleteOne = await permissionMain.updateOne({
@@ -54,10 +54,10 @@ describe("test backendSiteDesigner_pageTemplate.main.js with bad data.", () => {
     })
 
     expect(deleteOne.success).toBe(false)
-    expect(deleteOne.errorIdentifier).toEqual("backendPermission_updateOne_error0003")
+    expect(deleteOne.errorIdentifier).toEqual("backendPermission_updateOne_error:0003")
   })
 
-  test("backendPermission_updateOne_error0004: works", async () => {
+  test("backendPermission_updateOne_error:0004: works", async () => {
     const permissionMain = makeBackendPermissionMain(d)
 
     const updateOne = await permissionMain.updateOne({
@@ -66,10 +66,10 @@ describe("test backendSiteDesigner_pageTemplate.main.js with bad data.", () => {
     })
 
     expect(updateOne.success).toBe(false)
-    expect(updateOne.errorIdentifier).toEqual("backendPermission_updateOne_error0004")
+    expect(updateOne.errorIdentifier).toEqual("backendPermission_updateOne_error:0004")
   })
 
-  test("backendPermission_updateOne_error0005: works", async () => {
+  test("backendPermission_updateOne_error:0005: works", async () => {
     const permissionMain = makeBackendPermissionMain(d)
 
     const updateOne = await permissionMain.updateOne({
@@ -78,10 +78,10 @@ describe("test backendSiteDesigner_pageTemplate.main.js with bad data.", () => {
     })
 
     expect(updateOne.success).toBe(false)
-    expect(updateOne.errorIdentifier).toEqual("backendPermission_updateOne_error0005")
+    expect(updateOne.errorIdentifier).toEqual("backendPermission_updateOne_error:0005")
   })
 
-  test("backendPermission_updateOne_error0006: works", async () => {
+  test("backendPermission_updateOne_error:0006: works", async () => {
     const permissionMain = makeBackendPermissionMain(d)
 
     const updateOne = await permissionMain.updateOne({
@@ -89,7 +89,7 @@ describe("test backendSiteDesigner_pageTemplate.main.js with bad data.", () => {
       name: "test: for updating! 12345",
     })
     expect(updateOne.success).toBe(false)
-    expect(updateOne.errorIdentifier).toEqual("backendPermission_updateOne_error0006")
+    expect(updateOne.errorIdentifier).toEqual("backendPermission_updateOne_error:0006")
   })
 
   afterAll(async () => {

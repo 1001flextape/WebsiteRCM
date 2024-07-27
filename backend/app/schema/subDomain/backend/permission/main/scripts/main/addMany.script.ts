@@ -12,7 +12,7 @@ type input = {
 }
 
 export default function addMany(d: dependencies) {
-  return async (permissionArray: input[]): Promise<returningSuccessObj<Model<backendPermission>[] | null>> => {
+  return async (args: input[]): Promise<returningSuccessObj<Model<backendPermission>[] | null>> => {
 
     const permissionSql = makeBackendPermissionSql(d);
     const permissionValidation = makeBackendPermissionValidation(d);
@@ -21,26 +21,26 @@ export default function addMany(d: dependencies) {
     // Validations
     // ===================================
 
-    if (!permissionArray || permissionArray?.length === 0) {
+    if (!args || args?.length === 0) {
       return endMainFromError({
         hint: "No data was provided.",
-        errorIdentifier: "backendPermission_addMany_error0001",
+        errorIdentifier: "backendPermission_addMany_error:0001",
       })
     }
 
-    if (permissionArray.length > 50) {
+    if (args.length > 50) {
       return endMainFromError({
         hint: "Only 50 records max can be processed at once.",
-        errorIdentifier: "backendPermission_addMany_error0002",
+        errorIdentifier: "backendPermission_addMany_error:0002",
       })
     }
 
-    const names = permissionArray.map(p => p.name).filter(name => name)
+    const names = args.map(p => p.name).filter(name => name)
 
-    if (names.length !== permissionArray.length) {
+    if (names.length !== args.length) {
       return endMainFromError({
         hint: "Datapoint 'name' is missing.",
-        errorIdentifier: "backendPermission_addMany_error0003"
+        errorIdentifier: "backendPermission_addMany_error:0003"
       })
     }
 
@@ -52,7 +52,7 @@ export default function addMany(d: dependencies) {
     if (!namesWithinLength.result) {
       return endMainFromError({
         hint: "Datapoint 'name' is too long. 50 character max.",
-        errorIdentifier: "backendPermission_addMany_error0004"
+        errorIdentifier: "backendPermission_addMany_error:0004"
       })
     }
 
@@ -63,7 +63,7 @@ export default function addMany(d: dependencies) {
     if (areNamesTaken.result) {
       return endMainFromError({
         hint: "Datapoint 'name' is already taken. Please select a new name.",
-        errorIdentifier: "backendPermission_addMany_error0005"
+        errorIdentifier: "backendPermission_addMany_error:0005"
       })
     }
 
@@ -71,9 +71,7 @@ export default function addMany(d: dependencies) {
     // Sql
     // ===================================    
 
-    const response = await permissionSql.addMany({
-      permissionNamesArray: permissionArray,
-    }).catch(error => d.errorHandler(error, d.loggers))
+    const response = await permissionSql.addMany(args).catch(error => d.errorHandler(error, d.loggers))
 
     return response
   }

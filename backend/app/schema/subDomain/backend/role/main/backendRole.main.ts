@@ -5,18 +5,20 @@ import addOne from "./scripts/main/addOne.script"
 import deleteOne from "./scripts/main/deleteOne.script"
 import getManyWithPagination from "./scripts/main/getManyWithPagination.script"
 import getOneById from "./scripts/main/getOneById.script"
+import getOneRealTime from "./scripts/main/getOneRealTime.script"
 import updateOne from "./scripts/main/updateOne.script"
+import updateOneFromUI from "./scripts/main/updateOneFromUI.script"
 
 export default function makeBackendRoleMain(d: dependencies) {
-  const validators = makeBackendRoleValidation(d)
 
   return {
     addMany: addMany(d),
     addOne: addOne(d),
     deleteOne: deleteOne(d),
     getManyWithPagination: getManyWithPagination(d),
+    getOneRealTime: getOneRealTime(d),
     getOneById: getOneById(d),
     updateOne: updateOne(d),
-    ...validators
+    updateOneFromUI: updateOneFromUI(d),
   }
 }

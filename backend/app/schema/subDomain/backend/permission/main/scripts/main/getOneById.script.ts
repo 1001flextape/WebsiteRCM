@@ -24,7 +24,7 @@ export default function getOneById(d: dependencies) {
     if (!args.id) {
       return endMainFromError({
         hint: "Datapoint 'id' is not UUID format.",
-        errorIdentifier: "backendPermission_getOneById_error0001"
+        errorIdentifier: "backendPermission_getOneById_error:0001"
       })
     }
 
@@ -35,7 +35,7 @@ export default function getOneById(d: dependencies) {
     if (!isIdStringFromUuid.result) {
       return endMainFromError({
         hint: "Datapoint 'id' is not UUID format.",
-        errorIdentifier: "backendPermission_getOneById_error0002"
+        errorIdentifier: "backendPermission_getOneById_error:0002"
       })
     }
 

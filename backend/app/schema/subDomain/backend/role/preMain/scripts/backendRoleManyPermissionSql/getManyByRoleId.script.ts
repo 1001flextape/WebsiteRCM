@@ -7,7 +7,7 @@ type input = {
   roleId: string
 }
 
-export default function getAll(d: dependencies) {
+export default function getManyByRoleId(d: dependencies) {
 
   const db = d.subDomainDb.models;
 

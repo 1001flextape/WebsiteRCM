@@ -1,55 +1,45 @@
 // Libraries
-import React, { useContext, useState } from 'react'
-import { postNewPageGraphQL } from '../store/postNewPage.store';
+import React, { useContext } from 'react'
+import { createNewRoleGraphQL } from '../store/createNewRole.store';
 import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
 
-export const SiteDesignerPagesContext = React.createContext();
+export const RoleContext = React.createContext();
 
-export function SiteDesignerPagesProvider({ children }) {
-
+export function RoleProvider({ children }) {
   const { navigate } = useContext(AdminLayoutContext)
 
-  const [isNewPageModalOpen, setIsNewPageModalOpen] = useState(false)
-  const [slug, setSlug] = useState("")
-  const [hasHomePage, setHasHomePage] = useState(false)
+  const [newRoleName, setNewRoleName] = React.useState("")
 
-  const onCreatePage = ({ url }) => {
-    postNewPageGraphQL({
-      slug: url,
-    }).then(response => {
-      const data = response.data.backendSiteDesignerPage_addOne
+  const [role, setRole] = React.useState({
 
-      navigate(`/portal/site/pages/${data.id}`)
+    // modals
+    modal_isNewRoleModalOpened: false,
+    modal_isDeleteRoleModalOpened: false,
+  })
 
-    })
-  }
+  const createRole = () => {
+    if (newRoleName.length > 0) {
+      createNewRoleGraphQL({
+        name: newRoleName,
+      }).then(response => {
+        const data = response.data.backendRole_addOne
 
-  const createPage = () => {
-    if (slug.trim() !== '') {
-      onCreatePage({
-        url: `/p/${slug}`
+        navigate(`/portal/admin/user-management/roles/${data.id}`)
       })
-
     }
   }
 
-  const createHomePage = () => {
-    onCreatePage({
-      url: "/"
-    })
-  }
 
   return (
-    <SiteDesignerPagesContext.Provider value={{
-      isNewPageModalOpen, setIsNewPageModalOpen,
-      slug, setSlug,
-      hasHomePage,
-      createPage,
-      createHomePage,
+    <RoleContext.Provider value={{
+      role, setRole,
+      newRoleName, setNewRoleName,
+      createRole,
+
     }}>
       {children}
-    </SiteDesignerPagesContext.Provider>
+    </RoleContext.Provider>
   )
 }
 
-export default SiteDesignerPagesProvider
+export default RoleProvider

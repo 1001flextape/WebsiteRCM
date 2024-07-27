@@ -9,19 +9,27 @@ describe("test backendRole.sql.js", () => {
   let recordId: string
 
   beforeAll(async () => {
-    
+
     d = await makeDTestObj()
     d.domainTransaction = await d.domainDb.transaction()
     d.subDomainTransaction = await d.subDomainDb.transaction()
 
   }, 100000)
 
-  test("getManyWithPagination: works.", async () => {
+  test("getManyWithPagination: works with no data..", async () => {
     const roleSql = makeBackendRoleSql(d)
 
     const roles = await roleSql.getManyWithPagination({})
 
-    expect(roles.success).toEqual(true)
+    expect(roles.data.rows.length).toBe(0)
+  })
+  
+  test("getMany: works with no data.", async () => {
+    const roleSql = makeBackendRoleSql(d)
+
+    const roles = await roleSql.getMany()
+
+    expect(roles.data.length).toBe(4)
   })
 
   test("addOne: backendRoles can add record.", async () => {
@@ -66,22 +74,36 @@ describe("test backendRole.sql.js", () => {
   test("addMany: backendRoles can add many records at once.", async () => {
     const roleSql = makeBackendRoleSql(d)
 
-    const addManyRoles = await roleSql.addMany({
-      roleNamesArray: [
-        {
-          name: "blah1",
-        },
-        {
-          name: "blah2",
-        },
-        {
-          name: "blah3",
-        },
-      ],
-    })
+    const addManyRoles = await roleSql.addMany([
+      {
+        name: "blah1",
+      },
+      {
+        name: "blah2",
+      },
+      {
+        name: "blah3",
+      },
+    ])
     expect(addManyRoles.data.filter(role => role.dataValues.name === "blah1").length).toBe(1)
     expect(addManyRoles.data.filter(role => role.dataValues.name === "blah2").length).toBe(1)
     expect(addManyRoles.data.filter(role => role.dataValues.name === "blah3").length).toBe(1)
+  })
+
+  test("getManyWithPagination: works with data.", async () => {
+    const roleSql = makeBackendRoleSql(d)
+
+    const roles = await roleSql.getManyWithPagination({})
+
+    expect(roles.data.rows.length).toBe(3)
+  })
+
+  test("getMany: works with data.", async () => {
+    const roleSql = makeBackendRoleSql(d)
+
+    const roles = await roleSql.getMany()
+
+    expect(roles.data.length).toBe(7)
   })
 
   afterAll(async () => {

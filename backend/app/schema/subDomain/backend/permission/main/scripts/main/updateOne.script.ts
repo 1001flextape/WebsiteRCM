@@ -25,7 +25,7 @@ export default function updateOne(d: dependencies) {
     if (!args.id) {
       return endMainFromError({
         hint: "Datapoint 'id' is not UUID format.",
-        errorIdentifier: "backendPermission_updateOne_error0001"
+        errorIdentifier: "backendPermission_updateOne_error:0001"
       })
     }
 
@@ -36,7 +36,7 @@ export default function updateOne(d: dependencies) {
     if (!isIdStringFromUuid.result) {
       return endMainFromError({
         hint: "Datapoint 'id' is not UUID format.",
-        errorIdentifier: "backendPermission_updateOne_error0002"
+        errorIdentifier: "backendPermission_updateOne_error:0002"
       })
     }
 
@@ -47,21 +47,21 @@ export default function updateOne(d: dependencies) {
     if (!isIdValid.result) {
       return endMainFromError({
         hint: "Datapoint 'id' is not a valid UUID.",
-        errorIdentifier: "backendPermission_updateOne_error0003"
+        errorIdentifier: "backendPermission_updateOne_error:0003"
       })
     }
 
     if (!args.name) {
       return endMainFromError({
         hint: "Datapoint 'name' is missing.",
-        errorIdentifier: "backendPermission_updateOne_error0004"
+        errorIdentifier: "backendPermission_updateOne_error:0004"
       })
     }
 
     if (args.name.length > 50) {
       return endMainFromError({
         hint: "Datapoint 'name' is too long. 50 character max.",
-        errorIdentifier: "backendPermission_updateOne_error0005"
+        errorIdentifier: "backendPermission_updateOne_error:0005"
       })
     }
 
@@ -72,7 +72,7 @@ export default function updateOne(d: dependencies) {
     if (isNameTaken.result) {
       return endMainFromError({
         hint: "Datapoint 'name' is already taken. Please select a new name.",
-        errorIdentifier: "backendPermission_updateOne_error0006"
+        errorIdentifier: "backendPermission_updateOne_error:0006"
       })
     }
 

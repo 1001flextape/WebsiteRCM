@@ -1,7 +1,7 @@
 'use client'
 
 //library
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 
 // Mine
 import tabsJson from '@/pages-scripts/portal/admin/tabs.json';
@@ -16,16 +16,20 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import UserManagementTabs from '@/pages-scripts/portal/admin/user-management/tabs/tabs';
 import RoleDataGrid from '@/pages-scripts/portal/admin/user-management/roles/index/components/RoleDataGrid';
+import RoleProvider, { RoleContext } from '@/pages-scripts/portal/admin/user-management/roles/index/context/Roles.context';
+import NewRoleModal from '@/pages-scripts/portal/admin/user-management/roles/index/modals/NewRole.modal';
 
 const Page = () => {
-  const { setTabs } = React.useContext(AdminLayoutContext)
-  const settingsTabsContext = React.useContext(UserManagementTabsContext)
+  const { setTabs } = useContext(AdminLayoutContext)
+  const settingsTabsContext = useContext(UserManagementTabsContext)
+
+  const {
+    role, setRole,
+  } = useContext(RoleContext)
 
   const [isLoaded, setIsLoaded] = useState(false)
 
-
   const { navigate } = React.useContext(AdminLayoutContext)
-
 
   React.useEffect(() => {
     setTabs(prevState => ({
@@ -44,40 +48,60 @@ const Page = () => {
 
   }, [])
 
+  const openNewRoleModal = () => {
+    setRole(prevState => ({
+      ...prevState,
+      modal_isNewRoleModalOpened: true,
+    }))
+  }
 
   return (
-
-    <Box sx={{
-      flexGrow: 1,
-      width: "100%",
-      maxWidth: "900px",
-      m: "auto"
-    }}
-      component="form"
-      noValidate
-    // onSubmit={handleSubmit}
-    >
-
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <UserManagementTabs />
-      </Box>
-
+    <>
       {isLoaded && (
         <>
-          <br />
-          <Button variant="contained" color="primary">
-            New
-          </Button>
-          <br />
-          <br />
+          <Box sx={{
+            flexGrow: 1,
+            width: "100%",
+            maxWidth: "900px",
+            m: "auto"
+          }}
+            component="form"
+            noValidate
+          // onSubmit={handleSubmit}
+          >
 
-          <Paper sx={{ p: 0 }} className='admin-card'>
-            <RoleDataGrid />
-          </Paper>
-          <br />
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <UserManagementTabs />
+            </Box>
+
+            <br />
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={openNewRoleModal}
+            >
+              New
+            </Button>
+            <br />
+            <br />
+
+            <Paper sx={{ p: 0 }} className='admin-card'>
+              <RoleDataGrid />
+            </Paper>
+            <br />
+          </Box>
+          <NewRoleModal
+            isOpened={role.modal_isNewRoleModalOpened}
+            onClose={() => {
+              setRole(prevState => ({
+                ...prevState,
+                modal_isNewRoleModalOpened: false,
+              }))
+            }}
+          />
         </>
       )}
-    </Box>
+    </>
   )
 }
 
@@ -86,7 +110,9 @@ Page.getLayout = function getLayout(page) {
     <AdminLayout
       hasNoEntity
     >
-      {page}
+      <RoleProvider>
+        {page}
+      </RoleProvider>
     </AdminLayout>
   )
 }

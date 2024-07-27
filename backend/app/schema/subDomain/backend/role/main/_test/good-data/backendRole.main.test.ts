@@ -9,7 +9,7 @@ describe("test backendRole.main.js", () => {
   let recordId: string
 
   beforeAll(async () => {
-    
+
     d = await makeDTestObj()
     d.domainTransaction = await d.domainDb.transaction()
     d.subDomainTransaction = await d.subDomainDb.transaction()
@@ -21,7 +21,7 @@ describe("test backendRole.main.js", () => {
 
     const roles = await roleMain.getManyWithPagination({})
 
-    expect(roles.success).toEqual(true)
+    expect(roles.data.rows.length).toBe(0)
   })
 
   test("addOne: backendRoles can add record.", async () => {
@@ -80,6 +80,14 @@ describe("test backendRole.main.js", () => {
     expect(addManyRoles.data.filter(role => role.dataValues.name === "blah1").length).toBe(1)
     expect(addManyRoles.data.filter(role => role.dataValues.name === "blah2").length).toBe(1)
     expect(addManyRoles.data.filter(role => role.dataValues.name === "blah3").length).toBe(1)
+  })
+
+  test("getManyWithPagination: works with rows.", async () => {
+    const roleMain = makeBackendRoleMain(d)
+
+    const roles = await roleMain.getManyWithPagination({})
+
+    expect(roles.data.rows.length).toBe(3)
   })
 
   afterAll(async () => {

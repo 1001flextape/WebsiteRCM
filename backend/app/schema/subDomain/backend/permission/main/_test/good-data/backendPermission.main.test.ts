@@ -1,15 +1,15 @@
-import makeBackendPermissionMain from "../../backendPermission.main";
-import { makeDTestObj } from "../../../../../../utils/dependencies/makeTestDependency";
+import makeBackendPermissionMain from "../../backendPermission.main"
 import { dependencies } from "../../../../../../utils/dependencies/type/dependencyInjection.types";
-
+import { makeDTestObj } from "../../../../../../utils/dependencies/makeTestDependency";
 jest.setTimeout(100000)
 
 describe("test backendPermission.main.js", () => {
   let d: dependencies;
   let recordId: string;
+  let manyRecordIds: string[];
 
   beforeAll(async () => {
-    
+
     d = await makeDTestObj()
     d.domainTransaction = await d.domainDb.transaction()
     d.subDomainTransaction = await d.subDomainDb.transaction()
@@ -20,6 +20,7 @@ describe("test backendPermission.main.js", () => {
     const permissionMain = makeBackendPermissionMain(d)
 
     const permissions = await permissionMain.getManyWithPagination({})
+    // This table gets seeder data so just checking for success
     expect(permissions.success).toEqual(true);
   })
 
@@ -69,20 +70,34 @@ describe("test backendPermission.main.js", () => {
     const permissionMain = makeBackendPermissionMain(d)
 
     const addManyPermissions = await permissionMain.addMany([
-      {
-        name: "blah1",
-      },
-      {
-        name: "blah2",
-      },
-      {
-        name: "blah3",
-      },
-    ])
+        {
+          name: "blah1",
+        },
+        {
+          name: "blah2",
+        },
+        {
+          name: "blah3",
+        },
+      ])
+    manyRecordIds = addManyPermissions.data.map(p => p.dataValues.id)
+
     expect(addManyPermissions.data.filter(permission => permission.dataValues.name === "blah1").length).toBe(1)
     expect(addManyPermissions.data.filter(permission => permission.dataValues.name === "blah2").length).toBe(1)
     expect(addManyPermissions.data.filter(permission => permission.dataValues.name === "blah3").length).toBe(1)
   })
+
+  test("getManyByIds: backendPermissions can get many records at once by ids.", async () => {
+    const permissionMain = makeBackendPermissionMain(d)
+
+    const getManyByIds = await permissionMain.getManyByIds(manyRecordIds)
+
+    expect(getManyByIds.data.filter(permission => permission.dataValues.name === "blah1").length).toBe(1)
+    expect(getManyByIds.data.filter(permission => permission.dataValues.name === "blah2").length).toBe(1)
+    expect(getManyByIds.data.filter(permission => permission.dataValues.name === "blah3").length).toBe(1)
+  })
+
+// getManyByIds
 
   afterAll(async () => {
     await d.domainTransaction.rollback()

@@ -14,7 +14,7 @@ describe("test backendPermission.main.js with bad data.", () => {
 
   }, 100000)
 
-  test("backendPermission_deleteOne_error0001: works", async () => {
+  test("backendPermission_deleteOne_error:0001: works", async () => {
     const permissionMain = makeBackendPermissionMain(d)
 
     const deleteOne = await permissionMain.deleteOne({
@@ -22,10 +22,10 @@ describe("test backendPermission.main.js with bad data.", () => {
     })
 
     expect(deleteOne.success).toBe(false)
-    expect(deleteOne.errorIdentifier).toEqual("backendPermission_deleteOne_error0001")
+    expect(deleteOne.errorIdentifier).toEqual("backendPermission_deleteOne_error:0001")
   })
 
-  test("backendPermission_deleteOne_error0002: works", async () => {
+  test("backendPermission_deleteOne_error:0002: works", async () => {
     const permissionMain = makeBackendPermissionMain(d)
 
     const deleteOne = await permissionMain.deleteOne({
@@ -33,10 +33,10 @@ describe("test backendPermission.main.js with bad data.", () => {
     })
 
     expect(deleteOne.success).toBe(false)
-    expect(deleteOne.errorIdentifier).toEqual("backendPermission_deleteOne_error0002")
+    expect(deleteOne.errorIdentifier).toEqual("backendPermission_deleteOne_error:0002")
   })
 
-  test("backendPermission_deleteOne_error0003: works", async () => {
+  test("backendPermission_deleteOne_error:0003: works", async () => {
     const permissionMain = makeBackendPermissionMain(d)
 
     const deleteOne = await permissionMain.deleteOne({
@@ -44,7 +44,7 @@ describe("test backendPermission.main.js with bad data.", () => {
     })
 
     expect(deleteOne.success).toBe(false)
-    expect(deleteOne.errorIdentifier).toEqual("backendPermission_deleteOne_error0003")
+    expect(deleteOne.errorIdentifier).toEqual("backendPermission_deleteOne_error:0003")
   })
 
   afterAll(async () => {

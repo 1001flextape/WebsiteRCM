@@ -24,7 +24,7 @@ export default function deleteOne(d: dependencies) {
     if (!args.id) {
       return endMainFromError({
         hint: "Datapoint 'id' is not UUID format.",
-        errorIdentifier: "backendPermission_deleteOne_error0001"
+        errorIdentifier: "backendPermission_deleteOne_error:0001"
       })
     }
 
@@ -35,7 +35,7 @@ export default function deleteOne(d: dependencies) {
     if (!isIdStringFromUuid.result) {
       return endMainFromError({
         hint: "Datapoint 'id' is not UUID format.",
-        errorIdentifier: "backendPermission_deleteOne_error0002"
+        errorIdentifier: "backendPermission_deleteOne_error:0002"
       })
     }
 
@@ -46,7 +46,7 @@ export default function deleteOne(d: dependencies) {
     if (!isIdValid.result) {
       return endMainFromError({
         hint: "Datapoint 'id' is not a valid UUID.",
-        errorIdentifier: "backendPermission_deleteOne_error0003"
+        errorIdentifier: "backendPermission_deleteOne_error:0003"
       })
     }
 

@@ -23,13 +23,13 @@ export default function addOne(d: dependencies) {
     if (!args.name) {
       return endMainFromError({
         hint: "Datapoint 'name' is missing.",
-        errorIdentifier: "backendPermission_addOne_error0001"
+        errorIdentifier: "backendPermission_addOne_error:0001"
       })
     }
     if (args.name.length > 50) {
       return endMainFromError({
         hint: "Datapoint 'name' is too long. 50 character max.",
-        errorIdentifier: "backendPermission_addOne_error0002"
+        errorIdentifier: "backendPermission_addOne_error:0002"
       })
     }
 
@@ -40,7 +40,7 @@ export default function addOne(d: dependencies) {
     if (isNameTaken.result) {
       return endMainFromError({
         hint: "Datapoint 'name' is already taken. Please select a new name.",
-        errorIdentifier: "backendPermission_addOne_error0003"
+        errorIdentifier: "backendPermission_addOne_error:0003"
       })
     }
 

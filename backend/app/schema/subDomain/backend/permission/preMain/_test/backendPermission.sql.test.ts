@@ -6,6 +6,7 @@ jest.setTimeout(100000)
 describe("test backendPermission.sql.js", () => {
   let d: dependencies;
   let recordId: string;
+  let manyRecordIds: string[];
 
   beforeAll(async () => {
 
@@ -19,6 +20,7 @@ describe("test backendPermission.sql.js", () => {
     const permissionSql = makeBackendPermissionSql(d)
 
     const permissions = await permissionSql.getManyWithPagination({})
+    // This table gets seeder data so just checking for success
     expect(permissions.success).toEqual(true);
   })
 
@@ -67,23 +69,35 @@ describe("test backendPermission.sql.js", () => {
   test("addMany: backendPermissions can add many records at once.", async () => {
     const permissionSql = makeBackendPermissionSql(d)
 
-    const addManyPermissions = await permissionSql.addMany({
-      permissionNamesArray: [
-        {
-          name: "blah1",
-        },
-        {
-          name: "blah2",
-        },
-        {
-          name: "blah3",
-        },
-      ],
-    })
+    const addManyPermissions = await permissionSql.addMany([
+      {
+        name: "blah1",
+      },
+      {
+        name: "blah2",
+      },
+      {
+        name: "blah3",
+      },
+    ])
+    manyRecordIds = addManyPermissions.data.map(p => p.dataValues.id)
+
     expect(addManyPermissions.data.filter(permission => permission.dataValues.name === "blah1").length).toBe(1)
     expect(addManyPermissions.data.filter(permission => permission.dataValues.name === "blah2").length).toBe(1)
     expect(addManyPermissions.data.filter(permission => permission.dataValues.name === "blah3").length).toBe(1)
   })
+
+  test("getManyByIds: backendPermissions can get many records at once by ids.", async () => {
+    const permissionSql = makeBackendPermissionSql(d)
+
+    const getManyByIds = await permissionSql.getManyByIds(manyRecordIds)
+
+    expect(getManyByIds.data.filter(permission => permission.dataValues.name === "blah1").length).toBe(1)
+    expect(getManyByIds.data.filter(permission => permission.dataValues.name === "blah2").length).toBe(1)
+    expect(getManyByIds.data.filter(permission => permission.dataValues.name === "blah3").length).toBe(1)
+  })
+
+  // getManyByIds
 
   afterAll(async () => {
     await d.domainTransaction.rollback()

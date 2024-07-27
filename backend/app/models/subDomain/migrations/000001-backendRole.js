@@ -15,12 +15,9 @@ async function up({ context: queryInterface }) {
       allowNull: false,
       type: sequelize.DATE
     },
-    userId: {
-      type: sequelize.UUID,
-      references: {
-        model: 'backendUser',
-        key: 'id',
-      }
+    isDefault: {
+      type: sequelize.BOOLEAN,
+      default: false,  
     },
     updatedAt: {
       allowNull: false,

@@ -9,19 +9,21 @@ describe("test backendPermission.main.js with bad data.", () => {
   beforeAll(async () => {
     
     d = await makeDTestObj()
+    d.domainTransaction = await d.domainDb.transaction()
+    d.subDomainTransaction = await d.subDomainDb.transaction()
 
   }, 100000)
 
-  test("backendPermission_addMany_error0001: works", async () => {
+  test("backendPermission_addMany_error:0001: works", async () => {
     const backendPermissionMain = makeBackendPermissionMain(d)
 
     const addMany = await backendPermissionMain.addMany(null)
 
     expect(addMany.success).toBe(false)
-    expect(addMany.errorIdentifier).toEqual("backendPermission_addMany_error0001")
+    expect(addMany.errorIdentifier).toEqual("backendPermission_addMany_error:0001")
   })
 
-  test("backendPermission_addMany_error0002: works", async () => {
+  test("backendPermission_addMany_error:0002: works", async () => {
     const backendPermissionMain = makeBackendPermissionMain(d)
 
     const addMany = await backendPermissionMain.addMany(new Array(51).map((element, i) => ({
@@ -29,10 +31,10 @@ describe("test backendPermission.main.js with bad data.", () => {
     })))
 
     expect(addMany.success).toBe(false)
-    expect(addMany.errorIdentifier).toEqual("backendPermission_addMany_error0002")
+    expect(addMany.errorIdentifier).toEqual("backendPermission_addMany_error:0002")
   })
 
-  test("backendPermission_addMany_error0003: works", async () => {
+  test("backendPermission_addMany_error:0003: works", async () => {
     const backendPermissionMain = makeBackendPermissionMain(d)
 
     const addMany = await backendPermissionMain.addMany([
@@ -45,10 +47,10 @@ describe("test backendPermission.main.js with bad data.", () => {
     ])
 
     expect(addMany.success).toBe(false)
-    expect(addMany.errorIdentifier).toEqual("backendPermission_addMany_error0003")
+    expect(addMany.errorIdentifier).toEqual("backendPermission_addMany_error:0003")
   })
 
-  test("backendPermission_addMany_error0004: works", async () => {
+  test("backendPermission_addMany_error:0004: works", async () => {
     const backendPermissionMain = makeBackendPermissionMain(d)
 
     const addMany = await backendPermissionMain.addMany([
@@ -58,10 +60,10 @@ describe("test backendPermission.main.js with bad data.", () => {
     ])
 
     expect(addMany.success).toBe(false)
-    expect(addMany.errorIdentifier).toEqual("backendPermission_addMany_error0004")
+    expect(addMany.errorIdentifier).toEqual("backendPermission_addMany_error:0004")
   })
 
-  test("backendPermission_addMany_error0005: works", async () => {
+  test("backendPermission_addMany_error:0005: works", async () => {
     const backendPermissionMain = makeBackendPermissionMain(d)
 
     await backendPermissionMain.addMany([
@@ -76,7 +78,7 @@ describe("test backendPermission.main.js with bad data.", () => {
       }
     ])
     expect(addMany.success).toBe(false)
-    expect(addMany.errorIdentifier).toEqual("backendPermission_addMany_error0005")
+    expect(addMany.errorIdentifier).toEqual("backendPermission_addMany_error:0005")
   })
 
   afterAll(async () => {

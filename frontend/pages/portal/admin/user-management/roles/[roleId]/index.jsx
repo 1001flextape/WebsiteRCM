@@ -2,6 +2,7 @@
 
 //library
 import React, { useContext, useEffect, useState } from 'react'
+import dynamic from 'next/dynamic';
 
 // Mine
 import tabsJson from '@/pages-scripts/portal/admin/tabs.json';
@@ -11,7 +12,8 @@ import AdminLayout from '@/layouts/admin/layout';
 import userManagementTabsJson from '@/pages-scripts/portal/admin/user-management/tabs/tabs.json';
 import UserManagementTabs from '@/pages-scripts/portal/admin/user-management/tabs/tabs';
 import HeaderRow from '@/components/global/HeaderRow/HeaderRow.component';
-// ... (previous imports)
+import PermissionsTable from '@/pages-scripts/portal/admin/user-management/roles/form/components/PermissionsTable';
+import RoleProvider, { RoleContext } from '@/pages-scripts/portal/admin/user-management/roles/form/context/Role.context';
 
 // MUI
 import Box from '@mui/material/Box';
@@ -32,46 +34,55 @@ import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useTheme } from '@mui/material';
-import PermissionsTable from '@/pages-scripts/portal/admin/user-management/roles/form/components/PermissionsTable';
+import DeleteRoleModal from '@/pages-scripts/portal/admin/user-management/roles/form/modals/DeleteRole.modal';
+const DynamicRealTimeTextField = dynamic(() => import('@/components/realtime/TextFieldRow/TextField.realtime'), {
+  ssr: false
+});
 
 const Page = () => {
   const theme = useTheme()
 
-  const [isLoaded, setIsLoaded] = useState(true);
-  const [isBlocked, setIsBlocked] = useState(false);
-  const [selectedRoles, setSelectedRoles] = useState([]);
-  const [availableRoles, setAvailableRoles] = useState(['Admin', 'User', 'Manager']);
-
   const { navigate, setTabs } = useContext(AdminLayoutContext);
   const userManagementTabsContext = useContext(UserManagementTabsContext);
+  const {
+    entity,
+    name, setName,
+    currentName, setCurrentName,
+    nameValue, setNameValue,
+    isDashboardRead, setIsDashboardRead,
+    isDashboardReadValue, setIsDashboardReadValue,
+    isMediaManagerInboxOnly, setIsMediaManagerInboxOnly,
+    isMediaManagerInboxOnlyValue, setIsMediaManagerInboxOnlyValue,
+    isMediaManagerRead, setIsMediaManagerRead,
+    isMediaManagerReadValue, setIsMediaManagerReadValue,
+    isMediaManagerUpdate, setIsMediaManagerUpdate,
+    isMediaManagerUpdateValue, setIsMediaManagerUpdateValue,
+    isMediaManagerDelete, setIsMediaManagerDelete,
+    isMediaManagerDeleteValue, setIsMediaManagerDeleteValue,
+    isSiteDesignerRead, setIsSiteDesignerRead,
+    isSiteDesignerReadValue, setIsSiteDesignerReadValue,
+    isSiteDesignerUpdate, setIsSiteDesignerUpdate,
+    isSiteDesignerUpdateValue, setIsSiteDesignerUpdateValue,
+    isSiteDesignerDelete, setIsSiteDesignerDelete,
+    isSiteDesignerDeleteValue, setIsSiteDesignerDeleteValue,
+    isAdminRead, setIsAdminRead,
+    isAdminReadValue, setIsAdminReadValue,
+    isAdminUpdate, setIsAdminUpdate,
+    isAdminUpdateValue, setIsAdminUpdateValue,
+    isAdminDelete, setIsAdminDelete,
+    isAdminDeleteValue, setIsAdminDeleteValue,
+    isUserManagementRead, setIsUserManagementRead,
+    isUserManagementReadValue, setIsUserManagementReadValue,
+    isUserManagementUpdate, setIsUserManagementUpdate,
+    isUserManagementUpdateValue, setIsUserManagementUpdateValue,
+    isUserManagementDelete, setIsUserManagementDelete,
+    isUserManagementDeleteValue, setIsUserManagementDeleteValue,
+    modal, setModal,
 
-  const handleBlockToggle = () => {
-    setIsBlocked((prevIsBlocked) => !prevIsBlocked);
-  };
+    //helper functions
+    saveRole,
 
-  const handleBack = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    navigate("/portal/admin/user-management/roles/");
-  };
-
-  const handleRoleSelect = (event) => {
-    const selectedRole = event.target.value;
-
-    if (!selectedRoles.includes(selectedRole)) {
-      setSelectedRoles((prevSelectedRoles) => [...prevSelectedRoles, selectedRole]);
-      setAvailableRoles((prevAvailableRoles) =>
-        prevAvailableRoles.filter((role) => role !== selectedRole)
-      );
-    }
-  };
-
-  const handleChipDelete = (deletedRole) => {
-    setSelectedRoles((prevSelectedRoles) => prevSelectedRoles.filter((role) => role !== deletedRole));
-    setAvailableRoles((prevAvailableRoles) => [...prevAvailableRoles, deletedRole]);
-  };
-
+  } = useContext(RoleContext)
 
   useEffect(() => {
     setTabs((prevState) => ({
@@ -86,8 +97,22 @@ const Page = () => {
       selectedValue: 2,
     }));
 
-    setIsLoaded(true);
   }, []);
+
+  const handleBack = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    navigate("/portal/admin/user-management/roles/");
+  };
+
+  const handleOpenDeleteModal = () => {
+    setModal(prevState => ({
+      ...prevState,
+      modal_isDeleteRoleModalOpened: true
+    }))
+  }
+
 
   return (
     <Box
@@ -104,54 +129,140 @@ const Page = () => {
         <UserManagementTabs />
       </Box>
 
-      {isLoaded && (
-        <>
-          <br />
+      <br />
 
-          {/* Breadcrumb */}
-          <Breadcrumbs aria-label="breadcrumb">
-            <span
-              style={{
-                textDecoration: 'underline',
-                cursor: 'pointer',
-              }}
-              onClick={handleBack}
-            >
-              Roles
-            </span>
-            <Typography color="textPrimary">Name</Typography>
-          </Breadcrumbs>
-          <br />
+      {/* Breadcrumb */}
+      <Breadcrumbs aria-label="breadcrumb">
+        <span
+          style={{
+            textDecoration: 'underline',
+            cursor: 'pointer',
+          }}
+          onClick={handleBack}
+        >
+          Roles
+        </span>
+        <Typography color="textPrimary">{currentName}</Typography>
+      </Breadcrumbs>
+      <br />
 
-          <Paper elevation={3}>
-            <TableContainer component={Paper}>
-              <Table>
-                <TableBody>
-                  <TableRow>
-                    <TableCell sx={{ width: "200px" }}>Name</TableCell>
-                    <TableCell>
-                      TextField
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Paper>
-          <br />
+      <Paper elevation={3}>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TableCell sx={{ width: "200px" }}>Name</TableCell>
+                <TableCell>
+                  <DynamicRealTimeTextField
+                    entity={entity}
+                    data={name}
+                    onTextUpdate={(text) => {
+                      setNameValue(text)
+                    }}
+                  />
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
+      <br />
 
 
-          <PermissionsTable />
-          <br />
-          <Button
-            variant="contained"
-          >
-            Save
-          </Button>
-          <br />
-          <br />
-          <br />
-        </>
-      )}
+      <PermissionsTable
+        entity={entity}
+        isDashboardRead={isDashboardRead}
+        setIsDashboardReadValue={setIsDashboardReadValue}
+        isMediaManagerInboxOnly={isMediaManagerInboxOnly}
+        setIsMediaManagerInboxOnlyValue={setIsMediaManagerInboxOnlyValue}
+        isMediaManagerRead={isMediaManagerRead}
+        setIsMediaManagerReadValue={setIsMediaManagerReadValue}
+        isMediaManagerUpdate={isMediaManagerUpdate}
+        setIsMediaManagerUpdateValue={setIsMediaManagerUpdateValue}
+        isMediaManagerDelete={isMediaManagerDelete}
+        setIsMediaManagerDeleteValue={setIsMediaManagerDeleteValue}
+        isSiteDesignerRead={isSiteDesignerRead}
+        setIsSiteDesignerReadValue={setIsSiteDesignerReadValue}
+        isSiteDesignerUpdate={isSiteDesignerUpdate}
+        setIsSiteDesignerUpdateValue={setIsSiteDesignerUpdateValue}
+        isSiteDesignerDelete={isSiteDesignerDelete}
+        setIsSiteDesignerDeleteValue={setIsSiteDesignerDeleteValue}
+        isAdminRead={isAdminRead}
+        setIsAdminReadValue={setIsAdminReadValue}
+        isAdminUpdate={isAdminUpdate}
+        setIsAdminUpdateValue={setIsAdminUpdateValue}
+        isAdminDelete={isAdminDelete}
+        setIsAdminDeleteValue={setIsAdminDeleteValue}
+        isUserManagementRead={isUserManagementRead}
+        setIsUserManagementReadValue={setIsUserManagementReadValue}
+        isUserManagementUpdate={isUserManagementUpdate}
+        setIsUserManagementUpdateValue={setIsUserManagementUpdateValue}
+        isUserManagementDelete={isUserManagementDelete}
+        setIsUserManagementDeleteValue={setIsUserManagementDeleteValue}
+
+
+      />
+      <br />
+      <Button
+        variant="contained"
+        onClick={saveRole}
+      >
+        Save
+      </Button>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+
+
+      <Paper
+        elevation={3}
+        sx={{
+          background: theme.palette.error.light,
+          color: theme.palette.getContrastText(theme.palette.error.light),
+        }}
+      >
+        <List sx={{ p: 0 }}>
+          <HeaderRow label="Danger Zone" />
+        </List>
+        <TableContainer component={Paper} sx={{ background: "initial" }}>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TableCell sx={{ width: "200px" }}>Delete Role</TableCell>
+                <TableCell>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    startIcon={<DeleteIcon />}
+                    onClick={handleOpenDeleteModal}
+                  >
+                    Delete Role
+                  </Button>
+
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
+
+      <br />
+      <br />
+      <br />
+      <DeleteRoleModal
+        isOpened={modal.modal_isDeleteRoleModalOpened}
+        onClose={() => {
+          setModal(prevState => ({
+            ...prevState,
+            modal_isDeleteRoleModalOpened: false
+          }))
+        }}
+      />
+
     </Box>
   );
 };
@@ -163,7 +274,9 @@ Page.getLayout = function getLayout(page) {
       // remove later
       hasNoEntity
     >
-      {page}
+      <RoleProvider>
+        {page}
+      </RoleProvider>
     </AdminLayout>
   )
 }

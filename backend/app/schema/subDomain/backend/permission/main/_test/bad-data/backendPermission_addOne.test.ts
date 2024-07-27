@@ -10,10 +10,12 @@ describe("test backendSiteDesigner_pageTemplate.main.js with bad data.", () => {
   beforeAll(async () => {
     
     d = await makeDTestObj()
+    d.domainTransaction = await d.domainDb.transaction()
+    d.subDomainTransaction = await d.subDomainDb.transaction()
 
   }, 100000)
 
-  test("backendPermission_addOne_error0001: works", async () => {
+  test("backendPermission_addOne_error:0001: works", async () => {
     const backendPermissionMain = makeBackendPermissionMain(d)
 
     const addOne = await backendPermissionMain.addOne({
@@ -21,10 +23,10 @@ describe("test backendSiteDesigner_pageTemplate.main.js with bad data.", () => {
     })
 
     expect(addOne.success).toBe(false)
-    expect(addOne.errorIdentifier).toEqual("backendPermission_addOne_error0001")
+    expect(addOne.errorIdentifier).toEqual("backendPermission_addOne_error:0001")
   })
 
-  test("backendPermission_addOne_error0002: works", async () => {
+  test("backendPermission_addOne_error:0002: works", async () => {
     const backendPermissionMain = makeBackendPermissionMain(d)
 
     const addOne = await backendPermissionMain.addOne({
@@ -32,10 +34,10 @@ describe("test backendSiteDesigner_pageTemplate.main.js with bad data.", () => {
     })
 
     expect(addOne.success).toBe(false)
-    expect(addOne.errorIdentifier).toEqual("backendPermission_addOne_error0002")
+    expect(addOne.errorIdentifier).toEqual("backendPermission_addOne_error:0002")
   })
 
-  test("backendPermission_addOne_error0003: works", async () => {
+  test("backendPermission_addOne_error:0003: works", async () => {
     const backendPermissionMain = makeBackendPermissionMain(d)
 
     await backendPermissionMain.addOne({
@@ -46,7 +48,7 @@ describe("test backendSiteDesigner_pageTemplate.main.js with bad data.", () => {
       name: "testing name is taken.",
     })
     expect(addOne.success).toBe(false)
-    expect(addOne.errorIdentifier).toEqual("backendPermission_addOne_error0003")
+    expect(addOne.errorIdentifier).toEqual("backendPermission_addOne_error:0003")
   })
 
   afterAll(async () => {

@@ -2,6 +2,7 @@ import { Model } from "sequelize";
 import backendRole from "../../../../../../../models/subDomain/backend/role/backendRole.model";
 import { returningSuccessObj } from "../../../../../../utils/types/returningObjs.types";
 import { dependencies } from "../../../../../../utils/dependencies/type/dependencyInjection.types";
+import { Op } from "sequelize";
 
 type input = { id: string, name: string }
 
@@ -14,7 +15,12 @@ export default function updateOne(d: dependencies) {
     const data = await db.backendRole.update(
       { name, },
       {
-        where: { id, },
+        where: { 
+          id, 
+          isDefault: {
+            [Op.not]: true
+          },
+        },
         returning: true,
         transaction: d.subDomainTransaction,
       }).catch(error => d.errorHandler(error, d.loggers))

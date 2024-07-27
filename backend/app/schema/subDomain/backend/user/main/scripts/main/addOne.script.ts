@@ -47,7 +47,7 @@ export default function addOne(d: dependencies) {
     if (!args.email) {
       return endMainFromError({
         hint: "'email' is missing.",
-        errorIdentifier: "backendUser_addOne_error0001"
+        errorIdentifier: "backendUser_addOne_error:0001"
       })
     }
 
@@ -58,14 +58,14 @@ export default function addOne(d: dependencies) {
     if (!isEmailValid.result) {
       return endMainFromError({
         hint: "Email is not a valid email.",
-        errorIdentifier: "backendUser_addOne_error0002"
+        errorIdentifier: "backendUser_addOne_error:0002"
       })
     }
 
     if (!args.password) {
       return endMainFromError({
         hint: "Password is missing.",
-        errorIdentifier: "backendUser_addOne_error0003"
+        errorIdentifier: "backendUser_addOne_error:0003"
       })
     }
 
@@ -76,14 +76,14 @@ export default function addOne(d: dependencies) {
     if (!isPasswordValid.result) {
       return endMainFromError({
         hint: isPasswordValid.humanMessage,
-        errorIdentifier: "backendUser_addOne_error0004"
+        errorIdentifier: "backendUser_addOne_error:0004"
       })
     }
 
     if (!args.username) {
       return endMainFromError({
         hint: "'username' is missing.",
-        errorIdentifier: "backendUser_addOne_error0005"
+        errorIdentifier: "backendUser_addOne_error:0005"
       })
     }
 

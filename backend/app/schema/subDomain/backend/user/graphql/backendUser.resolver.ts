@@ -118,7 +118,7 @@ const userResolver = {
     }
   },
   Mutation: {
-    backendRole_addOne: async (parent, args, ctx) => {
+    backendUser_addOne: async (parent, args, ctx) => {
 
       const main = makeBackendUserMain(ctx.d)
 
@@ -137,7 +137,7 @@ const userResolver = {
       }
     },
 
-    backendRole_updateOne: async (parent, args, ctx) => {
+    backendUser_updateOne: async (parent, args, ctx) => {
 
       const main = makeBackendUserMain(ctx.d)
 
@@ -156,7 +156,7 @@ const userResolver = {
         return graphqlError(response)
       }
     },
-    backendRole_deleteOne: async (parent, args, ctx) => {
+    backendUser_deleteOne: async (parent, args, ctx) => {
 
       const main = makeBackendUserMain(ctx.d)
 

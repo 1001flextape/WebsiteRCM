@@ -75,27 +75,27 @@ describe("test backendRoleManyPermission.main.js", () => {
     expect(setList.success).toBe(true)
   })
 
-  test("getAll: setList worked", async () => {
+  test("getManyByRoleId: setList worked", async () => {
     const roleManyPermissionMain = makeBackendRoleManyPermissionMain(d)
 
-    const getAll = await roleManyPermissionMain.getAll({
+    const getManyByRoleId = await roleManyPermissionMain.getManyByRoleId({
       roleId,
     })
 
-    expect(getAll.success).toBe(true)
-    expect(getAll.data.length).toBe(1)
+    expect(getManyByRoleId.success).toBe(true)
+    expect(getManyByRoleId.data.length).toBe(1)
   })
 
-  test("setList & getAll: can update and get record.", async () => {
+  test("setList & getManyByRoleId: can update and get record.", async () => {
     const roleManyPermissionMain = makeBackendRoleManyPermissionMain(d)
 
-    const getAll = await roleManyPermissionMain.getAll({
+    const getManyByRoleId = await roleManyPermissionMain.getManyByRoleId({
       roleId,
     })
 
     const newSetData = [
 
-      ...getAll.data.map(l => ({
+      ...getManyByRoleId.data.map(l => ({
         id: l.dataValues.id,
         permissionId: l.dataValues.permissionId,
         roleId: l.dataValues.roleId,
@@ -118,12 +118,12 @@ describe("test backendRoleManyPermission.main.js", () => {
 
     expect(setList.success).toEqual(true)
 
-    const getAllAgain = await roleManyPermissionMain.getAll({
+    const getManyByRoleIdAgain = await roleManyPermissionMain.getManyByRoleId({
       roleId,
     })
 
-    expect(getAllAgain.success).toBe(true)
-    expect(getAllAgain.data.length).toBe(4)
+    expect(getManyByRoleIdAgain.success).toBe(true)
+    expect(getManyByRoleIdAgain.data.length).toBe(4)
   })
 
   afterAll(async () => {

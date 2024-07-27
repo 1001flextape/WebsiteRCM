@@ -12,7 +12,7 @@ type input = {
 }
 
 export default function addMany(d: dependencies) {
-  return async (roleArray: input[]): Promise<returningSuccessObj<Model<backendRole>[] | null>> => {
+  return async (args: input[]): Promise<returningSuccessObj<Model<backendRole>[] | null>> => {
 
     const roleSql = makeBackendRoleSql(d);
     const roleValidation = makeBackendRoleValidation(d);
@@ -21,23 +21,23 @@ export default function addMany(d: dependencies) {
     // Validations
     // ===================================
 
-    if (!roleArray || roleArray?.length === 0) {
+    if (!args || args?.length === 0) {
       return endMainFromError({
         hint: "No data was provided.",
         errorIdentifier: "backendRole_addMany_error0001",
       })
     }
 
-    if (roleArray.length > 50) {
+    if (args.length > 50) {
       return endMainFromError({
         hint: "Only 50 records max can be processed at once.",
         errorIdentifier: "backendRole_addMany_error0002",
       })
     }
 
-    const names = roleArray.map(p => p.name).filter(name => name)
+    const names = args.map(p => p.name).filter(name => name)
 
-    if (names.length !== roleArray.length) {
+    if (names.length !== args.length) {
       return endMainFromError({
         hint: "Datapoint 'name' is missing.",
         errorIdentifier: "backendRole_addMany_error0003"
@@ -71,9 +71,7 @@ export default function addMany(d: dependencies) {
     // Sql
     // ===================================    
 
-    const response = await roleSql.addMany({
-      roleNamesArray: roleArray,
-    }).catch(error => d.errorHandler(error, d.loggers))
+    const response = await roleSql.addMany(args).catch(error => d.errorHandler(error, d.loggers))
 
     return response
   }

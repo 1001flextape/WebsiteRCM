@@ -38,13 +38,29 @@ const backendRoleGqlResolver = {
         return graphqlError(response)
       }
     },
+    backendRole_getOneRealTime: async (parent, args, ctx) => {
+
+      const main = makeBackendRoleMain(ctx.d)
+
+      const response = await main.getOneRealTime({
+        id: args.roleId,
+        socketId: args.socketId,
+      })
+
+      if (response?.success) {
+        return response.data
+
+      } else {
+        return graphqlError(response)
+      }
+    },
   },
   BackendRoleType: {
     permission_getAll: async (parent, args, ctx) => {
 
       const main = makeBackendRoleManyPermissionMain(ctx.d)
 
-      const response = await main.getAll({
+      const response = await main.getManyByRoleId({
         roleId: parent.id,
       })
 
@@ -140,6 +156,36 @@ const backendRoleGqlResolver = {
       const main = makeBackendRoleManyPermissionMain(ctx.d)
 
       const response = await main.setList(args.roleManyPermissionArray)
+
+      if (response?.success) {
+        return response.data
+
+      } else {
+        return graphqlError(response)
+      }
+    },
+    backendRole_updateOneFromUI: async (parent, args, ctx) => {
+
+      const main = makeBackendRoleMain(ctx.d)
+
+      const response = await main.updateOneFromUI({
+        id: args.id,
+        name: args.name,
+        isDashboardRead: args.isDashboardRead,
+        isMediaManagerInboxOnly: args.isMediaManagerInboxOnly,
+        isMediaManagerRead: args.isMediaManagerRead,
+        isMediaManagerUpdate: args.isMediaManagerUpdate,
+        isMediaManagerDelete: args.isMediaManagerDelete,
+        isSiteDesignerRead: args.isSiteDesignerRead,
+        isSiteDesignerUpdate: args.isSiteDesignerUpdate,
+        isSiteDesignerDelete: args.isSiteDesignerDelete,
+        isAdminRead: args.isAdminRead,
+        isAdminUpdate: args.isAdminUpdate,
+        isAdminDelete: args.isAdminDelete,
+        isUserManagementRead: args.isUserManagementRead,
+        isUserManagementUpdate: args.isUserManagementUpdate,
+        isUserManagementDelete: args.isUserManagementDelete,
+      })
 
       if (response?.success) {
         return response.data

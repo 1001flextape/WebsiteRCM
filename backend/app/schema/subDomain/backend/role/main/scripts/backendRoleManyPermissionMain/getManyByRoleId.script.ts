@@ -11,7 +11,7 @@ type input = {
   roleId: string
 }
 
-export default function getAll(d: dependencies) {
+export default function getManyByRoleId(d: dependencies) {
   return async (args: input): Promise<returningSuccessObj<Model<backendRoleManyPermission>[] | null>> => {
     const { roleId } = args
 
@@ -24,7 +24,7 @@ export default function getAll(d: dependencies) {
     if (!roleId) {
       return endMainFromError({
         hint: "Datapoint 'roleId' is missing.",
-        errorIdentifier: "backendRoleManyPermission_getAll_error0001"
+        errorIdentifier: "backendRoleManyPermission_getManyByRoleId_error0001"
       })
     }
 
@@ -35,7 +35,7 @@ export default function getAll(d: dependencies) {
     if (!isRoleIdUuid.result) {
       return endMainFromError({
         hint: "Datapoint 'roleId' is not valid UUID.",
-        errorIdentifier: "backendRoleManyPermission_getAll_error0002"
+        errorIdentifier: "backendRoleManyPermission_getManyByRoleId_error0002"
       })
     }
 
@@ -46,7 +46,7 @@ export default function getAll(d: dependencies) {
     if (!isRoleIdValid.result) {
       return endMainFromError({
         hint: "Datapoint 'roleId' is not valid UUID.",
-        errorIdentifier: "backendRoleManyPermission_getAll_error0003"
+        errorIdentifier: "backendRoleManyPermission_getManyByRoleId_error0003"
       })
     }
 
@@ -54,7 +54,7 @@ export default function getAll(d: dependencies) {
     // Sql
     // ===================================    
 
-    const response = await roleManyPermissionSql.getAll({
+    const response = await roleManyPermissionSql.getManyByRoleId({
       roleId,
     }).catch(error => d.errorHandler(error, d.loggers))
 

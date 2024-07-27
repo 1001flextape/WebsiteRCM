@@ -8,8 +8,6 @@ type input = {
   q?: string
   page?: number
   pageSize?: number
-  roleId?: string
-  userId?: string
 }
 
 export default function getManyWithPagination(d: dependencies) {
@@ -17,7 +15,7 @@ export default function getManyWithPagination(d: dependencies) {
   const db = d.subDomainDb.models;
 
   return async (args: input): Promise<returningSuccessObj<findAndCountAll<backendRole>>> => {
-    let { q, page, pageSize, userId, roleId } = args
+    let { q, page, pageSize } = args
     page = page ? page - 1 : 0;
     pageSize = pageSize || 10;
 
@@ -35,42 +33,27 @@ export default function getManyWithPagination(d: dependencies) {
     }
 
     let search: FindAndCountOptions = {
+      where: {
+        isDefault: {
+          [Op.not]: true
+        },
+      },
       offset: page * pageSize,
       limit: pageSize,
       transaction: d.subDomainTransaction,
     };
 
-    if (roleId) {
-      search = {
-        ...search,
-        include: {
-          model: db.roleManyRole,
-          where: { roleId, },
-        }
-      }
-    }
-
-    if (userId) {
-      search = {
-        ...search,
-        include: {
-          model: db.userManyRole,
-          where: { userId, },
-        }
-      }
-    }
-
     if (q) {
       search = {
         ...search,
         where: {
+          ...search.where,
           name: {
             [Op.like]: "%" + q + "%",
           },
         },
       }
     }
-
 
     let data: findAndCountAll<backendRole> = await db.backendRole.findAndCountAll(search).catch(error => d.errorHandler(error, d.loggers))
     data.page = page + 1;

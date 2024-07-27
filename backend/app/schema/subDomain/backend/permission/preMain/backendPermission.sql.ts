@@ -2,6 +2,7 @@ import { dependencies } from "../../../../utils/dependencies/type/dependencyInje
 import addMany from "./scripts/sql/addMany.script"
 import addOne from "./scripts/sql/addOne.script"
 import deleteOne from "./scripts/sql/deleteOne.script"
+import getManyByIds from "./scripts/sql/getManyByIds.script"
 import getManyWithPagination from "./scripts/sql/getManyWithPagination.script"
 import getOneById from "./scripts/sql/getOneById.script"
 import updateOne from "./scripts/sql/updateOne.script"
@@ -13,6 +14,7 @@ export default function makeBackendPermissionSql(d: dependencies) {
     addOne: addOne(d),
     deleteOne: deleteOne(d),
     getManyWithPagination: getManyWithPagination(d),
+    getManyByIds: getManyByIds(d),
     getOneById: getOneById(d),
     updateOne: updateOne(d),
   }

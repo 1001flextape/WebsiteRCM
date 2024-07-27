@@ -15,7 +15,7 @@ describe("test backendPermission.main.js with bad data.", () => {
 
   }, 100000)
 
-  test("backendPermission_getOneById_error0001: works", async () => {
+  test("backendPermission_getOneById_error:0001: works", async () => {
     const permissionMain = makeBackendPermissionMain(d)
 
     const getOneById = await permissionMain.getOneById({
@@ -23,10 +23,10 @@ describe("test backendPermission.main.js with bad data.", () => {
     })
 
     expect(getOneById.success).toBe(false)
-    expect(getOneById.errorIdentifier).toEqual("backendPermission_getOneById_error0001")
+    expect(getOneById.errorIdentifier).toEqual("backendPermission_getOneById_error:0001")
   })
 
-  test("backendPermission_getOneById_error0002: works", async () => {
+  test("backendPermission_getOneById_error:0002: works", async () => {
     const permissionMain = makeBackendPermissionMain(d)
 
     const getOneById = await permissionMain.getOneById({
@@ -34,7 +34,7 @@ describe("test backendPermission.main.js with bad data.", () => {
     })
 
     expect(getOneById.success).toBe(false)
-    expect(getOneById.errorIdentifier).toEqual("backendPermission_getOneById_error0002")
+    expect(getOneById.errorIdentifier).toEqual("backendPermission_getOneById_error:0002")
   })
 
   afterAll(async () => {

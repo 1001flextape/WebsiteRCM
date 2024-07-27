@@ -3,7 +3,7 @@ import addMany from "./scripts/backendRoleManyPermissionSql/addMany.script"
 import addOne from "./scripts/backendRoleManyPermissionSql/addOne.script"
 import deleteMany from "./scripts/backendRoleManyPermissionSql/deleteMany.script"
 import deleteOne from "./scripts/backendRoleManyPermissionSql/deleteOne.script"
-import getAll from "./scripts/backendRoleManyPermissionSql/getAll.script"
+import getManyByRoleId from "./scripts/backendRoleManyPermissionSql/getManyByRoleId.script"
 import setList from "./scripts/backendRoleManyPermissionSql/setList.script"
 
 export default function makeBackendRoleManyPermissionSql(d: dependencies) {
@@ -13,7 +13,7 @@ export default function makeBackendRoleManyPermissionSql(d: dependencies) {
     addOne: addOne(d),
     deleteMany: deleteMany(d),
     deleteOne: deleteOne(d),
-    getAll: getAll(d),
+    getManyByRoleId: getManyByRoleId(d),
     setList: setList(d),
   }
 }
