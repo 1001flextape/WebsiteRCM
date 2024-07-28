@@ -2,10 +2,8 @@ import { Model } from "sequelize";
 import backendUserManyRole from "../../../../../../models/backend/user/backendUserManyRole.model";
 import stringHelpers from "../../../../../utils/stringHelpers";
 import { returningSuccessObj } from "../../../../../utils/types/returningObjs.types";
-import makeBackendUserValidation from "../../../preMain/backendUser.validation";
 import endMainFromError from "../../../../../utils/graphql/endMainFromError.func";
 import makeBackendUserManyRoleSql from "../../../preMain/backendUserManyRole.sql";
-import makeBackendRoleEntity from "../../../../role";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
 
 type input = {
@@ -17,8 +15,6 @@ export default function addOne(d: dependencies) {
   return async (args: input): Promise<returningSuccessObj<Model<backendUserManyRole> | null>> => {
 
     const userManyRoleSql = makeBackendUserManyRoleSql(d)
-    const userValidation = makeBackendUserValidation(d)
-    const { roleEntity } = makeBackendRoleEntity(d)
 
     //////////////////////////////////////
     // Validations
@@ -27,7 +23,7 @@ export default function addOne(d: dependencies) {
     if (!args.userId) {
       return endMainFromError({
         hint: "'userId' is missing.",
-        errorIdentifier: "backendUser_addOne_error:0001"
+        errorIdentifier: "backendUserManyRole_addOne_error:0001"
       })
     }
 
@@ -38,25 +34,14 @@ export default function addOne(d: dependencies) {
     if (!isUserIdUuid.result) {
       return endMainFromError({
         hint: "'userId' is not a UUID.",
-        errorIdentifier: "backendUser_addOne_error:0002"
-      })
-    }
-
-    const isUserIdValid = await userValidation.isIdValid({
-      id: args.userId
-    }).catch(error => d.errorHandler(error, d.loggers))
-
-    if (!isUserIdValid.result) {
-      return endMainFromError({
-        hint: "'userId' is not valid.",
-        errorIdentifier: "backendUser_addOne_error:0003"
+        errorIdentifier: "backendUserManyRole_addOne_error:0002"
       })
     }
 
     if (!args.roleId) {
       return endMainFromError({
         hint: "'roleId' is missing.",
-        errorIdentifier: "backendUser_addOne_error:0004"
+        errorIdentifier: "backendUserManyRole_addOne_error:0004"
       })
     }
 
@@ -67,20 +52,9 @@ export default function addOne(d: dependencies) {
     if (!isRoleIdUuid.result) {
       return endMainFromError({
         hint: "'roleId' is not a UUID.",
-        errorIdentifier: "backendUser_addOne_error:0005"
+        errorIdentifier: "backendUserManyRole_addOne_error:0005"
       })
     }
-
-    // const isRoleIdValid = await roleEntity.isIdValid({
-    //   id: args.userId
-    // }).catch(error => d.errorHandler(error, d.loggers))
-
-    // if (!isRoleIdValid.result) {
-    //   return endMainFromError({
-    //     hint: "'roleId' is not valid.",
-    //     errorIdentifier: "backendUser_addOne_error:0006"
-    //   })
-    // }
 
     //////////////////////////////////////
     // Sql

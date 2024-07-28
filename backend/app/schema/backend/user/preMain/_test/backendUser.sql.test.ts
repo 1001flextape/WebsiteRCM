@@ -19,13 +19,13 @@ describe("test backendUser.sql.js", () => {
 
   }, 100000)
 
-  // test("getManyWithPagination: can get many record.", async () => {
-  //   const userSql = makeBackendUserSql(d)
+  test("getManyWithPagination: can get many record.", async () => {
+    const userSql = makeBackendUserSql(d)
 
-  //   const newUser = await userSql.getManyWithPagination({})
-  //   expect(newUser.success).toBe(true)
-  //   expect(newUser.data.rows.length).toBe(0)
-  // })
+    const newUser = await userSql.getManyWithPagination({})
+    expect(newUser.success).toBe(true)
+    expect(newUser.data.rows.length).toBe(0)
+  })
 
   test("addOne: backendUsers can add record.", async () => {
     const userSql = makeBackendUserSql(d)
@@ -62,6 +62,15 @@ describe("test backendUser.sql.js", () => {
     expect(updateUser.data.dataValues.isAdmin).toBe(false)
   })
 
+  test("getManyWithPagination: can get many record.", async () => {
+    const userSql = makeBackendUserSql(d)
+
+
+    const newUser = await userSql.getManyWithPagination({})
+    expect(newUser.success).toBe(true)
+    expect(newUser.data.rows.length).toBe(1)
+  })
+  
   test("deleteOne: backendUsers can update record.", async () => {
     const userSql = makeBackendUserSql(d)
 
@@ -71,16 +80,6 @@ describe("test backendUser.sql.js", () => {
 
     expect(deletedUser.success).toBe(true)
   })
-
-
-  // test("getManyWithPagination: can get many record.", async () => {
-  //   const userSql = makeBackendUserSql(d)
-
-
-  //   const newUser = await userSql.getManyWithPagination({})
-  //   expect(newUser.success).toBe(true)
-  //   expect(newUser.data.rows.length).toBe(1)
-  // })
 
   afterAll(async () => {
     ;

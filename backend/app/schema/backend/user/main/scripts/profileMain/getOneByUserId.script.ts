@@ -2,21 +2,18 @@ import stringHelpers from "../../../../../utils/stringHelpers";
 import { returningSuccessObj } from "../../../../../utils/types/returningObjs.types";
 import endMainFromError from "../../../../../utils/graphql/endMainFromError.func";
 import { Model } from "sequelize";
-import backendUser from "../../../../../../models/backend/user/backendUser.model";
-import makeBackendUserSql from "../../../preMain/backendUser.sql";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
+import backendUserProfile from "../../../../../../models/backend/user/backendUserProfile.model";
+import makeBackendUserProfileSql from "../../../preMain/backendUserProfile.sql";
 
 type input = {
   userId: string
-  isAdmin?: boolean
 }
 
-export default function addOneById(d: dependencies) {
-  return async (args: input): Promise<returningSuccessObj<Model<backendUser>>> => {
+export default function getOneByUserId(d: dependencies) {
+  return async (args: input): Promise<returningSuccessObj<Model<backendUserProfile>>> => {
 
-    const { errorHandler, loggers } = d
-
-    const userSql = makeBackendUserSql(d)
+    const userProfileSql = makeBackendUserProfileSql(d)
 
     //////////////////////////////////////
     // Validations
@@ -25,7 +22,7 @@ export default function addOneById(d: dependencies) {
     if (!args.userId) {
       return endMainFromError({
         hint: "'userId' is missing.",
-        errorIdentifier: "backendUserAccount_addOneById_error:0001"
+        errorIdentifier: "backendUserAccount_getOneByUserId_error:0001"
       })
     }
 
@@ -36,7 +33,7 @@ export default function addOneById(d: dependencies) {
     if (!isUserIdUuid.result) {
       return endMainFromError({
         hint: "'userId' is not a UUID.",
-        errorIdentifier: "backendUserAccount_addOneById_error:0002"
+        errorIdentifier: "backendUserAccount_getOneByUserId_error:0002"
       })
     }
 
@@ -44,10 +41,9 @@ export default function addOneById(d: dependencies) {
     // Sql
     // ===================================    
 
-    const response = await userSql.addOne({
-      id: args.userId,
-      isAdmin: args.isAdmin,
-    }).catch(error => errorHandler(error, loggers))
+    const response = await userProfileSql.getOneByUserId({
+      userId: args.userId,
+    }).catch(error => d.errorHandler(error, d.loggers))
 
     return response
   }

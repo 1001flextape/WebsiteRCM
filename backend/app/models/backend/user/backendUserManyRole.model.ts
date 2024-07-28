@@ -1,8 +1,6 @@
-// import sequelize, { DataTypes } from 'sequelize';
-import { Table, Column, Model, DataType, ForeignKey } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import backendRole from '../role/backendRole.model';
 import backendUser from './backendUser.model';
-// import Sequelize from 'sequelize';
 
 @Table({
   paranoid: true,
@@ -24,9 +22,15 @@ export default class backendUserManyRole extends Model {
   })
   userId: string;
 
+  @BelongsTo(() => backendUser)
+  user: backendUser;
+
   @ForeignKey(() => backendRole)
   @Column({
     allowNull: false
   })
   roleId: string;
+
+  @BelongsTo(() => backendRole)
+  role: backendRole;
 }

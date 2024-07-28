@@ -8,6 +8,14 @@ async function up({ context: queryInterface }) {
       defaultValue: sequelize.UUIDV4,
       primaryKey: true,
     },
+    userId: {
+      type: sequelize.UUID,
+      allowNull: false,
+      references: {
+        model: 'backendUser',
+        key: 'id',
+      }
+    },
     permissionId: {
       type: sequelize.UUID,
       allowNull: false,

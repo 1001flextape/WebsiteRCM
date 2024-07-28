@@ -1,6 +1,6 @@
-// import sequelize, { DataTypes } from 'sequelize';
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
-// import Sequelize from 'sequelize';
+import { Table, Column, Model, DataType, HasMany } from 'sequelize-typescript';
+import backendUserManyRole from '../user/backendUserManyRole.model';
+import backendRoleManyPermission from './backendRoleManyPermission.model';
 
 @Table({
   paranoid: true,
@@ -21,4 +21,10 @@ export default class backendRole extends Model {
     type: DataType.STRING,
   })
   name: string;
+
+  @HasMany(() => backendUserManyRole)
+  userRoles: backendUserManyRole[];
+
+  @HasMany(() => backendRoleManyPermission)
+  rolePermissions: backendRoleManyPermission[];
 }

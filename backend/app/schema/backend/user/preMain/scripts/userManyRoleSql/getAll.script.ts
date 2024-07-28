@@ -4,7 +4,7 @@ import { returningSuccessObj } from "../../../../../utils/types/returningObjs.ty
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
 
 type input = {
-  id: string
+  userId: string
 }
 
 export default function getAll(d: dependencies) {
@@ -14,7 +14,7 @@ export default function getAll(d: dependencies) {
 
     const data = await db.backendUserManyRole.findAll({
       where: {
-        userId: args.id,
+        userId: args.userId,
       },
       transaction: d.dbTransaction,
     }).catch(error => d.errorHandler(error, d.loggers))

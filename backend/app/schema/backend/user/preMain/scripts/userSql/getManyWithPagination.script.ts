@@ -12,6 +12,7 @@ type multiDatabaseUserSearch = {
   lastName?: string,
   birthday?: string,
   picture?: string,
+  roleName?: string, // Update this to include role name in the result
 }
 
 type input = {
@@ -25,7 +26,7 @@ export default function getManyWithPagination(d: dependencies) {
   const db = d.db.models;
 
   return async (args: input): Promise<returningSuccessObj<findAndCountAll<multiDatabaseUserSearch>>> => {
-    let { q, page, pageSize } = args
+    let { q, page, pageSize } = args;
     page = page ? page - 1 : 0;
     pageSize = pageSize || 10;
 
@@ -38,71 +39,78 @@ export default function getManyWithPagination(d: dependencies) {
     if (pageSize < 0 || pageSize >= 100) {
       return {
         success: false,
-        humanMessage: "Please keep pageSize inbetween 1 - 100."
-      }
+        humanMessage: "Please keep pageSize in between 1 - 100."
+      };
     }
 
     let search: FindAndCountOptions = {
       offset: page * pageSize,
       limit: pageSize,
       transaction: d.dbTransaction,
+      include: [
+        {
+          model: db.backendUserProfile,
+          as: 'profile',
+          attributes: { exclude: ['id', 'userId'] }
+        },
+        {
+          model: db.backendUserManyRole,
+          as: 'userRoles',
+          include: [
+            {
+              model: db.backendRole,
+              as: 'role',
+              attributes: ['name']
+            }
+          ]
+        }
+      ]
     };
 
     if (q) {
       search = {
         ...search,
         where: {
-          name: {
-            [Op.like]: "%" + q + "%",
-          },
-        },
-      }
+          [Op.or]: [
+            { email: { [Op.like]: "%" + q + "%" } },
+            { '$profile.username$': { [Op.like]: "%" + q + "%" } },
+            { '$profile.firstName$': { [Op.like]: "%" + q + "%" } },
+            { '$profile.lastName$': { [Op.like]: "%" + q + "%" } }
+          ],
+        }
+      };
     }
 
-    const sequelize = require('db_config');
+    const { count, rows } = await db.backendUser.findAndCountAll(search).catch(error => d.errorHandler(error, d.loggers));
 
-    const qry = `
+    const data = rows.map(user => ({
+      email: user.email,
+      isAdmin: user.isAdmin,
+      ...(user.profile ? user.profile.toJSON() : {
+        username: null,
+        firstName: null,
+        lastName: null,
+        birthday: null,
+        picture: null,
+        displayName: null,
+        callByType: null,
+        circleColor: null,
+        labelColor: null,
+      }),
+      roleName: user.userRoles && user.userRoles.length > 0 ? user.userRoles[0].role.name : null
+    }));
 
-      SELECT count(*) FROM $subDomain.backendUser;
-
-      SELECT 
-        fu.id,
-        fu.email,
-        bu.isAdmin,
-        fup.username,
-        fup.firstName,
-        fup.lastName,
-        fup.birthday,
-        fup.picture,
-      FROM $subDomain.backendUser as bu
-      LEFT $domain.foundationUser as fu
-      LEFT $domain.foundationUserProfile as fup
-
-      WHERE 
-      $where
-      LIMIT $limit
-      OFFSET $offset;   
-      `;
-
-
-    let data = await sequelize.query(qry, {
-      domain: d.db.getDatabaseName(),
-      subDomain: d.db.getDatabaseName(),
-      where: search.where.toString(),
-      limit: search.limit.toString(),
-      offset: search.offset.toString(),
-    }, { raw: true }).catch(error => d.errorHandler(error, d.loggers))
-
-    data.page = page + 1;
-    data.pageSize = pageSize;
-    data.pageCount = Math.ceil(
-      data.count / data.pageSize
-    );
+    const response = {
+      rows: data,
+      count: count,
+      page: page + 1,
+      pageSize,
+      pageCount: Math.ceil(count / pageSize),
+    };
 
     return {
       success: true,
-      data,
-    }
+      data: response,
+    };
   }
 }
-

@@ -1,79 +1,92 @@
-import backendRole from "../../../../../models/backend/role/backendRole.model";
-import backendUser from "../../../../../models/backend/user/backendUser.model";
-import makeBackendUserManyRoleSql from "../backendUserManyRole.sql"
-import makeBackendUserSql from "../backendUser.sql"
-import makeBackendRoleSql from "../../../role/preMain/backendRole.sql"
-import { v4 as uuidv4 } from "uuid"
 import { Model } from "sequelize";
+import backendRole from "../../../../../models/backend/role/backendRole.model";
+import makeBackendUserSql from "../backendUser.sql";
+import makeBackendUserManyRoleSql from "../backendUserManyRole.sql";
 import { dependencies } from "../../../../utils/dependencies/type/dependencyInjection.types";
 import { makeDTestObj } from "../../../../utils/dependencies/makeTestDependency";
+import backendUser from "../../../../../models/backend/user/backendUser.model";
+import makeBackendRoleSql from "../../../role/preMain/backendRole.sql";
 jest.setTimeout(100000)
 
-
 describe("test backendUserManyRole.sql.js", () => {
-  let d: dependencies
-  let user: Model<backendUser>
-  let role: Model<backendRole>
+  let d: dependencies;
+  let user: Model<backendUser>;
+  let role: Model<backendRole>;
 
   beforeAll(async () => {
-    
+
     d = await makeDTestObj()
-    
-    
+
+
 
     const backendUserSql = makeBackendUserSql(d)
     const backendRoleSql = makeBackendRoleSql(d)
 
-    let uuid = uuidv4();
-
     user = (await backendUserSql.addOne({
-      email: "userManyRole@test.com",
-      password: "Password1!",
-      isAdmin: true,
+      email: "asdf@aasdf.com",
+      password: "blahBLAH!#@jklN24",
     })).data
 
     role = (await backendRoleSql.addOne({
       name: "test role"
     })).data
 
+    // const backendUserSql = makeBackendUserSql(d)
+
   }, 100000)
 
-  test("addOne & getOne: backendUserManyRoles can add record.", async () => {
+  test("addOne: can add record.", async () => {
     const userManyRoleSql = makeBackendUserManyRoleSql(d)
 
-    const newUserManyRole = await userManyRoleSql.addOne({
+    const addOne = await userManyRoleSql.addOne({
       roleId: role.dataValues.id,
       userId: user.dataValues.id,
     })
-    expect(newUserManyRole.success).toBe(true)
 
-
-    const deletedUserManyRole = await userManyRoleSql.deleteOne({
-      roleId: role.dataValues.id,
-      userId: user.dataValues.id,
-    })
-    expect(deletedUserManyRole.success).toBe(true)
+    expect(addOne.success).toBe(true)
+    expect(addOne.data.dataValues.userId).toEqual(user.dataValues.id)
+    expect(addOne.data.dataValues.roleId).toEqual(role.dataValues.id)
   })
 
-  test("addMany & deleteMany: backendUserManyRoles can add many records at once.", async () => {
+  test("deleteOne: can delete record.", async () => {
     const userManyRoleSql = makeBackendUserManyRoleSql(d)
 
-    const addManyRole = await userManyRoleSql.addMany({
+    const deleteOne = await userManyRoleSql.deleteOne({
+      roleId: role.dataValues.id,
       userId: user.dataValues.id,
-      roleIdsArray: [role.dataValues.id],
     })
-    expect(addManyRole.success).toBe(true)
+    expect(deleteOne.success).toBe(true)
+  })
 
-    const deleteManyRole = await userManyRoleSql.deleteMany({
+  test("setList: can add many records at once.", async () => {
+    const userManyRoleSql = makeBackendUserManyRoleSql(d)
+
+    const setList = await userManyRoleSql.setList(
+      [{
+        roleId: role.dataValues.id,
+        userId: user.dataValues.id,
+      }]
+    )
+    expect(setList.success).toBe(true)
+  })
+
+  test("getAll: can get many records at once.", async () => {
+    const userManyRoleSql = makeBackendUserManyRoleSql(d)
+
+    const getAll = await userManyRoleSql.getAll({
       userId: user.dataValues.id,
-      roleIdsArray: [role.dataValues.id],
-    })
-    expect(deleteManyRole.success).toBe(true)
+    }
+
+    )
+    expect(getAll.success).toBe(true)
+    expect(getAll.data[0].dataValues.userId).toEqual(user.dataValues.id)
+    expect(getAll.data[0].dataValues.roleId).toEqual(role.dataValues.id)
+    expect(getAll.data.length).toBe(1)
   })
 
   afterAll(async () => {
-    ;
     await d.dbTransaction.rollback();
+    ;
   })
 })
 

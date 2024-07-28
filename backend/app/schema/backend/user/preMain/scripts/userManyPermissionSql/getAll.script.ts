@@ -4,18 +4,16 @@ import { returningSuccessObj } from "../../../../../utils/types/returningObjs.ty
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
 
 type input = {
-  id: string
+  userId: string
 }
 
 export default function getAll(d: dependencies) {
   const db = d.db.models;
 
-  return async (args: input): Promise<returningSuccessObj<Model<backendUserManyPermission>[]>> => {
+  return async (where: input): Promise<returningSuccessObj<Model<backendUserManyPermission>[]>> => {
 
     const data = await db.backendUserManyPermission.findAll({
-      where: {
-        userId: args.id,
-      },
+      where,
       transaction: d.dbTransaction,
     }).catch(error => d.errorHandler(error, d.loggers))
 

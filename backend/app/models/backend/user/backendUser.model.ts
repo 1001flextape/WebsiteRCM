@@ -1,7 +1,7 @@
-// import sequelize, { DataTypes } from 'sequelize';
-import { Table, Column, Model, DataType, ForeignKey } from 'sequelize-typescript';
-// import foundationUser from '../../../domain/foundation/user/foundationUser.model';
-// import foundationUserProfile from '../../../domain/foundation/user/foundationUserProfile.model';
+import { Table, Column, Model, DataType, HasMany, HasOne } from 'sequelize-typescript';
+import backendUserProfile from './backendUserProfile.model';
+import backendUserManyRole from './backendUserManyRole.model';
+import backendUserManyPermission from './backendUserManyPermission.model';
 
 @Table({
   paranoid: true,
@@ -40,12 +40,12 @@ export default class backendUser extends Model {
   })
   isAdmin: boolean;
 
-  // @ForeignKey(() => foundationUser)
-  // @Column
-  // foundationUserId: string;
+  @HasOne(() => backendUserProfile, { as: 'profile' })
+  userProfile: backendUserProfile;
 
+  @HasMany(() => backendUserManyRole, { as: 'userRoles' })
+  userRoles: backendUserManyRole[];
 
-  // @ForeignKey(() => foundationUserProfile)
-  // @Column
-  // foundationUserProfileId: string;
+  @HasMany(() => backendUserManyPermission, { as: 'userPermissions' })
+  userPermissions: backendUserManyPermission[];
 }

@@ -7,17 +7,15 @@ import makeBackendUserSql from "../../../preMain/backendUser.sql";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
 
 type input = {
-  id: string
-  username?: string
-  email?: string
-  password?: string
-  isAdmin?: boolean
+  id: string;
+  email?: string;
+  password?: string;
+  isDeactivated?: boolean;
+  isAdmin?: boolean;
 }
 
 export default function updateOne(d: dependencies) {
   return async (args: input): Promise<returningSuccessObj<Model<backendUser>>> => {
-
-    const { errorHandler, loggers } = d
 
     const userSql = makeBackendUserSql(d)
 
@@ -28,7 +26,7 @@ export default function updateOne(d: dependencies) {
     if (!args.id) {
       return endMainFromError({
         hint: "'id' is missing.",
-        errorIdentifier: "backendUserAccount_updateOne_error:0001"
+        errorIdentifier: "backendUser_updateOne_error:0001"
       })
     }
 
@@ -39,7 +37,7 @@ export default function updateOne(d: dependencies) {
     if (!isUserIdUuid.result) {
       return endMainFromError({
         hint: "'id' is not a UUID.",
-        errorIdentifier: "backendUserAccount_updateOne_error:0002"
+        errorIdentifier: "backendUser_updateOne_error:0002"
       })
     }
 
@@ -49,8 +47,11 @@ export default function updateOne(d: dependencies) {
 
     const response = await userSql.updateOne({
       id: args.id,
+      email: args.email,
+      password: args.password,
+      isDeactivated: args.isDeactivated,
       isAdmin: args.isAdmin,
-    }).catch(error => errorHandler(error, loggers))
+    }).catch(error => d.errorHandler(error, d.loggers))
 
     return response
   }

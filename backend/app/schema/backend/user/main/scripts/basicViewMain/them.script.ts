@@ -1,67 +1,65 @@
 import stringHelpers from "../../../../../utils/stringHelpers";
 import { returningSuccessObj } from "../../../../../utils/types/returningObjs.types";
 import endMainFromError from "../../../../../utils/graphql/endMainFromError.func";
-import makeFoundationUserProfileSql from "../../../../../../domain/foundation/user/preMain/foundationUserProfile.sql";
-import makeFoundationUserSql from "../../../../../../domain/foundation/user/preMain/foundationUser.sql";
-import makeFoundationUserValidation from "../../../../../../domain/foundation/user/preMain/foundationUser.validation";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
+import makeBackendUserProfileSql from "../../../preMain/backendUserProfile.sql";
+import makeBackendUserSql from "../../../preMain/backendUser.sql";
 
 type input = {
-  id: string
+  userId: string;
 }
 
 type returnBasicViewType = {
-  id: string
-  email: String
-  firstName: String
-  lastName: String
-  username: String
-  picture: String
-  callByType: String
-  circleColor: String
-  labelColor: String
+  id: string;
+  email: String;
+  firstName: String;
+  lastName: String;
+  username: String;
+  picture: String;
+  callByType: String;
+  circleColor: String;
+  labelColor: String;
+  displayName: string;
 }
 
 export default function them(d: dependencies) {
   return async (args: input): Promise<returningSuccessObj<returnBasicViewType>> => {
 
-    const foundationUserProfileSql = makeFoundationUserProfileSql(d)
-    const foundationUserSql = makeFoundationUserSql(d)
-    const foundationUserValidation = makeFoundationUserValidation(d)
+    const backendUserProfileSql = makeBackendUserProfileSql(d)
+    const backendUserSql = makeBackendUserSql(d)
 
     //////////////////////////////////////
     // Validations
     // ===================================
 
-    if (!args.id) {
+    if (!args.userId) {
       return endMainFromError({
-        hint: "'id' is missing.",
-        errorIdentifier: "backendUser_addOne_error:0001"
+        hint: "'userId' is missing.",
+        errorIdentifier: "backendUserBasicView_me_error:0001"
       })
     }
 
     const isUserIdUuid = stringHelpers.isStringValidUuid({
-      str: args.id,
+      str: args.userId,
     })
 
     if (!isUserIdUuid.result) {
       return endMainFromError({
-        hint: "'id' is not a UUID.",
-        errorIdentifier: "backendUser_addOne_error:0002"
+        hint: "'userId' is not a UUID.",
+        errorIdentifier: "backendUserBasicView_me_error:0002"
       })
     }
-
 
     //////////////////////////////////////
     // Sql
     // ===================================    
 
-    const userResponse = await foundationUserSql.getOneById({
-      id: args.id
+    const userResponse = await backendUserSql.getOneById({
+      id: args.userId
     }).catch(error => d.errorHandler(error, d.loggers))
 
-    const userProfileResponse = await foundationUserProfileSql.getOneById({
-      id: args.id,
+    const userProfileResponse = await backendUserProfileSql.getOneByUserId({
+      userId: args.userId,
     }).catch(error => d.errorHandler(error, d.loggers))
 
     return {
@@ -78,6 +76,7 @@ export default function them(d: dependencies) {
         callByType: userProfileResponse.data?.dataValues?.callByType,
         circleColor: userProfileResponse.data?.dataValues?.circleColor,
         labelColor: userProfileResponse.data?.dataValues?.labelColor,
+        displayName: userProfileResponse.data?.dataValues.displayName,
       }
     }
   }

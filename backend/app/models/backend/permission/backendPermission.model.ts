@@ -1,6 +1,6 @@
-// import sequelize, { DataTypes } from 'sequelize';
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
-// import Sequelize from 'sequelize';
+import { Table, Column, Model, DataType, HasMany } from 'sequelize-typescript';
+import backendUserManyPermission from '../user/backendUserManyPermission.model';
+import backendRoleManyPermission from '../role/backendRoleManyPermission.model';
 
 @Table({
   paranoid: true,
@@ -9,7 +9,6 @@ import { Table, Column, Model, DataType } from 'sequelize-typescript';
   tableName: "backendPermission",
 })
 export default class backendPermission extends Model {
-  
   @Column({
     primaryKey: true,
     type: DataType.UUID,
@@ -22,4 +21,10 @@ export default class backendPermission extends Model {
     type: DataType.STRING,
   })
   name: string;
+
+  @HasMany(() => backendUserManyPermission)
+  userPermissions: backendUserManyPermission[];
+
+  @HasMany(() => backendRoleManyPermission)
+  rolePermissions: backendRoleManyPermission[];
 }

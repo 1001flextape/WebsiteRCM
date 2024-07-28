@@ -1,4 +1,4 @@
-import { Table, Column, Model, DataType, ForeignKey } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import backendPermission from '../permission/backendPermission.model';
 import backendUser from './backendUser.model';
 
@@ -22,9 +22,15 @@ export default class backendUserManyPermission extends Model {
   })
   userId: string;
 
+  @BelongsTo(() => backendUser)
+  user: backendUser;
+
   @ForeignKey(() => backendPermission)
   @Column({
     allowNull: false
   })
   permissionId: string;
+
+  @BelongsTo(() => backendPermission)
+  permission: backendPermission;
 }

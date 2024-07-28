@@ -7,7 +7,7 @@ import makeBackendUserProfileSql from "../backendUserProfile.sql";
 import { CallByTypeEnum } from "../scripts/userProfileSql/upsertOne.script";
 jest.setTimeout(100000)
 
-describe("test backendUserManyRole.sql.js", () => {
+describe("test backendUserProfile.sql.js", () => {
   let d: dependencies
   let userId: string;
   let recordId: string;

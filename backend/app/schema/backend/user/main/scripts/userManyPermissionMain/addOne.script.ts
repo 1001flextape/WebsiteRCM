@@ -5,7 +5,6 @@ import { returningSuccessObj } from "../../../../../utils/types/returningObjs.ty
 import makeBackendUserValidation from "../../../preMain/backendUser.validation";
 import endMainFromError from "../../../../../utils/graphql/endMainFromError.func";
 import makeBackendUserManyPermissionSql from "../../../preMain/backendUserManyPermission.sql";
-import makeBackendPermissionEntity from "../../../../permission";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
 
 type input = {
@@ -17,8 +16,6 @@ export default function addOne(d: dependencies) {
   return async (args: input): Promise<returningSuccessObj<Model<backendUserManyPermission> | null>> => {
 
     const userManyPermissionSql = makeBackendUserManyPermissionSql(d)
-    const userValidation = makeBackendUserValidation(d)
-    const { permissionEntity } = makeBackendPermissionEntity(d)
 
     //////////////////////////////////////
     // Validations
@@ -27,7 +24,7 @@ export default function addOne(d: dependencies) {
     if (!args.userId) {
       return endMainFromError({
         hint: "'userId' is missing.",
-        errorIdentifier: "backendUser_addOne_error:0001"
+        errorIdentifier: "backendUserManyPermission_addOne_error:0001"
       })
     }
 
@@ -38,25 +35,14 @@ export default function addOne(d: dependencies) {
     if (!isUserIdUuid.result) {
       return endMainFromError({
         hint: "'userId' is not a UUID.",
-        errorIdentifier: "backendUser_addOne_error:0002"
-      })
-    }
-
-    const isUserIdValid = await userValidation.isIdValid({
-      id: args.userId
-    }).catch(error => d.errorHandler(error, d.loggers))
-
-    if (!isUserIdValid.result) {
-      return endMainFromError({
-        hint: "'userId' is not valid.",
-        errorIdentifier: "backendUser_addOne_error:0003"
+        errorIdentifier: "backendUserManyPermission_addOne_error:0002"
       })
     }
 
     if (!args.permissionId) {
       return endMainFromError({
         hint: "'permissionId' is missing.",
-        errorIdentifier: "backendUser_addOne_error:0004"
+        errorIdentifier: "backendUserManyPermission_addOne_error:0003"
       })
     }
 
@@ -67,20 +53,9 @@ export default function addOne(d: dependencies) {
     if (!isPermissionIdUuid.result) {
       return endMainFromError({
         hint: "'permissionId' is not a UUID.",
-        errorIdentifier: "backendUser_addOne_error:0005"
+        errorIdentifier: "backendUserManyPermission_addOne_error:0004"
       })
     }
-
-    // const isPermissionIdValid = await permissionEntity.isIdValid({
-    //   id: args.userId
-    // }).catch(error => errorHandler(error, d.loggers))
-
-    // if (!isPermissionIdValid.result) {
-    //   return endMainFromError({
-    //     hint: "'permissionId' is not valid.",
-    //     errorIdentifier: "backendUser_addOne_error:0006"
-    //   })
-    // }
 
     //////////////////////////////////////
     // Sql

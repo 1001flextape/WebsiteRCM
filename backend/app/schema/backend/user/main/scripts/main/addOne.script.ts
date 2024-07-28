@@ -5,21 +5,18 @@ import stringHelpers from "../../../../../utils/stringHelpers";
 import { returningSuccessObj } from "../../../../../utils/types/returningObjs.types";
 import makeBackendUserSql from "../../../preMain/backendUser.sql";
 import makeBackendUserValidation from "../../../preMain/backendUser.validation";
-import addFirst from "./addFirst.private";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
-import makeBackendUserProfileSql from "../../../preMain/backendUserProfile.sql";
 
 
 type input = {
-  email: string
-  password: string
-  isAdmin?: boolean
+  email: string;
+  password: string;
+  isDeactivated?: boolean;
+  isAdmin?: boolean;
 }
 
 export default function addOne(d: dependencies) {
   return async (args: input): Promise<returningSuccessObj<Model<backendUser> | null>> => {
-
-    const { errorHandler, loggers } = d
 
     const backendUserSql = makeBackendUserSql(d)
     const backendUserValidation = makeBackendUserValidation(d)
@@ -53,9 +50,9 @@ export default function addOne(d: dependencies) {
       })
     }
 
-    const isPasswordValid: returningSuccessObj<null> = await foundationUserValidation.isPasswordValid({
+    const isPasswordValid: returningSuccessObj<null> = await backendUserValidation.isPasswordValid({
       password: args.password,
-    }).catch(error => errorHandler(error, loggers))
+    }).catch(error => d.errorHandler(error, d.loggers))
 
     if (!isPasswordValid.result) {
       return endMainFromError({
@@ -64,78 +61,40 @@ export default function addOne(d: dependencies) {
       })
     }
 
-    const isEmailTaken = await foundationUserValidation.isEmailTaken({
+    const isEmailTaken = await backendUserValidation.isEmailTaken({
       email: args.email,
-    })
-    //.catch(error => errorHandler(error, loggers))
+    }).catch(error => d.errorHandler(error, d.loggers))
+
+    if (isEmailTaken.result) {
+      return endMainFromError({
+        hint: "Email is taken.",
+        errorIdentifier: "backendUser_addOne_error:0005"
+      })
+    }
 
     //////////////////////////////////////
     // Sql
-    // ===================================  
+    // ===================================
+
+    // if null, make false as default
     if (!args.isAdmin) {
       args.isAdmin = false;
     }
 
-    const doesAUserExists = await foundationUserValidation.doesAUserExists()
+    const doesAUserExists = await backendUserValidation.doesAUserExists()
 
+    // first user is an Admin
     if (!doesAUserExists.result) {
-      const addFirstFunction = addFirst(d)
-
-      return await addFirstFunction({
-        email: args.email,
-        isAdmin: args.isAdmin,
-        password: args.password,
-        username: args.username,
-      }).catch(error => errorHandler(error, loggers))
+      args.isAdmin = true;
     }
 
-    let foundationUserResponse: returningSuccessObj<Model<foundationUser>>
-    let foundationUserProfileResponse: returningSuccessObj<Model<foundationUserProfile>>
-    let backendUserResponse: returningSuccessObj<Model<backendUser>>
+    const response = await backendUserSql.addOne({
+      email: args.email,
+      password: args.password,
+      isAdmin: args.isAdmin,
+    })
+    // .catch(error => d.errorHandler(error, d.loggers))
 
-    if (!isEmailTaken.result) {
-      foundationUserResponse = await foundationUserSql.addOne({
-        email: args.email,
-        password: args.password,
-      }).catch(error => errorHandler(error, loggers))
-
-
-      foundationUserProfileResponse = await foundationUserProfileSql.upsertOne({
-        id: foundationUserResponse.data.dataValues.id,
-        username: args.username
-      })
-  
-      backendUserResponse = await backendUserSql.addOne({
-        id: foundationUserResponse.data.dataValues.id,
-        isAdmin: args.isAdmin,
-      })
-    } else {
-      foundationUserResponse = await foundationUserSql.getOneByEmail({
-        email: args.email,
-      }).catch(error => errorHandler(error, loggers))
-
-      foundationUserProfileResponse = await foundationUserProfileSql.upsertOne({
-        id: foundationUserResponse.data.dataValues.id,
-        username: args.username
-      })
-  
-      backendUserResponse = await backendUserSql.updateOne({
-        id: foundationUserResponse.data.dataValues.id,
-        isAdmin: args.isAdmin,
-      })
-    }
-    
-    // .catch(error => errorHandler(error, loggers))
-
-    return {
-      success: true,
-      data: {
-        id: foundationUserResponse.data.dataValues.id,
-        email: foundationUserResponse.data.dataValues.email,
-        password: foundationUserResponse.data.dataValues.password,
-        isAdmin: backendUserResponse.data.dataValues.isAdmin,
-        username: foundationUserProfileResponse.data.dataValues.username,
-      }
-    }
+    return response;
   }
 }

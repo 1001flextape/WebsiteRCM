@@ -1,5 +1,5 @@
 // import sequelize, { DataTypes } from 'sequelize';
-import { Table, Column, Model, DataType, ForeignKey } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import backendPermission from '../permission/backendPermission.model';
 import backendRole from './backendRole.model';
 // import Sequelize from 'sequelize';
@@ -18,7 +18,6 @@ export default class backendRoleManyPermission extends Model {
   })
   id: string;
 
-
   @ForeignKey(() => backendRole)
   @Column
   roleId: string;
@@ -26,4 +25,10 @@ export default class backendRoleManyPermission extends Model {
   @ForeignKey(() => backendPermission)
   @Column
   permissionId: string;
+
+  @BelongsTo(() => backendRole)
+  role: backendRole;
+
+  @BelongsTo(() => backendPermission)
+  permission: backendPermission;
 }

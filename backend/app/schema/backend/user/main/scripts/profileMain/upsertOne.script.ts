@@ -1,54 +1,50 @@
 import stringHelpers from "../../../../../utils/stringHelpers";
 import { returningSuccessObj } from "../../../../../utils/types/returningObjs.types";
 import endMainFromError from "../../../../../utils/graphql/endMainFromError.func";
-import makeFoundationUserValidation from "../../../../../../domain/foundation/user/preMain/foundationUser.validation";
-import foundationUserProfile from "../../../../../../../models/domain/foundation/user/foundationUserProfile.model";
 import { Model } from "sequelize";
-import makeFoundationUserProfileSql from "../../../../../../domain/foundation/user/preMain/foundationUserProfile.sql";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
 import { CallByTypeEnum } from "../../../preMain/scripts/userProfileSql/upsertOne.script";
+import makeBackendUserValidation from "../../../preMain/backendUser.validation";
+import makeBackendUserProfileSql from "../../../preMain/backendUserProfile.sql";
+import backendUserProfile from "../../../../../../models/backend/user/backendUserProfile.model";
 
 type input = {
-  id: string
-  // username?: string
-  // birthday?: string
-  // location?: string
-  // website?: string
-  // picture?: string
-
-  firstName?: string
-  lastName?: string
-  username?: string
-  picture?: string
-  callByType?: CallByTypeEnum
-  circleColor?: string
-  labelColor?: string
+  userId: string;
+  displayName?: string;
+  firstName?: string;
+  lastName?: string;
+  username?: string;
+  picture?: string;
+  callByType?: CallByTypeEnum;
+  circleColor?: string;
+  labelColor?: string;
 }
-export default function updateOne(d: dependencies) {
-  return async (args: input): Promise<returningSuccessObj<Model<foundationUserProfile>>> => {
 
-    const userProfileSql = makeFoundationUserProfileSql(d)
-    const userValidation = makeFoundationUserValidation(d)
+export default function updateOne(d: dependencies) {
+  return async (args: input): Promise<returningSuccessObj<Model<backendUserProfile>>> => {
+
+    const userProfileSql = makeBackendUserProfileSql(d)
+    const userValidation = makeBackendUserValidation(d)
 
     //////////////////////////////////////
     // Validations
     // ===================================
 
-    if (!args.id) {
+    if (!args.userId) {
       return endMainFromError({
-        hint: "'id' is missing.",
-        errorIdentifier: "backendUserAccount_deactivateOne_error:0001"
+        hint: "'userId' is missing.",
+        errorIdentifier: "backendUserProfile_upsertOne_error:0001"
       })
     }
 
     const isUserIdUuid = stringHelpers.isStringValidUuid({
-      str: args.id,
+      str: args.userId,
     })
 
     if (!isUserIdUuid.result) {
       return endMainFromError({
-        hint: "'id' is not a UUID.",
-        errorIdentifier: "backendUserAccount_deactivateOne_error:0002"
+        hint: "'userId' is not a UUID.",
+        errorIdentifier: "backendUserProfile_upsertOne_error:0002"
       })
     }
 
@@ -58,7 +54,8 @@ export default function updateOne(d: dependencies) {
 
     const response = await userProfileSql.upsertOne({
       // birthday: args.birthday,
-      id: args.id,
+      userId: args.userId,
+      displayName: args.displayName,
       firstName: args.firstName,
       lastName: args.lastName,
       username: args.username,
@@ -66,9 +63,7 @@ export default function updateOne(d: dependencies) {
       callByType: args.callByType,
       circleColor: args.circleColor,
       labelColor: args.labelColor,
-    })
-
-    // .catch(error => errorHandler(error, loggers))
+    }).catch(error => d.errorHandler(error, d.loggers))
 
     return response
   }

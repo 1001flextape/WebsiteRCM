@@ -33,7 +33,8 @@ export default function upsertOne(d: dependencies) {
     const doesUserHaveAProfile = await db.backendUserProfile.count({
       where: { userId, },
       transaction: d.dbTransaction,
-    }).catch(error => d.errorHandler(error, d.loggers))
+    })
+    // .catch(error => d.errorHandler(error, d.loggers))
 
     //if not count, add instead
     if (!doesUserHaveAProfile) {

@@ -11,7 +11,7 @@ type input = {
 export default function addMany(d: dependencies) {
   const db = d.db.models;
 
-  return async ({ userId, roleIdsArray, }: input): Promise<returningSuccessObj<Model<backendUserManyRole>>> => {
+  return async ({ userId, roleIdsArray, }: input): Promise<returningSuccessObj<Model<backendUserManyRole>[]>> => {
 
     const data = await db.backendUserManyRole.bulkCreate(roleIdsArray.map(roleId => ({
       userId,

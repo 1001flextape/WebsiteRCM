@@ -1,35 +1,28 @@
-import { v4 as uuidv4 } from "uuid"
 import { Model } from "sequelize";
 import backendPermission from "../../../../../../models/backend/permission/backendPermission.model";
 import makeBackendUserMain from "../../backendUser.main";
 import makeBackendPermissionMain from "../../../../permission/main/backendPermission.main";
-import { addOneBackendUserResponse } from "../../scripts/main/addOne.script";
 import makeBackendUserManyPermissionMain from "../../backendUserManyPermission.main";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
 import { makeDTestObj } from "../../../../../utils/dependencies/makeTestDependency";
+import backendUser from "../../../../../../models/backend/user/backendUser.model";
 jest.setTimeout(100000)
 
 describe("test backendUserManyPermission.main.js", () => {
-  let d: dependencies
-  let user: addOneBackendUserResponse
-  let permission: Model<backendPermission>
+  let d: dependencies;
+  let user: Model<backendUser>;
+  let permission: Model<backendPermission>;
 
   beforeAll(async () => {
-    
+
     d = await makeDTestObj()
-    
-    
 
     const backendUserMain = makeBackendUserMain(d)
     const backendPermissionMain = makeBackendPermissionMain(d)
 
-    let uuid = uuidv4();
-
     user = (await backendUserMain.addOne({
       email: "asdf@aasdf.com",
       password: "blahBLAH!#@jklN24",
-      username: "test_username_blah_blah"
-
     })).data
 
     permission = (await backendPermissionMain.addOne({
@@ -40,38 +33,53 @@ describe("test backendUserManyPermission.main.js", () => {
 
   }, 100000)
 
-  test("addOne & getOne: backendUserManyPermissions can add record.", async () => {
+  test("addOne: can add record.", async () => {
     const userManyPermissionMain = makeBackendUserManyPermissionMain(d)
 
-    const newUserManyPermission = await userManyPermissionMain.addOne({
+    const addOne = await userManyPermissionMain.addOne({
       permissionId: permission.dataValues.id,
-      userId: user.id,
+      userId: user.dataValues.id,
     })
-    expect(newUserManyPermission.success).toBe(true)
 
-
-    const deletedUserManyPermission = await userManyPermissionMain.deleteOne({
-      permissionId: permission.dataValues.id,
-      userId: user.id,
-    })
-    expect(deletedUserManyPermission.success).toBe(true)
+    expect(addOne.success).toBe(true)
+    expect(addOne.data.dataValues.userId).toEqual(user.dataValues.id)
+    expect(addOne.data.dataValues.permissionId).toEqual(permission.dataValues.id)
   })
 
-  test("setList & getAll: backendUserManyPermissions can add many records at once.", async () => {
+  test("deleteOne: can delete record.", async () => {
     const userManyPermissionMain = makeBackendUserManyPermissionMain(d)
 
-    const addManyPermission = await userManyPermissionMain.setList(
+    const deleteOne = await userManyPermissionMain.deleteOne({
+      permissionId: permission.dataValues.id,
+      userId: user.dataValues.id,
+    })
+    expect(deleteOne.success).toBe(true)
+  })
+
+  test("setList: can add many records at once.", async () => {
+    const userManyPermissionMain = makeBackendUserManyPermissionMain(d)
+
+    const setList = await userManyPermissionMain.setList(
       [{
-        userId: user.id,
         permissionId: permission.dataValues.id,
+        userId: user.dataValues.id,
       }]
     )
-    expect(addManyPermission.success).toBe(true)
+    expect(setList.success).toBe(true)
+  })
 
-    const deletedUserManyPermission = await userManyPermissionMain.getAll({
-      id: user.id
-    })
-    expect(deletedUserManyPermission.success).toBe(true)
+  test("getAll: can get many records at once.", async () => {
+    const userManyPermissionMain = makeBackendUserManyPermissionMain(d)
+
+    const getAll = await userManyPermissionMain.getAll({
+      userId: user.dataValues.id,
+    }
+
+    )
+    expect(getAll.success).toBe(true)
+    expect(getAll.data[0].dataValues.userId).toEqual(user.dataValues.id)
+    expect(getAll.data[0].dataValues.permissionId).toEqual(permission.dataValues.id)
+    expect(getAll.data.length).toBe(1)
   })
 
   afterAll(async () => {

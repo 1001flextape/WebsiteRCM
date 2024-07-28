@@ -25,7 +25,7 @@ export default function deleteOne(d: dependencies) {
     if (!args.userId) {
       return endMainFromError({
         hint: "'userId' is missing.",
-        errorIdentifier: "backendUser_addOne_error:0001"
+        errorIdentifier: "backendUserManyPermission_deleteOne_error:0001"
       })
     }
 
@@ -36,7 +36,7 @@ export default function deleteOne(d: dependencies) {
     if (!isUserIdUuid.result) {
       return endMainFromError({
         hint: "'userId' is not a UUID.",
-        errorIdentifier: "backendUser_addOne_error:0002"
+        errorIdentifier: "backendUserManyPermission_deleteOne_error:0002"
       })
     }
 
@@ -47,14 +47,14 @@ export default function deleteOne(d: dependencies) {
     if (!isUserIdValid.result) {
       return endMainFromError({
         hint: "'userId' is not valid.",
-        errorIdentifier: "backendUser_addOne_error:0003"
+        errorIdentifier: "backendUserManyPermission_deleteOne_error:0003"
       })
     }
 
     if (!args.permissionId) {
       return endMainFromError({
         hint: "'permissionId' is missing.",
-        errorIdentifier: "backendUser_addOne_error:0004"
+        errorIdentifier: "backendUserManyPermission_deleteOne_error:0004"
       })
     }
 
@@ -65,7 +65,7 @@ export default function deleteOne(d: dependencies) {
     if (!isPermissionIdUuid.result) {
       return endMainFromError({
         hint: "'permissionId' is not a UUID.",
-        errorIdentifier: "backendUser_addOne_error:0005"
+        errorIdentifier: "backendUserManyPermission_deleteOne_error:0005"
       })
     }
 
@@ -76,7 +76,7 @@ export default function deleteOne(d: dependencies) {
     // if (!isPermissionIdValid.result) {
     //   return endMainFromError({
     //     hint: "'permissionId' is not valid.",
-    //     errorIdentifier: "backendUser_addOne_error:0006"
+    //     errorIdentifier: "backendUserManyPermission_deleteOne_error:0006"
     //   })
     // }
 

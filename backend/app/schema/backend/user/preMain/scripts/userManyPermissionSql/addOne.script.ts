@@ -1,3 +1,4 @@
+import { Model } from "sequelize";
 import backendUserManyPermission from "../../../../../../models/backend/user/backendUserManyPermission.model";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
 import { returningSuccessObj } from "../../../../../utils/types/returningObjs.types";
@@ -10,14 +11,15 @@ type input = {
 export default function addOne(d: dependencies) {
   const db = d.db.models;
 
-  return async (args: input): Promise<returningSuccessObj<backendUserManyPermission | null>> => {
+  return async (args: input): Promise<returningSuccessObj<Model<backendUserManyPermission> | null>> => {
 
     const data = await db.backendUserManyPermission.create(
       args,
       {
         transaction: d.dbTransaction,
       }
-    ).catch(error => d.errorHandler(error, d.loggers))
+    )
+    // .catch(error => d.errorHandler(error, d.loggers))
 
     return {
       success: true,

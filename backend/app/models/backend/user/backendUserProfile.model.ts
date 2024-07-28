@@ -1,7 +1,5 @@
-// import sequelize, { DataTypes } from 'sequelize';
-import { Table, Column, Model, DataType, ForeignKey } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import backendUser from './backendUser.model';
-// import Sequelize from 'sequelize';
 
 @Table({
   paranoid: true,
@@ -23,6 +21,9 @@ export default class backendUserProfile extends Model {
   })
   userId: string;
 
+  @BelongsTo(() => backendUser, { as: 'user' })
+  user: backendUser;
+
   @Column({
     type: DataType.STRING,
   })
@@ -36,8 +37,8 @@ export default class backendUserProfile extends Model {
   @Column({
     type: DataType.STRING,
   })
-
   lastName: string;
+
   @Column({
     type: DataType.STRING,
   })
