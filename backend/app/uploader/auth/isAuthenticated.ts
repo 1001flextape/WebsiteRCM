@@ -1,4 +1,4 @@
-import makeFoundationAuthFunc from "../../schema/domain/foundation/auth/preMain/foundationAuth.func";
+import makeFoundationAuthFunc from "../../schema/backend/auth/preMain/backendAuth.func";
 import { makeDObj } from "../../schema/utils/dependencies/makeDependency";
 
 
