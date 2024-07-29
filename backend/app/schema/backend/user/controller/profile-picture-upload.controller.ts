@@ -1,8 +1,8 @@
 import uploaderAuth from "../../../../uploader/auth/isAuthenticated"
 import { profileUpload } from "./profile-upload.rules";
 import makeWhoIsOnPage from "../../../collaborate/_singleton/preMain/whoIsOnPage.ram-cache";
-import makeFoundationUserProfileMain from "../../../../domain/foundation/user/main/foundationUserProfile.main";
 import { makeDObj } from "../../../utils/dependencies/makeDependency";
+import makeBackendUserProfileMain from "../main/backendUserProfile.main";
 
 
 export default ({ app }) => {
@@ -17,11 +17,11 @@ export default ({ app }) => {
     
     
 
-    const profile = makeFoundationUserProfileMain(d)
+    const profile = makeBackendUserProfileMain(d)
     const whoIsOnPage = makeWhoIsOnPage(d)
 
     await profile.upsertOne({
-      id: req.user.id,
+      userId: req.user.id,
       callByType: req.body.callByType || undefined,
       circleColor: req.body.circleColor,
       firstName: req.body.firstName || undefined,
@@ -38,7 +38,6 @@ export default ({ app }) => {
     })
     
     d.dbTransaction.commit()
-    d.domainTransaction.commit()
 
     let data: any = {}
 

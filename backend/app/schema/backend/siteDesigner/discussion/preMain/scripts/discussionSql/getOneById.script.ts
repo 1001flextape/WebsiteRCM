@@ -1,8 +1,8 @@
 import { Model } from "sequelize";
 import backendSiteDesignerDiscussion from "../../../../../../../models/backend/siteDesigner/discussion/backendSiteDesignerDiscussion.model";
 import { returningSuccessObj } from "../../../../../../utils/types/returningObjs.types";
-import { sequelize } from "../../../../../../../../models/domain";
 import { dependencies } from "../../../../../../utils/dependencies/type/dependencyInjection.types";
+import sequelize from "sequelize";
 
 type input = { 
   id: string 

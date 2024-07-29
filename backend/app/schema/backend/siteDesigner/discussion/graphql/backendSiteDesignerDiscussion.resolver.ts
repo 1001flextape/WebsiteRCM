@@ -303,7 +303,7 @@ const backendDiscussionVoteGqlResolver = {
       const main = makeBackendUserBasicViewMain(ctx.d)
 
       const response = await main.them({
-        id: parent.userId
+        userId: parent.userId
       })
 
       if (response?.success) {
@@ -336,7 +336,7 @@ const backendDiscussionVoteGqlResolver = {
       const main = makeBackendUserBasicViewMain(ctx.d)
 
       const response = await main.them({
-        id: parent.userId
+        userId: parent.userId
       })
 
       if (response?.success) {

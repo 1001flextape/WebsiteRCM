@@ -1,6 +1,6 @@
 import gql from "graphql-tag"
 
-const foundationAuthGqlType = gql`
+const backendAuthGqlType = gql`
 
   type CookieType {
     cookie: String
@@ -11,13 +11,13 @@ const foundationAuthGqlType = gql`
   }
 
   type Mutation {
-    foundationAuth_signup(email: String!, password: String!, confirmPassword: String!): TokenType
-    foundationAuth_signin(email: String!, password: String!): TokenType
-    foundationAuth_devSignin(email: String!, password: String!): TokenType
-    foundationAuth_forgotPassword(email: String!) : ReturningSuccessObj
-    foundationAuth_isTokenValid(token: String!) : ReturningSuccessObj
+    backendAuth_signup(email: String!, password: String!, confirmPassword: String!): TokenType
+    backendAuth_signin(email: String!, password: String!): TokenType
+    backendAuth_devSignin(email: String!, password: String!): TokenType
+    backendAuth_forgotPassword(email: String!) : ReturningSuccessObj
+    backendAuth_isTokenValid(token: String!) : ReturningSuccessObj
   }
 `
 
 
-export default foundationAuthGqlType;
+export default backendAuthGqlType;

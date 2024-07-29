@@ -4,7 +4,7 @@ import { makeDTestObj } from "../../../../utils/dependencies/makeTestDependency"
 jest.setTimeout(100000)
 
 
-describe("test backendRole.func.js", () => {
+describe("test backendAuth.func.js", () => {
   let d: dependencies
   let token: any
 
@@ -24,7 +24,7 @@ describe("test backendRole.func.js", () => {
     expect(token.success).toEqual(true)
   })
 
-  test("getDataFromToken: backendRoles can add record.", async () => {
+  test("getDataFromToken: get data.", async () => {
     const authFunc = makeBackendAuthFunc(d)
 
     const checkedToken = await authFunc.getDataFromToken({

@@ -22,7 +22,7 @@ export default function reactivateOne(d: dependencies) {
     if (!args.id) {
       return endMainFromError({
         hint: "'id' is missing.",
-        errorIdentifier: "backendUser_deactivateOne_error:0001"
+        errorIdentifier: "backendUser_reactivateOne_error:0001"
       })
     }
 
@@ -33,7 +33,7 @@ export default function reactivateOne(d: dependencies) {
     if (!isUserIdUuid.result) {
       return endMainFromError({
         hint: "'id' is not a UUID.",
-        errorIdentifier: "backendUser_deactivateOne_error:0002"
+        errorIdentifier: "backendUser_reactivateOne_error:0002"
       })
     }
 

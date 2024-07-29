@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid"
 import makeBackendSiteDesignerDiscussionMain from "../../backendSiteDesignerDiscussion.main"
 import backendUser from "../../../../../../../models/backend/user/backendUser.model";
 import { Model } from "sequelize";
@@ -14,16 +13,14 @@ describe("test backendSiteDesignerDiscussion.main.js", () => {
   let user: Model<backendUser>;
 
   beforeAll(async () => {
-    const uuid = uuidv4()
 
     d = await makeDTestObj()
-    
-    
 
     const userMain = makeBackendUserSql(d)
 
     user = (await userMain.addOne({
-      id: uuid,
+      email: "email@test.com",
+      password: "Password1!",
     })).data
 
   }, 100000)

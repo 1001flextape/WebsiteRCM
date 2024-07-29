@@ -15,8 +15,6 @@ describe("test backendSiteDesignerPageSectionNormalBuiltIn.sql.js", () => {
 
     d = await makeDTestObj()
     
-    
-
   }, 100000)
 
   test("getMany: can get many records.", async () => {

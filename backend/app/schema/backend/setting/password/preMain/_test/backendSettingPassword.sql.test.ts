@@ -4,7 +4,7 @@ import { makeDTestObj } from "../../../../../utils/dependencies/makeTestDependen
 jest.setTimeout(100000)
 
 
-describe("test foundationSetting_password.sql.js", () => {
+describe("test backendSettingPassword.sql.js", () => {
   let d: dependencies;
 
   beforeAll(async () => {
@@ -13,10 +13,10 @@ describe("test foundationSetting_password.sql.js", () => {
 
   }, 100000)
 
-  test("updateOne: foundationSetting_password can add record.", async () => {
+  test("upsertOne: can add record.", async () => {
     const settingPassword = makeFoundationSettingPassword(d)
 
-    const updateOne = await settingPassword.updateOne({
+    const updateOne = await settingPassword.upsertOne({
       passwordLength: 8,
       shouldHaveLowercaseLetter: false,
       shouldHaveNumber: false,
@@ -30,7 +30,7 @@ describe("test foundationSetting_password.sql.js", () => {
     expect(updateOne.data.dataValues.shouldHaveUppercaseLetter).toBe(false)
   })
 
-  test("getOne: foundationSetting_password can add record.", async () => {
+  test("getOne: can add record.", async () => {
     const settingPassword = makeFoundationSettingPassword(d)
 
     const getOne = await settingPassword.getOne()
@@ -38,7 +38,7 @@ describe("test foundationSetting_password.sql.js", () => {
   })
   
   afterAll(async () => {
-    ;
+    d.dbTransaction.rollback();
   })
 })
 

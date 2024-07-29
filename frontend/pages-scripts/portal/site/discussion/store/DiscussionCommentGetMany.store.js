@@ -1,9 +1,9 @@
-import { callSubDomainApi } from "@/utils/graphql/backend-api"
+import { callApi } from "@/utils/graphql/backend-api"
 
 export const getSiteDesignerDiscussionComment_getMany_GraphQL = ({ discussionId, page, pageSize }) => {
   return new Promise(async (resolve) => {
 
-    const response = await callSubDomainApi({
+    const response = await callApi({
       query: `
       query($discussionId: ID!, $page: Int, $pageSize: Int) {
         backendSiteDesignerDiscussionComment_getManyWithPagination(discussionId: $discussionId, page: $page, pageSize: $pageSize) {

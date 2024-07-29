@@ -1,17 +1,17 @@
 import { and, or } from "graphql-shield"
 import { isPublic, isAuthenticated, isAdmin, hasPermissions } from "../../../../shield/rules"
 
-const foundationAuthSecurity = {
+const backendAuthSecurity = {
   Query: {
 
   },
   Mutation: {
-    foundationAuth_signup: isPublic,
-    foundationAuth_signin: isPublic,
-    foundationAuth_devSignin: isPublic,
-    foundationAuth_forgotPassword: isPublic,
-    foundationAuth_isTokenValid: isPublic,
+    backendAuth_signup: isPublic,
+    backendAuth_signin: isPublic,
+    backendAuth_devSignin: isPublic,
+    backendAuth_forgotPassword: isPublic,
+    backendAuth_isTokenValid: isPublic,
   }
 }
 
-export default foundationAuthSecurity
+export default backendAuthSecurity

@@ -1,10 +1,10 @@
-import makeFoundationSettingPassword from "../backendSettingPassword.main"
+import makeBackendSettingPassword from "../backendSettingPassword.main"
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
 import { makeDTestObj } from "../../../../../utils/dependencies/makeTestDependency";
 jest.setTimeout(100000)
 
 
-describe("test foundationSetting_password.main.js", () => {
+describe("test backendSettingPassword.main.js", () => {
   let d: dependencies;
 
   beforeAll(async () => {
@@ -13,10 +13,10 @@ describe("test foundationSetting_password.main.js", () => {
 
   }, 100000)
 
-  test("updateOne: foundationSetting_password can add record.", async () => {
-    const settingPassword = makeFoundationSettingPassword(d)
+  test("upsertOne: can add record.", async () => {
+    const settingPassword = makeBackendSettingPassword(d)
 
-    const updateOne = await settingPassword.updateOne({
+    const updateOne = await settingPassword.upsertOne({
       passwordLength: 8,
       shouldHaveLowercaseLetter: false,
       shouldHaveNumber: false,
@@ -30,8 +30,8 @@ describe("test foundationSetting_password.main.js", () => {
     expect(updateOne.data.dataValues.shouldHaveUppercaseLetter).toBe(false)
   })
 
-  test("getOne: foundationSetting_password can add record.", async () => {
-    const settingPassword = makeFoundationSettingPassword(d)
+  test("getOne: can add record.", async () => {
+    const settingPassword = makeBackendSettingPassword(d)
 
     const getOne = await settingPassword.getOne()
     expect(getOne.data.dataValues.passwordLength).toEqual(8)

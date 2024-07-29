@@ -1,9 +1,9 @@
-import { callSubDomainApi } from "@/utils/graphql/backend-api"
+import { callApi } from "@/utils/graphql/backend-api"
 
 export const getSiteDesignerDiscussion_getOneById_GraphQL = ({ id, page, pageSize}) => {
   return new Promise(async (resolve) => {
 
-    const response = await callSubDomainApi({
+    const response = await callApi({
       query: `
       query($id: ID!, $page: Int, $pageSize: Int) {
         backendSiteDesignerDiscussion_getOneById(id: $id) {

@@ -1,9 +1,10 @@
 import { returningSuccessObj } from "../../../../../utils/types/returningObjs.types"
-import makeFoundationUserEntity from "../../../../../../domain/foundation/user"
-import makeFoundationAuthFunc from "../../../preMain/backendAuth.func"
+import makeBackendAuthFunc from "../../../preMain/backendAuth.func"
 import endMainFromError from "../../../../../utils/graphql/endMainFromError.func"
 import { isStringValidEmail } from "../../../../../utils/stringHelpers/checkEmail"
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types"
+import makeBackendUserMain from "../../../../user/main/backendUser.main"
+import makeBackendUserValidation from "../../../../user/preMain/backendUser.validation"
 
 type returningTokenObj = {
   token: string
@@ -26,8 +27,9 @@ export default function signIn(d: dependencies) {
 
     const { email, password, } = args
 
-    const { userMain, } = makeFoundationUserEntity(d)
-    const authFunc = makeFoundationAuthFunc(d)
+    const backendUserMain = makeBackendUserMain(d)
+    const backendUserValidation = makeBackendUserValidation(d)
+    const backendAuthFunc = makeBackendAuthFunc(d)
     // const lookUpCookieCache = makeBackendAuthCache(d)
 
     //////////////////////////////////////
@@ -37,7 +39,7 @@ export default function signIn(d: dependencies) {
     if (!args.email) {
       return endMainFromError({
         hint: "Email is missing.",
-        errorIdentifier: "foundationAuth_signIn_error:0001"
+        errorIdentifier: "backendAuth_signIn_error:0001"
       })
     }
 
@@ -48,48 +50,41 @@ export default function signIn(d: dependencies) {
     if (!isEmailValid.result) {
       return endMainFromError({
         hint: "Email is not a valid email.",
-        errorIdentifier: "foundationAuth_signIn_error:0002"
+        errorIdentifier: "backendAuth_signIn_error:0002"
       })
     }
 
     if (!args.password) {
       return endMainFromError({
         hint: "Password is missing.",
-        errorIdentifier: "foundationAuth_signIn_error:0003"
+        errorIdentifier: "backendAuth_signIn_error:0003"
       })
     }
 
     if (args.password.length === 0) {
       return endMainFromError({
         hint: "Password is missing.",
-        errorIdentifier: "foundationAuth_signIn_error:0004"
+        errorIdentifier: "backendAuth_signIn_error:0004"
       })
     }
 
-    const user = await userMain.getOneByEmail({
+    const userEmail = await backendUserValidation.isEmailTaken({
       email: args.email,
     })
 
-    if (!user.data) {
+    // email is not taken in datatable means the email has no record to check
+    if (!userEmail.result) {
       return endMainFromError({
         hint: "Authorization Failed",
-        errorIdentifier: "foundationAuth_signIn_error:0000"
+        errorIdentifier: "backendAuth_signIn_error:0000"
       })
     }
 
-    // const isEmailTaken = await userMain.isEmailTaken({
-    //   email,
-    // })
+    const user = await backendUserMain.getOneByEmail({
+      email: args.email,
+    })
 
-    // if (!isEmailTaken.result) {
-    //   return {
-    //     success: false,
-    //     humanMessage: "Authorization Failed"
-    //   }
-    // }
-
-
-    const isPasswordCorrect = await userMain.isPasswordCorrect({
+    const isPasswordCorrect = await backendUserValidation.isPasswordCorrect({
       encryptedPassword: user.data.dataValues.password,
       password,
     })
@@ -97,11 +92,11 @@ export default function signIn(d: dependencies) {
     if (!isPasswordCorrect.result) {
       return endMainFromError({
         hint: "Authorization Failed",
-        errorIdentifier: "foundationAuth_signIn_error:0000"
+        errorIdentifier: "backendAuth_signIn_error:0000"
       })
     }
 
-    const token = await authFunc.signinToken({ userId: user.data.dataValues.id })
+    const token = await backendAuthFunc.signinToken({ userId: user.data.dataValues.id })
 
     //reddis storage matching with cookie
     // const cookie = await lookUpCookieCache.lookupCookieTokenSet({

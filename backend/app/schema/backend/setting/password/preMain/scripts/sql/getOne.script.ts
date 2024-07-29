@@ -9,7 +9,7 @@ export default function getOneById(d: dependencies) {
 
   return async (): Promise<returningSuccessObj<Model<backendSettingPassword> | null>> => {
 
-    const data = await db.foundationSetting_password.findOne({
+    const data = await db.backendSettingPassword.findOne({
       transaction: d.dbTransaction,
     }).catch(error => d.errorHandler(error, d.loggers))
 

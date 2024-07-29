@@ -1,4 +1,4 @@
-import { callSubDomainApi } from "@/utils/graphql/backend-api"
+import { callApi } from "@/utils/graphql/backend-api"
 
 export const postSettingBackgroundColorGraphQL = ({
   id,
@@ -8,7 +8,7 @@ export const postSettingBackgroundColorGraphQL = ({
 }) => {
   return new Promise(async (resolve) => {
 
-    const response = await callSubDomainApi({
+    const response = await callApi({
       query: `
       mutation($id: ID, $favicon: String, $tab: String, $isReady: Boolean) {
         backendSettingBackgroundColor_upsertOne(favicon: $favicon, tab: $tab, isReady: $isReady) {

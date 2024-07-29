@@ -26,7 +26,7 @@ export default function isPasswordValid(d: dependencies) {
       return {
         success: true,
         result: false,
-        humanMessage: `One uppercase character needed.`
+        humanMessage: `One uppercase character required.`
       }
     }
 
@@ -34,7 +34,7 @@ export default function isPasswordValid(d: dependencies) {
       return {
         success: true,
         result: false,
-        humanMessage: `One lowercase character needed.`
+        humanMessage: `One lowercase character required.`
       }
     }
 
@@ -42,7 +42,7 @@ export default function isPasswordValid(d: dependencies) {
       return {
         success: true,
         result: false,
-        humanMessage: `One number needed.`
+        humanMessage: `One number required.`
       }
     }
 
@@ -53,7 +53,7 @@ export default function isPasswordValid(d: dependencies) {
       return {
         success: true,
         result: false,
-        humanMessage: `One symbol needed.`
+        humanMessage: `One symbol required.`
       }
     }
 

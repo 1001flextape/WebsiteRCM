@@ -2,7 +2,6 @@ import makeBackendUserSql from "../backendUser.sql"
 import { v4 as uuidv4 } from "uuid"
 import { dependencies } from "../../../../utils/dependencies/type/dependencyInjection.types";
 import { makeDTestObj } from "../../../../utils/dependencies/makeTestDependency";
-// import makeFoundationUserMain from "../../../../../domain/foundation/user/main/foundationUser.main";
 jest.setTimeout(100000)
 
 describe("test backendUser.sql.js", () => {
@@ -27,7 +26,7 @@ describe("test backendUser.sql.js", () => {
     expect(newUser.data.rows.length).toBe(0)
   })
 
-  test("addOne: backendUsers can add record.", async () => {
+  test("addOne: can add record.", async () => {
     const userSql = makeBackendUserSql(d)
 
     const newUser = await userSql.addOne({
@@ -41,7 +40,7 @@ describe("test backendUser.sql.js", () => {
     expect(newUser.data.dataValues.isAdmin).toBe(true)
   })
 
-  test("getOneById: backendUsers can get record.", async () => {
+  test("getOneById: can get record.", async () => {
     const userSql = makeBackendUserSql(d)
 
     const getOneById = await userSql.getOneById({
@@ -51,7 +50,17 @@ describe("test backendUser.sql.js", () => {
     expect(getOneById.data.dataValues.isAdmin).toBe(true)
   })
 
-  test("updateOne: backendUsers can update record.", async () => {
+  test("getOneByEmail: can get record.", async () => {
+    const userSql = makeBackendUserSql(d)
+
+    const getOneByEmail = await userSql.getOneByEmail({
+      email: "email@test.com",
+    })
+    expect(getOneByEmail.data.dataValues.id).toEqual(recordId)
+    expect(getOneByEmail.data.dataValues.isAdmin).toBe(true)
+  })
+
+  test("updateOne: can update record.", async () => {
     const userSql = makeBackendUserSql(d)
 
     const updateUser = await userSql.updateOne({
@@ -70,8 +79,8 @@ describe("test backendUser.sql.js", () => {
     expect(newUser.success).toBe(true)
     expect(newUser.data.rows.length).toBe(1)
   })
-  
-  test("deleteOne: backendUsers can update record.", async () => {
+
+  test("deleteOne: can update record.", async () => {
     const userSql = makeBackendUserSql(d)
 
     const deletedUser = await userSql.deleteOne({

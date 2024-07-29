@@ -1,23 +1,17 @@
-// import { Model } from "sequelize";
-// import backendSetting_email from "../../../../../../../../models/backend/setting/backendSetting_colors.model";
-// import sequelizeErrorHandler from "../../../../../../../utils/errorHandling/handers/sequelize.errorHandler";
-// import { d_domain } from "../../../../../../../utils/types/dependencyInjection.types";
-// import { returningSuccessObj } from "../../../../../../../utils/types/returningObjs.types";
-// import makeFoundationSettingEmailSql from "../../../preMain/foundationSetting_email.sql";
+import { Model } from "sequelize";
+import { returningSuccessObj } from "../../../../../../utils/types/returningObjs.types";
+import backendSettingEmail from "../../../../../../../models/backend/setting/backendSettingEmail.model";
+import makeBackendSettingEmailSql from "../../../preMain/backendSettingEmail.sql";
+import { dependencies } from "../../../../../../utils/dependencies/type/dependencyInjection.types";
 
-// export default function getOne(d: d_domain) {
-//   return async (): Promise<returningSuccessObj<Model<backendSetting_email> | null>> => {
 
-//     const d = {
-//       domainDb,
-//       errorHandler,
-//       transaction: dbTransaction,
-//       loggers,
-//     }
-//     const emailSql = makeFoundationSettingEmailSql(d);
+export default function getOne(d: dependencies) {
+  return async (): Promise<returningSuccessObj<Model<backendSettingEmail> | null>> => {
 
-//     const response = await emailSql.getOne().catch(error => errorHandler(error, loggers))
+    const sql = makeBackendSettingEmailSql(d);
 
-//     return response
-//   }
-// }
+    const response = sql.getOne().catch(error => d.errorHandler(error, d.loggers))
+
+    return response
+  }
+}

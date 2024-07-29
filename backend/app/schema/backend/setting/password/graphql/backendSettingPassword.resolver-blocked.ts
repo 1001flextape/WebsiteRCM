@@ -1,7 +1,6 @@
 // const { errorHandler } = require("../../../../../utils");
 // const { graphqlError } = require("../../../../../utils/errorHandling/handers/graphql.errorhandler");
 // const db = require("../../../../../../models/");
-// const makeMain = require('../main/foundationSetting_password.main');
 
 // const main = makeMain(db)
 

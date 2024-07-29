@@ -1,9 +1,9 @@
-import { callSubDomainApi } from "@/utils/graphql/backend-api"
+import { callApi } from "@/utils/graphql/backend-api"
 
 export const getMediaManagerPageGraphQL = ({ folderId }) => {
   return new Promise(async (resolve) => {
 
-    const response = await callSubDomainApi({
+    const response = await callApi({
       query: `
       query($folderId: ID) {
         backendMediaManagerFile_getMany(folderId: $folderId) {

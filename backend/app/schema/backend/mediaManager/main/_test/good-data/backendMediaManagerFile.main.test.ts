@@ -23,7 +23,6 @@ describe("test backendMediaManagerFile.main.js", () => {
     user1 = (await backendUser.addOne({
       email: "testingMediaFile@test.com",
       password: "ASDFasdf1!",
-      username: "testing_media_file_user1",
     })).data
 
   }, 100000)
@@ -35,7 +34,7 @@ describe("test backendMediaManagerFile.main.js", () => {
       systemFileName: "systemFileName.jpg",
       url: "/api/v1/media-manager/test.jpg",
       userFileName: "userFileName.jpg",
-      uploadedBy: user1.id,
+      uploadedBy: user1.dataValues.id,
     })
 
     // record root file
@@ -44,7 +43,7 @@ describe("test backendMediaManagerFile.main.js", () => {
     expect(file.data.dataValues.systemFileName).toEqual("systemFileName.jpg")
     expect(file.data.dataValues.url).toEqual("/api/v1/media-manager/test.jpg")
     expect(file.data.dataValues.userFileName).toEqual("userFileName.jpg")
-    expect(file.data.dataValues.uploadedBy).toEqual(user1.id)
+    expect(file.data.dataValues.uploadedBy).toEqual(user1.dataValues.id)
   })
 
   test("getOneById: get a file record.", async () => {
@@ -58,7 +57,7 @@ describe("test backendMediaManagerFile.main.js", () => {
     expect(file.data.dataValues.systemFileName).toEqual("systemFileName.jpg")
     expect(file.data.dataValues.url).toEqual("/api/v1/media-manager/test.jpg")
     expect(file.data.dataValues.userFileName).toEqual("userFileName.jpg")
-    expect(file.data.dataValues.uploadedBy).toEqual(user1.id)
+    expect(file.data.dataValues.uploadedBy).toEqual(user1.dataValues.id)
   })
   
   test("getMany: get the files for root level.", async () => {
@@ -71,7 +70,7 @@ describe("test backendMediaManagerFile.main.js", () => {
     expect(files.data[0].dataValues.systemFileName).toEqual("systemFileName.jpg")
     expect(files.data[0].dataValues.url).toEqual("/api/v1/media-manager/test.jpg")
     expect(files.data[0].dataValues.userFileName).toEqual("userFileName.jpg")
-    expect(files.data[0].dataValues.uploadedBy).toEqual(user1.id)
+    expect(files.data[0].dataValues.uploadedBy).toEqual(user1.dataValues.id)
   })
   
   test("getMany: get the files for folder level.", async () => {
@@ -80,7 +79,7 @@ describe("test backendMediaManagerFile.main.js", () => {
 
     const folder = await mediaManagerFolderMain.addOne({
       name: "cool folder",
-      createdBy: user1.id,
+      createdBy: user1.dataValues.id,
     })
     folderRecordId = folder.data.dataValues.id;
 
@@ -88,7 +87,7 @@ describe("test backendMediaManagerFile.main.js", () => {
       systemFileName: "systemFileName2.jpg",
       url: "/api/v1/media-manager/test2.jpg",
       userFileName: "userFileName2.jpg",
-      uploadedBy: user1.id,
+      uploadedBy: user1.dataValues.id,
       folderId: folder.data.dataValues.id,
     })
     secondFileRecordId = newFile.data.dataValues.id
@@ -103,7 +102,7 @@ describe("test backendMediaManagerFile.main.js", () => {
     expect(files.data[0].dataValues.systemFileName).toEqual("systemFileName2.jpg")
     expect(files.data[0].dataValues.url).toEqual("/api/v1/media-manager/test2.jpg")
     expect(files.data[0].dataValues.userFileName).toEqual("userFileName2.jpg")
-    expect(files.data[0].dataValues.uploadedBy).toEqual(user1.id)
+    expect(files.data[0].dataValues.uploadedBy).toEqual(user1.dataValues.id)
     expect(files.data[0].dataValues.folderId).toEqual(folder.data.dataValues.id)
   })
 
@@ -120,7 +119,7 @@ describe("test backendMediaManagerFile.main.js", () => {
     expect(file.data.dataValues.systemFileName).toEqual("systemFileName.jpg")
     expect(file.data.dataValues.url).toEqual("/api/v1/media-manager/test.jpg")
     expect(file.data.dataValues.userFileName).toEqual("blah.jpg")
-    expect(file.data.dataValues.uploadedBy).toEqual(user1.id)
+    expect(file.data.dataValues.uploadedBy).toEqual(user1.dataValues.id)
   })
 
   test("deleteOne: test deleting file.", async () => {
@@ -128,7 +127,7 @@ describe("test backendMediaManagerFile.main.js", () => {
 
     const deleted = await mediaManagerFileMain.deleteOne({
       id: firstFileRecordId,
-      deletedBy: user1.id,
+      deletedBy: user1.dataValues.id,
     })
 
     expect(deleted.success).toEqual(true);
@@ -141,9 +140,9 @@ describe("test backendMediaManagerFile.main.js", () => {
     expect(file.data.dataValues.systemFileName).toEqual("systemFileName.jpg")
     expect(file.data.dataValues.url).toEqual("/api/v1/media-manager/test.jpg")
     expect(file.data.dataValues.userFileName).toEqual("blah.jpg")
-    expect(file.data.dataValues.uploadedBy).toEqual(user1.id)
+    expect(file.data.dataValues.uploadedBy).toEqual(user1.dataValues.id)
     expect(file.data.dataValues.deletedAt).not.toBeNull()
-    expect(file.data.dataValues.deletedBy).toEqual(user1.id)
+    expect(file.data.dataValues.deletedBy).toEqual(user1.dataValues.id)
 
     // We can not see this file in list view because it will be in trash view in the next test.
     const files = await mediaManagerFileMain.getMany({})
@@ -181,12 +180,12 @@ describe("test backendMediaManagerFile.main.js", () => {
 
     await fileMain.deleteOne({
       id: secondFileRecordId,
-      deletedBy: user1.id,
+      deletedBy: user1.dataValues.id,
     })
 
     await folderMain.deleteOne({
       id: folderRecordId,
-      deletedBy: user1.id,
+      deletedBy: user1.dataValues.id,
     })
 
     await fileMain.restoreTrashed({

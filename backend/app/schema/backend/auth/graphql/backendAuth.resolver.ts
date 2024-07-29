@@ -1,10 +1,10 @@
 import graphqlError from "../../../utils/graphql/grarphql.errorhandler";
-import makeFoundationAuthMain from "../main/backendAuth.main";
+import makeBackendAuthMain from "../main/backendAuth.main";
 
-const foundation_authResolver = {
+const backend_authResolver = {
   Mutation: {
-    foundationAuth_signup: async (parent, args, ctx) => {
-      const main = makeFoundationAuthMain(ctx.d)
+    backendAuth_signup: async (parent, args, ctx) => {
+      const main = makeBackendAuthMain(ctx.d)
 
       const response = await main.signup({
         email: args.email,
@@ -19,8 +19,8 @@ const foundation_authResolver = {
         return graphqlError(response)
       }
     },
-    foundationAuth_signin: async (parent, args, ctx) => {
-      const main = makeFoundationAuthMain(ctx.d)
+    backendAuth_signin: async (parent, args, ctx) => {
+      const main = makeBackendAuthMain(ctx.d)
 
       const response = await main.signin({
         email: args.email,
@@ -34,8 +34,8 @@ const foundation_authResolver = {
         return graphqlError(response)
       }
     },
-    foundationAuth_forgotPassword: async (parent, args, ctx) => {
-      const main = makeFoundationAuthMain(ctx.d)
+    backendAuth_forgotPassword: async (parent, args, ctx) => {
+      const main = makeBackendAuthMain(ctx.d)
 
       const response = await main.forgotPassword({
         email: args.email,
@@ -48,8 +48,8 @@ const foundation_authResolver = {
         return graphqlError(response)
       }
     },
-    foundationAuth_isTokenValid: async (parent, args, ctx) => {
-      const main = makeFoundationAuthMain(ctx.d)
+    backendAuth_isTokenValid: async (parent, args, ctx) => {
+      const main = makeBackendAuthMain(ctx.d)
 
       const response = await main.isTokenValid({
         token: args.token
@@ -65,4 +65,4 @@ const foundation_authResolver = {
   },
 };
 
-export default foundation_authResolver
+export default backend_authResolver

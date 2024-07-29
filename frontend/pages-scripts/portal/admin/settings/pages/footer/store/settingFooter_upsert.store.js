@@ -1,4 +1,4 @@
-import { callSubDomainApi } from "@/utils/graphql/backend-api"
+import { callApi } from "@/utils/graphql/backend-api"
 
 export const postSettingFooterGraphQL = ({
   id,
@@ -9,7 +9,7 @@ export const postSettingFooterGraphQL = ({
 }) => {
   return new Promise(async (resolve) => {
 
-    const response = await callSubDomainApi({
+    const response = await callApi({
       query: `
       mutation(
         $selectionType: SelectionTypeEnum!

@@ -20,18 +20,16 @@ describe("test backendSiteDesignerDiscussionCommentVote.main.js", () => {
   let comment: Model<backendSiteDesignerDiscussionComment>
 
   beforeAll(async () => {
-    const uuid = uuidv4()
 
     d = await makeDTestObj()
-    
-    
 
     const userSql = makeBackendUserSql(d)
     const discussionMain = makeBackendSiteDesignerDiscussionMain(d)
     const commentMain = makeBackendSiteDesignerDiscussionCommentMain(d)
 
     user = (await userSql.addOne({
-      id: uuid,
+      email: "email@test.com",
+      password: "Password1!",
     })).data
 
     discussion = (await discussionMain.addOne({

@@ -11,7 +11,7 @@ type input = {
   shouldHaveSymbol?,
 }
 
-export default function updateOne(d: dependencies) {
+export default function upsertOne(d: dependencies) {
 
   const db = d.db.models;
 

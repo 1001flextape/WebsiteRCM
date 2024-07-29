@@ -1,11 +1,13 @@
-import makeFoundationUserEntity from "../../../../../../domain/foundation/user"
-import makeBackendUserEntity from "../../../../user"
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types"
 import endMainFromError from "../../../../../utils/graphql/endMainFromError.func"
 import getRandomColor from "../../../../../utils/helpers/getRandomColor"
 import stringHelpers from "../../../../../utils/stringHelpers"
 import { returningSuccessObj } from "../../../../../utils/types/returningObjs.types"
 import makeFoundationAuthFunc from "../../../preMain/backendAuth.func"
+import makeBackendUserMain from "../../../../user/main/backendUser.main"
+import makeBackendUserProfileMain from "../../../../user/main/backendUserProfile.main"
+import makeBackendUserValidation from "../../../../user/preMain/backendUser.validation"
+import { CallByTypeEnum } from "../../../../user/preMain/scripts/userProfileSql/upsertOne.script"
 
 type returningTokenObj = {
   token: string
@@ -24,9 +26,14 @@ export default function signup(d: dependencies) {
   return async (args: input): Promise<returningSuccessObj<returningTokenObj>> => {
 
 
-    const { userMain, userProfileMain, userProfileValidation } = makeFoundationUserEntity(d)
+    // const { userMain, userProfileMain, userProfileValidation } = makeFoundationUserEntity(d)
+    const backendUserMain = makeBackendUserMain(d)
+    const backendUserValidation = makeBackendUserValidation(d)
+    const backendUserProfileMain = makeBackendUserProfileMain(d)
+    const backendUserProfileValidation = makeBackendUserProfileMain(d)
+
     const authFunc = makeFoundationAuthFunc(d)
-    const backendUserEntity = makeBackendUserEntity(d)
+    // const backendUserEntity = makeBackendUserEntity(d)
     // const lookUpCookieCache = makeBackendAuthCache(d)
 
     //////////////////////////////////////
@@ -46,12 +53,12 @@ export default function signup(d: dependencies) {
 
     if (!isEmailValid) {
       return endMainFromError({
-        hint: "Email is valid.",
+        hint: "Not a valid email.",
         errorIdentifier: "backendAuth_signUp_error:0002"
       })
     }
 
-    const isEmailTaken = await userMain.isEmailTaken({
+    const isEmailTaken = await backendUserValidation.isEmailTaken({
       email: args.email,
     }).catch(error => d.errorHandler(error, d.loggers))
 
@@ -86,7 +93,7 @@ export default function signup(d: dependencies) {
       })
     }
 
-    const isPasswordValid = await userMain.isPasswordValid({
+    const isPasswordValid = await backendUserValidation.isPasswordValid({
       password: args.password,
     })
 
@@ -100,31 +107,20 @@ export default function signup(d: dependencies) {
     // Sql
     // ===================================
 
-    const doesAUserExists = await userProfileValidation.doesAUserExists();
-
-    const user = await userMain.addOne({
+    const user = await backendUserMain.addOne({
       email: args.email,
       password: args.password,
     })
 
-    await userProfileMain.upsertOne({
-      id: user.data.dataValues.id,
+    await backendUserProfileMain.upsertOne({
+      userId: user.data.dataValues.id,
       username: args.username,
       labelColor: getRandomColor(),
       circleColor: getRandomColor(),
+      callByType: CallByTypeEnum.EMAIL,
     })
 
     const token = await authFunc.signinToken({ userId: user.data.dataValues.id })
-
-    // if first user: add to backend
-    // if (!doesAUserExists.result) { // removed for building backend. will put back when working on security patching updates.
-    await backendUserEntity.userMain.addOneById({
-      userId: user.data.dataValues.id,
-      isAdmin: true,
-    })
-    // }
-
-    // add all users to client.
 
     return {
       success: true,

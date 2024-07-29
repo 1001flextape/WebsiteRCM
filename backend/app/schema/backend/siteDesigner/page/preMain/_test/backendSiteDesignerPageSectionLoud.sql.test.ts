@@ -14,8 +14,6 @@ describe("test backendSiteDesignerPageSectionLoud.sql.js", () => {
 
     d = await makeDTestObj()
     
-    
-
     const pageSql = makeBackendSiteDesignerPageSql(d)
 
     const page = await pageSql.addOne({

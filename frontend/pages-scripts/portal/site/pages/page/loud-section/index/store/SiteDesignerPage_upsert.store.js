@@ -1,4 +1,4 @@
-// import { callSubDomainApi } from "@/utils/graphql/backend-api"
+// import { callApi } from "@/utils/graphql/backend-api"
 
 // export const postSettingHeaderGraphQL = ({
 //   id,
@@ -9,7 +9,7 @@
 // }) => {
 //   return new Promise(async (resolve) => {
 
-//     const response = await callSubDomainApi({
+//     const response = await callApi({
 //       query: `
 //       mutation(
 //         $id: ID!

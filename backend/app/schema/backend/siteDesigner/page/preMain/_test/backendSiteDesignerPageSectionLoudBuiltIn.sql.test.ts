@@ -14,8 +14,6 @@ describe("test backendSiteDesignerPageSectionLoudBuiltIn.sql.js", () => {
   beforeAll(async () => {
 
     d = await makeDTestObj()
-    
-    
 
   }, 100000)
 

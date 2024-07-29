@@ -1,16 +1,17 @@
-import { addOneBackendUserResponse } from "../../../../user/main/scripts/main/addOne.script";
 import makeBackendUserMain from "../../../../user/main/backendUser.main";
 import makeBackendMediaManagerFolderMain from "../../backendMediaManagerFolder.main";
 import makeBackendMediaManagerFileMain from "../../backendMediaManagerFile.main";
 import { makeDTestObj } from "../../../../../utils/dependencies/makeTestDependency";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
+import { Model } from "sequelize";
+import backendUser from "../../../../../../models/backend/user/backendUser.model";
 jest.setTimeout(100000)
 
 describe("test backendMediaManagerFolder.main.js", () => {
   let d: dependencies;
   let rootFolderId: string;
   let deepFolderId: string;
-  let user1: addOneBackendUserResponse
+  let user1: Model<backendUser>;
 
   beforeAll(async () => {
 
@@ -19,9 +20,8 @@ describe("test backendMediaManagerFolder.main.js", () => {
     const backendUser = makeBackendUserMain(d)
 
     user1 = (await backendUser.addOne({
-      email: "testingMediaFolder@test.com",
+      email: "testingMediaFolder123@test.com",
       password: "ASDFasdf1!",
-      username: "testing_media_folder_user1",
     })).data
 
   }, 100000)
@@ -31,7 +31,7 @@ describe("test backendMediaManagerFolder.main.js", () => {
 
     const folder = await mediaManagerFolderMain.addOne({
       name: "cool folder name",
-      createdBy: user1.id,
+      createdBy: user1.dataValues.id,
     })
 
     // record root folder
@@ -45,7 +45,7 @@ describe("test backendMediaManagerFolder.main.js", () => {
 
     const folder = await mediaManagerFolderMain.addOne({
       name: "folder in folder",
-      createdBy: user1.id,
+      createdBy: user1.dataValues.id,
       folderId: rootFolderId
     })
 
@@ -116,7 +116,7 @@ describe("test backendMediaManagerFolder.main.js", () => {
 
     const result = await mediaManagerFolderMain.deleteOne({
       id: deepFolderId,
-      deletedBy: user1.id,
+      deletedBy: user1.dataValues.id,
     })
 
     expect(result.success).toBe(true)
@@ -140,13 +140,13 @@ describe("test backendMediaManagerFolder.main.js", () => {
 
     const folder = await folderMain.addOne({
       name: "folder in folder",
-      createdBy: user1.id,
+      createdBy: user1.dataValues.id,
       folderId: rootFolderId
     })
 
     const file = await fileMain.addOne({
       systemFileName: "blah.jpg",
-      uploadedBy: user1.id,
+      uploadedBy: user1.dataValues.id,
       url: "url",
       userFileName: "blah.jpg",
       folderId: folder.data.dataValues.id,
@@ -154,7 +154,7 @@ describe("test backendMediaManagerFolder.main.js", () => {
 
     const folderShouldNotDelete = await folderMain.deleteOne({
       id: folder.data.dataValues.id,
-      deletedBy: user1.id
+      deletedBy: user1.dataValues.id
     })
 
     expect(folderShouldNotDelete.errorIdentifier).toEqual("backendMediaManagerFolder_deleteOne_error:0003")
@@ -166,18 +166,18 @@ describe("test backendMediaManagerFolder.main.js", () => {
 
     const folder1 = await folderMain.addOne({
       name: "folder in folder",
-      createdBy: user1.id,
+      createdBy: user1.dataValues.id,
     })
 
     const folder2 = await folderMain.addOne({
       name: "2nd",
-      createdBy: user1.id,
+      createdBy: user1.dataValues.id,
       folderId: folder1.data.dataValues.id
     })
 
     const file = await fileMain.addOne({
       systemFileName: "blah.jpg",
-      uploadedBy: user1.id,
+      uploadedBy: user1.dataValues.id,
       url: "url",
       userFileName: "blah.jpg",
       folderId: folder2.data.dataValues.id,
@@ -186,7 +186,7 @@ describe("test backendMediaManagerFolder.main.js", () => {
     // I am trying to deleted folder 1 but folder2 with a file is in folder 1. A file can be found in nested folders and this prevents deleting.
     const folderShouldNotDelete = await folderMain.deleteOne({
       id: folder1.data.dataValues.id,
-      deletedBy: user1.id
+      deletedBy: user1.dataValues.id
     })
 
     expect(folderShouldNotDelete.errorIdentifier).toEqual("backendMediaManagerFolder_deleteOne_error:0003")

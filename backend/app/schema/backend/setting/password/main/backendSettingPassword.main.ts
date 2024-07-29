@@ -1,11 +1,11 @@
 import { dependencies } from "../../../../utils/dependencies/type/dependencyInjection.types"
 import getOne from "./scripts/main/getOne.script"
-import updateOne from "./scripts/main/updateOne.script"
+import upsertOne from "./scripts/main/upsertOne.script"
 
 export default function makeFoundationSettingPasswordMain(d: dependencies) {
 
   return {
     getOne: getOne(d),
-    updateOne: updateOne(d),
+    upsertOne: upsertOne(d),
   }
 }

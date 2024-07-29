@@ -1,15 +1,16 @@
 import makeBackendMediaManagerFolderSql from "../backendMediaManagerFolder.sql";
 import makeBackendUserMain from "../../../user/main/backendUser.main";
-import { addOneBackendUserResponse } from "../../../user/main/scripts/main/addOne.script";
 import { dependencies } from "../../../../utils/dependencies/type/dependencyInjection.types";
 import { makeDTestObj } from "../../../../utils/dependencies/makeTestDependency";
+import { Model } from "sequelize";
+import backendUser from "../../../../../models/backend/user/backendUser.model";
 jest.setTimeout(100000)
 
 describe("test backendMediaManagerFolder.sql.js", () => {
   let d: dependencies;
   let rootFolderId: string;
   let deepFolderId: string;
-  let user1: addOneBackendUserResponse
+  let user1: Model<backendUser>;
 
   beforeAll(async () => {
 
@@ -18,9 +19,8 @@ describe("test backendMediaManagerFolder.sql.js", () => {
     const backendUser = makeBackendUserMain(d)
 
     user1 = (await backendUser.addOne({
-      email: "testingMediaFolder@test.com",
+      email: "testingMediaFolder+cooltest@test.com",
       password: "ASDFasdf1!",
-      username: "testing_media_folder_user1",
     })).data
 
   }, 100000)
@@ -30,7 +30,7 @@ describe("test backendMediaManagerFolder.sql.js", () => {
 
     const folder = await mediaManagerFolderSql.addOne({
       name: "cool folder name",
-      createdBy: user1.id,
+      createdBy: user1.dataValues.id,
     })
     
     // record root folder
@@ -44,7 +44,7 @@ describe("test backendMediaManagerFolder.sql.js", () => {
 
     const folder = await mediaManagerFolderSql.addOne({
       name: "folder in folder",
-      createdBy: user1.id,
+      createdBy: user1.dataValues.id,
       folderId:rootFolderId
     })
 
@@ -115,7 +115,7 @@ describe("test backendMediaManagerFolder.sql.js", () => {
 
     const result = await mediaManagerFolderSql.deleteOne({
       id: deepFolderId,
-      deletedBy: user1.id,
+      deletedBy: user1.dataValues.id,
     })
 
     expect(result.success).toBe(true)
@@ -155,35 +155,31 @@ describe("test backendMediaManagerFolder.sql.js", () => {
 
     expect(shouldNotSeeFolderInFolder.data.length).toBe(1)
   })
-  
-  afterAll(async () => {
-    await d.dbTransaction.rollback();
-  })
 
   test('getAllChildFolders', async () => {
     const folderSql = makeBackendMediaManagerFolderSql(d)
 
     const folderLevel1 = await folderSql.addOne({
-      createdBy: user1.id,
+      createdBy: user1.dataValues.id,
       name: "level1"
     })
     const folderLevel2Folder1 = await folderSql.addOne({
-      createdBy: user1.id,
+      createdBy: user1.dataValues.id,
       name: "level1",
       folderId: folderLevel1.data.dataValues.id,
     })
     const folderLevel2Folder2 = await folderSql.addOne({
-      createdBy: user1.id,
+      createdBy: user1.dataValues.id,
       name: "level1",
       folderId: folderLevel1.data.dataValues.id,
     })
     const folderLevel3Folder1 = await folderSql.addOne({
-      createdBy: user1.id,
+      createdBy: user1.dataValues.id,
       name: "level1",
       folderId: folderLevel2Folder1.data.dataValues.id,
     })
     const folderLevel3Folder2 = await folderSql.addOne({
-      createdBy: user1.id,
+      createdBy: user1.dataValues.id,
       name: "level1",
       folderId: folderLevel2Folder2.data.dataValues.id,
     })
@@ -195,6 +191,10 @@ describe("test backendMediaManagerFolder.sql.js", () => {
     expect(getChildFolders.data.length).toBe(4)
 
 
+  })
+  
+  afterAll(async () => {
+    await d.dbTransaction.rollback();
   })
 })
 

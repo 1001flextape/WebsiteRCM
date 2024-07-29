@@ -1,11 +1,11 @@
-// import { d_domain } from "../../../../../utils/types/dependencyInjection.types"
-// import getOne from "./scripts/main/getOne.script"
-// import updateOne from "./scripts/main/updateOne.script"
+import { dependencies } from "../../../../utils/dependencies/type/dependencyInjection.types"
+import getOne from "./scripts/main/getOne.script"
+import upsertOne from "./scripts/main/upsertOne.script"
 
-// export default function makeFoundationSettingEmailMain(d: d_domain) {
+export default function makeBackendSettingEmailMain(d: dependencies) {
 
-//   return {
-//     getOne: getOne(d),
-//     updateOne: updateOne(d),
-//   }
-// }
+  return {
+    getOne: getOne(d),
+    upsertOne: upsertOne(d),
+  }
+}

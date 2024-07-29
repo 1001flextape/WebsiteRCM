@@ -14,8 +14,6 @@ describe("test backendSiteDesignerPage.validation.js", () => {
     
     d = await makeDTestObj()
     
-    
-
     const pageSql = makeBackendSiteDesignerPageSql(d)
 
     page = (await pageSql.addOne({

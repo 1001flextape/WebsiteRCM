@@ -60,7 +60,8 @@ export const getClientPageGraphQL = ({ pageId }) => {
       }
       
       `,
-      variables: { pageId }
+      variables: { pageId },
+      noAuth: true,
       // variables: { pageId, socketId }
     })
 

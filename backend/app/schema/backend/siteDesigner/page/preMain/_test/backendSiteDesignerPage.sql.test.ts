@@ -12,8 +12,6 @@ describe("test backendSiteDesignerPage.sql.js", () => {
 
     d = await makeDTestObj()
     
-    
-
   }, 100000)
 
   test("addOne: can add record.", async () => {

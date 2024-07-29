@@ -28,7 +28,8 @@ describe("test backendSiteDesignerDiscussionComment.main.js", () => {
     const discussionMain = makeBackendSiteDesignerDiscussionMain(d)
 
     user = (await userSql.addOne({
-      id: uuid,
+      email: "email@test.com",
+      password: "Password1!",
     })).data
 
     discussion = (await discussionMain.addOne({

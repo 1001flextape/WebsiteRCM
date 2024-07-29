@@ -1,8 +1,8 @@
 import _ from "lodash";
 import { returningSuccessObj } from "../../../../../utils/types/returningObjs.types";
 import makeSingleton from "../../_singleton.ram-cache";
-import makeFoundationUserProfileMain from "../../../../../../domain/foundation/user/main/foundationUserProfile.main";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
+import makeBackendUserProfileMain from "../../../../../backend/user/main/backendUserProfile.main";
 
 type input = {
   id: string,
@@ -34,7 +34,7 @@ export default function changeDisplayForUser(d: dependencies) {
 
     let success = false;
     const singletonFunc = makeSingleton(d)
-    const profile = makeFoundationUserProfileMain(d)
+    const profile = makeBackendUserProfileMain(d)
 
     const singleton = await singletonFunc.get()
 

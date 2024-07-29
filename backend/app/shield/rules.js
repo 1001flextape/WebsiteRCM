@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
 const { makeDObj } = require("../schema/utils/dependencies/makeDependency");
 // const { makeDObj } = require("../schema/utils/dependencies/makeDependency.js");
-// const findSecret = require("../schema/domain/foundation/auth/preMain/scripts/func/findSecret.private.js");
 // const db = require("../models/");
 // const makeToDoLogic = require("../schema/app/toDo/toDo.logic")
 // const makeToDoListLogic = require("../schema/app/toDoList/toDoList.logic")
@@ -13,8 +12,6 @@ const { makeDObj } = require("../schema/utils/dependencies/makeDependency");
 // const makeRoleLogic = require("../schema/user/role/role.logic");
 // const makePermissionLogic = require("../schema/user/permission/permission.logic.js");
 
-// const toDoLogic = makeToDoLogic(db)
-// const toDoListLogic = makeToDoListLogic(db)
 // const userLogic = makeUserLogic(db)
 // const roleLogic = makeRoleLogic(db)
 // const permissionLogic = makePermissionLogic(db)

@@ -1,25 +1,22 @@
-// import { Model } from "sequelize";
-// import { d_domain } from "../../../../../../../utils/types/dependencyInjection.types";
-// import { returningSuccessObj } from "../../../../../../../utils/types/returningObjs.types";
-// import foundationSetting_email from "../../../../../../../../models/domain/foundation/setting/foundationSetting_email.model";
+import { Model } from "sequelize";
+import { returningSuccessObj } from "../../../../../../utils/types/returningObjs.types";
+import backendSettingEmail from "../../../../../../../models/backend/setting/backendSettingEmail.model";
+import { dependencies } from "../../../../../../utils/dependencies/type/dependencyInjection.types";
 
-// export default function getOne(d: d_domain) {
+export default function getOneById(d: dependencies) {
 
-//   const db = domainDb.models;
+  const db = d.db.models;
 
-//   return async (): Promise<returningSuccessObj<Model<foundationSetting_email> | null>>  => {
+  return async (): Promise<returningSuccessObj<Model<backendSettingEmail> | null>> => {
 
-//     const data = await db.foundationSetting_email.findOne({
-//       transaction: dbTransaction,
-//     })
-    
-//     // .catch(error => errorHandler(error, loggers))
+    const data = await db.backendSettingEmail.findOne({
+      transaction: d.dbTransaction,
+      order: [['createdAt', 'DESC']]
+    }).catch(error => d.errorHandler(error, d.loggers))
 
-//     return {
-//       success: true,
-//       data: data ? data : null,
-//     }
-//   }
-// }
-
-
+    return {
+      success: true,
+      data: data ? data : null,
+    }
+  }
+}

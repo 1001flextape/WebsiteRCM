@@ -16,13 +16,13 @@ import dbInitScript from "./db-init";
 import multer from 'multer'
 import makeFoundationAuthFunc from "./schema/backend/auth/preMain/backendAuth.func";
 import makeSocketLookUp from "./schema/collaborate/_singleton/preMain/socketLookUp.ram-cache";
-import makeFoundationUserMain from "./schema/domain/foundation/user/main/foundationUser.main";
-import makeFoundationUserProfileMain from "./schema/domain/foundation/user/main/foundationUserProfile.main";
 import socketInitScript from "./socket-init";
 import makeCollaborateSameDoc from "./schema/collaborate/sameDoc/preMain/collaborateSameDoc.ram-cache";
 import { dependencies } from "./schema/utils/dependencies/type/dependencyInjection.types";
 import { makeDObj } from "./schema/utils/dependencies/makeDependency";
-import { CallByTypeEnum } from "./schema/backend/user/preMain/scripts/profileSql/upsertOne.script";
+import makeBackendUserMain from "./schema/backend/user/main/backendUser.main";
+import makeBackendUserProfileMain from "./schema/backend/user/main/backendUserProfile.main";
+import { CallByTypeEnum } from "./schema/backend/user/preMain/scripts/userProfileSql/upsertOne.script";
 
 const upload = multer({ dest: 'uploads/' })
 
@@ -84,14 +84,14 @@ const makeApp = async function () {
 
       const userId = decodedToken.data.userId;
 
-      const foundationUser = makeFoundationUserMain(d)
-      const foundationUserProfile = makeFoundationUserProfileMain(d)
+      const backendUser = makeBackendUserMain(d)
+      const backendUserProfile = makeBackendUserProfileMain(d)
 
-      const user = await foundationUser.getOneById({
+      const user = await backendUser.getOneById({
         id: userId
       })
 
-      const userProfile = await foundationUserProfile.getOneById({
+      const userProfile = await backendUserProfile.getOneById({
         id: userId
       })
 

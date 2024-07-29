@@ -1,9 +1,9 @@
-import { callSubDomainApi } from "@/utils/graphql/backend-api"
+import { callApi } from "@/utils/graphql/backend-api"
 
 export const getRoleRealTimeGraphQL = ({ socketId, roleId }) => {
   return new Promise(async (resolve) => {
 
-    const response = await callSubDomainApi({
+    const response = await callApi({
       query: `
 query($roleId: ID!, $socketId: ID!) {
   backendRole_getOneRealTime(socketId: $socketId, roleId: $roleId) {

@@ -22,7 +22,7 @@ export default function getOneByUserId(d: dependencies) {
     if (!args.userId) {
       return endMainFromError({
         hint: "'userId' is missing.",
-        errorIdentifier: "backendUserAccount_getOneByUserId_error:0001"
+        errorIdentifier: "backendUserProfile_getOneByUserId_error:0001"
       })
     }
 
@@ -33,7 +33,7 @@ export default function getOneByUserId(d: dependencies) {
     if (!isUserIdUuid.result) {
       return endMainFromError({
         hint: "'userId' is not a UUID.",
-        errorIdentifier: "backendUserAccount_getOneByUserId_error:0002"
+        errorIdentifier: "backendUserProfile_getOneByUserId_error:0002"
       })
     }
 

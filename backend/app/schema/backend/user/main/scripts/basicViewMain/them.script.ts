@@ -35,7 +35,7 @@ export default function them(d: dependencies) {
     if (!args.userId) {
       return endMainFromError({
         hint: "'userId' is missing.",
-        errorIdentifier: "backendUserBasicView_me_error:0001"
+        errorIdentifier: "backendUserBasicView_them_error:0001"
       })
     }
 
@@ -46,7 +46,7 @@ export default function them(d: dependencies) {
     if (!isUserIdUuid.result) {
       return endMainFromError({
         hint: "'userId' is not a UUID.",
-        errorIdentifier: "backendUserBasicView_me_error:0002"
+        errorIdentifier: "backendUserBasicView_them_error:0002"
       })
     }
 

@@ -14,8 +14,6 @@ describe("test backendSiteDesignerPageLink.sql.js", () => {
 
     d = await makeDTestObj()
     
-    
-
     const pageMain = makeBackendSiteDesignerPageMain(d)
 
     const pageRecord = await pageMain.addOne({

@@ -7,7 +7,6 @@ import MainSiteLayout from '@/layouts/mainSiteLayout/layout';
 import DynamicComponent from '@/components/previews/DynamicComponent/DynamicComponent.component';
 import { useTheme } from '@mui/material';
 import { getClientPageIdBySlugGraphQL } from '@/pages-scripts/p/store/getClientPageId.store';
-import { callSubDomainApiMiddlewareWithToken } from '@/utils/graphql/backend-api.middleware';
 import { getClientPageGraphQL } from '@/pages-scripts/p/store/getClientPage.store';
 import UnderConstructionScene from '@/components/under-contruction/UnderConstructionScene';
 

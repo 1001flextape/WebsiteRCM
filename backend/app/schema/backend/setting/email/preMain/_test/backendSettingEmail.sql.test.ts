@@ -1,72 +1,61 @@
-// import { Sequelize } from "sequelize-typescript";
-// import emptyTestSubdomainDb from "../../../../../../../models/_test/emptyTestDb";
-// import sequelizeErrorHandler from "../../../../../../utils/errorHandling/handers/sequelize.errorHandler";
-// import throwIt from "../../../../../../utils/errorHandling/loggers/throwIt.logger";
-// import { d_domain, d_sub } from "../../../../../../utils/types/dependencyInjection.types";
-// import emptyTestDomainDb from "../../../../../../../models/domain/_test/emptyTestDb";
-// import makeFoundationSettingEmailSql from "../foundationSetting_email.sql";
-// jest.setTimeout(100000)
+import { Sequelize } from "sequelize-typescript";
+import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
+import { makeDTestObj } from "../../../../../utils/dependencies/makeTestDependency";
+import makeBackendSettingEmailSql from "../backendSettingEmail.sql";
+jest.setTimeout(100000)
 
 
-// describe("test foundationSetting_email.sql.js", () => {
-//   let d: d_domain
-//   let recordId: string
+describe("test backendSettingEmail.sql.js", () => {
+  let d: dependencies
+  let recordId: string
 
-//   beforeAll(async () => {
-//     const domainDb: Sequelize = await emptyTestDomainDb();
-//     const domainTransaction = await domainDb.transaction();
+  beforeAll(async () => {
 
-//     d = {
-//       errorHandler: sequelizeErrorHandler,
-//       domainDb,
-//       domainTransaction,
-//       loggers: [
-//         console,
-//         throwIt,
-//       ]
-//     };
-//   }, 100000)
+    d = await makeDTestObj()
 
-//   test("updateOne: foundationSetting_email can edit record.", async () => {
-//     const settingEmail = makeFoundationSettingEmailSql(d)
+  }, 100000)
 
-//     const updateOne = await settingEmail.updateOne({
-//       emailVerificationSubject: "emailVerificationSubject",
-//       emailVerificationMessage: "emailVerificationMessage",
-//       passwordResetSubject: "passwordResetSubject",
-//       passwordResetMessage: "passwordResetMessage",
-//       resetPasswordEmailSubject: "resetPasswordEmailSubject",
-//       resetPasswordEmailMessage: "resetPasswordEmailMessage",
-//       inviteUserSubject: "inviteUserSubject",
-//       inviteUserMessage: "inviteUserMessage",
-//     })
-//     recordId = updateOne.data.dataValues.id
-//     expect(updateOne.data.dataValues.emailVerificationSubject).toEqual("emailVerificationSubject")
-//     expect(updateOne.data.dataValues.emailVerificationMessage).toEqual("emailVerificationMessage")
-//     expect(updateOne.data.dataValues.passwordResetSubject).toEqual("passwordResetSubject")
-//     expect(updateOne.data.dataValues.passwordResetMessage).toEqual("passwordResetMessage")
-//     expect(updateOne.data.dataValues.resetPasswordEmailSubject).toEqual("resetPasswordEmailSubject")
-//     expect(updateOne.data.dataValues.resetPasswordEmailMessage).toEqual("resetPasswordEmailMessage")
-//     expect(updateOne.data.dataValues.inviteUserSubject).toEqual("inviteUserSubject")
-//     expect(updateOne.data.dataValues.inviteUserMessage).toEqual("inviteUserMessage")
-//   })
+  test("updateOne: can edit record.", async () => {
+    const settingEmail = makeBackendSettingEmailSql(d)
 
-//   test("getOne: foundationSetting_email can get record.", async () => {
-//     const settingEmail = makeFoundationSettingEmailSql(d)
+    const upsertOne = await settingEmail.upsertOne({
+      emailVerificationSubject: "emailVerificationSubject",
+      emailVerificationMessage: "emailVerificationMessage",
+      passwordResetSubject: "passwordResetSubject",
+      passwordResetMessage: "passwordResetMessage",
+      resetPasswordEmailSubject: "resetPasswordEmailSubject",
+      resetPasswordEmailMessage: "resetPasswordEmailMessage",
+      inviteUserSubject: "inviteUserSubject",
+      inviteUserMessage: "inviteUserMessage",
+    })
+    recordId = upsertOne.data.dataValues.id
 
-//     const getOne = await settingEmail.getOne()
-//     expect(getOne.data.dataValues.emailVerificationSubject).toEqual("emailVerificationSubject")
-//     expect(getOne.data.dataValues.emailVerificationMessage).toEqual("emailVerificationMessage")
-//     expect(getOne.data.dataValues.passwordResetSubject).toEqual("passwordResetSubject")
-//     expect(getOne.data.dataValues.passwordResetMessage).toEqual("passwordResetMessage")
-//     expect(getOne.data.dataValues.resetPasswordEmailSubject).toEqual("resetPasswordEmailSubject")
-//     expect(getOne.data.dataValues.resetPasswordEmailMessage).toEqual("resetPasswordEmailMessage")
-//     expect(getOne.data.dataValues.inviteUserSubject).toEqual("inviteUserSubject")
-//     expect(getOne.data.dataValues.inviteUserMessage).toEqual("inviteUserMessage")
-//   })
+    expect(upsertOne.data.dataValues.emailVerificationSubject).toEqual("emailVerificationSubject")
+    expect(upsertOne.data.dataValues.emailVerificationMessage).toEqual("emailVerificationMessage")
+    expect(upsertOne.data.dataValues.passwordResetSubject).toEqual("passwordResetSubject")
+    expect(upsertOne.data.dataValues.passwordResetMessage).toEqual("passwordResetMessage")
+    expect(upsertOne.data.dataValues.resetPasswordEmailSubject).toEqual("resetPasswordEmailSubject")
+    expect(upsertOne.data.dataValues.resetPasswordEmailMessage).toEqual("resetPasswordEmailMessage")
+    expect(upsertOne.data.dataValues.inviteUserSubject).toEqual("inviteUserSubject")
+    expect(upsertOne.data.dataValues.inviteUserMessage).toEqual("inviteUserMessage")
+  })
 
-//   afterAll(async () => {
-//     ;
-//   })
-// })
+  test("getOne: can get record.", async () => {
+    const settingEmail = makeBackendSettingEmailSql(d)
+
+    const getOne = await settingEmail.getOne()
+    expect(getOne.data.dataValues.emailVerificationSubject).toEqual("emailVerificationSubject")
+    expect(getOne.data.dataValues.emailVerificationMessage).toEqual("emailVerificationMessage")
+    expect(getOne.data.dataValues.passwordResetSubject).toEqual("passwordResetSubject")
+    expect(getOne.data.dataValues.passwordResetMessage).toEqual("passwordResetMessage")
+    expect(getOne.data.dataValues.resetPasswordEmailSubject).toEqual("resetPasswordEmailSubject")
+    expect(getOne.data.dataValues.resetPasswordEmailMessage).toEqual("resetPasswordEmailMessage")
+    expect(getOne.data.dataValues.inviteUserSubject).toEqual("inviteUserSubject")
+    expect(getOne.data.dataValues.inviteUserMessage).toEqual("inviteUserMessage")
+  })
+
+  afterAll(async () => {
+    d.dbTransaction.rollback();
+  })
+})
 

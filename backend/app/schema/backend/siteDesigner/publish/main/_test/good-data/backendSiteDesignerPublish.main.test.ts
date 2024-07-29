@@ -31,17 +31,7 @@ describe("test backendSiteDesignerPublish.main.js", () => {
   let d: dependencies
 
   //uuids
-  let backendSettingBrowserUuid: string;
-  let backendSettingColorsUuid: string;
-  let backendSettingFooterUuid: string;
-  let backendSettingHeaderUuid: string;
-  let backendSettingLinkUuid: string;
-  let backendSettingOrganizationUuid: string;
   let backendSiteDesignerPageUuid: string;
-  let backendSiteDesignerPageBrowserUuid: string;
-  let backendSiteDesignerPageLinkUuid: string;
-  let backendSiteDesignerPageSectionLoudUuid: string;
-  let backendSiteDesignerPageSectionNormalUuid: string;
 
   beforeAll(async () => {
 
@@ -62,28 +52,13 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     const backendSiteDesignerPageSectionLoud = makeBackendSiteDesignerPageSectionLoudMain(d)
     const backendSiteDesignerPageSectionNormal = makeBackendSiteDesignerPageSectionNormalMain(d)
 
-    // uuids
-    backendSettingBrowserUuid = uuidv4()
-    backendSettingColorsUuid = uuidv4()
-    backendSettingFooterUuid = uuidv4()
-    backendSettingHeaderUuid = uuidv4()
-    backendSettingLinkUuid = uuidv4()
-    backendSettingOrganizationUuid = uuidv4()
-    backendSiteDesignerPageUuid = uuidv4()
-    backendSiteDesignerPageBrowserUuid = uuidv4()
-    backendSiteDesignerPageLinkUuid = uuidv4()
-    backendSiteDesignerPageSectionLoudUuid = uuidv4()
-    backendSiteDesignerPageSectionNormalUuid = uuidv4()
-
     // updates
     await backendSettingBrowser.upsertOne({
-      id: backendSettingBrowserUuid,
       isReady: true,
       favicon: "favicon",
       tab: "tab"
     })
     await backendSettingColors.upsertOne({
-      id: backendSettingColorsUuid,
       isReady: true,
       color1: "color1",
       color1Dark1: "color1Dark1",
@@ -169,14 +144,12 @@ describe("test backendSiteDesignerPublish.main.js", () => {
 
     })
     await backendSettingFooter.upsertOne({
-      id: backendSettingFooterUuid,
       isReady: true,
       userAnswers: "{}",
       selectionId: "5ce91223-9685-4ee7-93c2-6e38bae8804f",
       selectionType: SelectionTypeEnum.BUILT_IN,
     })
     await backendSettingHeader.upsertOne({
-      id: backendSettingHeaderUuid,
       isReady: true,
       userAnswers: "{}",
       selectionId: "2ec57f1a-f355-48d5-8aa3-a8fc2e457ff4",
@@ -184,14 +157,12 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     })
 
     await backendSettingLink.upsertOne({
-      id: backendSettingLinkUuid,
       isReady: true,
       description: "description",
       image: "image",
       title: "title",
     })
     await backendSettingOrganization.upsertOne({
-      id: backendSettingOrganizationUuid,
       shouldApplyToTopNavMenu: false,
       name: "name",
       logo: "logo",
@@ -211,18 +182,16 @@ describe("test backendSiteDesignerPublish.main.js", () => {
       socialX: "socialX",
       socialYouTube: "socialYouTube",
     })
-    await backendSiteDesignerPage.addOne({
-      id: backendSiteDesignerPageUuid,
+    const page = await backendSiteDesignerPage.addOne({
       isReady: true,
       slug: "/slug/publish-test/should-not-be-saved"
     })
+    backendSiteDesignerPageUuid = page.data.dataValues.id;
     await backendSiteDesignerPageBrowser.upsertOne({
-      id: backendSiteDesignerPageBrowserUuid,
       pageId: backendSiteDesignerPageUuid,
       tabName: "tabName",
     })
     await backendSiteDesignerPageLink.upsertOne({
-      id: backendSiteDesignerPageLinkUuid,
       pageId: backendSiteDesignerPageUuid,
       description: "description",
       picture: "picture",
@@ -230,7 +199,6 @@ describe("test backendSiteDesignerPublish.main.js", () => {
       title: "title",
     })
     await backendSiteDesignerPageSectionLoud.upsertOne({
-      id: backendSiteDesignerPageSectionLoudUuid,
       pageId: backendSiteDesignerPageUuid,
       isReady: true,
       userAnswersJsonB: "{}",
@@ -240,7 +208,6 @@ describe("test backendSiteDesignerPublish.main.js", () => {
       selectionType: SelectionTypeEnum.BUILT_IN,
     })
     await backendSiteDesignerPageSectionNormal.addOne({
-      id: backendSiteDesignerPageSectionNormalUuid,
       pageId: backendSiteDesignerPageUuid,
       isReady: true,
       orderNumber: 0,
@@ -283,7 +250,6 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     // =================================
 
     const browser = await clientSiteBrowser.getOne()
-    expect(browser.data.dataValues.id).toEqual(backendSettingBrowserUuid)
     expect(browser.data.dataValues.favicon).toEqual("favicon")
     expect(browser.data.dataValues.tab).toEqual("tab")
 
@@ -296,7 +262,6 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     // =================================
 
     const colors = await clientSiteColors.getOne()
-    expect(colors.data.dataValues.id).toEqual(backendSettingColorsUuid)
     expect(colors.data.dataValues.color1).toEqual("color1")
     expect(colors.data.dataValues.color1Dark1).toEqual("color1Dark1")
     expect(colors.data.dataValues.color1Dark2).toEqual("color1Dark2")
@@ -388,7 +353,6 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     // =================================
 
     const footer = await clientSiteFooter.getOne()
-    expect(footer.data.dataValues.id).toEqual(backendSettingFooterUuid)
     expect(footer.data.dataValues.userAnswersJsonB).toEqual("{}")
     expect(footer.data.dataValues.webAssetImport).toEqual("built-in/footers/lite/Entry")
 
@@ -400,7 +364,6 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     // =================================
 
     const header = await clientSiteHeader.getOne()
-    expect(header.data.dataValues.id).toEqual(backendSettingHeaderUuid)
     expect(header.data.dataValues.userAnswersJsonB).toEqual("{}")
     expect(header.data.dataValues.webAssetImport).toEqual("built-in/headers/lite/Entry")
 
@@ -412,7 +375,6 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     // =================================
 
     const link = await clientSiteLink.getOne()
-    expect(link.data.dataValues.id).toEqual(backendSettingLinkUuid)
     expect(link.data.dataValues.description).toEqual("description")
     expect(link.data.dataValues.image).toEqual("image")
     expect(link.data.dataValues.title).toEqual("title")
@@ -425,7 +387,6 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     // =================================
 
     const organization = await clientSiteOrganization.getOne()
-    expect(organization.data.dataValues.id).toEqual(backendSettingOrganizationUuid)
     expect(organization.data.dataValues.logo).toEqual("logo")
     expect(organization.data.dataValues.name).toEqual("name")
     expect(organization.data.dataValues.addressLine1).toEqual("addressLine1")
@@ -464,7 +425,6 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     const pageBrowser = await clientSitePageBrowser.getOneByPageId({
       pageId: backendSiteDesignerPageUuid,
     })
-    expect(pageBrowser.data.dataValues.id).toEqual(backendSiteDesignerPageBrowserUuid)
     expect(pageBrowser.data.dataValues.pageId).toEqual(backendSiteDesignerPageUuid)
     expect(pageBrowser.data.dataValues.tabName).toEqual("tabName")
 
@@ -478,7 +438,6 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     const pageLink = await clientSitePageLink.getOneByPageId({
       pageId: backendSiteDesignerPageUuid,
     })
-    expect(pageLink.data.dataValues.id).toEqual(backendSiteDesignerPageLinkUuid)
     expect(pageLink.data.dataValues.pageId).toEqual(backendSiteDesignerPageUuid)
     expect(pageLink.data.dataValues.title).toEqual("title")
     expect(pageLink.data.dataValues.description).toEqual("description")
@@ -495,7 +454,6 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     const pageSectionLoud = await clientSitePageSectionLoud.getOneByPageId({
       pageId: backendSiteDesignerPageUuid,
     })
-    expect(pageSectionLoud.data.dataValues.id).toEqual(backendSiteDesignerPageSectionLoudUuid)
     expect(pageSectionLoud.data.dataValues.pageId).toEqual(backendSiteDesignerPageUuid)
     expect(pageSectionLoud.data.dataValues.userAnswersJsonB).toEqual("{}")
     expect(pageSectionLoud.data.dataValues.webAssetImport).toEqual("built-in/loud/homepage/gifIntro/Entry")

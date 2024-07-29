@@ -1,16 +1,17 @@
 import makeBackendMediaManagerFileSql from "../backendMediaManagerFile.sql";
 import makeBackendUserMain from "../../../user/main/backendUser.main";
-import { addOneBackendUserResponse } from "../../../user/main/scripts/main/addOne.script";
 import makeBackendMediaManagerFileValidation from "../backendMediaManagerFile.validation";
 import { makeDTestObj } from "../../../../utils/dependencies/makeTestDependency";
 import { dependencies } from "../../../../utils/dependencies/type/dependencyInjection.types";
+import { Model } from "sequelize";
+import backendUser from "../../../../../models/backend/user/backendUser.model";
 jest.setTimeout(100000)
 
 describe("test backendMediaManagerFile.validation.js", () => {
   let d: dependencies;
   let firstFileRecordId: string;
   let secondFileRecordId: string;
-  let user1: addOneBackendUserResponse
+  let user1: Model<backendUser>
 
   beforeAll(async () => {
     
@@ -21,7 +22,6 @@ describe("test backendMediaManagerFile.validation.js", () => {
     user1 = (await backendUser.addOne({
       email: "testingMediaFile@test.com",
       password: "ASDFasdf1!",
-      username: "testing_media_file_user1",
     })).data
 
     
@@ -31,7 +31,7 @@ describe("test backendMediaManagerFile.validation.js", () => {
       systemFileName: "systemFileName.jpg",
       url: "/api/v1/media-manager/test.jpg",
       userFileName: "userFileName.jpg",
-      uploadedBy: user1.id,
+      uploadedBy: user1.dataValues.id,
     })
 
     // record root file

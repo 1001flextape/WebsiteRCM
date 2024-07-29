@@ -1,8 +1,9 @@
 import { Model } from "sequelize";
 import { returningSuccessObj } from "../../../../../../utils/types/returningObjs.types";
-import foundationSetting_password from "../../../../../../../../models/domain/foundation/setting/foundationSetting_password.model";
 import makeFoundationSettingPasswordSql from "../../../preMain/backendSettingPassword.sql";
 import { dependencies } from "../../../../../../utils/dependencies/type/dependencyInjection.types";
+import backendSettingPassword from "../../../../../../../models/backend/setting/backendSettingPassword.model";
+import makeBackendSettingPasswordSql from "../../../preMain/backendSettingPassword.sql";
 
 type input = {
   passwordLength?: number
@@ -13,15 +14,15 @@ type input = {
 }
 
 export default function updateOne(d: dependencies) {
-  return async (args: input): Promise<returningSuccessObj<Model<foundationSetting_password> | null>> => {
+  return async (args: input): Promise<returningSuccessObj<Model<backendSettingPassword> | null>> => {
 
-    const passwordSql = makeFoundationSettingPasswordSql(d)
+    const passwordSql = makeBackendSettingPasswordSql(d)
 
     //////////////////////////////////////
     // Sql
     // ===================================    
 
-    const response = await passwordSql.updateOne({
+    const response = await passwordSql.upsertOne({
       passwordLength: args.passwordLength,
       shouldHaveLowercaseLetter: args.shouldHaveLowercaseLetter,
       shouldHaveNumber: args.shouldHaveNumber,

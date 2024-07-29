@@ -47,6 +47,16 @@ describe("test backendUser.main.js", () => {
     expect(getOneById.data.dataValues.isAdmin).toBe(true)
   })
 
+  test("getOneByEmail: can get record.", async () => {
+    const userMain = makeBackendUserMain(d)
+
+    const getOneByEmail = await userMain.getOneByEmail({
+      email: "test@thisDomainnotreal.com",
+    })
+    expect(getOneByEmail.data.dataValues.id).toEqual(recordId)
+    expect(getOneByEmail.data.dataValues.isAdmin).toBe(true)
+  })
+
   test("updateOne: can update record.", async () => {
     const userMain = makeBackendUserMain(d)
 

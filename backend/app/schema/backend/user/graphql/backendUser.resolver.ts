@@ -46,7 +46,7 @@ const userResolver = {
       const main = makeBackendUserBasicViewMain(ctx.d)
 
       const response = await main.me({
-        id: ctx.user.id,
+        userId: ctx.user.id,
       })
 
       if (response?.success) {
@@ -61,7 +61,7 @@ const userResolver = {
       const main = makeBackendUserBasicViewMain(ctx.d)
 
       const response = await main.them({
-        id: args.id,
+        userId: args.id,
       })
 
       if (response?.success) {
@@ -76,7 +76,7 @@ const userResolver = {
       const main = makeBackendUserManyPermissionMain(ctx.d)
 
       const response = await main.getAll({
-        id: args.id,
+        userId: args.id,
       })
 
       if (response?.success) {
@@ -91,7 +91,7 @@ const userResolver = {
       const main = makeBackendUserManyRoleMain(ctx.d)
 
       const response = await main.getAll({
-        id: args.id,
+        userId: args.id,
       })
 
       if (response?.success) {
@@ -125,7 +125,6 @@ const userResolver = {
       const response = await main.addOne({
         email: args.email,
         password: args.password,
-        username: args.username,
         isAdmin: args.isAdmin,
       })
 
@@ -145,7 +144,6 @@ const userResolver = {
         id: args.id,
         email: args.email,
         password: args.password,
-        username: args.username,
         isAdmin: args.isAdmin,
       })
 
@@ -199,7 +197,7 @@ const userResolver = {
     },
     backendUserProfile_deactivateOne: async (parent, args, ctx) => {
 
-      const main = makeBackendUserProfileMain(ctx.d)
+      const main = makeBackendUserMain(ctx.d)
 
       const response = await main.deactivateOne({
         id: args.id,
@@ -214,7 +212,7 @@ const userResolver = {
     },
     backendUserProfile_reactivateOne: async (parent, args, ctx) => {
 
-      const main = makeBackendUserProfileMain(ctx.d)
+      const main = makeBackendUserMain(ctx.d)
 
       const response = await main.reactivateOne({
         id: args.id,
@@ -231,8 +229,8 @@ const userResolver = {
 
       const main = makeBackendUserProfileMain(ctx.d)
 
-      const response = await main.updateOne({
-        id: args.id,
+      const response = await main.upsertOne({
+        userId: args.id,
         // birthday: args.birthday,
         // location: args.location,
         // picture: args.picture,

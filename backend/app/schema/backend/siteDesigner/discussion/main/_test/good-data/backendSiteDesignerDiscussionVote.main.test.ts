@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid"
 import makeBackendUserSql from "../../../../../user/preMain/backendUser.sql"
 import makeBackendSiteDesignerDiscussionMain from "../../backendSiteDesignerDiscussion.main"
 import makeBackendSiteDesignerDiscussionVoteMain from "../../backendSiteDesignerDiscussionVote.main"
@@ -17,17 +16,15 @@ describe("test backendSiteDesignerDiscussionVote.main.js", () => {
   let discussion: Model<backendSiteDesignerDiscussion>
 
   beforeAll(async () => {
-    const uuid = uuidv4()
 
     d = await makeDTestObj()
     
-    
-
     const userSql = makeBackendUserSql(d)
     const discussionMain = makeBackendSiteDesignerDiscussionMain(d)
 
     user = (await userSql.addOne({
-      id: uuid,
+      email: "email@test.com",
+      password: "Password1!",
     })).data
 
     discussion = (await discussionMain.addOne({
