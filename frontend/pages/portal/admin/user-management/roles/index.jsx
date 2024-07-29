@@ -35,13 +35,13 @@ const Page = () => {
     setTabs(prevState => ({
       ...prevState,
       tabs: tabsJson.tabs,
-      selectedValue: 0,
+      selectedValue: 2,
     }))
 
     settingsTabsContext.setTabs(prevState => ({
       ...prevState,
       tabs: userManagementTabsJson.tabs,
-      selectedValue: 2,
+      selectedValue: 1,
     }))
 
     setIsLoaded(true)

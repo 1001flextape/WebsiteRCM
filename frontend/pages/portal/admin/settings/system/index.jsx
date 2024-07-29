@@ -112,7 +112,7 @@ const Page = () => {
     setTabs(prevState => ({
       ...prevState,
       tabs: tabsJson.tabs,
-      selectedValue: 2,
+      selectedValue: 0,
     }))
 
     settingsTabsContext.setTabs(prevState => ({
@@ -164,7 +164,7 @@ const Page = () => {
         </Tabs> */}
       </Box>
 
-      {isLoaded && (
+      {/* {isLoaded && (
         <>
           <br />
 
@@ -215,7 +215,7 @@ const Page = () => {
 
           <br />
         </>
-      )}
+      )} */}
     </Box>
   );
 };

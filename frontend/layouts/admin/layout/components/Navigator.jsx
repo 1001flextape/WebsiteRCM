@@ -346,7 +346,7 @@ export default function Navigator(props) {
               px: 0,
               background: router.pathname.startsWith('/portal/admin') ? theme.palette.grey[300] : "initial",
             }}
-            onClick={() => changeUrl("/portal/admin/user-management/system-users")}
+            onClick={() => changeUrl("/portal/admin/settings/website")}
             secondaryAction={
               <div style={circleStatusSuccessStyle}></div>
             }

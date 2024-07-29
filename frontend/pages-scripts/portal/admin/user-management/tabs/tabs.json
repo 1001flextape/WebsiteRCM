@@ -2,11 +2,7 @@
   "tabs": [
     {
       "link": "/portal/admin/user-management/system-users",
-      "name": "System Users"
-    },
-    {
-      "link": "/portal/admin/user-management/invited-users",
-      "name": "Invited System Users"
+      "name": "Users"
     },
     {
       "link": "/portal/admin/user-management/roles",

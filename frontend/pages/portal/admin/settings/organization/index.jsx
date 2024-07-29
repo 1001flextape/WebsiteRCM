@@ -119,13 +119,13 @@ const Page = () => {
     setTabs(prevState => ({
       ...prevState,
       tabs: tabsJson.tabs,
-      selectedValue: 2,
+      selectedValue: 0,
     }))
 
     settingsTabsContext.setTabs(prevState => ({
       ...prevState,
       tabs: settingsTabsJson.tabs,
-      selectedValue: 0,
+      selectedValue: 1,
     }))
 
     getSettingOrganizationGraphQL({

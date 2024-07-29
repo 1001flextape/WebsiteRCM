@@ -1,16 +1,16 @@
 {
     "tabs": [
         {
-            "link": "/portal/admin/settings/organization/",
-            "name": "Organization"
-        },
-        {
             "link": "/portal/admin/settings/website/",
             "name": "Website"
         },
         {
-            "link": "/portal/admin/settings/third-parties/",
-            "name": "Third Parties"
+            "link": "/portal/admin/settings/organization/",
+            "name": "Organization"
+        },
+        {
+            "link": "/portal/admin/settings/system/",
+            "name": "System"
         }
     ]
 }
