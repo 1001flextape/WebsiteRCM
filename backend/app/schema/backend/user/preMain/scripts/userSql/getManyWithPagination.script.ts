@@ -84,8 +84,10 @@ export default function getManyWithPagination(d: dependencies) {
     const { count, rows } = await db.backendUser.findAndCountAll(search).catch(error => d.errorHandler(error, d.loggers));
 
     const data = rows.map(user => ({
+      id: user.id,
       email: user.email,
       isAdmin: user.isAdmin,
+      isDeactivated: user.isDeactivated,
       ...(user.profile ? user.profile.toJSON() : {
         username: null,
         firstName: null,
@@ -97,6 +99,7 @@ export default function getManyWithPagination(d: dependencies) {
         circleColor: null,
         labelColor: null,
       }),
+      roleId: user.userRoles && user.userRoles.length > 0 ? user.userRoles[0].role.id : null,
       roleName: user.userRoles && user.userRoles.length > 0 ? user.userRoles[0].role.name : null
     }));
 

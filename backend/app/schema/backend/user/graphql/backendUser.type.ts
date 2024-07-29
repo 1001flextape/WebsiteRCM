@@ -3,17 +3,28 @@ import { paginationType } from "../../../utils"
 
 const userType = gql`
 
+
+
   ${paginationType("UserPaginationType", "UserType")}
 
   type UserType {
+    # normal user stuff
     id: ID
-    username: String
     email: String
-    profile: UserProfileType
-    isCreator: Boolean
     isAdmin: Boolean
-    permissionMany(q: String, page: Int, pageSize: Int): BackendPermissionPaginationType
-    roleMany(q: String, page: Int, pageSize: Int): BackendRolePaginationType
+    isDeactivated: Boolean
+    # Profile
+    username: String
+    firstName: String
+    lastName: String
+    birthday: String
+    picture: String
+    displayName: String
+    callByType: String
+    circleColor: String
+    labelColor: String
+    roleId: String
+    roleName: String
   }
   
   input UserInput {
@@ -100,9 +111,9 @@ const userType = gql`
   
   }
   type Mutation {
-    backendUser_addOne(username: String!, email: String!, password: String!, isAdmin: Boolean): UserType
+    backendUser_addOne(username: String!, email: String!, password: String!, isAdmin: Boolean): GlobalSuccessType
     backendUser_deleteOne(id: ID!) : GlobalSuccessType
-    backendUser_updateOne(id: ID!, username: String!, email: String!, password: String!, isAdmin: Boolean): UserType
+    backendUser_updateOne(id: ID!, username: String!, email: String!, password: String!, isAdmin: Boolean): GlobalSuccessType
 
     backendUserManyPermission_setList(list: [UserManyPermissionInput]): GlobalSuccessType
     backendUserManyRole_setList(list: [UserManyRoleInput]): GlobalSuccessType

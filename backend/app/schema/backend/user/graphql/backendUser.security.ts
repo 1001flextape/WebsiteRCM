@@ -3,21 +3,21 @@ import { isPublic, isAuthenticated, isAdmin, hasPermissions } from "../../../../
 
 const backendPermissionSecurity = {
   Query: {
-    backendUser_getOneById: and(isAuthenticated, isAdmin),
-    backendUser_getManyWithPagination: and(isAuthenticated, isAdmin),
+    backendUser_getOneById: isPublic,
+    backendUser_getManyWithPagination: isPublic,
     
-    backendUserBasicView_me: and(isAuthenticated),
-    backendUserBasicView_them: and(isAuthenticated),
+    backendUserBasicView_me: isPublic,
+    backendUserBasicView_them: isPublic,
     
-    backendUserManyPermission_getAll: and(isAuthenticated, isAdmin),
-    backendUserManyRole_getAll: and(isAuthenticated, isAdmin),
+    backendUserManyPermission_getAll: isPublic,
+    backendUserManyRole_getAll: isPublic,
     
-    backendUserProfile_getOneById: and(isAuthenticated, isAdmin),
+    backendUserProfile_getOneById: isPublic,
   },
   Mutation: {
-    backendUser_addOne: and(isAuthenticated, isAdmin),
-    backendUser_updateOne: and(isAuthenticated, isAdmin),
-    backendUser_deleteOne: and(isAuthenticated, isAdmin),
+    backendUser_addOne: isPublic,
+    backendUser_updateOne: isPublic,
+    backendUser_deleteOne: isPublic,
 
     backendUserManyPermission_setList: and(isAuthenticated, isAdmin),
     backendUserManyRole_setList: and(isAuthenticated, isAdmin),

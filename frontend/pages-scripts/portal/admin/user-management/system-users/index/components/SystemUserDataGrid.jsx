@@ -6,6 +6,7 @@ import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
 import { useRouter } from 'next/navigation';
 // import { getPagesGraphQL } from '../store/getPages.store';
 import UserChip from '@/components/chip/user.chip';
+import { getBackendUsersGraphQL } from '../store/getBackendUsers.store';
 
 export default function SystemUserDataGrid() {
   const router = useRouter()
@@ -43,6 +44,14 @@ export default function SystemUserDataGrid() {
             }}
           >
             <UserChip
+              callByType={params.row.callByType}
+              circleColor={params.row.circleColor}
+              displayName={params.row.displayName}
+              firstName={params.row.firstName}
+              labelColor={params.row.labelColor}
+              lastName={params.row.lastName}
+              picturePreview={params.row.picturePreview}
+              username={params.row.username}
               email={params.row.email}
             />
           </p>
@@ -84,26 +93,28 @@ export default function SystemUserDataGrid() {
     }
   ];
 
-  const [rows, setRows] = useState([{
-    id: 42,
-    email: "example@email.com",
-    isAdmin: false,
-    roles: [
-      {
-        id: 43,
-        name: "Content Creator"
-      }
-    ]
-  }])
+  const [rows, setRows] = useState([
+    //   {
+    //   id: 42,
+    //   email: "example@email.com",
+    //   isAdmin: false,
+    //   roles: [
+    //     {
+    //       id: 43,
+    //       name: "Content Creator"
+    //     }
+    //   ]
+    // }
+  ])
 
   useEffect(() => {
-    // getPagesGraphQL({}).then(response => {
-    //   const data = response.data.backendSiteDesignerPage_getManyWithPagination || { rows: [] }
+    getBackendUsersGraphQL({}).then(response => {
+      const data = response.data.backendUser_getManyWithPagination || { rows: [] }
 
-    //   setRows(data.rows)
+      setRows(data.rows)
 
 
-    // })
+    })
   }, [])
 
   return (
