@@ -67,7 +67,7 @@ function Page({ searchParams }) {
 
       if (result.success) {
         setUserToken({
-          token: response.data.foundationAuth_signin.token,
+          token: response.data.backendAuth_signin.token,
         })
         if (!searchParams || isEmpty(searchParams)) {
           router.push("/portal/dashboard/")

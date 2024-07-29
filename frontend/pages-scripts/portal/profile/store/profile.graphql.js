@@ -6,7 +6,7 @@ export const getProfileGraphQL = () => {
     const response = await callApi({
       query: `
       query {
-        foundationUserProfile_getOne {
+        backendUserProfile_getOne {
           firstName
           lastName
           username
@@ -15,7 +15,7 @@ export const getProfileGraphQL = () => {
           circleColor
           labelColor
         }
-        foundationUser_getOne {
+        backendUser_getOne {
           email
         }
       }
@@ -34,7 +34,7 @@ export const postProfileGraphQL = ({firstName, lastName, username, picture, call
     const response = await callApi({
       query: `
       mutation($firstName: String, $lastName: String, $username: String, $picture: String, $callByType: CallByTypeEnum, $circleColor: String, $labelColor: String) {
-        foundationUserProfile_updateOne(firstName: $firstName, lastName: $lastName, username: $username, picture: $picture, callByType: $callByType, circleColor: $circleColor, labelColor: $labelColor) {
+        backendUserProfile_updateOne(firstName: $firstName, lastName: $lastName, username: $username, picture: $picture, callByType: $callByType, circleColor: $circleColor, labelColor: $labelColor) {
         id    
         }
       }

@@ -1,9 +1,9 @@
-import { callSubDomainApi } from "@/utils/graphql/backend-api"
+import { callApi } from "@/utils/graphql/backend-api"
 
 export const getDraftedPagesNewGraphQL = ({ q, page, pageSize }) => {
   return new Promise(async (resolve) => {
 
-    const response = await callSubDomainApi({
+    const response = await callApi({
       query: `
 query ($q: String, $page: Int, $pageSize: Int) {
   backendProjectStatusLists_getManyDraftedPagesNewWithPagination(q: $q, page: $page, pageSize: $pageSize) {

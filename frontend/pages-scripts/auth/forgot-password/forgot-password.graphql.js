@@ -6,7 +6,7 @@ export const forgotPasswordGraphQL = ({ email }) => {
     const response = await callApi({
       query: `
       mutation($email: String!) {
-        foundationAuth_forgotPassword(email: $email) {
+        backendAuth_forgotPassword(email: $email) {
           success
         }
       }

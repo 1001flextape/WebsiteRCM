@@ -1,4 +1,4 @@
-import { callSubDomainApi } from "@/utils/graphql/backend-api"
+import { callApi } from "@/utils/graphql/backend-api"
 
 export const postSettingSiteGraphQL = ({
   id,
@@ -8,7 +8,7 @@ export const postSettingSiteGraphQL = ({
 }) => {
   return new Promise(async (resolve) => {
 
-    const response = await callSubDomainApi({
+    const response = await callApi({
       query: `
       mutation($favicon: String, $tab: String, $isReady: Boolean) {
         backendSettingSite_upsertOne(favicon: $favicon, tab: $tab, isReady: $isReady) {

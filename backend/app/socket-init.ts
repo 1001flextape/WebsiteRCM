@@ -12,18 +12,12 @@ const socketInitScript = async ({ socket, d}: input) => {
   // Load sockets
   // ===================================
   let resolvers = [
-    ...glob.sync("app/schema/subDomain/*/*/*.socket.ts"),
-    ...glob.sync("app/schema/subDomain/*/*/*/*.socket.ts"),
-    ...glob.sync("app/schema/subDomain/*/*/*/*/*.socket.ts"),
-    ...glob.sync("app/schema/subDomain/*/*/*/*/*/*.socket.ts"),
-    ...glob.sync("app/schema/subDomain/*/*/*/*/*/*/*.socket.ts"),
-    ...glob.sync("app/schema/subDomain/*/*/*/*/*/*/*/*.socket.ts"),
-    ...glob.sync("app/schema/domain/*/*/*.socket.ts"),
-    ...glob.sync("app/schema/domain/*/*/*/*.socket.ts"),
-    ...glob.sync("app/schema/domain/*/*/*/*/*.socket.ts"),
-    ...glob.sync("app/schema/domain/*/*/*/*/*/*.socket.ts"),
-    ...glob.sync("app/schema/domain/*/*/*/*/*/*/*.socket.ts"),
-    ...glob.sync("app/schema/domain/*/*/*/*/*/*/*/*.socket.ts"),
+    ...glob.sync("app/schema/*/*/*.socket.ts"),
+    ...glob.sync("app/schema/*/*/*/*.socket.ts"),
+    ...glob.sync("app/schema/*/*/*/*/*.socket.ts"),
+    ...glob.sync("app/schema/*/*/*/*/*/*.socket.ts"),
+    ...glob.sync("app/schema/*/*/*/*/*/*/*.socket.ts"),
+    ...glob.sync("app/schema/*/*/*/*/*/*/*/*.socket.ts"),
   ];
   
   for (const resolver of resolvers) {

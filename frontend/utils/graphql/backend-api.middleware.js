@@ -1,9 +1,9 @@
 import { getUserToken } from "./user";
 
 // const endpoint = "http://localhost:8010/graphql";
-const endpoint = `${process.env.NEXT_PUBLIC_WEB_API_URL}/domain/graphql` || "http://localhost:8080/domain/graphql";
+const endpoint = `${process.env.NEXT_PUBLIC_WEB_API_URL}/graphql` || "http://localhost:8080/graphql";
 
-const subDomainEndpoint =  `${process.env.NEXT_PUBLIC_WEB_API_URL}/subdomain/graphql` || "http://localhost:8080/subdomain/graphql";
+const subDomainEndpoint =  `${process.env.NEXT_PUBLIC_WEB_API_URL}/graphql` || "http://localhost:8080/graphql";
 
 // WEB_API_URL
 export const callApiMiddleware = ({ query, variables }) => {
@@ -46,7 +46,7 @@ export const callApiMiddleware = ({ query, variables }) => {
 
 
 // WEB_API_URL
-export const callSubDomainApiMiddlewareWithToken = ({ token, query, variables }) => {
+export const callSubDomainApiMiddlewareWithToken = ({ token, query, variables, noAuth }) => {
   return new Promise(async (resolve) => {
 
     const graphqlQuery = {
@@ -58,7 +58,7 @@ export const callSubDomainApiMiddlewareWithToken = ({ token, query, variables })
       {
         method: 'POST',
         headers:
-          token ?
+          token && !noAuth ?
             {
               "Content-Type": "application/json",
               "Authorization": `Bearer ${token}`
@@ -68,6 +68,8 @@ export const callSubDomainApiMiddlewareWithToken = ({ token, query, variables })
             },
         body: JSON.stringify(graphqlQuery)
       });
+      
+      console.log(await response.text())
     // const response = await axios({
     //   url: endpoint,
     //   method: 'post',

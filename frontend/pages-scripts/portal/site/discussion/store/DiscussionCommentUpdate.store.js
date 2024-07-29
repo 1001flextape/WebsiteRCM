@@ -1,9 +1,9 @@
-import { callSubDomainApi } from "@/utils/graphql/backend-api"
+import { callApi } from "@/utils/graphql/backend-api"
 
 export const postSiteDesignerDiscussionComment_updateOne_GraphQL = ({ id, post, }) => {
   return new Promise(async (resolve) => {
 
-    const response = await callSubDomainApi({
+    const response = await callApi({
       query: `
       mutation($id: ID!, $post: String) {
         backendSiteDesignerDiscussionComment_updateOne(id: $id, post: $post) {

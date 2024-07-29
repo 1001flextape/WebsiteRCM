@@ -12,7 +12,8 @@ export const getClientPageIdBySlugGraphQL = ({ slug }) => {
         }
       }            
       `,
-      variables: { slug }
+      variables: { slug },
+      noAuth: true,
       // variables: { pageId, socketId }
     })
 

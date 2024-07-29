@@ -1,10 +1,10 @@
-import { callSubDomainApi } from "@/utils/graphql/backend-api"
+import { callApi } from "@/utils/graphql/backend-api"
 
 // VOTE = "UP" || "DOWN" || NONE
 export const postSiteDesignerDiscussion_SetMyVote_GraphQL = ({ discussionId, vote }) => {
   return new Promise(async (resolve) => {
 
-    const response = await callSubDomainApi({
+    const response = await callApi({
       query: `
       mutation($discussionId: ID!, $vote: siteDesignerDiscussionVoteEnum!) {
         backendSiteDesignerDiscussionVote_setMyVote(discussionId: $discussionId, vote: $vote) {

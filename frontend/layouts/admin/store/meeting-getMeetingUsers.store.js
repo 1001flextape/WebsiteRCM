@@ -1,10 +1,10 @@
-import { callSubDomainApi } from "@/utils/graphql/backend-api"
+import { callApi } from "@/utils/graphql/backend-api"
 
 export const getMeetingUsers = ({id}) => {
   console.log('id checks out', id)
   return new Promise(async (resolve) => {
 
-    const response = await callSubDomainApi({
+    const response = await callApi({
       query: `
       query($id: ID!) {
         collaborateMeeting_getUsersForMeeting(id: $id) {

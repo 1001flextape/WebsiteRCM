@@ -1,5 +1,5 @@
 import { Model } from "sequelize";
-import backendPermission from "../../../models/subDomain/backend/permission/backendPermission.model";
+import backendPermission from "../../../models/backend/permission/backendPermission.model";
 import { returningSuccessObj } from "../types/returningObjs.types";
 
 // add stack-trace later when expanding to winston or something... 

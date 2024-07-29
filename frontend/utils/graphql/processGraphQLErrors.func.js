@@ -1,4 +1,4 @@
-// foundationAuth_forgotPassword_error0001:Email is missing.
+// backendAuth_forgotPassword_error0001:Email is missing.
 
 export const processGraphQLErrors = ({ response }) => {
   

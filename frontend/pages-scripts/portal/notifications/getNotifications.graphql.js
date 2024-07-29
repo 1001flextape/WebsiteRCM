@@ -3,7 +3,7 @@ import { callApi, callSubDomainApi } from "@/utils/graphql/backend-api"
 export const getNotificationsGraphQL = ({page, pageSize}) => {
   return new Promise(async (resolve) => {
 
-    const response = await callSubDomainApi({
+    const response = await callApi({
       query: `
 
       query($page: Int, $pageSize: Int) {

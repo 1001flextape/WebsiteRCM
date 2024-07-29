@@ -6,7 +6,7 @@ export const signUpGraphQL = ({ email, password, confirmPassword }) => {
     const response = await callApi({
       query: `
       mutation($email: String!, $password: String!, $confirmPassword: String!) {
-        foundationAuth_signup(email: $email, password: $password, confirmPassword: $confirmPassword) {
+        backendAuth_signup(email: $email, password: $password, confirmPassword: $confirmPassword) {
           token
         }
       }

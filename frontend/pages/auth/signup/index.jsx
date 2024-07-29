@@ -66,7 +66,7 @@ function Page() {
       const result = processGraphQLErrors({ response })
       if (result.success) {
         setUserToken({
-          token: response.data.foundationAuth_signup.token,
+          token: response.data.backendAuth_signup.token,
         })
         router.push("/portal/dashboard/")
       } else {
