@@ -65,7 +65,6 @@ export default ({ app }) => {
 
 
     await link.upsertOne({
-      id: req.body.id,
       image,
       description: req.body.description,
       title: req.body.title,

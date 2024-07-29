@@ -64,7 +64,6 @@ export default ({ app }) => {
 
 
     await site.upsertOne({
-      id: req.body.id,
       favicon,
       tab: req.body.tab,
       isReady: req.body.isReady,

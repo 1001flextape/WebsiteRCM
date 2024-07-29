@@ -61,7 +61,6 @@ export default ({ app }) => {
 
 
     await organization.upsertOne({
-      id: req.body.id,
       logo,
       name: req.body.name,
       shouldApplyToTopNavMenu: req.body.shouldApplyToTopNavMenu,
