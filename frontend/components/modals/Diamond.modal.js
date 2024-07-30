@@ -126,13 +126,13 @@ const DiamondModal = ({
               {/* Left column for selection */}
               <Grid item xs={3} sx={{
                 height: "calc(100vh - 96px)",
+                overflowY: 'auto',
               }}>
 
                 {/* Left Column */}
                 <Box
                   sx={{
                     flex: 1,
-                    overflowY: 'auto',
                     // backgroundColor: "blue"
                   }}
                 >

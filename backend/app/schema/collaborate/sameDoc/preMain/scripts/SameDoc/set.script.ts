@@ -12,8 +12,9 @@ import { dependencies } from "../../../../../utils/dependencies/type/dependencyI
 import { EntityMenuItemType, EntityMenuType, sameDocMenuType, selectAdapter } from "./adaptersFromMenuAndAnswers.script";
 import RealTimeColorSelectionAdapter from "../../../forUsage/adapters/RealTimeColorSelectionAdapter";
 import RealTimeMediaSelectionAdapter from "../../../forUsage/adapters/RealTimeMediaSelectionAdapter";
+import RealTimeSelectAdapter from "../../../forUsage/adapters/RealTimeSelectAdapter";
 
-export type RealTimeAllAdapters = RealTimeYDocAdapter | RealTimeSwitchAdapter | RealTimePictureSelectionAdapter | RealTimeColorAdapter | RealTimeFaviconSelectionAdapter | RealTimeColorSelectionAdapter | RealTimeMediaSelectionAdapter
+export type RealTimeAllAdapters = RealTimeYDocAdapter | RealTimeSwitchAdapter | RealTimePictureSelectionAdapter | RealTimeColorAdapter | RealTimeFaviconSelectionAdapter | RealTimeColorSelectionAdapter | RealTimeMediaSelectionAdapter | RealTimeSelectAdapter
 
 export type RealTimeAdapterPropertyValue = {
   name: string,

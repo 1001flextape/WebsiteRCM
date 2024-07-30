@@ -27,6 +27,7 @@ import Grid from '@mui/material/Grid';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 // import { getSettingsSiteGraphQL, postSettingsSiteGraphQL } from '@/pages-scripts/portal/admin/settings/site/site.graphql';
@@ -148,39 +149,33 @@ const Page = () => {
         <>
           <br />
 
+          <Breadcrumbs aria-label="breadcrumb">
+            <span
+              style={{
+                textDecoration: 'underline',
+                cursor: 'pointer',
+              }}
+              onClick={() => navigate("/portal/admin/settings/system/")}
+            >
+              System
+            </span>
+            <Typography color="textPrimary">Password Policy</Typography>
+          </Breadcrumbs>
+
+          <br />
+
           <Paper elevation={3}>
             <List sx={{ p: 0 }}>
-              <HeaderRow label="Policies" />
+              <HeaderRow label="Password Policy" />
             </List>
             <div>
               <List
                 sx={{
                   m: 0,
                 }}
+                className='admin-card'
               >
-                <ListItem
-                  sx={{
-                    py: 0,
-                    px: 0,
-                  }}
-                  onClick={() => navigate("/portal/admin/settings/system/password-policy/")}
-                >
-                  <ListItemButton>
 
-                    <ListItemText>
-                      <Typography color="inherit" variant="h6" component="h2"
-                        style={{
-                          // lineHeight: 1.1,
-                          color: theme.palette.grey[900]
-                        }}
-                      >
-                        Password Policy
-                      </Typography>
-
-
-                    </ListItemText>
-                  </ListItemButton>
-                </ListItem>
               </List>
 
             </div>

@@ -42,10 +42,12 @@ function DiamondDeviceEmulator({ src, setIsDarkMode, height }) {
 
   const toggleMode = () => {
     setMode((prevMode) => {
-      
+
       const newMode = (prevMode === 'day' ? 'night' : 'day')
 
-      setIsDarkMode(newMode === "night")
+      if (setIsDarkMode) {
+        setIsDarkMode(newMode === "night")
+      }
 
       return newMode
     });

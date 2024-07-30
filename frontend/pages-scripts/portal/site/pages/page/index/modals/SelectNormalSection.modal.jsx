@@ -27,30 +27,30 @@ const SelectNormalSectionModal = ({ isOpened, onClose, onSelect }) => {
       onClose={onClose}
       title={"Select Normal Section"}
       tabs={[
-        {
-          label: "Selected",
-          value: "SELECTED",
-        },
+        // {
+        //   label: "Selected",
+        //   value: "SELECTED",
+        // },
         {
           label: "Built-in",
           value: "BUILT_IN",
         },
-        {
-          label: "Market",
-          value: "MARKET",
-        },
-        {
-          label: "Agency",
-          value: "AGENCY",
-        },
-        {
-          label: "Favorites",
-          value: "FAVORITES",
-        },
-        {
-          label: "New",
-          value: "NEW",
-        },
+        // {
+        //   label: "Market",
+        //   value: "MARKET",
+        // },
+        // {
+        //   label: "Agency",
+        //   value: "AGENCY",
+        // },
+        // {
+        //   label: "Favorites",
+        //   value: "FAVORITES",
+        // },
+        // {
+        //   label: "New",
+        //   value: "NEW",
+        // },
       ]}
       selectedTabValue={"BUILT_IN"}
       //   isOpened={open}

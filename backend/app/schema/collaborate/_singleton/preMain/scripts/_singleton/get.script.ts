@@ -7,6 +7,13 @@ export default function get(d: dependencies) {
 
     const data = singleton
 
+    if (d.singletonSandbox) {
+      return {
+        success: true,
+        data: data[d.singletonSandbox],
+      }
+    }
+
     return {
       success: true,
       data,
