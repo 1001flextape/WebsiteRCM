@@ -1,7 +1,7 @@
 'use client'
 
 //library
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 // Mine
 import tabsJson from '@/pages-scripts/portal/admin/tabs.json';
@@ -13,20 +13,23 @@ import userManagementTabsJson from '@/pages-scripts/portal/admin/user-management
 // MUI
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
 import UserManagementTabs from '@/pages-scripts/portal/admin/user-management/tabs/tabs';
 import SystemUserDataGrid from '@/pages-scripts/portal/admin/user-management/system-users/index/components/SystemUserDataGrid';
+import UsersProvider, { UsersContext } from '@/pages-scripts/portal/admin/user-management/system-users/index/context/SystemUsers.context';
+import NewUserModal from '@/pages-scripts/portal/admin/user-management/system-users/index/components/NewUser.modal';
 
 const Page = () => {
-  const { setTabs } = React.useContext(AdminLayoutContext)
-  const settingsTabsContext = React.useContext(UserManagementTabsContext)
+  const { setTabs } = useContext(AdminLayoutContext)
+  const settingsTabsContext = useContext(UserManagementTabsContext)
+  const { navigate } = useContext(AdminLayoutContext)
+  const {
+    modals, setModals
+  } = useContext(UsersContext)
 
   const [isLoaded, setIsLoaded] = useState(false)
 
-
-  const { navigate } = React.useContext(AdminLayoutContext)
-
-
-  React.useEffect(() => {
+  useEffect(() => {
     setTabs(prevState => ({
       ...prevState,
       tabs: tabsJson.tabs,
@@ -54,7 +57,7 @@ const Page = () => {
     }}
       component="form"
       noValidate
-      // onSubmit={handleSubmit}
+    // onSubmit={handleSubmit}
     >
 
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -63,11 +66,36 @@ const Page = () => {
 
       {isLoaded && (
         <>
-        <br />
 
-        <Paper sx={{ p: 0 }} className='admin-card'>
-          <SystemUserDataGrid />
-        </Paper>
+          <br />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              setModals(prevState => ({
+                ...prevState,
+                isNewUserModalOpen: true
+              }))
+            }}
+          >
+            New
+          </Button>
+          <br />
+          <br />
+
+          <Paper sx={{ p: 0 }} className='admin-card'>
+            <SystemUserDataGrid />
+          </Paper>
+
+          <NewUserModal
+            isOpened={modals.isNewUserModalOpen}
+            onClose={() => {
+              setModals(prevState => ({
+                ...prevState,
+                isNewUserModalOpen: false,
+              }))
+            }}
+          />
         </>
       )}
     </Box>
@@ -79,7 +107,9 @@ Page.getLayout = function getLayout(page) {
     <AdminLayout
       hasNoEntity
     >
-      {page}
+      <UsersProvider>
+        {page}
+      </UsersProvider>
     </AdminLayout>
   )
 }

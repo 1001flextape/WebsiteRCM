@@ -26,7 +26,44 @@ const userType = gql`
     roleId: String
     roleName: String
   }
+
   
+  type BackendUserRealTimeType {
+    entity: String
+
+    # user
+    id: ID
+    email: String
+    isAdmin: RealTimeSwitch
+    isDeactivated: RealTimeSwitch
+    
+    #userProfile
+    callByType: String
+    circleColor: String
+    firstName: String
+    labelColor: String
+    lastName: String
+    picture: String
+    username: String
+    displayName: String
+    
+    # permissions
+    isDashboardRead: RealTimeSwitch
+    isMediaManagerInboxOnly: RealTimeSwitch
+    isMediaManagerRead: RealTimeSwitch
+    isMediaManagerUpdate: RealTimeSwitch
+    isMediaManagerDelete: RealTimeSwitch
+    isSiteDesignerRead: RealTimeSwitch
+    isSiteDesignerUpdate: RealTimeSwitch
+    isSiteDesignerDelete: RealTimeSwitch
+    isAdminRead: RealTimeSwitch
+    isAdminUpdate: RealTimeSwitch
+    isAdminDelete: RealTimeSwitch
+    isUserManagementRead: RealTimeSwitch
+    isUserManagementUpdate: RealTimeSwitch
+    isUserManagementDelete: RealTimeSwitch
+  }
+
   input UserInput {
     id: ID
     username: String
@@ -100,6 +137,7 @@ const userType = gql`
 
   type Query {
     backendUser_getOneById(id: ID!): UserType
+    backendUser_getOneRealTime(id: ID!, socketId: ID!): BackendUserRealTimeType
     backendUser_getManyWithPagination(q: String, page: Int, pageSize: Int): UserPaginationType
     backendUserBasicView_me: UserDisplay
     backendUserBasicView_them(id: ID!): UserDisplay

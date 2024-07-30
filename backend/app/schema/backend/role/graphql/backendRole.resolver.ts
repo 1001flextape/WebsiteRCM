@@ -54,6 +54,19 @@ const backendRoleGqlResolver = {
         return graphqlError(response)
       }
     },
+    backendRole_getMany: async (parent, args, ctx) => {
+
+      const main = makeBackendRoleMain(ctx.d)
+
+      const response = await main.getMany()
+
+      if (response?.success) {
+        return response.data
+
+      } else {
+        return graphqlError(response)
+      }
+    },
   },
   BackendRoleType: {
     permission_getAll: async (parent, args, ctx) => {

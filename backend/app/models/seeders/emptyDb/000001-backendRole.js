@@ -32,7 +32,7 @@ async function up({ context: queryInterface }) {
     },
     {
       id: "6c2886d4-c495-47b4-8d16-cbe1ff7c642f",
-      name: 'Custom',
+      name: 'Custom Permissions',
       isDefault: true,
       createdAt: new Date(),
       updatedAt: new Date(),

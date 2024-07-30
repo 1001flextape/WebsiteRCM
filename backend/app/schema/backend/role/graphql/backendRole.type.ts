@@ -46,7 +46,7 @@ const backendPermissionGqlType = gql`
     backendRole_getOneById(id: ID): BackendRoleType
     backendRole_getManyWithPagination(q: String, page: Int, pageSize: Int): BackendRolePaginationType
     backendRole_getOneRealTime(socketId: ID!, roleId: ID!): BackendRoleRealTimeType
-  
+    backendRole_getMany: [BackendRoleType]
   }
   
   type Mutation {

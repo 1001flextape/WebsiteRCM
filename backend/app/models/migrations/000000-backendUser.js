@@ -13,15 +13,21 @@ async function up({ context: queryInterface }) {
     },
     password: {
       type: sequelize.STRING,
-      allowNull: false,
+    },
+    tempPassword: {
+      type: sequelize.STRING,
+    },
+    isAdmin: {
+      type: sequelize.BOOLEAN,
+      defaultValue: false
     },
     isDeactivated: {
       type: sequelize.BOOLEAN,
       defaultValue: false,
     },
-    isAdmin: {
+    isEmailVerify: {
       type: sequelize.BOOLEAN,
-      defaultValue: false
+      defaultValue: false,
     },
     createdAt: {
       allowNull: false,

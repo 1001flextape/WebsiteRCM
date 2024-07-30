@@ -8,7 +8,7 @@ import makeBackendRoleValidation from "../../../preMain/backendRole.validation";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
 
 
-export default function getOneById(d: dependencies) {
+export default function getOneMany(d: dependencies) {
   return async (): Promise<returningSuccessObj<backendRole[]>> => {
 
     const backendRoleSql = makeBackendRoleSql(d);

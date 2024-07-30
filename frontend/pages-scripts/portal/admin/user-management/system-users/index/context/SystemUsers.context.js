@@ -1,55 +1,46 @@
 // Libraries
 import React, { useContext, useState } from 'react'
-import { postNewPageGraphQL } from '../store/postNewPage.store';
 import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
 
-export const SiteDesignerPagesContext = React.createContext();
+export const UsersContext = React.createContext();
 
-export function SiteDesignerPagesProvider({ children }) {
+export function UsersProvider({ children }) {
 
   const { navigate } = useContext(AdminLayoutContext)
 
-  const [isNewPageModalOpen, setIsNewPageModalOpen] = useState(false)
-  const [slug, setSlug] = useState("")
-  const [hasHomePage, setHasHomePage] = useState(false)
+  const [modals, setModals] = useState({
+    isNewUserModalOpen: false,
+  })
+  const [email, setEmail] = useState("")
 
-  const onCreatePage = ({ url }) => {
-    postNewPageGraphQL({
-      slug: url,
-    }).then(response => {
-      const data = response.data.backendSiteDesignerPage_addOne
+  // const onCreateUser = ({ url }) => {
+  //   postNewUserGraphQL({
+  //     slug: url,
+  //   }).then(response => {
+  //     const data = response.data.backendSiteDesignerUser_addOne
 
-      navigate(`/portal/site/pages/${data.id}`)
+  //     navigate(`/portal/site/pages/${data.id}`)
 
-    })
-  }
+  //   })
+  // }
 
-  const createPage = () => {
-    if (slug.trim() !== '') {
-      onCreatePage({
-        url: `/p/${slug}`
-      })
+  // const createUser = () => {
+  //   if (slug.trim() !== '') {
+  //     onCreateUser({
+  //       url: `/p/${slug}`
+  //     })
 
-    }
-  }
-
-  const createHomePage = () => {
-    onCreatePage({
-      url: "/"
-    })
-  }
+  //   }
+  // }
 
   return (
-    <SiteDesignerPagesContext.Provider value={{
-      isNewPageModalOpen, setIsNewPageModalOpen,
-      slug, setSlug,
-      hasHomePage,
-      createPage,
-      createHomePage,
+    <UsersContext.Provider value={{
+      modals, setModals,
+      email, setEmail,
     }}>
       {children}
-    </SiteDesignerPagesContext.Provider>
+    </UsersContext.Provider>
   )
 }
 
-export default SiteDesignerPagesProvider
+export default UsersProvider

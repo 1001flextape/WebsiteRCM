@@ -33,6 +33,9 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useTheme } from '@mui/material';
 import PermissionsTable from '@/pages-scripts/portal/admin/user-management/roles/form/components/PermissionsTable';
+import UserProvider, { UserContext } from '@/pages-scripts/portal/admin/user-management/system-users/form/context/SystemUser.context';
+import UserChip from '@/components/chip/user.chip';
+import RealTimeSwitchRow from '@/components/realtime/SwitchRow/SwitchRow.realtime';
 
 const Page = () => {
   const theme = useTheme()
@@ -44,6 +47,58 @@ const Page = () => {
 
   const { navigate, setTabs } = useContext(AdminLayoutContext);
   const userManagementTabsContext = useContext(UserManagementTabsContext);
+  const {
+    entity,
+    email, setEmail,
+    roles, setRoles,
+
+
+    isAdmin, setIsAdmin,
+    isAdminValue, setIsAdminValue,
+    isDeactivated, setIsDeactivated,
+    isDeactivatedValue, setIsDeactivatedValue,
+
+
+    callByType, setCallByType,
+    circleColor, setCircleColor,
+    firstName, setFirstName,
+    labelColor, setLabelColor,
+    lastName, setLastName,
+    picture, setPicture,
+    username, setUsername,
+    displayName, setDisplayName,
+
+
+
+    isDashboardRead, setIsDashboardRead,
+    isDashboardReadValue, setIsDashboardReadValue,
+    isMediaManagerInboxOnly, setIsMediaManagerInboxOnly,
+    isMediaManagerInboxOnlyValue, setIsMediaManagerInboxOnlyValue,
+    isMediaManagerRead, setIsMediaManagerRead,
+    isMediaManagerReadValue, setIsMediaManagerReadValue,
+    isMediaManagerUpdate, setIsMediaManagerUpdate,
+    isMediaManagerUpdateValue, setIsMediaManagerUpdateValue,
+    isMediaManagerDelete, setIsMediaManagerDelete,
+    isMediaManagerDeleteValue, setIsMediaManagerDeleteValue,
+    isSiteDesignerRead, setIsSiteDesignerRead,
+    isSiteDesignerReadValue, setIsSiteDesignerReadValue,
+    isSiteDesignerUpdate, setIsSiteDesignerUpdate,
+    isSiteDesignerUpdateValue, setIsSiteDesignerUpdateValue,
+    isSiteDesignerDelete, setIsSiteDesignerDelete,
+    isSiteDesignerDeleteValue, setIsSiteDesignerDeleteValue,
+    isAdminRead, setIsAdminRead,
+    isAdminReadValue, setIsAdminReadValue,
+    isAdminUpdate, setIsAdminUpdate,
+    isAdminUpdateValue, setIsAdminUpdateValue,
+    isAdminDelete, setIsAdminDelete,
+    isAdminDeleteValue, setIsAdminDeleteValue,
+    isUserManagementRead, setIsUserManagementRead,
+    isUserManagementReadValue, setIsUserManagementReadValue,
+    isUserManagementUpdate, setIsUserManagementUpdate,
+    isUserManagementUpdateValue, setIsUserManagementUpdateValue,
+    isUserManagementDelete, setIsUserManagementDelete,
+    isUserManagementDeleteValue, setIsUserManagementDeleteValue,
+  } = useContext(UserContext)
 
   const handleBlockToggle = () => {
     setIsBlocked((prevIsBlocked) => !prevIsBlocked);
@@ -59,12 +114,17 @@ const Page = () => {
   const handleRoleSelect = (event) => {
     const selectedRole = event.target.value;
 
-    if (!selectedRoles.includes(selectedRole)) {
-      setSelectedRoles((prevSelectedRoles) => [...prevSelectedRoles, selectedRole]);
-      setAvailableRoles((prevAvailableRoles) =>
-        prevAvailableRoles.filter((role) => role !== selectedRole)
-      );
-    }
+    const role = roles.filter(r => r.id === selectedRole)
+
+    // changed from many to one, keeping many logic throughtout the project but only selecting one.
+    setSelectedRoles([role])
+
+    // if (!selectedRoles.includes(selectedRole)) {
+    //   setSelectedRoles((prevSelectedRoles) => [...prevSelectedRoles, selectedRole]);
+    //   setAvailableRoles((prevAvailableRoles) =>
+    //     prevAvailableRoles.filter((role) => role !== selectedRole)
+    //   );
+    // }
   };
 
   const handleChipDelete = (deletedRole) => {
@@ -119,7 +179,7 @@ const Page = () => {
             >
               System Users
             </span>
-            <Typography color="textPrimary">Email</Typography>
+            <Typography color="textPrimary">{email}</Typography>
           </Breadcrumbs>
           <br />
 
@@ -131,18 +191,49 @@ const Page = () => {
                     <TableCell sx={{ width: "200px" }}>Display</TableCell>
                     <TableCell>
 
-                      <Chip label={`User`} />
+                      <UserChip
+                        callByType={callByType}
+                        circleColor={circleColor}
+                        displayName={displayName}
+                        email={email}
+                        firstName={firstName}
+                        labelColor={labelColor}
+                        lastName={lastName}
+                        picturePreview={picture}
+                        username={username}
+                      />
 
                     </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell sx={{ width: "200px" }}>Email</TableCell>
-                    <TableCell>Example@email.com</TableCell>
+                    <TableCell>{email}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+              <Table>
+                <TableBody>
+                  <TableRow>
+                    <TableCell sx={{ width: "200px" }}>Is Deactivated</TableCell>
+                    <TableCell>
+
+                      <RealTimeSwitchRow
+                        label={""}
+                        // label, data, entity, onChange
+                        data={isDeactivated}
+                        entity={entity}
+                        onChange={(value) => {
+                          setIsDeactivated(value)
+                          console.log('contents to be saved', value)
+                        }}
+                      />
+                    </TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
             </TableContainer>
           </Paper>
+
           <br />
 
           <Paper elevation={3}>
@@ -155,12 +246,17 @@ const Page = () => {
                   <TableRow>
                     <TableCell sx={{ width: "200px" }}>Is Admin</TableCell>
                     <TableCell>
-                      <Switch
-                        checked={isBlocked}
-                        onChange={handleBlockToggle}
-                        color="primary"
+
+                      <RealTimeSwitchRow
+                        label={""}
+                        // label, data, entity, onChange
+                        data={isAdmin}
+                        entity={entity}
+                        onChange={(value) => {
+                          setIsAdminValue(value)
+                          console.log('contents to be saved', value)
+                        }}
                       />
-                      <Chip label={`User`} />
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -188,17 +284,17 @@ const Page = () => {
                         <MenuItem value="" disabled>
                           Select Role
                         </MenuItem>
-                        {availableRoles.map((role) => (
-                          <MenuItem key={role} value={role}>
-                            {role}
+                        {roles.map((role) => (
+                          <MenuItem key={role.id} value={role.id}>
+                            {role.name}
                           </MenuItem>
                         ))}
                       </Select>
                       {selectedRoles.map((role) => (
                         <Chip
-                          key={role}
-                          label={role}
-                          onDelete={() => handleChipDelete(role)}
+                          key={role.id}
+                          label={role.name}
+                          // onDelete={() => handleChipDelete(role.id)}
                           variant="outlined"
                           color="primary"
                           sx={{ margin: 0.5 }}
@@ -212,10 +308,44 @@ const Page = () => {
           </Paper>
           <br />
 
-          <PermissionsTable />
+          <p>Must select role "Custom Permissions" to changed permission table.</p>
+          <PermissionsTable
+            entity={entity}
+            isDashboardRead={isDashboardRead}
+            setIsDashboardReadValue={setIsDashboardReadValue}
+            isMediaManagerInboxOnly={isMediaManagerInboxOnly}
+            setIsMediaManagerInboxOnlyValue={setIsMediaManagerInboxOnlyValue}
+            isMediaManagerRead={isMediaManagerRead}
+            setIsMediaManagerReadValue={setIsMediaManagerReadValue}
+            isMediaManagerUpdate={isMediaManagerUpdate}
+            setIsMediaManagerUpdateValue={setIsMediaManagerUpdateValue}
+            isMediaManagerDelete={isMediaManagerDelete}
+            setIsMediaManagerDeleteValue={setIsMediaManagerDeleteValue}
+            isSiteDesignerRead={isSiteDesignerRead}
+            setIsSiteDesignerReadValue={setIsSiteDesignerReadValue}
+            isSiteDesignerUpdate={isSiteDesignerUpdate}
+            setIsSiteDesignerUpdateValue={setIsSiteDesignerUpdateValue}
+            isSiteDesignerDelete={isSiteDesignerDelete}
+            setIsSiteDesignerDeleteValue={setIsSiteDesignerDeleteValue}
+            isAdminRead={isAdminRead}
+            setIsAdminReadValue={setIsAdminReadValue}
+            isAdminUpdate={isAdminUpdate}
+            setIsAdminUpdateValue={setIsAdminUpdateValue}
+            isAdminDelete={isAdminDelete}
+            setIsAdminDeleteValue={setIsAdminDeleteValue}
+            isUserManagementRead={isUserManagementRead}
+            setIsUserManagementReadValue={setIsUserManagementReadValue}
+            isUserManagementUpdate={isUserManagementUpdate}
+            setIsUserManagementUpdateValue={setIsUserManagementUpdateValue}
+            isUserManagementDelete={isUserManagementDelete}
+            setIsUserManagementDeleteValue={setIsUserManagementDeleteValue}
+
+
+          />
+
           <br />
 
-          <Paper
+          {/* <Paper
             elevation={3}
             sx={{
               background: theme.palette.error.light,
@@ -244,7 +374,7 @@ const Page = () => {
                 </TableBody>
               </Table>
             </TableContainer>
-          </Paper>
+          </Paper> */}
 
           <br />
           <Button
@@ -268,7 +398,9 @@ Page.getLayout = function getLayout(page) {
       // remove later
       hasNoEntity
     >
-      {page}
+      <UserProvider>
+        {page}
+      </UserProvider>
     </AdminLayout>
   )
 }

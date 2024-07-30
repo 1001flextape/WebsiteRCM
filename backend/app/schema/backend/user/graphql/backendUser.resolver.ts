@@ -24,6 +24,22 @@ const userResolver = {
         return graphqlError(response)
       }
     },
+    backendUser_getOneRealTime: async (parent, args, ctx) => {
+
+      const main = makeBackendUserMain(ctx.d)
+
+      const response = await main.getOneRealTime({
+        id: args.id,
+        socketId: args.socketId,
+      })
+
+      if (response?.success) {
+        return response.data
+
+      } else {
+        return graphqlError(response)
+      }
+    },
     backendUser_getManyWithPagination: async (parent, args, ctx) => {
 
       const main = makeBackendUserMain(ctx.d)
