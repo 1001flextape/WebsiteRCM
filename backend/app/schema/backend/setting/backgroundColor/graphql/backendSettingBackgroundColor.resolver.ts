@@ -3,21 +3,21 @@ import makeBackendSettingBackgroundColorMain from "../main/backendSettingBackgro
 
 const backendSettingBackgroundColorGqlResolver = {
   Query: {
-    // backendSettingBackgroundColor_getOneRealTime: async (parent, args, ctx) => {
+    backendSettingBackgroundColor_getOneRealTime: async (parent, args, ctx) => {
 
-    //   const main = makeBackendSettingBackgroundColorMain(ctx.d)
+      const main = makeBackendSettingBackgroundColorMain(ctx.d)
 
-    //   const response = await main.getOneRealTime({
-    //     socketId: args.socketId,
-    //   })
+      const response = await main.getOneRealTime({
+        socketId: args.socketId,
+      })
 
-    //   if (response?.success) {
-    //     return response.data
+      if (response?.success) {
+        return response.data
 
-    //   } else {
-    //     return graphqlError(response)
-    //   }
-    // },
+      } else {
+        return graphqlError(response)
+      }
+    },
     backendSettingBackgroundColor_getOne: async (parent, args, ctx) => {
 
       const main = makeBackendSettingBackgroundColorMain(ctx.d)

@@ -5,7 +5,7 @@ const backendSettingBackgroundColorSecurity = {
   Query: {
     backendSettingBackgroundColor_getOne: isAuthenticated,
     // backendSettingBackgroundColor_getOneRealTime: and(isAuthenticated, isAdmin),
-    // backendSettingBackgroundColor_getOneRealTime: isAuthenticated,
+    backendSettingBackgroundColor_getOneRealTime: isAuthenticated,
   },
   Mutation: {
     // backendSettingBackgroundColor_upsertOne: and(isAuthenticated, isAdmin),

@@ -1,70 +1,67 @@
 import { callApi } from "@/utils/graphql/backend-api"
 
-export const getSettingBackgroundColorGraphQL = ({ socketId }) => {
+export const getSettingBackgroundColorRealTimeGraphQL = ({ socketId }) => {
   return new Promise(async (resolve) => {
 
     const response = await callApi({
       query: `
-      query($socketId: ID!) {
-        backendSettingBackgroundColor_getOneRealTime(socketId: $socketId) {
-          # id
-          entity
-          tab {
-            order
-            name
-            textValue
-            selections {
-              order
-              userId
-              username
-              userColor
-              range {
-                index
-                length
-              }
-            }
-          }
-          favicon {
-            order
-            name
-            selection
-            currentSelection {
-              id
-              favicon
-              user {
-                displayName
-                labelColor
-                circleColor
-                picture
-              }
-            }
-            uploads {
-              id
-              favicon
-              user {
-                displayName
-                labelColor
-                circleColor
-                picture
-              }
-            }
-          }
-          isReady {
-            order
-            name
-            booleanValue
-            user {
-              id
-              displayName
-              circleColor
-              labelColor
-              picture
-            }
-          }
-        }
+      query ($socketId: ID!) {
+backendSettingBackgroundColor_getOneRealTime(socketId: $socketId) {
+    entity
+    backgroundColor_day {
+      order
+      name
+      color
+      user {
+        id
+        email
+        firstName
+        lastName
+        username
+        picture
+        callByType
+        circleColor
+        labelColor
+        displayName
       }
-      
-      
+    }
+    backgroundColor_night {
+      order
+      name
+      color
+      user {
+        id
+        email
+        firstName
+        lastName
+        username
+        picture
+        callByType
+        circleColor
+        labelColor
+        displayName
+      }
+    }
+    isReady {
+      order
+      name
+      booleanValue
+      user {
+        id
+        email
+        firstName
+        lastName
+        username
+        picture
+        callByType
+        circleColor
+        labelColor
+        displayName
+      }
+    }
+  }
+}
+
       `,
       variables: { socketId }
     })

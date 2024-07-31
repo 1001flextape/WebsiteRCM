@@ -73,8 +73,6 @@ function PreviewBackgroundColor() {
       padding: "20px",
       minHeight: "350px",
     }}>
-      <br />
-      <br />
       {isLoaded && (
         // <Paper sx={{
         //   maxWidth: 936,
@@ -83,8 +81,8 @@ function PreviewBackgroundColor() {
         //   marginBottom: "10px",
         //   p: 3,
         // }}>
-          
-          <DiamondDeviceEmulator src={"about:blank"} setIsDarkMode={setIsDarkMode} />
+
+        <DiamondDeviceEmulator src={"/portal/previewer/background-color?1=1"} setIsDarkMode={setIsDarkMode} />
         // </Paper>
       )}
     </Box>

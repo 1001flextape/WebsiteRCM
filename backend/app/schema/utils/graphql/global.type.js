@@ -57,6 +57,13 @@ const userType = gql`
     user: UserDisplay
   }
 
+  type RealTimeColorSelection {
+    order: Int,
+    name: String,
+    color: String,
+    user: UserDisplay
+  }
+
   type RealTimeColorPicker {
     order: Int,
     name: String,

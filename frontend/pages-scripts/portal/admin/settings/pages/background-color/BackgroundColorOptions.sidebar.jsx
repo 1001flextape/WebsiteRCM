@@ -19,6 +19,7 @@ import { SettingBackgroundColorContext } from './context/SettingBackgroundColor.
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import RealTimeSelectRow from '@/components/realtime/SelectRow/SwitchRow.realtime';
 import RealTimeColorSelectionRow from '@/components/realtime/ColorSelectionRow/ColorSelectionRow.realtime';
+import { initSocket } from '@/utils/realtime/socket';
 const DynamicRealTimeTextField = dynamic(() => import('@/components/realtime/TextFieldRow/TextField.realtime'), {
   ssr: false
 });
@@ -39,18 +40,19 @@ function WebsiteSettingsBackgroundColorSidebar() {
     id, setId,
     entity, setEntity,
 
+    backgroundColorDay, setBackgroundColorDay,
+    backgroundColorDayValue, setBackgroundColorDayValue,
+    backgroundColorNight, setBackgroundColorNight,
+    backgroundColorNightValue, setBackgroundColorNightValue,
+
     isReady, setIsReady,
     isReadyValue, setIsReadyValue,
+
+    isDarkMode, setIsDarkMode,
+
+    save,
   } = useContext(SettingBackgroundColorContext)
 
-  const handleSaved = () => {
-    // postSettingBackgroundColorGraphQL({
-    //   id,
-    //   favicon: faviconValue,
-    //   tab: tabValue,
-    //   isReady: isReadyValue,
-    // })
-  }
 
   return (
     <>
@@ -64,13 +66,53 @@ function WebsiteSettingsBackgroundColorSidebar() {
 
             {/* New section for Column Size Selector */}
             <Divider component="li" style={{ borderTopWidth: "12px" }} />
-            
-            <HeaderRow label={"Day/Night Background Mode"} />
-            <RealTimeColorSelectionRow
-              label={"background"}
-              color={{color:"#000", suggestedTextColor: "LIGHT"}}
-              data={{color:"#000", suggestedTextColor: "LIGHT"}}
-            />
+
+            <HeaderRow label={"Color Selection"} />
+
+            {isDarkMode && (
+              <RealTimeColorSelectionRow
+                label={"background"}
+
+                data={backgroundColorNight}
+                onChange={(value) => {
+                  setBackgroundColorNightValue(value.color)
+                  setBackgroundColorNight(prevState => ({
+                    ...prevState,
+                    color: value.color,
+                  }))
+
+                  let socket = initSocket();
+
+                  socket.emit('server-setting-background-change-prop', {
+                    ...value,
+                    name: "backgroundColor_night",
+                  })
+                }}
+              // data={{ color: "green", suggestedTextColor: "LIGHT" }}
+              />
+            )}
+
+            {!isDarkMode && (
+              <RealTimeColorSelectionRow
+                label={"background"}
+
+                data={backgroundColorDay}
+                onChange={(value) => {
+                  setBackgroundColorDayValue(value.color)
+                  setBackgroundColorDay(prevState => ({
+                    ...prevState,
+                    color: value.color,
+                  }))
+
+                  let socket = initSocket();
+
+                  socket.emit('server-setting-background-change-prop', {
+                    ...value,
+                    name: "backgroundColor_day",
+                  })
+                }}
+              />
+            )}
             {/* <ListItem alignItems="flex-start">
 
               <div>
@@ -123,7 +165,7 @@ function WebsiteSettingsBackgroundColorSidebar() {
                     <br />
                     <Button
                       variant="contained"
-                      onClick={handleSaved}
+                      onClick={save}
                     >
                       Save
                     </Button>

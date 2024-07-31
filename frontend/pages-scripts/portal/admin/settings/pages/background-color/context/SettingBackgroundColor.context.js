@@ -2,7 +2,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { getSocketId, initSocket } from '@/utils/realtime/socket';
 import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
+import { getSettingBackgroundColorRealTimeGraphQL } from '../store/settingBackgroundColor_getOneRealTime.store';
 // import { getSettingBackgroundColorGraphQL } from '../store/settingBackgroundColor_getOneRealTime.store';
+import { enqueueSnackbar } from 'notistack';
+import { postSettingBackgroundColorGraphQL } from '../store/settingBackgroundColor_upsertOne.store';
 
 export const SettingBackgroundColorContext = React.createContext();
 
@@ -15,63 +18,80 @@ export function SettingBackgroundColorProvider({ children }) {
     isSystemFaviconsModalOpened: false,
   })
 
-  const [id, setId] = useState()
   const [entity, setEntity] = useState()
 
-  const [favicon, setFavicon] = useState()
-  const [faviconValue, setFaviconValue] = useState()
-  const [tab, setTab] = useState()
-  const [tabValue, setTabValue] = useState()
+  const [backgroundColorDay, setBackgroundColorDay] = useState()
+  const [backgroundColorDayValue, setBackgroundColorDayValue] = useState()
+  const [backgroundColorNight, setBackgroundColorNight] = useState()
+  const [backgroundColorNightValue, setBackgroundColorNightValue] = useState()
   const [isReady, setIsReady] = useState()
   const [isReadyValue, setIsReadyValue] = useState()
 
   const [isDarkMode, setIsDarkMode] = useState(false)
 
+  const save = () => {
+    postSettingBackgroundColorGraphQL({
+      backgroundColor_day: backgroundColorDayValue,
+      backgroundColor_night: backgroundColorNightValue,
+      isReady: isReadyValue,
+    }).then(response => {
+      enqueueSnackbar("Background Colors Saved!")
+    })
+  }
+
   useEffect(() => {
-    const socketId = getSocketId()
-    // getSettingBackgroundColorGraphQL({
-    //   socketId,
-    // }).then(result => {
-    //   const site = result.data.backendSettingBackgroundColor_getOneRealTime
-    //   console.log('init data for site', site)
-    //   if (site) {
 
-    //     updateEntity({
-    //       entity: site.entity
-    //     })
-    //     setEntity(site.entity)
+    getSettingBackgroundColorRealTimeGraphQL({
+      socketId: getSocketId(),
+    }).then(result => {
+      const data = result.data.backendSettingBackgroundColor_getOneRealTime
+      if (data) {
 
-    //     setId(site.id)
-    //     setIsReady(site.isReady)
+        updateEntity({
+          entity: data.entity
+        })
+        setEntity(data.entity)
 
-    //     setFavicon(site.favicon)
+        setIsReady(data.isReady)
 
-    //     setTab(site.tab)
-    //   }
+        setBackgroundColorNight(data.backgroundColor_night)
+        
+        setBackgroundColorDay(data.backgroundColor_day)
 
-    //   setLoaded(true)
-    // })
+        console.log('backgroundColorDay',backgroundColorDay)
 
-    setLoaded(true)
+        setLoaded(true)
 
-
+      } else {
+        setLoaded(true)
+      }
+    })
   }, [])
 
   return (
     <SettingBackgroundColorContext.Provider value={{
       isLoaded, setLoaded,
-      id, setId,
       entity, setEntity,
-      favicon, setFavicon,
-      faviconValue, setFaviconValue,
-      tab, setTab,
-      tabValue, setTabValue,
+
+      backgroundColorDay, setBackgroundColorDay,
+      backgroundColorDayValue, setBackgroundColorDayValue,
+      backgroundColorNight, setBackgroundColorNight,
+      backgroundColorNightValue, setBackgroundColorNightValue,
+
       isReady, setIsReady,
       isReadyValue, setIsReadyValue,
       modals, setModals,
       isDarkMode, setIsDarkMode,
+
+      save,
     }}>
-      {children}
+      <>
+        {isLoaded && (
+          <>
+            {children}
+          </>
+        )}
+      </>
     </SettingBackgroundColorContext.Provider>
   )
 }

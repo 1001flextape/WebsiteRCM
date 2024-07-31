@@ -1,25 +1,24 @@
 import { callApi } from "@/utils/graphql/backend-api"
 
 export const postSettingBackgroundColorGraphQL = ({
-  id,
-  favicon,
-  tab,
+  backgroundColor_day,
+  backgroundColor_night,
   isReady,
 }) => {
   return new Promise(async (resolve) => {
 
     const response = await callApi({
       query: `
-      mutation($id: ID, $favicon: String, $tab: String, $isReady: Boolean) {
-        backendSettingBackgroundColor_upsertOne(favicon: $favicon, tab: $tab, isReady: $isReady) {
-          isReady
-        }
-      }
+mutation ($backgroundColor_day: String, $backgroundColor_night: String, $isReady: Boolean) {
+  backendSettingBackgroundColor_upsertOne(backgroundColor_day: $backgroundColor_day, backgroundColor_night: $backgroundColor_night, isReady: $isReady) {
+    backgroundColor_day
+  }
+}
+
       `,
       variables: {
-        id,
-        favicon,
-        tab,
+        backgroundColor_day,
+        backgroundColor_night,
         isReady,
       }
     })
