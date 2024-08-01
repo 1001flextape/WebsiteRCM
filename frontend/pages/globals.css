@@ -1,18 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-
-
 * {
   /* box-sizing: border-box; */
   padding: 0;
   margin: 0;
-}
-
-
-button, [type='button'], [type='reset'], [type='submit'] {
- background-color: unset; 
 }
 
 .css-12u49z-MuiDataGrid-root .MuiDataGrid-row:not(.MuiDataGrid-row--dynamicHeight) > .MuiDataGrid-cell {
