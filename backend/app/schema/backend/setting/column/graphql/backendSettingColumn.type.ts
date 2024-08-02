@@ -2,14 +2,11 @@ import gql from "graphql-tag"
 
 const backendSettingColumnGraphQLType = gql`
 
-# type BackendSettingColumnRealTimeType {
-#   id: String,
-#   entity: String,
-#   title: RealTimeTextField,
-#   description: RealTimeTextField,
-#   image: RealTimePictureSelection,
-#   isReady: RealTimeSwitch
-# }
+  type BackendSettingColumnRealTimeType {
+    entity: String,
+    width: RealTimeSelect,
+    isReady: RealTimeSwitch
+  }
 
   type BackendSettingColumnType {
     width: String,
@@ -18,7 +15,7 @@ const backendSettingColumnGraphQLType = gql`
 
   type Query {
     backendSettingColumn_getOne: BackendSettingColumnType
-    # backendSettingColumn_getOneRealTime(socketId: String!): BackendSettingColumnRealTimeType
+    backendSettingColumn_getOneRealTime(socketId: ID!): BackendSettingColumnRealTimeType
   }
   type Mutation {
     backendSettingColumn_upsertOne(width: String, isReady: Boolean): BackendSettingColumnType

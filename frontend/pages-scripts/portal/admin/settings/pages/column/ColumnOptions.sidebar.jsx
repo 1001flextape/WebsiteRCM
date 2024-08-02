@@ -17,7 +17,7 @@ import RealTimeSwitchRow from '@/components/realtime/SwitchRow/SwitchRow.realtim
 import dynamic from 'next/dynamic';
 import { SettingColumnContext } from './context/SettingColumn.context';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import RealTimeSelectRow from '@/components/realtime/SelectRow/SwitchRow.realtime';
+import RealTimeSelectRow from '@/components/realtime/SelectRow/SelectRow.realtime';
 const DynamicRealTimeTextField = dynamic(() => import('@/components/realtime/TextFieldRow/TextField.realtime'), {
   ssr: false
 });
@@ -37,19 +37,18 @@ function WebsiteSettingsColumnSidebar() {
     isLoaded, setLoaded,
     id, setId,
     entity, setEntity,
-
+    width, setWidth,
+    widthValue, setWidthValue,
     isReady, setIsReady,
     isReadyValue, setIsReadyValue,
+    modals, setModals,
+
+    scaleDownRatio,
+    scaledDownSize, setScaledDownSize,
+
+    save,
   } = useContext(SettingColumnContext)
 
-  const handleSaved = () => {
-    // postSettingColumnGraphQL({
-    //   id,
-    //   favicon: faviconValue,
-    //   tab: tabValue,
-    //   isReady: isReadyValue,
-    // })
-  }
 
   return (
     <>
@@ -66,31 +65,40 @@ function WebsiteSettingsColumnSidebar() {
             <HeaderRow label={"Column Size Selector"} />
 
             <RealTimeSelectRow
+              entity={entity}
               label={"Column Size"}
-              values={[
+              data={width}
+              options={[
                 {
-                  key: 800,
-                  value: "800px",
+                  key: "800px",
+                  value: "800 Pixels",
                 },
                 {
-                  key: 1000,
-                  value: "1000px",
+                  key: "1000px",
+                  value: "1000 Pixels",
 
                 },
                 {
-                  key: 1200,
-                  value: "1200px",
+                  key: "1200px",
+                  value: "1200 Pixels",
                 },
                 {
-                  key: 1400,
-                  value: "1200px",
+                  key: "1400px",
+                  value: "1400 Pixels",
                 },
                 {
-                  key: 1600,
-                  value: "1200px",
+                  key: "1600px",
+                  value: "1600 Pixels",
                 }
               ]}
               selectedValue={800}
+              onChange={(value) => {
+                setWidthValue(value)
+
+                console.log('sizing', value, parseInt(value), scaleDownRatio, parseInt(value) / scaleDownRatio)
+
+                setScaledDownSize(parseInt(value) / scaleDownRatio)
+              }}
             />
 
             {/* <ListItem alignItems="flex-start">
@@ -145,7 +153,7 @@ function WebsiteSettingsColumnSidebar() {
                     <br />
                     <Button
                       variant="contained"
-                      onClick={handleSaved}
+                      onClick={save}
                     >
                       Save
                     </Button>

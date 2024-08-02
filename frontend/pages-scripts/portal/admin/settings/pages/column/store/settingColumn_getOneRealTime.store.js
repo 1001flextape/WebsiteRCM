@@ -5,65 +5,36 @@ export const getSettingColumnGraphQL = ({ socketId }) => {
 
     const response = await callApi({
       query: `
-      query($socketId: ID!) {
-        backendSettingColumn_getOneRealTime(socketId: $socketId) {
-          id
-          entity
-          tab {
-            order
-            name
-            textValue
-            selections {
-              order
-              userId
-              username
-              userColor
-              range {
-                index
-                length
-              }
-            }
-          }
-          favicon {
-            order
-            name
-            selection
-            currentSelection {
-              id
-              favicon
-              user {
-                displayName
-                labelColor
-                circleColor
-                picture
-              }
-            }
-            uploads {
-              id
-              favicon
-              user {
-                displayName
-                labelColor
-                circleColor
-                picture
-              }
-            }
-          }
-          isReady {
-            order
-            name
-            booleanValue
-            user {
-              id
-              displayName
-              circleColor
-              labelColor
-              picture
-            }
-          }
-        }
+query ($socketId: ID!) {
+  backendSettingColumn_getOneRealTime(socketId: $socketId) {
+    entity
+    width {
+      order
+      name
+      value
+      user {
+        id
+        displayName
+        circleColor
+        labelColor
+        picture
       }
-      
+    }
+    isReady {
+      order
+      name
+      booleanValue
+      user {
+        id
+        displayName
+        circleColor
+        labelColor
+        picture
+      }
+    }
+  }
+}
+
       
       `,
       variables: { socketId }

@@ -1,6 +1,6 @@
 'use client'
 // Libraries
-import * as React from 'react';
+import React, { useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link'
 
@@ -40,8 +40,11 @@ import { SettingColumnContext } from './context/SettingColumn.context';
 
 function PreviewColumnSelection({ selectedColumnSize = 800 }) {
   const theme = useTheme()
-  const scaleDownRatio = 5;
-  const scaledDownSize = selectedColumnSize / scaleDownRatio;
+
+  
+  const {
+    scaledDownSize,
+  } = useContext(SettingColumnContext)
 
   return (
     <Box

@@ -3,6 +3,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import { getSocketId, initSocket } from '@/utils/realtime/socket';
 import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
 import { getSettingColumnGraphQL } from '../store/settingColumn_getOneRealTime.store';
+import { postSettingColumnGraphQL } from '../store/settingColumn_upsertOne.store';
+import { enqueueSnackbar } from 'notistack';
 
 export const SettingColumnContext = React.createContext();
 
@@ -18,57 +20,73 @@ export function SettingColumnProvider({ children }) {
   const [id, setId] = useState()
   const [entity, setEntity] = useState()
 
-  const [favicon, setFavicon] = useState()
-  const [faviconValue, setFaviconValue] = useState()
-  const [tab, setTab] = useState()
-  const [tabValue, setTabValue] = useState()
+  const [width, setWidth] = useState()
+  const [widthValue, setWidthValue] = useState()
   const [isReady, setIsReady] = useState()
   const [isReadyValue, setIsReadyValue] = useState()
+  // const scaledDownSize = selectedColumnSize / scaleDownRatio;
 
+  const [scaleDownRatio] = useState(5);
+
+  const [scaledDownSize, setScaledDownSize] = useState(1000 / scaleDownRatio)
 
   useEffect(() => {
     const socketId = getSocketId()
-    // getSettingColumnGraphQL({
-    //   socketId,
-    // }).then(result => {
-    //   const site = result.data.backendSettingColumn_getOneRealTime
-    //   console.log('init data for site', site)
-    //   if (site) {
+    getSettingColumnGraphQL({
+      socketId,
+    }).then(result => {
+      const data = result.data.backendSettingColumn_getOneRealTime
+      console.log('init data for site', data)
+      if (data) {
 
-    //     updateEntity({
-    //       entity: site.entity
-    //     })
-    //     setEntity(site.entity)
+        updateEntity({
+          entity: data.entity
+        })
+        setEntity(data.entity)
 
-    //     setId(site.id)
-    //     setIsReady(site.isReady)
+        setIsReady(data.isReady)
 
-    //     setFavicon(site.favicon)
+        setWidth(data.width)
+      }
 
-    //     setTab(site.tab)
-    //   }
+      setLoaded(true)
+    })
 
-    //   setLoaded(true)
-    // })
-
-    setLoaded(true)
 
   }, [])
+
+  const save = () => {
+    postSettingColumnGraphQL({
+      width: widthValue,
+      isReady: isReadyValue,
+    }).then(response => {
+      enqueueSnackbar("Column Saved!")
+    })
+  }
 
   return (
     <SettingColumnContext.Provider value={{
       isLoaded, setLoaded,
       id, setId,
       entity, setEntity,
-      favicon, setFavicon,
-      faviconValue, setFaviconValue,
-      tab, setTab,
-      tabValue, setTabValue,
+      width, setWidth,
+      widthValue, setWidthValue,
       isReady, setIsReady,
       isReadyValue, setIsReadyValue,
       modals, setModals,
+
+      scaleDownRatio,
+      scaledDownSize, setScaledDownSize,
+
+      save,
     }}>
-      {children}
+      <>
+        {isLoaded && (
+          <>
+            {children}
+          </>
+        )}
+      </>
     </SettingColumnContext.Provider>
   )
 }

@@ -4,7 +4,7 @@ async function up({ context: queryInterface }) {
   await queryInterface.bulkInsert('backendSettingColumn', [
     {
       id: uuidv4(),
-      width: "100px",
+      width: "1000px",
       isReady: false,
       createdAt: new Date(),
       updatedAt: new Date(),

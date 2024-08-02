@@ -5,7 +5,7 @@ const backendSettingColumnSecurity = {
   Query: {
     backendSettingColumn_getOne: isAuthenticated,
     // backendSettingColumn_getOneRealTime: and(isAuthenticated, isAdmin),
-    // backendSettingColumn_getOneRealTime: isAuthenticated,
+    backendSettingColumn_getOneRealTime: isAuthenticated,
   },
   Mutation: {
     // backendSettingColumn_upsertOne: and(isAuthenticated, isAdmin),

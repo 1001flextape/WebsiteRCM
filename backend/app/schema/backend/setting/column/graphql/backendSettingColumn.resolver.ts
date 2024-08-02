@@ -3,21 +3,21 @@ import makeBackendSettingColumnMain from "../main/backendSettingColumn.main";
 
 const backendSettingColumnGqlResolver = {
   Query: {
-    // backendSettingColumn_getOneRealTime: async (parent, args, ctx) => {
+    backendSettingColumn_getOneRealTime: async (parent, args, ctx) => {
 
-    //   const main = makeBackendSettingColumnMain(ctx.d)
+      const main = makeBackendSettingColumnMain(ctx.d)
 
-    //   const response = await main.getOneRealTime({
-    //     socketId: args.socketId,
-    //   })
+      const response = await main.getOneRealTime({
+        socketId: args.socketId,
+      })
 
-    //   if (response?.success) {
-    //     return response.data
+      if (response?.success) {
+        return response.data
 
-    //   } else {
-    //     return graphqlError(response)
-    //   }
-    // },
+      } else {
+        return graphqlError(response)
+      }
+    },
     backendSettingColumn_getOne: async (parent, args, ctx) => {
 
       const main = makeBackendSettingColumnMain(ctx.d)

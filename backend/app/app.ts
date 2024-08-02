@@ -91,8 +91,8 @@ const makeApp = async function () {
         id: userId
       })
 
-      const userProfile = await backendUserProfile.getOneById({
-        id: userId
+      const userProfile = await backendUserProfile.getOneByUserId({
+        userId,
       })
 
       const lookUp = makeSocketLookUp(d)

@@ -17,7 +17,7 @@ import RealTimeSwitchRow from '@/components/realtime/SwitchRow/SwitchRow.realtim
 import dynamic from 'next/dynamic';
 import { SettingBackgroundColorContext } from './context/SettingBackgroundColor.context';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import RealTimeSelectRow from '@/components/realtime/SelectRow/SwitchRow.realtime';
+import RealTimeSelectRow from '@/components/realtime/SelectRow/SelectRow.realtime';
 import RealTimeColorSelectionRow from '@/components/realtime/ColorSelectionRow/ColorSelectionRow.realtime';
 import { initSocket } from '@/utils/realtime/socket';
 const DynamicRealTimeTextField = dynamic(() => import('@/components/realtime/TextFieldRow/TextField.realtime'), {

@@ -1,25 +1,21 @@
 import { callApi } from "@/utils/graphql/backend-api"
 
 export const postSettingColumnGraphQL = ({
-  id,
-  favicon,
-  tab,
+  width,
   isReady,
 }) => {
   return new Promise(async (resolve) => {
 
     const response = await callApi({
       query: `
-      mutation($id: ID, $favicon: String, $tab: String, $isReady: Boolean) {
-        backendSettingColumn_upsertOne(id: $id, favicon: $favicon, tab: $tab, isReady: $isReady) {
-          id
-        }
-      }
+mutation($width: String!, $isReady: Boolean) {
+  backendSettingColumn_upsertOne(width: $width, isReady: $isReady) {
+    width
+  }
+}
       `,
       variables: {
-        id,
-        favicon,
-        tab,
+        width,
         isReady,
       }
     })
