@@ -1,0 +1,94 @@
+.section {
+    background-color: #e2e8f0;
+    padding: 2rem 0;
+  }
+  
+  .sectionNight {
+    background-color: #1a202c; /* Darker background for night mode */
+  }
+  
+  .container {
+    margin: 0 auto;
+    padding: 0 0.5rem;
+    max-width: 1280px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .flexRow {
+    flex-direction: row;
+  }
+  
+  .flexRowReverse {
+    flex-direction: row-reverse;
+  }
+  
+  .textSection {
+    flex: 1;
+    padding: 1rem;
+  }
+  
+  .textSectionReverse {
+    padding-left: 2rem;
+    padding-right: 0;
+  }
+  
+  .heading {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #2d3748;
+  }
+  
+  .headingNight {
+    color: #e2e8f0; /* Light text for night mode */
+  }
+  
+  .text {
+    font-size: 1.125rem;
+    color: #4a5568;
+  }
+  
+  .textNight {
+    color: #cbd5e0; /* Light text for night mode */
+  }
+  
+  .imageSection {
+    flex: 1;
+    margin: 0.5rem;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 200px;
+  }
+  
+  @media (min-width: 768px) {
+    .container {
+      flex-direction: row;
+    }
+    
+    .imageSectionReverse {
+      padding-top: 2rem;
+    }
+    
+    .imageSectionOrderFirst {
+      order: -1;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .container {
+      flex-direction: column;
+    }
+  
+    .textSectionReverse {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  
+    .imageSection {
+      order: -1;
+      margin: 0 0 1rem 0;
+    }
+  }
+  

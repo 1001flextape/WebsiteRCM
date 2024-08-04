@@ -1,0 +1,32 @@
+.section {
+    background-color: #d1d5db;
+    padding: 2rem 0;
+    text-align: center;
+  }
+  
+  .sectionNight {
+    background-color: #1a202c; /* Darker background for night mode */
+  }
+  
+  .container {
+    margin: 0 auto;
+    padding: 0 0.5rem;
+    max-width: 1280px;
+  }
+  
+  .heading {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2d3748;
+  }
+  
+  .headingNight {
+    color: #e2e8f0; /* Light text for night mode */
+  }
+  
+  @media (min-width: 1024px) {
+    .heading {
+      font-size: 2.5rem;
+    }
+  }
+  

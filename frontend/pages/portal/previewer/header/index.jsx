@@ -7,7 +7,6 @@ import MainSiteLayout from '@/layouts/mainSiteLayout/layout';
 import { getSocketId, initSocket } from '@/utils/realtime/socket';
 import { getSettingHeaderRealTimeGraphQL } from '@/pages-scripts/portal/admin/settings/pages/header/store/settingHeader_getRealTime.store';
 import DynamicComponent from '@/components/previews/DynamicComponent/DynamicComponent.component'
-import { callApiMiddlewareWithToken, callSubDomainApiMiddlewareWithToken } from '@/utils/graphql/backend-api.middleware';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 
@@ -32,7 +31,7 @@ const PreviewHeaderPage = (props) => {
       const data = response.data.backendSettingHeader_getOneRealTime
 
       const user = (JSON.parse(data.userAnswersJsonB))
-console.log('HEADER USER HEADER USER', user)
+console.log('HEADER USER HEADER USER', data)
       setComponentProps({
         data: {
           user,

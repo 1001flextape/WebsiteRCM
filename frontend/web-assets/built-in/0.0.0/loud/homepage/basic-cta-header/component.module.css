@@ -1,0 +1,92 @@
+.section {
+  position: relative;
+  background-color: #2d3748;
+  /* Default background for day mode */
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.sectionNight {
+  background-color: #1a202c;
+  /* Dark background for night mode */
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  /* Default overlay for day mode */
+}
+
+.overlayNight {
+  background: rgba(0, 0, 0, 0.7);
+  /* Dark overlay for night mode */
+}
+
+.content {
+  position: relative;
+  text-align: center;
+  color: white;
+  z-index: 10;
+  padding: 1rem;
+}
+
+.heading {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.headingNight {
+  color: #e2e8f0;
+  /* Light text for night mode */
+}
+
+.subheading {
+  font-size: 1.125rem;
+  margin-bottom: 1.5rem;
+}
+
+.subheadingNight {
+  color: #a0aec0;
+  /* Light text for night mode */
+}
+
+.ctaButton {
+  background-color: #4299e1;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+  cursor: pointer;
+  text-align: center;
+  margin-right: 1rem;
+  /* Add space to the right */
+}
+
+.ctaButtonNight {
+  background-color: #3182ce;
+  /* Darker button for night mode */
+}
+
+.ctaButton:hover {
+  background-color: #3182ce;
+}
+
+@media (min-width: 768px) {
+  .heading {
+    font-size: 2.5rem;
+  }
+
+  .subheading {
+    font-size: 1.25rem;
+  }
+
+  .ctaButton {
+    font-size: 1.25rem;
+  }
+}
