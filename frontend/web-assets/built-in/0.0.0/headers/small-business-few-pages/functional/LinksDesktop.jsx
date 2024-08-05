@@ -1,50 +1,38 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import styles from '../component.module.css';
 
 function FunctionalLinksDesktop(props) {
-    // imports
-    const { user, system } = props.data;
-    const {
-      // env
-      isDisplayMode,
-      isFunctionalMode,
-      isDevMode,
-      isProdMode,
-      // colors
-      isDayMode,
-      isNightMode,
-    } = system.state
-  
-    //color adjustments
-    const renderSuggestedTextColorClass = (value) => {
-      switch (value) {
-        case "LIGHT":
-          return `text-gray-200`
-  
-        case "DARK":
-          return `text-gray-800`
-  
-        // default dark like browser
-        default:
-          return `text-gray-800`
-      }
+  const { user, system } = props.data;
+  const {
+    isDayMode,
+    isNightMode,
+  } = system.state;
+
+  const renderSuggestedTextColorClass = (value) => {
+    switch (value) {
+      case 'LIGHT':
+        return styles.textGray200;
+      case 'DARK':
+        return styles.textGray800;
+      default:
+        return styles.textGray800;
     }
-  
-    const classes = renderSuggestedTextColorClass(
-      isDayMode
-        ? user.navColorDay?.suggestedTextColor
-        : user.navColorNight?.suggestedTextColor
-    )
-  
+  };
+
+  const classes = renderSuggestedTextColorClass(
+    isDayMode ? user.navColorDay?.suggestedTextColor : user.navColorNight?.suggestedTextColor
+  );
+
   return (
-    <>
-      <a href="#" className={`${classes} hover:text-gray-300 py-2`}>
+    <div className={styles.navbarLinksDesktop}>
+      <a href="#" className={classes}>
         About
       </a>
-      <a href="#" className={`${classes} hover:text-gray-300 py-2`}>
+      <a href="#" className={classes}>
         Services
       </a>
-    </>
-  )
+    </div>
+  );
 }
 
-export default FunctionalLinksDesktop
+export default FunctionalLinksDesktop;

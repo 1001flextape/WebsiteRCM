@@ -1,61 +1,49 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import styles from '../component.module.css';
 
 function FunctionalLinksMobile(props) {
-  // imports
   const { user, system } = props.data;
   const {
-    // env
-    isDisplayMode,
-    isFunctionalMode,
-    isDevMode,
-    isProdMode,
-    // colors
     isDayMode,
     isNightMode,
-  } = system.state
+  } = system.state;
 
-  //color adjustments
   const renderSuggestedTextColorClass = (value) => {
     switch (value) {
-      case "LIGHT":
-        return `text-gray-200`
-
-      case "DARK":
-        return `text-gray-800`
-
-      // default dark like browser
+      case 'LIGHT':
+        return styles.textGray200;
+      case 'DARK':
+        return styles.textGray800;
       default:
-        return `text-gray-800`
+        return styles.textGray800;
     }
-  }
+  };
 
   const classes = renderSuggestedTextColorClass(
-    isDayMode
-      ? user.navColorDay?.suggestedTextColor
-      : user.navColorNight?.suggestedTextColor
-  )
+    isDayMode ? user.navColorDay?.suggestedTextColor : user.navColorNight?.suggestedTextColor
+  );
 
   return (
-    <div className='my-4 px-6'>
-      <ul className="space-y-2">
+    <div className={styles.navbarLinksMobile}>
+      <ul>
         <li>
-          <a href="#" className={`${classes}`}>
+          <a href="#" className={classes}>
             Services
           </a>
         </li>
         <li>
-          <a href="#" className={`${classes}`}>
+          <a href="#" className={classes}>
             Locations
           </a>
         </li>
         <li>
-          <a href="#" className={`${classes}`}>
+          <a href="#" className={classes}>
             About
           </a>
         </li>
       </ul>
     </div>
-  )
+  );
 }
 
-export default FunctionalLinksMobile
+export default FunctionalLinksMobile;

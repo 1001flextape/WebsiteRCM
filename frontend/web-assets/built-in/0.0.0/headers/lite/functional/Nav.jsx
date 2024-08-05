@@ -1,42 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react';
 import FunctionalBranding from './Branding';
 import FunctionalNightModeSwitch from './NightModeSwitch';
+import styles from '../component.module.css';
 
 function FunctionalNav(props) {
-  // imports
   const { user, system } = props.data;
-  const {
-    // env
-    isDisplayMode,
-    isFunctionalMode,
-    isDevMode,
-    isProdMode,
-    // colors
-    isDayMode,
-    isNightMode,
-  } = system.state
-
+  const { isDayMode } = system.state;
 
   return (
-    <>
-      {user.isNavShowing && (
-        <nav className={`p-4`} style={{
-          backgroundColor: isDayMode
-            ? user.navColorDay.color || "rgb(228, 228, 231)"
-            : user.navColorNight.color || "rgb(77, 77, 77)"
-        }}>
-          <div className="container mx-auto flex justify-between items-center">
-
-            {/* Navbar Branding */}
-            <FunctionalBranding {...props} />
-
-            {/* Night Mode Switch */}
-            <FunctionalNightModeSwitch {...props} />
-          </div>
-        </nav>
-      )}
-    </>
-  )
+    user.isNavShowing && (
+      <nav
+        className={styles.nav}
+        style={{
+          backgroundColor: isDayMode ? user.navColorDay.color : user.navColorNight.color,
+        }}
+      >
+        <FunctionalBranding {...props} />
+        <FunctionalNightModeSwitch {...props} />
+      </nav>
+    )
+  );
 }
 
-export default FunctionalNav
+export default FunctionalNav;

@@ -1,54 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react';
 import Switch from '@mui/material/Switch';
 import IconButton from '@mui/material/IconButton';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
-
+import styles from '../component.module.css';
 
 function FunctionalNightModeSwitchDesktop(props) {
-  // imports
   const { user, system } = props.data;
   const {
-    // env
-    isDisplayMode,
-    isFunctionalMode,
-    isDevMode,
-    isProdMode,
-    // colors
     isDayMode,
     isNightMode,
-  } = system.state
+  } = system.state;
 
-  //color adjustments
-  const renderSuggestedTextColorClass = (value) => {
-    switch (value) {
-      case "LIGHT":
-        return `text-gray-200`
-
-      case "DARK":
-        return `text-gray-800`
-
-      // default dark like browser
-      default:
-        return `text-gray-800`
-    }
-  }
-
-  const buttonClasses = renderSuggestedTextColorClass(
-    isDayMode
-      ? user.navColorDay?.suggestedTextColor
-      : user.navColorNight?.suggestedTextColor
-  )
-
-  const dropdownlasses = renderSuggestedTextColorClass(
-    isDayMode
-      ? user.navColorDay?.suggestedTextColor
-      : user.navColorNight?.suggestedTextColor
-  )
-
-  // logic 
   const [isBrightnessDropdownOpen, setBrightnessDropdownOpen] = useState(false);
-  const [isNightModeVar, setNightModeVar] = useState(false);
+  const [isNightModeVar, setNightModeVar] = useState(!isDayMode);
 
   const dropdownRef = useRef(null);
 
@@ -58,12 +23,10 @@ function FunctionalNightModeSwitchDesktop(props) {
     }
   };
 
-
   const toggleBrightnessDropdown = (event, override) => {
     if (event) {
       event.stopPropagation();
     }
-
     setBrightnessDropdownOpen(override || !isBrightnessDropdownOpen);
   };
 
@@ -71,7 +34,6 @@ function FunctionalNightModeSwitchDesktop(props) {
     if (event) {
       event.stopPropagation();
     }
-
     setNightModeVar(!isNightModeVar);
     // Implement logic to switch between day and night mode
   };
@@ -83,40 +45,30 @@ function FunctionalNightModeSwitchDesktop(props) {
     };
   }, []);
 
+  const buttonClasses = isDayMode ? styles.textGray800 : styles.textGray200;
+  const dropdownClasses = isDayMode ? styles.bgStone500 : styles.bgStone600;
 
   return (
-    <>
-      {user.isDayNightSelectorShowing && (
-        <>
-          <IconButton color="inherit" className="mr-2"
-            onMouseEnter={() => toggleBrightnessDropdown(null, true)}
-            onMouseLeave={() => toggleBrightnessDropdown(null, false)}
-          >
-            {!isNightModeVar && <LightModeIcon className={`${buttonClasses}`} />}
-            {isNightModeVar && <ModeNightIcon className={`${buttonClasses}`} />}
-
-            {isBrightnessDropdownOpen && (
-              <div
-                className={`absolute ${dropdownlasses} text-white p-2`}
-                style={{
-                  top: "32px",
-                  right: "0px",
-                }}
-              >
-                <Switch
-                  checked={isNightModeVar}
-                  onChange={toggleNightMode}
-                  color="default"
-                  inputProps={{ 'aria-label': 'toggle day/night mode' }}
-                />
-              </div>
-            )}
-          </IconButton>
-        </>
+    <IconButton
+      color="inherit"
+      className="mr-2"
+      onMouseEnter={() => toggleBrightnessDropdown(null, true)}
+      onMouseLeave={() => toggleBrightnessDropdown(null, false)}
+    >
+      {!isNightModeVar && <LightModeIcon className={buttonClasses} />}
+      {isNightModeVar && <ModeNightIcon className={buttonClasses} />}
+      {isBrightnessDropdownOpen && (
+        <div className={`absolute ${dropdownClasses} text-white p-2`} style={{ top: '32px', right: '0px' }} ref={dropdownRef}>
+          <Switch
+            checked={isNightModeVar}
+            onChange={toggleNightMode}
+            color="default"
+            inputProps={{ 'aria-label': 'toggle day/night mode' }}
+          />
+        </div>
       )}
-    </>
-
-  )
+    </IconButton>
+  );
 }
 
-export default FunctionalNightModeSwitchDesktop
+export default FunctionalNightModeSwitchDesktop;

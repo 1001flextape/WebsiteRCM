@@ -1,26 +1,15 @@
-import React, {  useState } from 'react'
+import React, { useState } from 'react';
+import styles from '../component.module.css';
 
-function DisplayCallToAction(props) {
-  // imports
-  const { system } = props.data;
-  const {
-    // colors
-    isDayMode,
-    isNightMode,
-  } = system.state
-
-  const [classes] = useState(
-    isDayMode
-      ? `bg-blue-400`
-      : `bg-blue-500`
-  )
-
+function DisplayCallToAction() {
+  const [isDayMode] = useState(true); // Dummy data
+  const classes = isDayMode ? styles.bgStone500 : styles.bgStone600;
 
   return (
     <div className={`${classes} text-white hover:text-gray-300 px-4 py-2 rounded cursor-pointer`}>
       Contact
     </div>
-  )
+  );
 }
 
-export default DisplayCallToAction
+export default DisplayCallToAction;

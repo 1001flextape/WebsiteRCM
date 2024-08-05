@@ -1,55 +1,28 @@
-import React, { useState } from 'react'
+import React from 'react';
 import IconButton from '@mui/material/IconButton';
+import styles from '../component.module.css';
 
 function FunctionalSocialMobile(props) {
-  // imports
   const { user, system } = props.data;
   const {
-    // env
-    isDisplayMode,
-    isFunctionalMode,
-    isDevMode,
-    isProdMode,
-    // colors
     isDayMode,
-    isNightMode,
-  } = system.state
+  } = system.state;
 
-  //color adjustments
-  const renderSuggestedTextColorClass = (value) => {
-    switch (value) {
-      case "LIGHT":
-        return `text-gray-200`
-
-      case "DARK":
-        return `text-gray-800`
-
-      // default dark like browser
-      default:
-        return `text-gray-800`
-    }
-  }
-
-  const classes = renderSuggestedTextColorClass(
-    isDayMode
-      ? user.navColorDay?.suggestedTextColor
-      : user.navColorNight?.suggestedTextColor
-  )
+  const classes = isDayMode ? styles.textGray800Hover : styles.textGray200Hover;
 
   return (
-    <>
-      {/* Social Icons */}
-      <IconButton className={`${classes}`}>
+    <div className={styles.navbarSocialMobile}>
+      <IconButton className={classes}>
         <i className={`fab fa-instagram ${classes}`}></i>
       </IconButton>
-      <IconButton className={`${classes}`}>
+      <IconButton className={classes}>
         <i className={`fab fa-youtube ${classes}`}></i>
       </IconButton>
-      <IconButton className={`${classes}`}>
+      <IconButton className={classes}>
         <i className={`fab ${classes}`}>𝕏</i>
       </IconButton>
-    </>
-  )
+    </div>
+  );
 }
 
-export default FunctionalSocialMobile
+export default FunctionalSocialMobile;

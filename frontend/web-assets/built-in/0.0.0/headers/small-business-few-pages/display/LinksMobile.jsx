@@ -1,41 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import styles from '../component.module.css';
 
-function DisplayLinksMobile(props) {
-  // imports
-  const { system } = props.data;
-  const {
-    // colors
-    isDayMode,
-    isNightMode,
-  } = system.state
-
-  const [classes] = useState(
-    isDayMode
-      ? `text-gray-800`
-      : `text-gray-200`
-  )
+function DisplayLinksMobile() {
+  const [isDayMode] = useState(true); // Dummy data
+  const classes = isDayMode ? styles.textGray800 : styles.textGray200;
 
   return (
-    <div className='my-4 px-6'>
-      <ul className="space-y-2">
+    <div className={styles.navbarLinksMobile}>
+      <ul>
         <li>
-          <a href="#" className={`${classes}`}>
+          <a href="#" className={classes}>
             Services
           </a>
         </li>
         <li>
-          <a href="#" className={`${classes}`}>
+          <a href="#" className={classes}>
             Locations
           </a>
         </li>
         <li>
-          <a href="#" className={`${classes}`}>
+          <a href="#" className={classes}>
             About
           </a>
         </li>
       </ul>
     </div>
-  )
+  );
 }
 
-export default DisplayLinksMobile
+export default DisplayLinksMobile;

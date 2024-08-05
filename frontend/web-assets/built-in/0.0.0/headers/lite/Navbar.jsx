@@ -4,7 +4,7 @@ import DisplayNotice from './display/Notice';
 import DisplayNav from './display/Nav';
 import FunctionalNav from './functional/Nav';
 
-const DisplayNavbar = (props) => {
+const Navbar = (props) => {
   const { system } = props.data;
   const {
     isDisplayMode,
@@ -29,4 +29,4 @@ const DisplayNavbar = (props) => {
   );
 };
 
-export default DisplayNavbar;
+export default Navbar;

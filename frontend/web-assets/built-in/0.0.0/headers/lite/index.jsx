@@ -1,11 +1,10 @@
-import React from 'react'
-import DisplayNavbar from './DisplayNavbar'
+import React from 'react';
+import Navbar from './Navbar';
 
 function Entry(props) {
   return (
-
-    <DisplayNavbar {...props} />
-  )
+    <Navbar {...props} />
+  );
 }
 
-export default Entry
+export default Entry;

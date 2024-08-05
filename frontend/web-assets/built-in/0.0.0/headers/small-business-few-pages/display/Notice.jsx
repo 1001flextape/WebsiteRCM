@@ -1,28 +1,19 @@
-import React, { useState } from 'react'
+import React from 'react';
+import styles from '../component.module.css';
 
 function DisplayNotice(props) {
-  // imports
   const { system } = props.data;
   const {
-    // colors
     isDayMode,
-    isNightMode,
-  } = system.state
+  } = system.state;
 
-
-  const [noticeClasses, setNoticeClasses] = useState(
-    isDayMode
-      ? "bg-zinc-200 text-gray-800"
-      : "bg-zinc-800 text-gray-200"
-  )
-
+  const noticeClasses = isDayMode ? styles.bgZinc200 : styles.bgZinc800;
 
   return (
-    <div className={`p-2 text-center hover:underline cursor-pointer ${noticeClasses}`}>
+    <div className={`${styles.p2} ${styles.textCenter} ${styles.hoverUnderline} ${noticeClasses} ${isDayMode ? styles.textGray800 : styles.textGray200}`}>
       Important notice goes here.
     </div>
-
-  )
+  );
 }
 
-export default DisplayNotice
+export default DisplayNotice;

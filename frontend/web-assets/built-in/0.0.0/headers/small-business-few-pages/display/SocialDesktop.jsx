@@ -1,34 +1,27 @@
-import React, { useState } from 'react'
+import React from 'react';
+import styles from '../component.module.css';
 
 function DisplaySocialDesktop(props) {
-  // imports
   const { system } = props.data;
   const {
-    // colors
     isDayMode,
-    isNightMode,
-  } = system.state
+  } = system.state;
 
-  const [classes] = useState(
-    isDayMode
-      ? `text-gray-800 hover:text-gray-900`
-      : `text-white hover:text-gray-300`
-  )
+  const classes = isDayMode ? styles.textGray800Hover : styles.textWhiteHover;
 
   return (
-    <div className="hidden lg:flex items-center space-x-4">
-      {/* Social Icons */}
-      <a href="javascript:void(0)" className={`${classes}`}>
+    <div className={styles.navbarSocialDesktop}>
+      <a href="javascript:void(0)" className={classes}>
         <i className="fab fa-instagram"></i>
       </a>
-      <a href="javascript:void(0)" className={`${classes}`}>
+      <a href="javascript:void(0)" className={classes}>
         <i className="fab fa-youtube"></i>
       </a>
-      <a href="javascript:void(0)" className={`${classes}`}>
+      <a href="javascript:void(0)" className={classes}>
         𝕏
       </a>
     </div>
-  )
+  );
 }
 
-export default DisplaySocialDesktop
+export default DisplaySocialDesktop;
