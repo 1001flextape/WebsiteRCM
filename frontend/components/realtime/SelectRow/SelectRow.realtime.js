@@ -36,6 +36,8 @@ function RealTimeSelectRow({ id, entity, label, data, options, onChange, onChang
 
   useEffect(() => {
     setSelectionValue(data.value);
+
+    console.log('selection for select option', data.value)
   }, []);
 
   // const handleChange = (event) => {
@@ -48,6 +50,8 @@ function RealTimeSelectRow({ id, entity, label, data, options, onChange, onChang
 
   const handleChange = event => {
     const newValue = event.target.value;
+
+    console.log('value being inserted', newValue)
     setSelectionValue(newValue)
     setUser(idChip)
 
@@ -76,11 +80,11 @@ function RealTimeSelectRow({ id, entity, label, data, options, onChange, onChang
       })
     }
 
-    if (data?.booleanValue === true || data?.booleanValue === false) {
-      setSwitchValue(data.booleanValue)
+    // if (data?.booleanValue === true || data?.booleanValue === false) {
+    //   setSwitchValue(data.booleanValue)
 
 
-    }
+    // }
 
     if (data?.user) {
       setUser(data.user)

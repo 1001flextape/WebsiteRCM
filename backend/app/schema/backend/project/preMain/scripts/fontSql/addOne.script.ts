@@ -8,7 +8,6 @@ type input = {
 
   id?: string;
   font?: string;
-  varient?: string;
 }
 
 export default function addOne(d: dependencies) {

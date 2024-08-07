@@ -37,6 +37,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import PreviewChromeTab from '@/components/previews/ChromeTab/PreviewChromeTab.component';
 import { SettingFontContext } from './context/SettingFont.context';
+import FontPreview from './components/FontPreview';
 
 
 function PreviewFont() {
@@ -51,10 +52,9 @@ function PreviewFont() {
     isLoaded, setLoaded,
     id, setId,
     entity, setEntity,
-    favicon, setFavicon,
-    faviconValue, setFaviconValue,
-    tab, setTab,
-    tabValue, setTabValue,
+    fonts,
+    font, setFont,
+    fontValue, setFontValue,
     isReady, setIsReady,
     isReadyValue, setIsReadyValue,
     modals, setModals,
@@ -81,7 +81,11 @@ function PreviewFont() {
           marginBottom: "10px",
           p: 3,
         }}>
+          <FontPreview fontFamily={fontValue} />
 
+          {/* <FontPreview fontFamily="Arial" />
+          <FontPreview fontFamily="Courier New" />
+          <FontPreview fontFamily="Times New Roman" /> */}
         </Paper>
       )}
     </Box>

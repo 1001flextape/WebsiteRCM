@@ -22,9 +22,6 @@ async function up({ context: queryInterface }) {
     font: {
       type: sequelize.STRING,
     },
-    varient: {
-      type: sequelize.STRING,
-    },
     createdAt: {
       allowNull: false,
       type: sequelize.DATE

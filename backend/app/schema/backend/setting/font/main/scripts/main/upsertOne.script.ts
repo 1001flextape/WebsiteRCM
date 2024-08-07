@@ -6,7 +6,6 @@ import { dependencies } from "../../../../../../utils/dependencies/type/dependen
 
 type input = {
   font?: string
-  varient?: string
   isChanged?: boolean
   isReady?: boolean
 }
@@ -18,7 +17,6 @@ export default function upsertOne(d: dependencies) {
     
     const response = sql.upsertOne({
       font: args.font,
-      varient: args.varient,
       isChanged: args.isChanged,
       isReady: args.isReady,
     }).catch(error => d.errorHandler(error, d.loggers))

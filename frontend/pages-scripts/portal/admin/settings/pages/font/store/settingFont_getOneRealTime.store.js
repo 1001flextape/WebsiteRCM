@@ -5,65 +5,35 @@ export const getSettingFontGraphQL = ({ socketId }) => {
 
     const response = await callApi({
       query: `
-      query($socketId: ID!) {
-        backendSettingFont_getOneRealTime(socketId: $socketId) {
-          id
-          entity
-          tab {
-            order
-            name
-            textValue
-            selections {
-              order
-              userId
-              username
-              userColor
-              range {
-                index
-                length
-              }
-            }
-          }
-          favicon {
-            order
-            name
-            selection
-            currentSelection {
-              id
-              favicon
-              user {
-                displayName
-                labelColor
-                circleColor
-                picture
-              }
-            }
-            uploads {
-              id
-              favicon
-              user {
-                displayName
-                labelColor
-                circleColor
-                picture
-              }
-            }
-          }
-          isReady {
-            order
-            name
-            booleanValue
-            user {
-              id
-              displayName
-              circleColor
-              labelColor
-              picture
-            }
-          }
-        }
+query ($socketId: ID!) {
+  backendSettingFont_getOneRealTime(socketId: $socketId) {
+    entity
+    font {
+      order
+      name
+      value
+      user {
+        id
+        displayName
+        circleColor
+        labelColor
+        picture
       }
-      
+    }
+    isReady {
+      order
+      name
+      booleanValue
+      user {
+        id
+        displayName
+        circleColor
+        labelColor
+        picture
+      }
+    }
+  }
+}
       
       `,
       variables: { socketId }

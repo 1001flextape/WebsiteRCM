@@ -1,0 +1,225 @@
+{
+    "menu": [
+      {
+        "key": "serif",
+        "value": "Serif"
+      },
+      {
+        "key": "sans-serif",
+        "value": "Sans-Serif"
+      },
+      {
+        "key": "monospace",
+        "value": "Monospace"
+      },
+      {
+        "key": "cursive",
+        "value": "Cursive"
+      },
+      {
+        "key": "fantasy",
+        "value": "Fantasy"
+      },
+      {
+        "key": "Arial",
+        "value": "Arial"
+      },
+      {
+        "key": "Arial Black",
+        "value": "Arial Black"
+      },
+      {
+        "key": "Comic Sans MS",
+        "value": "Comic Sans MS"
+      },
+      {
+        "key": "Courier New",
+        "value": "Courier New"
+      },
+      {
+        "key": "Georgia",
+        "value": "Georgia"
+      },
+      {
+        "key": "Helvetica",
+        "value": "Helvetica"
+      },
+      {
+        "key": "Impact",
+        "value": "Impact"
+      },
+      {
+        "key": "Lucida Console",
+        "value": "Lucida Console"
+      },
+      {
+        "key": "Lucida Sans Unicode",
+        "value": "Lucida Sans Unicode"
+      },
+      {
+        "key": "Palatino Linotype",
+        "value": "Palatino Linotype"
+      },
+      {
+        "key": "Tahoma",
+        "value": "Tahoma"
+      },
+      {
+        "key": "Times New Roman",
+        "value": "Times New Roman"
+      },
+      {
+        "key": "Trebuchet MS",
+        "value": "Trebuchet MS"
+      },
+      {
+        "key": "Verdana",
+        "value": "Verdana"
+      },
+      {
+        "key": "Gill Sans",
+        "value": "Gill Sans"
+      },
+      {
+        "key": "Century Gothic",
+        "value": "Century Gothic"
+      },
+      {
+        "key": "Candara",
+        "value": "Candara"
+      },
+      {
+        "key": "Geneva",
+        "value": "Geneva"
+      },
+      {
+        "key": "Optima",
+        "value": "Optima"
+      },
+      {
+        "key": "Segoe UI",
+        "value": "Segoe UI"
+      },
+      {
+        "key": "Franklin Gothic Medium",
+        "value": "Franklin Gothic Medium"
+      },
+      {
+        "key": "Book Antiqua",
+        "value": "Book Antiqua"
+      },
+      {
+        "key": "Garamond",
+        "value": "Garamond"
+      },
+      {
+        "key": "Arial Narrow",
+        "value": "Arial Narrow"
+      },
+      {
+        "key": "Baskerville",
+        "value": "Baskerville"
+      },
+      {
+        "key": "Times",
+        "value": "Times"
+      },
+      {
+        "key": "Brush Script MT",
+        "value": "Brush Script MT"
+      },
+      {
+        "key": "Courier",
+        "value": "Courier"
+      },
+      {
+        "key": "Lucida Bright",
+        "value": "Lucida Bright"
+      },
+      {
+        "key": "Lucida Sans",
+        "value": "Lucida Sans"
+      },
+      {
+        "key": "MS Serif",
+        "value": "MS Serif"
+      },
+      {
+        "key": "New York",
+        "value": "New York"
+      },
+      {
+        "key": "American Typewriter",
+        "value": "American Typewriter"
+      },
+      {
+        "key": "Andale Mono",
+        "value": "Andale Mono"
+      },
+      {
+        "key": "Apple Chancery",
+        "value": "Apple Chancery"
+      },
+      {
+        "key": "Big Caslon",
+        "value": "Big Caslon"
+      },
+      {
+        "key": "Bodoni MT",
+        "value": "Bodoni MT"
+      },
+      {
+        "key": "Calibri",
+        "value": "Calibri"
+      },
+      {
+        "key": "Cambria",
+        "value": "Cambria"
+      },
+      {
+        "key": "Charter",
+        "value": "Charter"
+      },
+      {
+        "key": "Didot",
+        "value": "Didot"
+      },
+      {
+        "key": "Futura",
+        "value": "Futura"
+      },
+      {
+        "key": "Gadget",
+        "value": "Gadget"
+      },
+      {
+        "key": "Hoefler Text",
+        "value": "Hoefler Text"
+      },
+      {
+        "key": "ITC Avant Garde",
+        "value": "ITC Avant Garde"
+      },
+      {
+        "key": "Papyrus",
+        "value": "Papyrus"
+      },
+      {
+        "key": "Perpetua",
+        "value": "Perpetua"
+      },
+      {
+        "key": "Rockwell",
+        "value": "Rockwell"
+      },
+      {
+        "key": "Source Sans Pro",
+        "value": "Source Sans Pro"
+      },
+      {
+        "key": "Zapf Chancery",
+        "value": "Zapf Chancery"
+      }
+    ]
+  }
+  

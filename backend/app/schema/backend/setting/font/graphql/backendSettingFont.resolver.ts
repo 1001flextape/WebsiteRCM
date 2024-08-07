@@ -3,21 +3,21 @@ import makeBackendSettingFontMain from "../main/backendSettingFont.main";
 
 const backendSettingFontGqlResolver = {
   Query: {
-    // backendSettingFont_getOneRealTime: async (parent, args, ctx) => {
+    backendSettingFont_getOneRealTime: async (parent, args, ctx) => {
 
-    //   const main = makeBackendSettingFontMain(ctx.d)
+      const main = makeBackendSettingFontMain(ctx.d)
 
-    //   const response = await main.getOneRealTime({
-    //     socketId: args.socketId,
-    //   })
+      const response = await main.getOneRealTime({
+        socketId: args.socketId,
+      })
 
-    //   if (response?.success) {
-    //     return response.data
+      if (response?.success) {
+        return response.data
 
-    //   } else {
-    //     return graphqlError(response)
-    //   }
-    // },
+      } else {
+        return graphqlError(response)
+      }
+    },
     backendSettingFont_getOne: async (parent, args, ctx) => {
 
       const main = makeBackendSettingFontMain(ctx.d)
@@ -39,7 +39,6 @@ const backendSettingFontGqlResolver = {
 
       const response = await main.upsertOne({
         font: args.font,
-        varient: args.varient,
         isReady: args.isReady,
       })
 

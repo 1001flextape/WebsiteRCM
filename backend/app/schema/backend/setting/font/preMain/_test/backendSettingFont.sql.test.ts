@@ -20,13 +20,11 @@ describe("test backendSettingFont.sql.js", () => {
 
     const updateOne = await settingFont.upsertOne({
       font: "font",
-      varient: "varient",
       isChanged: true,
       isReady: true,
     })
 
     expect(updateOne.data.dataValues.font).toEqual("font")
-    expect(updateOne.data.dataValues.varient).toEqual("varient")
     expect(updateOne.data.dataValues.isChanged).toBe(true)
     expect(updateOne.data.dataValues.isReady).toBe(true)
 
@@ -38,7 +36,6 @@ describe("test backendSettingFont.sql.js", () => {
     const getOne = await settingFont.getOne()
 
     expect(getOne.data.dataValues.font).toEqual("font")
-    expect(getOne.data.dataValues.varient).toEqual("varient")
     expect(getOne.data.dataValues.isChanged).toBe(true)
     expect(getOne.data.dataValues.isReady).toBe(true)
 

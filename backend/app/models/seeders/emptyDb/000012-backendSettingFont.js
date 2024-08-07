@@ -4,8 +4,7 @@ async function up({ context: queryInterface }) {
   await queryInterface.bulkInsert('backendSettingFont', [
     {
       id: uuidv4(),
-      font: "Roboto",
-      varient: "500",
+      font: "Candara",
       isReady: false,
       createdAt: new Date(),
       updatedAt: new Date(),

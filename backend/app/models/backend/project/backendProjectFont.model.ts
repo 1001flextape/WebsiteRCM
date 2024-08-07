@@ -34,10 +34,5 @@ export default class backendProjectFont extends Model {
   })
   font: string;
 
-  @Column({
-    type: sequelize.STRING,
-  })
-  varient: string;
-
 
 }

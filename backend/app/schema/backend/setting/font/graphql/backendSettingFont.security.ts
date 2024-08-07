@@ -4,6 +4,7 @@ import { isPublic, isAuthenticated, isAdmin, hasPermissions } from "../../../../
 const backendSettingFontSecurity = {
   Query: {
     backendSettingFont_getOne: isAuthenticated,
+    backendSettingFont_getOneRealTime: isAuthenticated,
     // backendSettingFont_getOneRealTime: and(isAuthenticated, isAdmin),
     // backendSettingFont_getOneRealTime: isAuthenticated,
   },

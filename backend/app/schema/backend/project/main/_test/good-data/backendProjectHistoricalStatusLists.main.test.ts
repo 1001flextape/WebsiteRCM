@@ -238,7 +238,6 @@ describe("test backendProjectHistoricalStatusLists.main.js", () => {
     projectFont1 = (await projectFont.addOne({
       projectId: project1.id,
       font: "font",
-      varient: "varient",
     })).data.dataValues
 
     const projectFooter = makeBackendProjectFooterMain(d);

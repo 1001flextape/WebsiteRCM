@@ -78,8 +78,7 @@ const backendProjectType = gql`
   }
   
   type BackendProjectFontType {
-    font: String,
-    varient: String,
+    font: String
   }
     
   type BackendProjectFooterType {

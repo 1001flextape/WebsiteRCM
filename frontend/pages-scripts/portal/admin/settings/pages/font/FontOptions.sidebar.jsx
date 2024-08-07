@@ -1,6 +1,6 @@
 'use client'
 
-import * as React from 'react';
+import React, { useContext, useEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
@@ -16,106 +16,92 @@ import Select from '@mui/material/Select';
 import HeaderRow from '@/components/global/HeaderRow/HeaderRow.component';
 import RealTimeSwitchRow from '@/components/realtime/SwitchRow/SwitchRow.realtime';
 import { SettingFontContext } from './context/SettingFont.context';
+import RealTimeSelectRow from '@/components/realtime/SelectRow/SelectRow.realtime';
+import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
 
 
-function GoogleFontSelector({ fonts, selectedFont, onChange }) {
-  return (
-    <>
-      <HeaderRow label={"Select Google Font"} />
-      <FormControl fullWidth>
-        <InputLabel id="font-selector-label">Font</InputLabel>
-        <Select
-          labelId="font-selector-label"
-          id="font-selector"
-          value={selectedFont}
-          onChange={onChange}
-          variant="outlined"
-        >
-          {fonts.map((font) => {
-            const fontInfo = fonts.find((f) => f.family === font.family);
-            const variants = fontInfo?.variants || [];
+// // function GoogleFontSelector({ fonts, selectedFont, onChange }) {
+// //   return (
+// //     <>
+// //       <HeaderRow label={"Select Google Font"} />
+// //       <FormControl fullWidth>
+// //         <InputLabel id="font-selector-label">Font</InputLabel>
+// //         <Select
+// //           labelId="font-selector-label"
+// //           id="font-selector"
+// //           value={selectedFont}
+// //           onChange={onChange}
+// //           variant="outlined"
+// //         >
+// //           {fonts.map((font) => {
+// //             const fontInfo = fonts.find((f) => f.family === font.family);
+// //             const variants = fontInfo?.variants || [];
 
-            console.log('variants', variants)
-            return (
-              <div key={font.family}>
-                <MenuItem value={font}>
-                  {font.family} {variants.join(', ')}
-                </MenuItem>
-                {variants.map((variant) => (
-                  <MenuItem key={`${font.family}-${variant}`} value={`${font.family}-${variant}`}>
-                    &nbsp;&nbsp;&nbsp;&nbsp;{variant}
-                  </MenuItem>
-                ))}
-              </div>
-            );
-          })}
-        </Select>
-      </FormControl>
-      <Divider component="li" style={{ borderTopWidth: "5px" }} />
-    </>
-  );
-}
+// //             console.log('variants', variants)
+// //             return (
+// //               <div key={font.family}>
+// //                 <MenuItem value={font}>
+// //                   {font.family} {variants.join(', ')}
+// //                 </MenuItem>
+// //                 {variants.map((variant) => (
+// //                   <MenuItem key={`${font.family}-${variant}`} value={`${font.family}-${variant}`}>
+// //                     &nbsp;&nbsp;&nbsp;&nbsp;{variant}
+// //                   </MenuItem>
+// //                 ))}
+// //               </div>
+// //             );
+// //           })}
+// //         </Select>
+// //       </FormControl>
+// //       <Divider component="li" style={{ borderTopWidth: "5px" }} />
+// //     </>
+// //   );
+// // }
 
-function CircleStatus({ isReadyValue, theme }) {
-  const circleStatusStyle = {
-    borderRadius: "50px",
-    height: "15px",
-    width: "15px",
-    display: "inline-block",
-    backgroundColor: isReadyValue ? theme.palette.success.dark : theme.palette.error.dark,
-  };
+// // function CircleStatus({ isReadyValue, theme }) {
+// //   const circleStatusStyle = {
+// //     borderRadius: "50px",
+// //     height: "15px",
+// //     width: "15px",
+// //     display: "inline-block",
+// //     backgroundColor: isReadyValue ? theme.palette.success.dark : theme.palette.error.dark,
+// //   };
 
-  return (
-    <>
-      <div style={circleStatusStyle}></div>
-      &nbsp;
-      <span>Ready?</span>
-    </>
-  );
-}
+//   return (
+//     <>
+//       <div style={circleStatusStyle}></div>
+//       &nbsp;
+//       <span>Ready?</span>
+//     </>
+//   );
+// }
 
 function WebsiteSettingsFontSidebar() {
   const theme = useTheme();
+
+  const {
+    CircleStatusSuccess,
+    CircleStatusDanger,
+  } = useContext(AdminLayoutContext)
+
   const {
     isLoaded, setLoaded,
     entity,
+    font, setFont,
+    fontValue, setFontValue,
     isReady,
     isReadyValue, setIsReadyValue,
     modals,
+    fonts,
+    save,
   } = React.useContext(SettingFontContext);
 
-  const [fonts, setFonts] = React.useState([]);
   const [selectedFont, setSelectedFont] = React.useState('');
 
   // Fetch Google Fonts data from API
-  React.useEffect(() => {
-    const fetchGoogleFonts = async () => {
-      const apiKey = process.env.NEXT_PUBLIC_GOOGLE_FONT_API_KEY;
-      try {
-        const response = await fetch(`https://www.googleapis.com/webfonts/v1/webfonts?key=${apiKey}`);
-        const data = await response.json();
-        const fontItems = data.items || [];
-        setFonts(fontItems);
-      } catch (error) {
-        console.error('Error fetching Google Fonts:', error);
-      }
-    };
-
-    fetchGoogleFonts();
-  }, []);
-
-  const handleFontChange = (event) => {
-    setSelectedFont(event.target.value);
-  };
-
-  const handleSaved = () => {
-    // postSettingSiteGraphQL({
-    //   id,
-    //   favicon: faviconValue,
-    //   tab: tabValue,
-    //   isReady: isReadyValue,
-    // })
-  };
+  useEffect(() => {
+    console.log('fonts made it', fonts, font)
+  }, [fonts])
 
   return (
     <>
@@ -129,22 +115,40 @@ function WebsiteSettingsFontSidebar() {
 
             <Divider component="li" style={{ borderTopWidth: "12px" }} />
 
-            {/* Google Font UI */}
-            <GoogleFontSelector
-              fonts={fonts}
-              selectedFont={selectedFont}
-              onChange={handleFontChange}
+            {/* Fonts selection */}
+
+            <RealTimeSelectRow
+              entity={entity}
+              label={"Fonts"}
+              data={font}
+              options={fonts}
+              // selectedValue={800}
+              onChange={(value) => {
+
+                console.log('value', value)
+                setFontValue(value)
+
+              }}
             />
 
             {/* Status */}
             <HeaderRow label={"Status"} />
             <RealTimeSwitchRow
-              id="status"
-              label={<CircleStatus isReadyValue={isReadyValue} theme={theme} />}
+              label={(
+                <>
+                  {isReadyValue
+                    ? <CircleStatusSuccess />
+                    : <CircleStatusDanger />
+                  }
+                  &nbsp;
+                  <span>Ready?</span>
+                </>
+              )}
               data={isReady}
               entity={entity}
               onChange={(value) => {
-                setIsReadyValue(value);
+                setIsReadyValue(value)
+                console.log('contents to be saved', value)
               }}
             />
 
@@ -157,8 +161,8 @@ function WebsiteSettingsFontSidebar() {
                     <br />
                     <Button
                       variant="contained"
-                      onClick={handleSaved}
                       color="primary"
+                      onClick={save}
                     >
                       Save
                     </Button>

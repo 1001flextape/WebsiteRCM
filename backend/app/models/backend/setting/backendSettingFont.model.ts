@@ -22,11 +22,6 @@ export default class backendSettingFont extends Model {
   font: string;
 
   @Column({
-    type: sequelize.STRING,
-  })
-  varient: string;
-
-  @Column({
     type: sequelize.BOOLEAN,
     defaultValue: false,
   })

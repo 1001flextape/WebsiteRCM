@@ -11,9 +11,6 @@ async function up({ context: queryInterface }) {
     font: {
       type: sequelize.STRING,
     },
-    varient: {
-      type: sequelize.STRING,
-    },
     
     isChanged: {
       type: sequelize.BOOLEAN,

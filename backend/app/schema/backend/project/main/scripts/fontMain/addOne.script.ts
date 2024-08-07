@@ -9,7 +9,6 @@ type input = {
 
   id?: string
   font?: string
-  varient?: string
 }
 
 export default function addOne(d: dependencies) {
@@ -21,7 +20,6 @@ export default function addOne(d: dependencies) {
       projectId: args.projectId,
       id: args.id,
       font: args.font,
-      varient: args.varient,
     }).catch(error => d.errorHandler(error, d.loggers))
 
     return response

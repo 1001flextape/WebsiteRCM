@@ -1,0 +1,225 @@
+{
+    "menu": [
+      {
+        "value": "serif",
+        "label": "Serif"
+      },
+      {
+        "value": "sans-serif",
+        "label": "Sans-Serif"
+      },
+      {
+        "value": "monospace",
+        "label": "Monospace"
+      },
+      {
+        "value": "cursive",
+        "label": "Cursive"
+      },
+      {
+        "value": "fantasy",
+        "label": "Fantasy"
+      },
+      {
+        "value": "Arial",
+        "label": "Arial"
+      },
+      {
+        "value": "Arial Black",
+        "label": "Arial Black"
+      },
+      {
+        "value": "Comic Sans MS",
+        "label": "Comic Sans MS"
+      },
+      {
+        "value": "Courier New",
+        "label": "Courier New"
+      },
+      {
+        "value": "Georgia",
+        "label": "Georgia"
+      },
+      {
+        "value": "Helvetica",
+        "label": "Helvetica"
+      },
+      {
+        "value": "Impact",
+        "label": "Impact"
+      },
+      {
+        "value": "Lucida Console",
+        "label": "Lucida Console"
+      },
+      {
+        "value": "Lucida Sans Unicode",
+        "label": "Lucida Sans Unicode"
+      },
+      {
+        "value": "Palatino Linotype",
+        "label": "Palatino Linotype"
+      },
+      {
+        "value": "Tahoma",
+        "label": "Tahoma"
+      },
+      {
+        "value": "Times New Roman",
+        "label": "Times New Roman"
+      },
+      {
+        "value": "Trebuchet MS",
+        "label": "Trebuchet MS"
+      },
+      {
+        "value": "Verdana",
+        "label": "Verdana"
+      },
+      {
+        "value": "Gill Sans",
+        "label": "Gill Sans"
+      },
+      {
+        "value": "Century Gothic",
+        "label": "Century Gothic"
+      },
+      {
+        "value": "Candara",
+        "label": "Candara"
+      },
+      {
+        "value": "Geneva",
+        "label": "Geneva"
+      },
+      {
+        "value": "Optima",
+        "label": "Optima"
+      },
+      {
+        "value": "Segoe UI",
+        "label": "Segoe UI"
+      },
+      {
+        "value": "Franklin Gothic Medium",
+        "label": "Franklin Gothic Medium"
+      },
+      {
+        "value": "Book Antiqua",
+        "label": "Book Antiqua"
+      },
+      {
+        "value": "Garamond",
+        "label": "Garamond"
+      },
+      {
+        "value": "Arial Narrow",
+        "label": "Arial Narrow"
+      },
+      {
+        "value": "Baskerville",
+        "label": "Baskerville"
+      },
+      {
+        "value": "Times",
+        "label": "Times"
+      },
+      {
+        "value": "Brush Script MT",
+        "label": "Brush Script MT"
+      },
+      {
+        "value": "Courier",
+        "label": "Courier"
+      },
+      {
+        "value": "Lucida Bright",
+        "label": "Lucida Bright"
+      },
+      {
+        "value": "Lucida Sans",
+        "label": "Lucida Sans"
+      },
+      {
+        "value": "MS Serif",
+        "label": "MS Serif"
+      },
+      {
+        "value": "New York",
+        "label": "New York"
+      },
+      {
+        "value": "American Typewriter",
+        "label": "American Typewriter"
+      },
+      {
+        "value": "Andale Mono",
+        "label": "Andale Mono"
+      },
+      {
+        "value": "Apple Chancery",
+        "label": "Apple Chancery"
+      },
+      {
+        "value": "Big Caslon",
+        "label": "Big Caslon"
+      },
+      {
+        "value": "Bodoni MT",
+        "label": "Bodoni MT"
+      },
+      {
+        "value": "Calibri",
+        "label": "Calibri"
+      },
+      {
+        "value": "Cambria",
+        "label": "Cambria"
+      },
+      {
+        "value": "Charter",
+        "label": "Charter"
+      },
+      {
+        "value": "Didot",
+        "label": "Didot"
+      },
+      {
+        "value": "Futura",
+        "label": "Futura"
+      },
+      {
+        "value": "Gadget",
+        "label": "Gadget"
+      },
+      {
+        "value": "Hoefler Text",
+        "label": "Hoefler Text"
+      },
+      {
+        "value": "ITC Avant Garde",
+        "label": "ITC Avant Garde"
+      },
+      {
+        "value": "Papyrus",
+        "label": "Papyrus"
+      },
+      {
+        "value": "Perpetua",
+        "label": "Perpetua"
+      },
+      {
+        "value": "Rockwell",
+        "label": "Rockwell"
+      },
+      {
+        "value": "Source Sans Pro",
+        "label": "Source Sans Pro"
+      },
+      {
+        "value": "Zapf Chancery",
+        "label": "Zapf Chancery"
+      }
+    ]
+  }
+  

@@ -35,13 +35,11 @@ describe("test backendProjectSite.main.js", () => {
     const addOne = await projectFont.addOne({
       projectId: project.id,
       font: "font",
-      varient: "varient",
     })
 
     record = addOne.data.dataValues
 
     expect(addOne.data.dataValues.font).toEqual("font")
-    expect(addOne.data.dataValues.varient).toEqual("varient")
 
   })
 
@@ -53,7 +51,6 @@ describe("test backendProjectSite.main.js", () => {
     })
 
     expect(getOneById.data.dataValues.font).toEqual("font")
-    expect(getOneById.data.dataValues.varient).toEqual("varient")
   })
 
   test("getOneByProjectId: can get record.", async () => {
@@ -64,7 +61,6 @@ describe("test backendProjectSite.main.js", () => {
     })
 
     expect(getOneByProjectId.data.dataValues.font).toEqual("font")
-    expect(getOneByProjectId.data.dataValues.varient).toEqual("varient")
   })
 
 

@@ -5,7 +5,6 @@ import { dependencies } from "../../../../../../utils/dependencies/type/dependen
 
 type input = {
   font?: string;
-  varient?: string;
   isChanged?: boolean;
   isReady?: boolean;
 }
