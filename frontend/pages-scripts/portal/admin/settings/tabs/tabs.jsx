@@ -15,8 +15,22 @@ const SettingTabs = () => {
   const theme = useTheme()
   const router = useRouter()
 
-  const { tabs } = useContext(SettingTabsContext)
-  const { setLeftDrawer, idChip, panelMeetingDoc, setPanelMeetingDoc } = React.useContext(AdminLayoutContext)
+  const {
+
+    isSettingWebsiteReady,
+    isOrganizationReady,
+    tabs
+  } = useContext(SettingTabsContext)
+  const {
+    setLeftDrawer,
+    idChip,
+    panelMeetingDoc,
+    setPanelMeetingDoc,
+    CircleStatusSuccess,
+    CircleStatusDanger,
+    navigate,
+
+  } = React.useContext(AdminLayoutContext)
 
 
   const changeUrl = (href) => {
@@ -34,16 +48,36 @@ const SettingTabs = () => {
   //   const { tabs } = React.useContext(AdminLayoutContext
   return (
     <>
-      <Tabs value={tabs.selectedValue} aria-label="basic tabs example" sx={{ backgroundColor: theme.palette.grey[700], m:0 }} TabIndicatorProps={{ sx: { backgroundColor: theme.palette.common.white } }}>
+      <Tabs value={tabs.selectedValue} aria-label="basic tabs example" sx={{ backgroundColor: theme.palette.grey[700], m: 0 }} TabIndicatorProps={{ sx: { backgroundColor: theme.palette.common.white } }}>
         {tabs && tabs.tabs && tabs.tabs.map((tab, i) => (
           <Link onClick={() => changeUrl(tab.link)}>
-            <Tab value={i} label={tab.name} sx={{
-              background: theme.palette.grey[700],
-              color: theme.palette.common.white,
-              "&:hover": {
-                background: theme.palette.grey[600],
-              }
-            }} />
+            <Tab value={i} label={
+              (
+
+                <span>
+                  {tab.name === "Website" && (
+                    <>
+                      {isSettingWebsiteReady === true && <CircleStatusSuccess />}
+                      {isSettingWebsiteReady === false && <CircleStatusDanger />}
+                    </>
+                  )}
+
+                  {tab.name === "Organization" && (
+                    <>
+                      {isOrganizationReady === true && <CircleStatusSuccess />}
+                      {isOrganizationReady === false && <CircleStatusDanger />}
+                    </>
+                  )}
+                  &nbsp;
+                  {tab.name}
+                </span>
+              )} sx={{
+                background: theme.palette.grey[700],
+                color: theme.palette.common.white,
+                "&:hover": {
+                  background: theme.palette.grey[600],
+                }
+              }} />
           </Link>
         ))}
       </Tabs>

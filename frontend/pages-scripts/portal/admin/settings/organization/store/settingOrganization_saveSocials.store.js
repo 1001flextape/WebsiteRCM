@@ -1,12 +1,11 @@
 import { callApi } from "@/utils/graphql/backend-api"
 
-export const postSettingOrganizationSocialsGraphQL = ({ id, socialX, socialReddit, socialYouTube, socialFacebook, socialLinkedIn, socialWhatsapp, socialInstagram,socialPinterest}) => {
+export const postSettingOrganizationSocialsGraphQL = ({ socialX, socialReddit, socialYouTube, socialFacebook, socialLinkedIn, socialWhatsapp, socialInstagram, socialPinterest }) => {
   return new Promise(async (resolve) => {
 
     const response = await callApi({
       query: `
       mutation(
-        $id: ID!
         $socialX: String
         $socialReddit: String
         $socialYouTube: String
@@ -17,7 +16,6 @@ export const postSettingOrganizationSocialsGraphQL = ({ id, socialX, socialReddi
         $socialPinterest: String
       ) {
         backendSettingOrganization_updateOne(
-          id: $id
           socialX: $socialX,
           socialReddit: $socialReddit,
           socialYouTube: $socialYouTube,
@@ -32,7 +30,7 @@ export const postSettingOrganizationSocialsGraphQL = ({ id, socialX, socialReddi
       }
       
       `,
-      variables: { id, socialX, socialReddit, socialYouTube, socialFacebook, socialLinkedIn, socialWhatsapp, socialInstagram,socialPinterest}
+      variables: { socialX, socialReddit, socialYouTube, socialFacebook, socialLinkedIn, socialWhatsapp, socialInstagram, socialPinterest }
     })
 
     //clean up

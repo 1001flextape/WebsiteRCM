@@ -32,7 +32,7 @@ const settingRequestResolver = {
         return graphqlError(response)
       }
     },
-    
+
   },
   Mutation: {
     backendSettingOrganization_updateOne: async (parent, args, ctx) => {
@@ -56,6 +56,8 @@ const settingRequestResolver = {
         socialPinterest: args.socialPinterest,
         socialWhatsapp: args.socialWhatsapp,
         socialReddit: args.socialReddit,
+        isReady: args.isReady,
+        isChanged: true,
       })
 
       if (response?.success) {

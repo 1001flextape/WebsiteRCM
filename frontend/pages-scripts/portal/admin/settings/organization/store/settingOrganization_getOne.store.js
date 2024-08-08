@@ -249,6 +249,18 @@ export const getSettingOrganizationGraphQL = ({ socketId }) => {
               }
             }
           }
+          isReady {
+            order
+            name
+            booleanValue
+            user {
+              id
+              circleColor
+              labelColor
+              displayName
+              picture
+            }
+          }
         }
       }
       

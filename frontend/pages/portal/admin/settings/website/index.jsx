@@ -16,7 +16,7 @@ import settingsTabsJson from '@/pages-scripts/portal/admin/settings/tabs/tabs.js
 import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
 import AdminLayout from '@/layouts/admin/layout';
 import SettingTabs from '@/pages-scripts/portal/admin/settings/tabs/tabs';
-import SettingTabsContext from '@/pages-scripts/portal/admin/settings/tabs/setting-tabs.context';
+import SettingTabsContext, { SettingTabsProvider } from '@/pages-scripts/portal/admin/settings/tabs/setting-tabs.context';
 // import FaviconUpload from '@/pages-scripts/portal/admin/settings/website/favicon.upload';
 
 // MUI
@@ -145,7 +145,9 @@ Page.getLayout = function getLayout(page) {
     <AdminLayout
       hasNoEntity
     >
-      {page}
+      <SettingTabsProvider>
+        {page}
+      </SettingTabsProvider>
     </AdminLayout>
   )
 }

@@ -5,6 +5,7 @@ const backendSettingFooterSecurity = {
   Query: {
     // backendSettingFooter_getOneRealTime: and(isAuthenticated, isAdmin),
     backendSettingFooter_getOneRealTime: isAuthenticated,
+    backendSettingFooter_getOne: isAuthenticated,
     backendSettingFooterBuiltIn_getMany: isAuthenticated,
   },
   Mutation: {

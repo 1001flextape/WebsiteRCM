@@ -7,7 +7,6 @@ import { getSocketId } from '@/utils/realtime/socket';
 
 
 const postBrandingApi = async ({
-  id,
   previewLogo,
   name,
   shouldApplyToTopNavMenu,
@@ -16,7 +15,7 @@ const postBrandingApi = async ({
   const uploaderEndpoint = `${process.env.NEXT_PUBLIC_WEB_API_URL}/backend/api/v1/logo/file/`
 
   const formData = new FormData();
-  formData.append('id', id)
+  // formData.append('id', id)
   formData.append('previewLogo', previewLogo)
   formData.append('name', name)
   formData.append('shouldApplyToTopNavMenu', shouldApplyToTopNavMenu)

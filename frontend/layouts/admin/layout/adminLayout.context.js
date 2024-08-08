@@ -10,12 +10,14 @@ import SelectMediaManagerProvider from '@/components/realtime/MediaSelectionRow/
 import { useTheme } from '@mui/material';
 import { realtimeLink } from '@/utils/realtime/link';
 import { UserManagementTabsProvider } from '@/pages-scripts/portal/admin/user-management/tabs/UserManagementTabs.context';
+import { getIsSettingReadyGraphQL } from '../store/setting-isReady.store';
 
 const circleStatus = {
   borderRadius: "50px",
   height: "15px",
   width: "15px",
   display: "inline-block",
+  border: "2px solid white"
 }
 
 export const AdminLayoutContext = React.createContext();
@@ -29,6 +31,8 @@ export function AdminLayoutProvider({ hasNoEntity, children }) {
 
   const [lastRoute, setLastRoute] = useState(null)
 
+  const [isSettingReady, setIsSettingReady] = useState(null)
+
   useEffect(() => {
     if (router.asPath !== lastRoute) {
       if (hasNoEntity) {
@@ -40,6 +44,7 @@ export function AdminLayoutProvider({ hasNoEntity, children }) {
     }
 
   }, [hasNoEntity, router.asPath])
+
 
   const [leftDrawer, setLeftDrawer] = React.useState({
     isOpened: false,
@@ -200,6 +205,18 @@ export function AdminLayoutProvider({ hasNoEntity, children }) {
   }, [])
 
 
+  useEffect(() => {
+    if (leftDrawer.isOpened) {
+      getIsSettingReadyGraphQL().then(response => {
+        const data = response.data.backendSettingAll_isSettingReady;
+
+        setIsSettingReady(data.result)
+      })
+    } else {
+      setIsSettingReady(null)
+    }
+  }, [leftDrawer, setIsSettingReady])
+
   return (
     <AdminLayoutContext.Provider value={{
       leftDrawer, setLeftDrawer,
@@ -222,14 +239,17 @@ export function AdminLayoutProvider({ hasNoEntity, children }) {
 
       //links
       navigate,
+
+      //isReady circles
+      isSettingReady, setIsSettingReady
     }}>
       <SelectMediaManagerProvider>
         <SnackbarProvider>
-          <SettingTabsProvider>
+          {/* <SettingTabsProvider> */}
             <UserManagementTabsProvider>
               {children}
             </UserManagementTabsProvider>
-          </SettingTabsProvider>
+          {/* </SettingTabsProvider> */}
         </SnackbarProvider>
       </SelectMediaManagerProvider>
     </AdminLayoutContext.Provider>

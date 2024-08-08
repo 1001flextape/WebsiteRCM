@@ -1,5 +1,5 @@
 // Libraries
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 // import { globalHistory } from "@reach/router"
@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 // Mine
 import AdminLayoutContext from '../adminLayout.context';
 import UserChip from '@/components/chip/user.chip';
-import { realtimeLink } from '@/utils/realtime/link';
 
 // MUI
 import { useTheme } from '@mui/material/styles';
@@ -22,29 +21,22 @@ import ListItemText from '@mui/material/ListItemText';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Typography from '@mui/material/Typography';
 import HeaderRow from '@/components/global/HeaderRow/HeaderRow.component';
+import { getIsSettingReadyGraphQL } from '../../store/setting-isReady.store';
 
 export default function Navigator(props) {
-  const { setLeftDrawer, idChip, panelMeetingDoc, setPanelMeetingDoc, leftDrawer } = React.useContext(AdminLayoutContext)
   const router = useRouter()
-  const other = props;
   const theme = useTheme();
 
-  const changeUrl = (href) => {
-    setLeftDrawer(prevState => ({
-      ...prevState,
-      isOpened: false,
-    }))
-    // router.push(href)
-    realtimeLink({
-      to: href,
-      leaderUserId: panelMeetingDoc.leader?.id,
-      meetingId: panelMeetingDoc.id,
-      router,
-      userId: idChip.id,
-      setPanelMeetingDoc,
+  const other = props;
 
-    })
-  }
+  const {
+    idChip,
+    leftDrawer, setLeftDrawer,
+    CircleStatusSuccess,
+    CircleStatusDanger,
+    navigate,
+    isSettingReady, setIsSettingReady,
+  } = useContext(AdminLayoutContext)
 
   const topHeader = {
     // py: '2px',
@@ -64,33 +56,15 @@ export default function Navigator(props) {
     px: 3,
   };
 
-  const circleStatus = {
-    borderRadius: "50px",
-    height: "15px",
-    width: "15px",
-    display: "inline-block",
+  const changeUrl = (href) => {
+    setLeftDrawer(prevState => ({
+      ...prevState,
+      isOpened: false,
+    }))
+    // router.push(href)
+    navigate(href)
   }
 
-  const circleStatusDangerStyle = {
-    ...circleStatus,
-    backgroundColor: theme.palette.error.dark,
-  }
-
-  const circleStatusSuccessStyle = {
-    ...circleStatus,
-    backgroundColor: theme.palette.success.dark,
-  }
-
-  // React.useEffect(() => {
-  //   setCategoriesData(categories())
-
-  //   //New notifications
-  //   doYouHaveNewNotifications().then((response) => {
-  //     if (!response.errors) {
-  //       setNewBadge(response.data.doesUserHaveNewNotifications);
-  //     }
-  //   })
-  // }, [])
 
 
   // React.useEffect(() => {
@@ -114,7 +88,7 @@ export default function Navigator(props) {
             <Typography
               variant='h5'
             >
-              YubaLMS
+              Website RCM
             </Typography>
             {!leftDrawer?.shouldApplyToTopNavMenu && (
               <br />
@@ -305,7 +279,9 @@ export default function Navigator(props) {
             }}
             onClick={() => changeUrl("/portal/site/discussion")}
             secondaryAction={
-              <div style={circleStatusSuccessStyle}></div>
+              <>
+                <CircleStatusSuccess />
+              </>
             }
           >
             <ListItemButton>
@@ -348,7 +324,10 @@ export default function Navigator(props) {
             }}
             onClick={() => changeUrl("/portal/admin/settings/website")}
             secondaryAction={
-              <div style={circleStatusSuccessStyle}></div>
+              <>
+                {isSettingReady === true && <CircleStatusSuccess />}
+                {isSettingReady === false && <CircleStatusDanger />}
+              </>
             }
           >
             <ListItemButton>

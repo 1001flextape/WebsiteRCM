@@ -1,5 +1,5 @@
 'use client'
-import * as React from 'react';
+import React, { useState } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
@@ -18,36 +18,72 @@ import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
 import { realtimeLink } from '@/utils/realtime/link';
 import { Box } from '@mui/material';
 import HeaderRow from '@/components/global/HeaderRow/HeaderRow.component';
+import { getIsReadyBySettingGraphQL } from './context/getIsReadyBySetting.store';
 
 function WebsiteSettingsHomeSidebar() {
   const websiteLayoutContext = React.useContext(WebsiteSettingLayoutContext)
   const theme = useTheme();
   const router = useRouter()
 
-  const { navigate } = React.useContext(AdminLayoutContext)
+  const {
+    navigate,
+    CircleStatusSuccess,
+    CircleStatusDanger,
+  } = React.useContext(AdminLayoutContext)
 
+  const [colorIsReady, setColorIsReady] = useState()
+  const [backgroundColorIsReady, setBackgroundColorIsReady] = useState()
+  const [fontIsReady, setFontIsReady] = useState()
+  const [headerIsReady, setHeaderIsReady] = useState()
+  const [footerIsReady, setFooterIsReady] = useState()
+  const [columnIsReady, setColumnIsReady] = useState()
+  const [browserIsReady, setBrowserIsReady] = useState()
+  const [linkIsReady, setLinkIsReady] = useState()
 
-  const circleStatus = {
-    borderRadius: "50px",
-    height: "15px",
-    width: "15px",
-  }
+  // const circleStatus = {
+  //   borderRadius: "50px",
+  //   height: "15px",
+  //   width: "15px",
+  // }
 
-  const circleStatusDangerStyle = {
-    ...circleStatus,
-    backgroundColor: theme.palette.error.dark,
-  }
+  // const circleStatusDangerStyle = {
+  //   ...circleStatus,
+  //   backgroundColor: theme.palette.error.dark,
+  // }
 
-  const circleStatusSuccessStyle = {
-    ...circleStatus,
-    backgroundColor: theme.palette.success.dark,
-  }
+  // const circleStatusSuccessStyle = {
+  //   ...circleStatus,
+  //   backgroundColor: theme.palette.success.dark,
+  // }
 
   const MenuStyle = {
     "&:hover": {
       backgroundColor: theme.palette.grey[200]
     }
   }
+
+  React.useEffect(() => {
+    getIsReadyBySettingGraphQL().then(response => {
+
+      const data = response.data;
+
+
+
+
+
+
+
+
+      setColorIsReady(data.backendSettingColors_getOne.isReady || false)
+      setBackgroundColorIsReady(data.backendSettingBackgroundColor_getOne.isReady || false)
+      setFontIsReady(data.backendSettingFont_getOne.isReady || false)
+      setHeaderIsReady(data.backendSettingHeader_getOne.isReady || false)
+      setFooterIsReady(data.backendSettingFooter_getOne.isReady || false)
+      setColumnIsReady(data.backendSettingColumn_getOne.isReady || false)
+      setBrowserIsReady(data.backendSettingSite_getOne.isReady || false)
+      setLinkIsReady(data.backendSettingLink_getOne.isReady || false)
+    })
+  }, [])
 
   return (
     <List sx={{ width: '100%', bgcolor: 'background.paper', p: 0 }}>
@@ -123,8 +159,12 @@ function WebsiteSettingsHomeSidebar() {
         <ListItem
           alignItems="flex-start"
           secondaryAction={(
-            <div style={circleStatusDangerStyle}></div>
+            <>
+              {colorIsReady === true && <CircleStatusSuccess />}
+              {colorIsReady === false && <CircleStatusDanger />}
+            </>
           )}>
+
           <ListItemAvatar>
             <Box width={35} height={35}>
               <img alt="browser icon" src="\admin\icons\icons8-colors-64.png" width="100%" height="100%" />
@@ -153,7 +193,10 @@ function WebsiteSettingsHomeSidebar() {
         <ListItem
           alignItems="flex-start"
           secondaryAction={(
-            <div style={circleStatusDangerStyle}></div>
+            <>
+              {backgroundColorIsReady === true && <CircleStatusSuccess />}
+              {backgroundColorIsReady === false && <CircleStatusDanger />}
+            </>
           )}>
           <ListItemAvatar>
             <Box width={35} height={35}>
@@ -183,9 +226,12 @@ function WebsiteSettingsHomeSidebar() {
         <ListItem
           alignItems="flex-start"
           secondaryAction={(
-            <div style={circleStatusSuccessStyle}></div>
-          )}
-        >
+            <>
+              {fontIsReady === true && <CircleStatusSuccess />}
+              {fontIsReady === false && <CircleStatusDanger />}
+            </>
+          )}>
+
           <ListItemAvatar>
             <Box width={35} height={35}>
               <img alt="column icon" src="\admin\icons\icons8-font-100.png" width="100%" height="100%" />
@@ -218,9 +264,12 @@ function WebsiteSettingsHomeSidebar() {
         <ListItem
           alignItems="flex-start"
           secondaryAction={(
-            <div style={circleStatusSuccessStyle}></div>
-          )}
-        >
+            <>
+              {headerIsReady === true && <CircleStatusSuccess />}
+              {headerIsReady === false && <CircleStatusDanger />}
+            </>
+          )}>
+
           <ListItemAvatar>
             <ListItemAvatar>
               <Box width={35} height={35}>
@@ -253,9 +302,12 @@ function WebsiteSettingsHomeSidebar() {
         <ListItem
           alignItems="flex-start"
           secondaryAction={(
-            <div style={circleStatusSuccessStyle}></div>
-          )}
-        >
+            <>
+              {footerIsReady === true && <CircleStatusSuccess />}
+              {footerIsReady === false && <CircleStatusDanger />}
+            </>
+          )}>
+
           <ListItemAvatar>
             <Box width={35} height={35}>
               <img alt="footer icon" src="\admin\icons\icons8-footer-100.png" width="100%" height="100%" />
@@ -286,9 +338,12 @@ function WebsiteSettingsHomeSidebar() {
         <ListItem
           alignItems="flex-start"
           secondaryAction={(
-            <div style={circleStatusSuccessStyle}></div>
-          )}
-        >
+            <>
+              {columnIsReady === true && <CircleStatusSuccess />}
+              {columnIsReady === false && <CircleStatusDanger />}
+            </>
+          )}>
+
           <ListItemAvatar>
             <Box width={35} height={35}>
               <img alt="column icon" src="\admin\icons\icons8-column-48.png" width="100%" height="100%" />
@@ -324,9 +379,12 @@ function WebsiteSettingsHomeSidebar() {
         <ListItem
           alignItems="flex-start"
           secondaryAction={(
-            <div style={circleStatusSuccessStyle}></div>
-          )}
-        >
+            <>
+              {browserIsReady === true && <CircleStatusSuccess />}
+              {browserIsReady === false && <CircleStatusDanger />}
+            </>
+          )}>
+
           <ListItemAvatar>
             <Box width={35} height={35}>
               <img alt="browser tab icon" src="\admin\icons\icons8-apps-tab-48.png" width="100%" height="100%" />
@@ -365,9 +423,12 @@ function WebsiteSettingsHomeSidebar() {
         <ListItem
           alignItems="flex-start"
           secondaryAction={(
-            <div style={circleStatusSuccessStyle}></div>
-          )}
-        >
+            <>
+              {linkIsReady === true && <CircleStatusSuccess />}
+              {linkIsReady === false && <CircleStatusDanger />}
+            </>
+          )}>
+
           <ListItemAvatar>
             <Box width={35} height={35}>
               <img alt="link icon" src="\admin\icons\icons8-link-48.png" width="100%" height="100%" />

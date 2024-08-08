@@ -7,7 +7,7 @@ import backendSettingHeader, { SelectionTypeEnum } from "../../../../../../../mo
 
 
 type input = {
-  userAnswers: string
+  userAnswers?: string
   isChanged?: boolean
   isReady?: boolean,
   selectionType?: SelectionTypeEnum,
@@ -24,25 +24,28 @@ export default function upsertOne(d: dependencies) {
     let webAssetImport: string;
     let menuJsonB: any;
 
-    switch (args.selectionType) {
-      case SelectionTypeEnum.BUILT_IN:
-        const builtInMain = makeBackendSettingHeaderBuiltInMain(d)
+    if (args.selectionType) {
 
-        // update with getOne function in future. 
-        const builtIn = await builtInMain.getOneById({
-          id: args.selectionId
-        })
+      switch (args.selectionType) {
+        case SelectionTypeEnum.BUILT_IN:
+          const builtInMain = makeBackendSettingHeaderBuiltInMain(d)
 
-        webAssetImport = builtIn.data.dataValues.webAssetImport
-        menuJsonB = builtIn.data.dataValues.menuJsonB
-        break;
+          // update with getOne function in future. 
+          const builtIn = await builtInMain.getOneById({
+            id: args.selectionId
+          })
 
-      default:
-        return {
-          success: false,
-          humanMessage: "Error with selecting component. 'BUILT_IN', 'PLUGIN', 'AGENCY', 'MARKET' ",
-          errorIdentifier: "backendSettingHeader_upsertOne:0001",
-        }
+          webAssetImport = builtIn.data.dataValues.webAssetImport
+          menuJsonB = builtIn.data.dataValues.menuJsonB
+          break;
+
+        default:
+          return {
+            success: false,
+            humanMessage: "Error with selecting component. 'BUILT_IN', 'PLUGIN', 'AGENCY', 'MARKET' ",
+            errorIdentifier: "backendSettingHeader_upsertOne:0001",
+          }
+      }
     }
 
     // webAssetImport?: string

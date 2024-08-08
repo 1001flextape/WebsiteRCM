@@ -11,7 +11,7 @@ import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
 import AdminLayout from '@/layouts/admin/layout';
 import SettingTabs from '@/pages-scripts/portal/admin/settings/tabs/tabs';
 // import LogoUpload from '@/pages-scripts/portal/admin/settings/church/logo.upload';
-import SettingTabsContext from '@/pages-scripts/portal/admin/settings/tabs/setting-tabs.context';
+import SettingTabsContext, { SettingTabsProvider } from '@/pages-scripts/portal/admin/settings/tabs/setting-tabs.context';
 
 // import AdminLayoutContext from '../../../layout/adminLayout.context';
 // import * as tabsJson from '../../tabs.json';
@@ -58,6 +58,7 @@ import { postSettingOrganizationSocialsGraphQL } from '@/pages-scripts/portal/ad
 import RealTimePictureRow from '@/components/realtime/PictureSelectRow/pictureSelection.realtime';
 import postPreviewBrandingApi from '@/pages-scripts/portal/admin/settings/organization/store/settingOrganization_previewBranding.api';
 import postBrandingApi from '@/pages-scripts/portal/admin/settings/organization/store/settingOrganization_saveBranding.api';
+import { postSettingOrganizationReadyGraphQL } from '@/pages-scripts/portal/admin/settings/organization/store/settingOrganization_saveReady.store';
 const DynamicRealTimeTextField = dynamic(() => import('@/components/realtime/TextFieldRow/TextField.realtime'), {
   ssr: false
 });
@@ -65,7 +66,12 @@ const DynamicRealTimeTextField = dynamic(() => import('@/components/realtime/Tex
 const Page = () => {
   const theme = useTheme()
 
-  const { setTabs, updateEntity } = React.useContext(AdminLayoutContext)
+  const {
+    CircleStatusSuccess,
+    CircleStatusDanger,
+    setTabs,
+    updateEntity,
+  } = React.useContext(AdminLayoutContext)
   const settingsTabsContext = React.useContext(SettingTabsContext)
 
   const [isLoaded, setIsLoaded] = useState(false)
@@ -114,6 +120,9 @@ const Page = () => {
   const [socialReddit, setSocialReddit] = useState()
   const [socialRedditValue, setSocialRedditValue] = useState()
 
+  const [isReady, setIsReady] = useState()
+  const [isReadyValue, setIsReadyValue] = useState()
+
   React.useEffect(() => {
     const socket = initSocket()
     setTabs(prevState => ({
@@ -157,6 +166,7 @@ const Page = () => {
       setSocialWhatsapp(org.socialWhatsapp)
       setSocialX(org.socialX)
       setSocialYouTube(org.socialYouTube)
+      setIsReady(org.isReady)
 
       console.log('socialFacebook', org, socialFacebook)
 
@@ -207,6 +217,15 @@ const Page = () => {
       shouldApplyToTopNavMenu: shouldApplyToTopNavMenuValue,
     }).then(() => {
       enqueueSnackbar("Branding Saved!")
+    })
+  }
+
+  const handleReadySave = () => {
+    postSettingOrganizationReadyGraphQL({
+      isReady: isReadyValue
+    }).then(() => {
+      enqueueSnackbar("Ready State Saved!")
+
     })
   }
 
@@ -657,6 +676,45 @@ const Page = () => {
                 </ListItem>
               </List>
             </Paper>
+            <br />
+            <Paper elevation={3}>
+              <List sx={{ p: 0 }}>
+                <HeaderRow label="Ready?" />
+                <br />
+                <RealTimeSwitchRow
+                  label={(
+                    <>
+                      {isReadyValue
+                        ? <CircleStatusSuccess />
+                        : <CircleStatusDanger />
+                      }
+                      &nbsp;
+                      <span>Ready?</span>
+                    </>
+                  )}
+                  data={isReady}
+                  entity={entity}
+                  onChange={(value) => {
+                    setIsReadyValue(value)
+                    console.log('contents to be saved', value)
+                  }}
+                />
+
+
+
+                <ListItem>
+
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="button"
+                    onClick={handleReadySave}
+                  >Save</Button>
+
+
+                </ListItem>
+              </List>
+            </Paper>
           </>
         )}
       </Box>
@@ -672,7 +730,9 @@ const Page = () => {
 Page.getLayout = function getLayout(page) {
   return (
     <AdminLayout>
-      {page}
+      <SettingTabsProvider>
+        {page}
+      </SettingTabsProvider>
     </AdminLayout>
   )
 }

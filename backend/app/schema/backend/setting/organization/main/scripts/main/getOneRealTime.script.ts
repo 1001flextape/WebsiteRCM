@@ -186,6 +186,14 @@ export default function getOneRealTime(d: dependencies) {
       }
 
 
+      const isReady: RealTimeAdapterPropertyValue = {
+        adapter: new RealTimeSwitchAdapter({
+          initialBoolean: record.data?.dataValues?.isReady || false,
+          name: "isReady"
+        }),
+        name: "isReady"
+      }
+
 
 
 
@@ -209,6 +217,7 @@ export default function getOneRealTime(d: dependencies) {
           socialPinterest,
           socialWhatsapp,
           socialReddit,
+          isReady,
         ],
         socketId: args.socketId,
       })

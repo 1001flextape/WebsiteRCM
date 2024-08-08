@@ -17,6 +17,11 @@ const backendSettingHeaderGraphQLType = gql`
     selectionId: String,
     isReady: RealTimeSwitch
   }
+    
+  type BackendSettingHeaderType {
+    isReady: Boolean
+  }
+
 
   type BackendSettingHeaderBuiltInType {
     id: String,
@@ -30,6 +35,7 @@ const backendSettingHeaderGraphQLType = gql`
 
   type Query {
     backendSettingHeader_getOneRealTime(socketId: ID!): BackendSettingHeaderRealTimeType
+    backendSettingHeader_getOne: BackendSettingHeaderType
     backendSettingHeaderBuiltIn_getMany:[BackendSettingHeaderBuiltInType]
   }
   type Mutation {

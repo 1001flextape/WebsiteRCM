@@ -12,6 +12,10 @@ const backendSettingFooterGraphQLType = gql`
     isReady: RealTimeSwitch
   }
 
+  type BackendSettingFooterType {
+    isReady: Boolean
+  }
+
   type BackendSettingFooterBuiltInType {
     id: String,
     webAssetImport: String,
@@ -24,6 +28,7 @@ const backendSettingFooterGraphQLType = gql`
 
   type Query {
     backendSettingFooter_getOneRealTime(socketId: ID!): BackendSettingFooterRealTimeType
+    backendSettingFooter_getOne: BackendSettingFooterType
     backendSettingFooterBuiltIn_getMany:[BackendSettingFooterBuiltInType]
   }
   type Mutation {

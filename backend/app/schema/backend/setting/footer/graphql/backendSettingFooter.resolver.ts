@@ -20,6 +20,19 @@ const backendSettingFooterGqlResolver = {
         return graphqlError(response)
       }
     },
+    backendSettingFooter_getOne: async (parent, args, ctx) => {
+
+      const main = makeBackendSettingFooterMain(ctx.d)
+
+      const response = await main.getOne()
+
+      if (response?.success) {
+        return response.data
+
+      } else {
+        return graphqlError(response)
+      }
+    },
     backendSettingFooterBuiltIn_getMany: async (parent, args, ctx) => {
 
       const main = makeBackendSettingFooterBuiltInMain(ctx.d)

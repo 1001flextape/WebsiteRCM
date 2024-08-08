@@ -21,6 +21,7 @@ const applicationType = gql`
     socialPinterest: RealTimeTextField,
     socialWhatsapp: RealTimeTextField,
     socialReddit: RealTimeTextField,
+    isReady: RealTimeSwitch,
     createdAt: String,
   }
 
@@ -42,6 +43,7 @@ const applicationType = gql`
     socialWhatsapp: String,
     socialReddit: String,
     createdAt: String,
+    isReady: Boolean
   }
 
   type Query {
@@ -49,7 +51,7 @@ const applicationType = gql`
     backendSettingOrganization_getOne: BackendSettingOrganizationType
   }
   type Mutation {
-    backendSettingOrganization_updateOne(logo: String, name: String, shouldApplyToTopNavMenu: Boolean, addressLine1: String addressLine2: String, cityLocality: String, stateProvinceRegion: String, postalCode: String, socialFacebook: String, socialX: String, socialInstagram: String, socialLinkedIn: String, socialYouTube: String, socialPinterest: String, socialWhatsapp: String, socialReddit: String): BackendOrganizationRealTimeType
+    backendSettingOrganization_updateOne(logo: String, name: String, shouldApplyToTopNavMenu: Boolean, addressLine1: String addressLine2: String, cityLocality: String, stateProvinceRegion: String, postalCode: String, socialFacebook: String, socialX: String, socialInstagram: String, socialLinkedIn: String, socialYouTube: String, socialPinterest: String, socialWhatsapp: String, socialReddit: String, isReady: Boolean): BackendOrganizationRealTimeType
   }
 `
 

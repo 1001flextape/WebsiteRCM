@@ -21,35 +21,37 @@ export default function upsertOne(d: dependencies) {
 
 
     let favicon = args.favicon
-    const regex = /\/backend\/api\/v1\/setting\/site\/preview\/file\/(\d{4})\/(\d{2})\/([^.\/]+)\.([a-zA-Z0-9]+)/;
-    const match = favicon.match(regex);
+    if (favicon) {
+      const regex = /\/backend\/api\/v1\/setting\/site\/preview\/file\/(\d{4})\/(\d{2})\/([^.\/]+)\.([a-zA-Z0-9]+)/;
+      const match = favicon.match(regex);
 
-    if (match) {
-      const year = match[1];
-      const month = match[2];
-      const filename = match[3];
-      const fileExtension = match[4]
+      if (match) {
+        const year = match[1];
+        const month = match[2];
+        const filename = match[3];
+        const fileExtension = match[4]
 
-      const currentLocation = path.join(process.cwd(), 'uploads', 'temp', `${year}-${month}`, 'system', "backendSettingSite", "favicon", `${filename}.${fileExtension}`);
+        const currentLocation = path.join(process.cwd(), 'uploads', 'temp', `${year}-${month}`, 'system', "backendSettingSite", "favicon", `${filename}.${fileExtension}`);
 
-      const newLocation = path.join(process.cwd(), 'uploads', 'system', "backendSettingSite", "favicon");
+        const newLocation = path.join(process.cwd(), 'uploads', 'system', "backendSettingSite", "favicon");
 
-      fs.mkdirsSync(newLocation);
-      // Copy the file to the new location
-      try {
-        const copyFile = util.promisify(fs.copyFile);
+        fs.mkdirsSync(newLocation);
+        // Copy the file to the new location
+        try {
+          const copyFile = util.promisify(fs.copyFile);
 
-        await copyFile(currentLocation, path.join(newLocation, `${filename}.${fileExtension}`));
-        // Optional: You might also want to delete the file from the old location after copying
-        // fs.unsiteSync(currentLocation);
+          await copyFile(currentLocation, path.join(newLocation, `${filename}.${fileExtension}`));
+          // Optional: You might also want to delete the file from the old location after copying
+          // fs.unsiteSync(currentLocation);
 
-        favicon = `/backend/api/v1/setting/site/file/${filename}.${fileExtension}`
+          favicon = `/backend/api/v1/setting/site/file/${filename}.${fileExtension}`
 
-      } catch (error) {
-        // console.error("Error copying file:", error);
-        return {
-          success: false,
-          humanMessage: "Error with transferring file."
+        } catch (error) {
+          // console.error("Error copying file:", error);
+          return {
+            success: false,
+            humanMessage: "Error with transferring file."
+          }
         }
       }
     }

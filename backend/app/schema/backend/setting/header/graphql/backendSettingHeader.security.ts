@@ -5,6 +5,7 @@ const backendSettingHeaderSecurity = {
   Query: {
     // backendSettingHeader_getOneRealTime: and(isAuthenticated, isAdmin),
     backendSettingHeader_getOneRealTime: isAuthenticated,
+    backendSettingHeader_getOne: isAuthenticated,
     backendSettingHeaderBuiltIn_getMany: isAuthenticated,
   },
   Mutation: {

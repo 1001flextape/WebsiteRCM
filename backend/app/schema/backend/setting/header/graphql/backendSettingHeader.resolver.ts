@@ -20,6 +20,19 @@ const backendSettingHeaderGqlResolver = {
         return graphqlError(response)
       }
     },
+    backendSettingHeader_getOne: async (parent, args, ctx) => {
+
+      const main = makeBackendSettingHeaderMain(ctx.d)
+
+      const response = await main.getOne()
+
+      if (response?.success) {
+        return response.data
+
+      } else {
+        return graphqlError(response)
+      }
+    },
     backendSettingHeaderBuiltIn_getMany: async (parent, args, ctx) => {
 
       const main = makeBackendSettingHeaderBuiltInMain(ctx.d)
