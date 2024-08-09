@@ -28,6 +28,7 @@ import RealTimeColorPickerRow from '@/components/realtime/ColorPickerRow/ColorPi
 import ColorPaletteModal from './modal/ColorPaletteModal';
 import { SettingColorsContext } from './context/SettingColors.context';
 import { postSettingColorsGraphQL } from './store/settingColors_upsertOne.store';
+import { enqueueSnackbar } from 'notistack';
 
 
 function WebsiteSettingsColorsSidebar() {
@@ -236,6 +237,8 @@ function WebsiteSettingsColorsSidebar() {
       color7Dark2,
       color7Dark3,
       color7Dark4,
+    }).then(response => {
+      enqueueSnackbar("Color Palette Saved!")
     })
   }
 
@@ -244,7 +247,7 @@ function WebsiteSettingsColorsSidebar() {
       {isLoaded && (
         <>
 
-          <List sx={{ width: '100%', bgcolor: 'background.paper', p: 0 }}>
+          <List sx={{ width: '100%', bgcolor: 'background.paper', p: 0, mb: "50px" }}>
             <SettingsBackButton
               label={"Main Menu"}
               href={"/portal/admin/settings/website/settings"}

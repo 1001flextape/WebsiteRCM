@@ -208,9 +208,9 @@ export default function PageBuilderLayout({ children, ...props }) {
             </WhoIsOnPageSockets> */}
           </div>
           <div style={{
-            height: headerHeight ? `calc(100vh - ${headerHeight + 5}px)` : `0`,
             backgroundColor: theme.palette.grey[300],
             color: "black",
+            height: `calc(100vh - 92px)`,
 
           }}>
 

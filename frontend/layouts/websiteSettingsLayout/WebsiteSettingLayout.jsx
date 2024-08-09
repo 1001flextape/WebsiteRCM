@@ -206,7 +206,7 @@ export default function InsideWebsiteSettingLayout({ SideMenu, children, ...prop
             </WhoIsOnPageSockets> */}
           </div>
           <main style={{
-            height: headerHeight ? `calc(100vh - ${headerHeight + 5}px)` : `0`,
+            height: `calc(-93px + 101vh)`,
             backgroundColor: theme.palette.grey[300],
             color: "black",
             overflow: "auto"

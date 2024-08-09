@@ -107,7 +107,7 @@ function WebsiteSettingsFontSidebar() {
     <>
       {isLoaded && (
         <>
-          <List sx={{ width: '100%', bgcolor: 'background.paper', p: 0 }}>
+          <List sx={{ width: '100%', bgcolor: 'background.paper', p: 0, mb: "50px"}}>
             <SettingsBackButton
               label={"Main Menu"}
               href={"/portal/admin/settings/website/settings"}
@@ -116,10 +116,10 @@ function WebsiteSettingsFontSidebar() {
             <Divider component="li" style={{ borderTopWidth: "12px" }} />
 
             {/* Fonts selection */}
-
+            <HeaderRow label={"Fonts"} />
             <RealTimeSelectRow
               entity={entity}
-              label={"Fonts"}
+              // label={"Fonts"}
               data={font}
               options={fonts}
               // selectedValue={800}
@@ -130,9 +130,12 @@ function WebsiteSettingsFontSidebar() {
 
               }}
             />
+            
+            <Divider component="li" style={{ borderTopWidth: "5px" }} />
+
 
             {/* Status */}
-            <HeaderRow label={"Status"} />
+            <HeaderRow label={"Status"} />            
             <RealTimeSwitchRow
               label={(
                 <>

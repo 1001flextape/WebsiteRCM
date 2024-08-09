@@ -54,7 +54,7 @@ function WebsiteSettingsColumnSidebar() {
     <>
       {isLoaded && (
         <>
-          <List sx={{ width: '100%', bgcolor: 'background.paper', p: 0 }}>
+          <List sx={{ width: '100%', bgcolor: 'background.paper', p: 0, mb: "50px"}}>
             <SettingsBackButton
               label={"Main Menu"}
               href={"/portal/admin/settings/website/settings"}

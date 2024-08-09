@@ -48,6 +48,7 @@ import { getSocketId } from '@/utils/realtime/socket';
 import RealTimePictureSelectionRow from '@/components/realtime/PictureSelectRow/pictureSelection.realtime';
 import postSettingLinkPreviewApi from './store/settingLink_previewImage.api';
 import postSettingLinkApi from './store/settingLink_saveImage.api';
+import { enqueueSnackbar } from 'notistack';
 const DynamicRealTimeTextField = dynamic(() => import('@/components/realtime/TextFieldRow/TextField.realtime'), {
   ssr: false
 });
@@ -162,6 +163,10 @@ function WebsiteSettingsLinkSidebar() {
       imageValue,
       isReadyValue,
       titleValue
+    }).then(response => {
+
+      // if (response?.data?.backendSettingLink_upsertOne?.success)
+        enqueueSnackbar("Link Saved")
     })
   }
 
@@ -169,7 +174,7 @@ function WebsiteSettingsLinkSidebar() {
     <>
       {isLoaded && (
         <>
-          <List sx={{ width: '100%', bgcolor: 'background.paper', p: 0 }}>
+          <List sx={{ width: '100%', bgcolor: 'background.paper', p: 0, mb: "50px"}}>
             <SettingsBackButton
               label={"Main Menu"}
               href={"/portal/admin/settings/website/settings"}

@@ -88,10 +88,11 @@ function WebsiteSettingsHomeSidebar() {
   return (
     <List sx={{ width: '100%', bgcolor: 'background.paper', p: 0 }}>
       <SettingsBackButton
-        label={"Back to settings"}
+        label={"Back to Settings"}
         href={"/portal/admin/settings/website"}
         isPrimary
       />
+      <Divider component="li" style={{ borderTopWidth: "12px" }} />
       {/* <ListItemButton
           onClick={() => navigate("/portal/admin/settings/website")}
           sx={{

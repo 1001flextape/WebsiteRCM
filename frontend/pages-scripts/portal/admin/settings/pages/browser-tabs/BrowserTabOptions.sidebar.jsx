@@ -50,6 +50,7 @@ import RealTimeFaviconSelectionRow from '@/components/realtime/FaviconSelectRow/
 import postSettingSitePreviewApi from './store/settingSite_previewFavicon.api';
 import { getSocketId } from '@/utils/realtime/socket';
 import { postSettingSiteGraphQL } from './store/settingSite_upsertOne.store';
+import { enqueueSnackbar } from 'notistack';
 const DynamicRealTimeTextField = dynamic(() => import('@/components/realtime/TextFieldRow/TextField.realtime'), {
   ssr: false
 });
@@ -153,6 +154,10 @@ function WebsiteSettingsBrowserTabSidebar() {
       favicon: faviconValue,
       tab: tabValue,
       isReady: isReadyValue,
+    }).then(response => {
+
+      // if (response?.data?.backendSettingHeader_upsertOne?.success)
+        enqueueSnackbar("Browser Tab Saved")
     })
   }
 
@@ -160,7 +165,7 @@ function WebsiteSettingsBrowserTabSidebar() {
     <>
       {isLoaded && (
         <>
-          <List sx={{ width: '100%', bgcolor: 'background.paper', p: 0 }}>
+          <List sx={{ width: '100%', bgcolor: 'background.paper', p: 0, mb: "50px"}}>
             <SettingsBackButton
               label={"Main Menu"}
               href={"/portal/admin/settings/website/settings"}
