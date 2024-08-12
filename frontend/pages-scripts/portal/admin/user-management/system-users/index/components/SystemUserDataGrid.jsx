@@ -84,7 +84,7 @@ export default function SystemUserDataGrid() {
         return (
           <>
             <p>
-              {params.row.roleName}
+              {!params.row.isAdmin && params.row.roleName}
             </p>
             {/* navigate(`/portal/site/pages/${params.id}`); */}
           </>
