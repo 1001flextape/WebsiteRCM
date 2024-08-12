@@ -14,7 +14,7 @@ async function up({ context: queryInterface }) {
     password: {
       type: sequelize.STRING,
     },
-    tempPassword: {
+    temporaryPassword: {
       type: sequelize.STRING,
     },
     isAdmin: {

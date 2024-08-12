@@ -6,6 +6,7 @@ jest.setTimeout(100000)
 describe("test backendUser.main.js", () => {
   let d: dependencies
   let recordId;
+  let recordId2;
 
   beforeAll(async () => {
 
@@ -112,6 +113,37 @@ describe("test backendUser.main.js", () => {
     })
 
     expect(deletedUser.success).toBe(true)
+  })
+
+  test("addOne: can add record without password so temporaryPassword is created.", async () => {
+    const userMain = makeBackendUserMain(d)
+
+    const newUser = await userMain.addOne({
+      email: "test@thisIsCoolTestEmail.com",
+    })
+    recordId2 = newUser.data.dataValues.id;
+
+    expect(newUser.data.dataValues.email).toBe("test@thisIsCoolTestEmail.com")
+    expect(newUser.data.dataValues.temporaryPassword).not.toBeNull()
+    expect(newUser.data.dataValues.password).toBeNull()
+  })
+
+  test("changeTemporaryPassword: Create password that removes temporary password.", async () => {
+    const userMain = makeBackendUserMain(d)
+
+    const currentUserRecord = await userMain.getOneById({
+      id: recordId2,
+    })
+
+    const newUser = await userMain.changeTemporaryPassword({
+      id: recordId2,
+      temporaryPassword: currentUserRecord.data.dataValues.temporaryPassword,
+      password: "Password1:)",
+    })
+
+    expect(newUser.data.dataValues.email).toBe("test@thisIsCoolTestEmail.com")
+    expect(newUser.data.dataValues.temporaryPassword).toBeNull()
+    expect(newUser.data.dataValues.password).not.toBeNull()
   })
 
   afterAll(async () => {

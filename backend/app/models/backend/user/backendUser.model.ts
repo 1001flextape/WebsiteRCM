@@ -24,10 +24,14 @@ export default class backendUser extends Model {
   email: string;
 
   @Column({
-    allowNull: false,
     type: DataType.STRING,
   })
   password: string;
+
+  @Column({
+    type: DataType.STRING,
+  })
+  temporaryPassword: string;
 
   @Column({
     type: DataType.BOOLEAN,

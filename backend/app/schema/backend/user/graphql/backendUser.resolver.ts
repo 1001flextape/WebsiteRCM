@@ -151,7 +151,23 @@ const userResolver = {
         return graphqlError(response)
       }
     },
+    backendUser_changeTemporaryPassword: async (parent, args, ctx) => {
 
+      const main = makeBackendUserMain(ctx.d)
+
+      const response = await main.changeTemporaryPassword({
+        id: args.id,
+        temporaryPassword: args.temporaryPassword,
+        password: args.password,
+      })
+
+      if (response?.success) {
+        return response.data
+
+      } else {
+        return graphqlError(response)
+      }
+    },
     backendUser_updateOne: async (parent, args, ctx) => {
 
       const main = makeBackendUserMain(ctx.d)

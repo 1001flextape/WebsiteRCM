@@ -1,5 +1,6 @@
 import { dependencies } from "../../../utils/dependencies/type/dependencyInjection.types";
 import addOne from "./scripts/main/addOne.script";
+import changeTemporaryPassword from "./scripts/main/changeTemporaryPassword.script";
 import deactivateOne from "./scripts/main/deactivateOne.script";
 import deleteOne from "./scripts/main/deleteOne.script";
 import getManyWithPagination from "./scripts/main/getManyWithPagination.script";
@@ -14,6 +15,7 @@ export default function makeBackendUserMain(d: dependencies) {
 
   return {
     addOne: addOne(d),
+    changeTemporaryPassword: changeTemporaryPassword(d),
     deactivateOne: deactivateOne(d),
     deleteOne: deleteOne(d),
     getManyWithPagination: getManyWithPagination(d),

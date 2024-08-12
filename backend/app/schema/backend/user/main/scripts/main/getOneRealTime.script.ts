@@ -278,7 +278,7 @@ export default function getOneRealTime(d: dependencies) {
         nonRealTimeProps: {
           id: user.data.dataValues.id,
           email: user.data.dataValues.email,
-          ...userProfile.data.dataValues,
+          ...(userProfile.data?.dataValues || {}),
         },
         socketId: args.socketId,
       })

@@ -10,7 +10,7 @@ import { dependencies } from "../../../../../utils/dependencies/type/dependencyI
 
 type input = {
   email: string;
-  password: string;
+  password?: string;
   isDeactivated?: boolean;
   isAdmin?: boolean;
 }
@@ -43,22 +43,17 @@ export default function addOne(d: dependencies) {
       })
     }
 
-    if (!args.password) {
-      return endMainFromError({
-        hint: "Password is missing.",
-        errorIdentifier: "backendUser_addOne_error:0003"
-      })
-    }
+    if (args.password) {
+      const isPasswordValid: returningSuccessObj<null> = await backendUserValidation.isPasswordValid({
+        password: args.password,
+      }).catch(error => d.errorHandler(error, d.loggers))
 
-    const isPasswordValid: returningSuccessObj<null> = await backendUserValidation.isPasswordValid({
-      password: args.password,
-    }).catch(error => d.errorHandler(error, d.loggers))
-
-    if (!isPasswordValid.result) {
-      return endMainFromError({
-        hint: isPasswordValid.humanMessage,
-        errorIdentifier: "backendUser_addOne_error:0004"
-      })
+      if (!isPasswordValid.result) {
+        return endMainFromError({
+          hint: isPasswordValid.humanMessage,
+          errorIdentifier: "backendUser_addOne_error:0004"
+        })
+      }
     }
 
     const isEmailTaken = await backendUserValidation.isEmailTaken({

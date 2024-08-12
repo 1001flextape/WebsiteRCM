@@ -4,9 +4,6 @@ import { paginationType } from "../../../utils"
 const userType = gql`
 
 
-
-  ${paginationType("UserPaginationType", "UserType")}
-
   type UserType {
     # normal user stuff
     id: ID
@@ -27,6 +24,15 @@ const userType = gql`
     roleName: String
   }
 
+  ${paginationType("UserPaginationType", "UserType")}
+
+  type BackendUserType {
+    id: ID
+    email: String
+    isAdmin: RealTimeSwitch
+    isDeactivated: RealTimeSwitch
+    temporaryPassword: String
+  }
   
   type BackendUserRealTimeType {
     entity: String
@@ -152,7 +158,8 @@ const userType = gql`
   
   }
   type Mutation {
-    backendUser_addOne(username: String!, email: String!, password: String!, isAdmin: Boolean): GlobalSuccessType
+    backendUser_addOne(email: String!, username: String, password: String, isAdmin: Boolean): BackendUserType
+    backendUser_changeTemporaryPassword(id: ID!, password: String!, temporaryPassword: String!): GlobalSuccessType
     backendUser_deleteOne(id: ID!) : GlobalSuccessType
     backendUser_updateOne(id: ID!, username: String, email: String, password: String, isAdmin: Boolean): GlobalSuccessType
 

@@ -10,12 +10,14 @@ import { Button, TextField, Box, Typography } from '@mui/material';
 import { UsersContext } from '../context/SystemUsers.context';
 
 function NewUserModal({ isOpened, onClose }) {
-  const {      
+  const {
     email, setEmail,
+    createUser,
   } = useContext(UsersContext)
 
   const handleSubmit = () => {
-
+    createUser()
+    
     if (onClose) {
       onClose()
     }

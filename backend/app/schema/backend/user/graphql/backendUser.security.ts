@@ -17,6 +17,7 @@ const backendPermissionSecurity = {
   },
   Mutation: {
     backendUser_addOne: isPublic,
+    backendUser_changeTemporaryPassword: isAuthenticated,
     backendUser_updateOne: isPublic,
     backendUser_deleteOne: isPublic,
 

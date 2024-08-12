@@ -1,6 +1,7 @@
 // Libraries
 import React, { useContext, useState } from 'react'
 import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
+import { postNewBackendUsersGraphQL } from '../store/postNewUser.store';
 
 export const UsersContext = React.createContext();
 
@@ -33,10 +34,24 @@ export function UsersProvider({ children }) {
   //   }
   // }
 
+  const createUser = () => {
+    postNewBackendUsersGraphQL({
+      email,
+    }).then(response => {
+      const data = response.data?.backendUser_addOne
+
+      if (data?.id) {
+        navigate(`/portal/admin/user-management/system-users/${data.id}`)
+      }
+    })
+  }
+
   return (
     <UsersContext.Provider value={{
       modals, setModals,
       email, setEmail,
+
+      createUser,
     }}>
       {children}
     </UsersContext.Provider>
