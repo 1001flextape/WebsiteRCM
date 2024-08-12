@@ -6,6 +6,7 @@ const backendPermissionSecurity = {
     backendRole_getOneById: isAuthenticated,
     backendRole_getManyWithPagination: isAuthenticated,
     backendRole_getOneRealTime: isAuthenticated,
+    backendRole_getPermissionsByRoleId: isAuthenticated,
     backendRole_getMany: isAuthenticated,
   },
   Mutation: {
@@ -16,7 +17,7 @@ const backendPermissionSecurity = {
     backendRoleManyPermission_addOne: isAuthenticated,
     backendRoleManyPermission_deleteOne: isAuthenticated,
     backendRoleManyPermission_setList: isAuthenticated,
-  
+
     backendRole_updateOneFromUI: isAuthenticated,
   }
 }

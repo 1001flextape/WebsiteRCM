@@ -1,19 +1,20 @@
 import { callApi } from "@/utils/graphql/backend-api"
 
-export const postNewPageGraphQL = ({ slug, }) => {
+export const getPermissionsForRoleGraphQL = ({ roleId }) => {
   return new Promise(async (resolve) => {
 
     const response = await callApi({
       query: `
-      mutation($slug: String!) {
-        backendSiteDesignerPage_addOne(slug: $slug) {
+
+      query($roleId: ID!) {
+        backendRole_getPermissionsByRoleId(roleId: $roleId) {
           id
+          name
+          isDefault
         }
       }
-      
-      
-      `,
-      variables: { slug, }
+`,
+      variables: { roleId }
     })
 
     //clean up

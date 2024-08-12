@@ -12,6 +12,7 @@ import makeBackendRoleMain from "../../../../role/main/backendRole.main";
 import { Model } from "sequelize";
 import backendRole from "../../../../../../models/backend/role/backendRole.model";
 import makeBackendUserProfileMain from "../../backendUserProfile.main";
+import RealTimeSelectAdapter from "../../../../../collaborate/sameDoc/forUsage/adapters/RealTimeSelectAdapter";
 
 type input = {
   socketId: string;
@@ -76,12 +77,12 @@ export default function getOneRealTime(d: dependencies) {
         userId: user.data.dataValues.id,
       })
 
-      let userRole: returningSuccessObj<Model<backendRole> | null>
-      if (manyRoles.data && manyRoles.data.length > 0) {
-        userRole = await roleMain.getOneById({
-          id: manyRoles.data[0].dataValues.roleId
-        })
-      }
+      // let userRole: returningSuccessObj<Model<backendRole> | null>
+      // if (manyRoles.data && manyRoles.data.length > 0) {
+      //   userRole = await roleMain.getOneById({
+      //     id: manyRoles.data[0].dataValues.roleId
+      //   })
+      // }
 
       // get permissions
       const manyPermissions = await userManyPermissionMain.getAll({
@@ -124,6 +125,14 @@ export default function getOneRealTime(d: dependencies) {
           name: "isDeactivated"
         }),
         name: "isDeactivated"
+      }
+
+      const role: RealTimeAdapterPropertyValue = {
+        adapter: new RealTimeSelectAdapter({
+          initialValue: manyRoles.data[0]?.dataValues?.roleId || "",
+          name: "role"
+        }),
+        name: "role"
       }
 
       const isDashboardRead: RealTimeAdapterPropertyValue = {
@@ -250,6 +259,7 @@ export default function getOneRealTime(d: dependencies) {
         properties: [
           isAdmin,
           isDeactivated,
+          role,
           isDashboardRead,
           isMediaManagerInboxOnly,
           isMediaManagerRead,
@@ -268,9 +278,6 @@ export default function getOneRealTime(d: dependencies) {
         nonRealTimeProps: {
           id: user.data.dataValues.id,
           email: user.data.dataValues.email,
-          // temp for select realtime
-          roleId: userRole?.data?.dataValues.id,
-          roleName: userRole?.data?.dataValues.name,
           ...userProfile.data.dataValues,
         },
         socketId: args.socketId,

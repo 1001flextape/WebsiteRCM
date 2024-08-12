@@ -8,6 +8,7 @@ const backendPermissionGqlType = gql`
   type BackendPermissionType {
     id: ID
     name: String
+    isDefault: Boolean
   }
   
   input BackendPermissionInput {

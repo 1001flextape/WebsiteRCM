@@ -35,9 +35,8 @@ function RealTimeSelectRow({ id, entity, label, data, options, onChange, onChang
 
 
   useEffect(() => {
-    setSelectionValue(data.value);
+    setSelectionValue(data?.value);
 
-    console.log('selection for select option', data.value)
   }, []);
 
   // const handleChange = (event) => {

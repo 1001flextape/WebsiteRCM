@@ -10,7 +10,7 @@ import UserChip from '@/components/chip/user.chip';
 import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
 
 
-function RealTimeSwitchRow({ id, label, data, entity, onChange, onChangeByUser }) {
+function RealTimeSwitchRow({ id, label, data, entity, onChange, onChangeByUser, isDisabled = false }) {
 
   const { idChip, applySwitchBuffer } = useContext(AdminLayoutContext)
   // applyTextFieldSelectionBuffer
@@ -28,10 +28,15 @@ function RealTimeSwitchRow({ id, label, data, entity, onChange, onChangeByUser }
 
   useEffect(() => {
     if (onChange && (switchValue === false || switchValue === true)) {
-      console.log('chaning!', switchValue)
       onChange(switchValue)
     }
   }, [switchValue])
+
+  useEffect(() => {
+    console.log('changing user%%%%%%%%%%%%%%%%%%', data?.user)
+    setUser(data?.user)
+    setSwitchValue(data?.booleanValue)
+  }, [data])
 
   useEffect(() => {
     if (data?.order) {
@@ -42,7 +47,7 @@ function RealTimeSwitchRow({ id, label, data, entity, onChange, onChangeByUser }
 
     if (data?.booleanValue === true || data?.booleanValue === false) {
       setSwitchValue(data.booleanValue)
-      
+
 
     }
 
@@ -54,7 +59,6 @@ function RealTimeSwitchRow({ id, label, data, entity, onChange, onChangeByUser }
 
     if (data) {
       socket.on("samedoc-switch-change", result => {
-        console.log('"samedoc-switch-change"', result, entity, data)
 
         if (result?.entity === entity && result?.name === data.name) {
           if (result?.user) {
@@ -131,11 +135,6 @@ function RealTimeSwitchRow({ id, label, data, entity, onChange, onChangeByUser }
 
     const socket = initSocket();
 
-    console.log('server-samedoc-switch-change', {
-      entity,
-      name: data.name,
-      booleanValue: newValue,
-    })
     socket.emit('server-samedoc-switch-change', {
       entity,
       name: data.name,
@@ -155,6 +154,7 @@ function RealTimeSwitchRow({ id, label, data, entity, onChange, onChangeByUser }
         <Switch
           checked={switchValue || false}
           onChange={handleChange}
+          disabled={isDisabled}
         />
 
         {/* Middle Text Box: It will grow and shrink as required */}

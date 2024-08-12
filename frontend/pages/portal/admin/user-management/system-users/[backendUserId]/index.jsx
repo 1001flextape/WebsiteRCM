@@ -36,6 +36,7 @@ import PermissionsTable from '@/pages-scripts/portal/admin/user-management/roles
 import UserProvider, { UserContext } from '@/pages-scripts/portal/admin/user-management/system-users/form/context/SystemUser.context';
 import UserChip from '@/components/chip/user.chip';
 import RealTimeSwitchRow from '@/components/realtime/SwitchRow/SwitchRow.realtime';
+import RealTimeSelectRow from '@/components/realtime/SelectRow/SelectRow.realtime';
 
 const Page = () => {
   const theme = useTheme()
@@ -50,7 +51,16 @@ const Page = () => {
   const {
     entity,
     email, setEmail,
+    role, setRole,
+    roleValue, setRoleValue,
     roles, setRoles,
+
+
+
+    // application variables
+    isRolesAndPermissionsShowing, setIsRolesAndPermissionsShowing,
+    isPermissionsButtonsDisabled, setIsPermissionsButtonsDisabled,
+
 
 
     isAdmin, setIsAdmin,
@@ -98,6 +108,24 @@ const Page = () => {
     isUserManagementUpdateValue, setIsUserManagementUpdateValue,
     isUserManagementDelete, setIsUserManagementDelete,
     isUserManagementDeleteValue, setIsUserManagementDeleteValue,
+
+
+    //functions
+    save,
+    changeRole,
+
+    onClickMediaManageInboxOnly,
+    onClickMediaManageRead,
+    onClickMediaManageUpdate,
+    onClickMediaManageDelete,
+    onClickSiteDesignerUpdate,
+    onClickSiteDesignerDelete,
+    onClickAdminUpdate,
+    onClickAdminDelete,
+    onClickUserManagementUpdate,
+    onClickUserManagementDelete,
+    
+    
   } = useContext(UserContext)
 
   const handleBlockToggle = () => {
@@ -224,7 +252,6 @@ const Page = () => {
                         entity={entity}
                         onChange={(value) => {
                           setIsDeactivated(value)
-                          console.log('contents to be saved', value)
                         }}
                       />
                     </TableCell>
@@ -238,7 +265,7 @@ const Page = () => {
 
           <Paper elevation={3}>
             <List sx={{ p: 0 }}>
-              <HeaderRow label="Root Permissions" />
+              <HeaderRow label="Root Access" />
             </List>
             <TableContainer component={Paper}>
               <Table>
@@ -254,7 +281,7 @@ const Page = () => {
                         entity={entity}
                         onChange={(value) => {
                           setIsAdminValue(value)
-                          console.log('contents to be saved', value)
+                          setIsRolesAndPermissionsShowing(!value)
                         }}
                       />
                     </TableCell>
@@ -264,86 +291,118 @@ const Page = () => {
             </TableContainer>
           </Paper>
           <br />
-
-          <Paper elevation={3}>
-            <List sx={{ p: 0 }}>
-              <HeaderRow label="Roles" />
-            </List>
-            <TableContainer component={Paper}>
-              <Table>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>
-                      {/* Updated Select and Chips */}
-                      <Select
-                        value=""
-                        onChange={handleRoleSelect}
-                        displayEmpty
-                        inputProps={{ 'aria-label': 'Without label' }}
-                      >
-                        <MenuItem value="" disabled>
-                          Select Role
-                        </MenuItem>
-                        {roles.map((role) => (
-                          <MenuItem key={role.id} value={role.id}>
-                            {role.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                      {selectedRoles.map((role) => (
-                        <Chip
-                          key={role.id}
-                          label={role.name}
-                          // onDelete={() => handleChipDelete(role.id)}
-                          variant="outlined"
-                          color="primary"
-                          sx={{ margin: 0.5 }}
-                        />
-                      ))}
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Paper>
-          <br />
-
-          <p>Must select role "Custom Permissions" to changed permission table.</p>
-          <PermissionsTable
-            entity={entity}
-            isDashboardRead={isDashboardRead}
-            setIsDashboardReadValue={setIsDashboardReadValue}
-            isMediaManagerInboxOnly={isMediaManagerInboxOnly}
-            setIsMediaManagerInboxOnlyValue={setIsMediaManagerInboxOnlyValue}
-            isMediaManagerRead={isMediaManagerRead}
-            setIsMediaManagerReadValue={setIsMediaManagerReadValue}
-            isMediaManagerUpdate={isMediaManagerUpdate}
-            setIsMediaManagerUpdateValue={setIsMediaManagerUpdateValue}
-            isMediaManagerDelete={isMediaManagerDelete}
-            setIsMediaManagerDeleteValue={setIsMediaManagerDeleteValue}
-            isSiteDesignerRead={isSiteDesignerRead}
-            setIsSiteDesignerReadValue={setIsSiteDesignerReadValue}
-            isSiteDesignerUpdate={isSiteDesignerUpdate}
-            setIsSiteDesignerUpdateValue={setIsSiteDesignerUpdateValue}
-            isSiteDesignerDelete={isSiteDesignerDelete}
-            setIsSiteDesignerDeleteValue={setIsSiteDesignerDeleteValue}
-            isAdminRead={isAdminRead}
-            setIsAdminReadValue={setIsAdminReadValue}
-            isAdminUpdate={isAdminUpdate}
-            setIsAdminUpdateValue={setIsAdminUpdateValue}
-            isAdminDelete={isAdminDelete}
-            setIsAdminDeleteValue={setIsAdminDeleteValue}
-            isUserManagementRead={isUserManagementRead}
-            setIsUserManagementReadValue={setIsUserManagementReadValue}
-            isUserManagementUpdate={isUserManagementUpdate}
-            setIsUserManagementUpdateValue={setIsUserManagementUpdateValue}
-            isUserManagementDelete={isUserManagementDelete}
-            setIsUserManagementDeleteValue={setIsUserManagementDeleteValue}
+          {isRolesAndPermissionsShowing && (
+            <>
+              <Paper elevation={3}>
+                <List sx={{ p: 0 }}>
+                  <HeaderRow label="Roles" />
+                </List>
+                <TableContainer component={Paper}>
+                  <Table>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>
+                          {/* Updated Select and Chips */}
 
 
-          />
 
-          <br />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                          <RealTimeSelectRow
+                            entity={entity}
+                            // label={"Fonts"}
+                            data={role}
+                            options={roles}
+                            // selectedValue={800}
+                            onChange={(value) => {
+                              changeRole({ roleId: value })
+                              setRoleValue(value)
+
+                            }}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Paper>
+              <br />
+
+              <p>Must select role "Custom Permissions" to changed permission table.</p>
+              <PermissionsTable
+                entity={entity}
+                isDisabled={isPermissionsButtonsDisabled}
+                isDashboardRead={isDashboardRead}
+                setIsDashboardReadValue={setIsDashboardReadValue}
+                isMediaManagerInboxOnly={isMediaManagerInboxOnly}
+                setIsMediaManagerInboxOnlyValue={setIsMediaManagerInboxOnlyValue}
+                isMediaManagerRead={isMediaManagerRead}
+                setIsMediaManagerReadValue={setIsMediaManagerReadValue}
+                isMediaManagerUpdate={isMediaManagerUpdate}
+                setIsMediaManagerUpdateValue={setIsMediaManagerUpdateValue}
+                isMediaManagerDelete={isMediaManagerDelete}
+                setIsMediaManagerDeleteValue={setIsMediaManagerDeleteValue}
+                isSiteDesignerRead={isSiteDesignerRead}
+                setIsSiteDesignerReadValue={setIsSiteDesignerReadValue}
+                isSiteDesignerUpdate={isSiteDesignerUpdate}
+                setIsSiteDesignerUpdateValue={setIsSiteDesignerUpdateValue}
+                isSiteDesignerDelete={isSiteDesignerDelete}
+                setIsSiteDesignerDeleteValue={setIsSiteDesignerDeleteValue}
+                isAdminRead={isAdminRead}
+                setIsAdminReadValue={setIsAdminReadValue}
+                isAdminUpdate={isAdminUpdate}
+                setIsAdminUpdateValue={setIsAdminUpdateValue}
+                isAdminDelete={isAdminDelete}
+                setIsAdminDeleteValue={setIsAdminDeleteValue}
+                isUserManagementRead={isUserManagementRead}
+                setIsUserManagementReadValue={setIsUserManagementReadValue}
+                isUserManagementUpdate={isUserManagementUpdate}
+                setIsUserManagementUpdateValue={setIsUserManagementUpdateValue}
+                isUserManagementDelete={isUserManagementDelete}
+                setIsUserManagementDeleteValue={setIsUserManagementDeleteValue}
+
+                //application logic
+                onClickMediaManageUpdate={onClickMediaManageUpdate}
+                onClickMediaManageInboxOnly={onClickMediaManageInboxOnly}
+                onClickMediaManageDelete={onClickMediaManageDelete}
+                onClickMediaManageRead={onClickMediaManageRead}
+                onClickSiteDesignerUpdate={onClickSiteDesignerUpdate}
+                onClickSiteDesignerDelete={onClickSiteDesignerDelete}
+                onClickAdminUpdate={onClickAdminUpdate}
+                onClickAdminDelete={onClickAdminDelete}
+                onClickUserManagementUpdate={onClickUserManagementUpdate}
+                onClickUserManagementDelete={onClickUserManagementDelete}
+
+              />
+
+              <br />
+            </>
+          )}
 
           {/* <Paper
             elevation={3}
@@ -379,6 +438,7 @@ const Page = () => {
           <br />
           <Button
             variant="contained"
+            onClick={save}
           >
             Save
           </Button>

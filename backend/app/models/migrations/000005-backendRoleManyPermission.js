@@ -24,6 +24,10 @@ async function up({ context: queryInterface }) {
         key: 'id',
       }
     },
+    isDefault: {
+      type: sequelize.BOOLEAN,
+      default: false,  
+    },
     createdAt: {
       allowNull: false,
       type: sequelize.DATE

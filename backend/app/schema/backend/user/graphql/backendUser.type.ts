@@ -36,7 +36,7 @@ const userType = gql`
     email: String
     isAdmin: RealTimeSwitch
     isDeactivated: RealTimeSwitch
-    
+
     #userProfile
     callByType: String
     circleColor: String
@@ -47,6 +47,9 @@ const userType = gql`
     username: String
     displayName: String
     
+    # role
+    role: RealTimeSelect
+
     # permissions
     isDashboardRead: RealTimeSwitch
     isMediaManagerInboxOnly: RealTimeSwitch
@@ -151,7 +154,7 @@ const userType = gql`
   type Mutation {
     backendUser_addOne(username: String!, email: String!, password: String!, isAdmin: Boolean): GlobalSuccessType
     backendUser_deleteOne(id: ID!) : GlobalSuccessType
-    backendUser_updateOne(id: ID!, username: String!, email: String!, password: String!, isAdmin: Boolean): GlobalSuccessType
+    backendUser_updateOne(id: ID!, username: String, email: String, password: String, isAdmin: Boolean): GlobalSuccessType
 
     backendUserManyPermission_setList(list: [UserManyPermissionInput]): GlobalSuccessType
     backendUserManyRole_setList(list: [UserManyRoleInput]): GlobalSuccessType

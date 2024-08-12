@@ -6,6 +6,7 @@ import getManyWithPagination from "./scripts/sql/getManyWithPagination.script"
 import getMany from "./scripts/sql/getMany.script"
 import getOneById from "./scripts/sql/getOneById.script"
 import updateOne from "./scripts/sql/updateOne.script"
+import getPermissionsByRoleId from "./scripts/sql/getPermissionsByRoleId.script"
 
 export default function makeBackendRoleSql(d: dependencies) {
 
@@ -16,6 +17,7 @@ export default function makeBackendRoleSql(d: dependencies) {
     getManyWithPagination: getManyWithPagination(d),
     getMany: getMany(d),
     getOneById: getOneById(d),
+    getPermissionsByRoleId: getPermissionsByRoleId(d),
     updateOne: updateOne(d),
   }
 }

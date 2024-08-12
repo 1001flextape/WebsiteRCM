@@ -13,7 +13,7 @@ export default function setList(d: dependencies) {
 
   return async (setArray: input[]): Promise<returningSuccessObj<null>> => {
 
-    const setListEngine = makeSetList({ errorHandler: d.errorHandler, loggers: d.loggers, })
+    const setListEngine = makeSetList(d)
 
     const response = await setListEngine({
       setArray,

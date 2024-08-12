@@ -20,8 +20,8 @@ const backendPermissionSecurity = {
     backendUser_updateOne: isPublic,
     backendUser_deleteOne: isPublic,
 
-    backendUserManyPermission_setList: and(isAuthenticated, isAdmin),
-    backendUserManyRole_setList: and(isAuthenticated, isAdmin),
+    backendUserManyPermission_setList: isAuthenticated,
+    backendUserManyRole_setList: isAuthenticated,
 
     backendUserProfile_deactivateOne: and(isAuthenticated, isAdmin),
     backendUserProfile_reactivateOne: and(isAuthenticated, isAdmin),

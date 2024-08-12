@@ -6,7 +6,7 @@ export const getUserRealTimeGraphQL = ({ socketId, id }) => {
     const response = await callApi({
       query: `
 query ($id: ID!, $socketId: ID!) {
-  backendRole_getMany{
+  backendRole_getMany {
     id
     name
   }
@@ -44,6 +44,23 @@ query ($id: ID!, $socketId: ID!) {
       name
       booleanValue
       user {
+        id
+        email
+        firstName
+        lastName
+        username
+        picture
+        callByType
+        circleColor
+        labelColor
+        displayName
+      }
+    }
+    role{
+      order
+      name
+      value
+      user {        
         id
         email
         firstName
@@ -328,8 +345,26 @@ query ($id: ID!, $socketId: ID!) {
         displayName
       }
     }
+    isDashboardRead {
+      order
+      name
+      booleanValue
+      user {
+        id
+        email
+        firstName
+        lastName
+        username
+        picture
+        callByType
+        circleColor
+        labelColor
+        displayName
+      }
+    }
   }
 }
+
 `,
       variables: { socketId, id }
     })

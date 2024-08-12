@@ -13,6 +13,7 @@ import RealTimeSwitchRow from '@/components/realtime/SwitchRow/SwitchRow.realtim
 
 const PermissionsTable = ({
   entity,
+  isDisabled,
 
   isDashboardRead,
   setIsDashboardReadValue,
@@ -55,13 +56,19 @@ const PermissionsTable = ({
 
   isUserManagementDelete,
   setIsUserManagementDeleteValue,
+
+  //application Logic
+  onClickMediaManageUpdate,
+  onClickMediaManageInboxOnly,
+  onClickMediaManageDelete,
+  onClickMediaManageRead,
+  onClickSiteDesignerUpdate,
+  onClickSiteDesignerDelete,
+  onClickAdminUpdate,
+  onClickAdminDelete,
+  onClickUserManagementUpdate,
+  onClickUserManagementDelete,
 }) => {
-  const permissionsData = [
-    { label: 'Dashboard', lists: [{ name: 'Read' }] },
-    { label: 'Media Manager', lists: [{ name: 'incoming folder only' }, { name: 'read' }, { name: 'update' }, { name: 'delete' }] },
-    { label: 'Website', lists: [{ name: 'read' }, { name: 'update' }, { name: 'delete' }] },
-    { label: 'Admin (except user management)', lists: [{ name: 'read' }, { name: 'update' }, { name: 'delete' }] },
-  ];
 
   return (
     <Paper elevation={3}>
@@ -80,13 +87,13 @@ const PermissionsTable = ({
                 <List>
                   <ListItem>
                     <RealTimeSwitchRow
+                      isDisabled={isDisabled}
                       label={"Read"}
                       // label, data, entity, onChange
                       data={isDashboardRead}
                       entity={entity}
                       onChange={(value) => {
                         setIsDashboardReadValue(value)
-                        console.log('contents to be saved', value)
                       }}
                     />
                     {/* <Checkbox />
@@ -106,13 +113,15 @@ const PermissionsTable = ({
                     {/* <Checkbox />
                     Inbox Only */}
                     <RealTimeSwitchRow
+                      isDisabled={isDisabled}
                       label={"Inbox Only"}
                       // label, data, entity, onChange
                       data={isMediaManagerInboxOnly}
                       entity={entity}
                       onChange={(value) => {
                         setIsMediaManagerInboxOnlyValue(value)
-                        console.log('contents to be saved', value)
+
+                        if (onClickMediaManageInboxOnly) onClickMediaManageInboxOnly(value);
                       }}
                     />
                   </ListItem>
@@ -120,13 +129,15 @@ const PermissionsTable = ({
                     {/* <Checkbox />
                     Read */}
                     <RealTimeSwitchRow
+                      isDisabled={isDisabled}
                       label={"Read"}
                       // label, data, entity, onChange
                       data={isMediaManagerRead}
                       entity={entity}
                       onChange={(value) => {
                         setIsMediaManagerReadValue(value)
-                        console.log('contents to be saved', value)
+
+                        if (onClickMediaManageRead) onClickMediaManageRead(value);
                       }}
                     />
                   </ListItem>
@@ -134,13 +145,14 @@ const PermissionsTable = ({
                     {/* <Checkbox />
                     Update */}
                     <RealTimeSwitchRow
+                      isDisabled={isDisabled}
                       label={"Update"}
                       // label, data, entity, onChange
                       data={isMediaManagerUpdate}
                       entity={entity}
                       onChange={(value) => {
                         setIsMediaManagerUpdateValue(value)
-                        console.log('contents to be saved', value)
+                        if (onClickMediaManageUpdate) onClickMediaManageUpdate(value);
                       }}
                     />
                   </ListItem>
@@ -148,13 +160,14 @@ const PermissionsTable = ({
                     {/* <Checkbox />
                     Delete */}
                     <RealTimeSwitchRow
+                      isDisabled={isDisabled}
                       label={"Delete"}
                       // label, data, entity, onChange
                       data={isMediaManagerDelete}
                       entity={entity}
                       onChange={(value) => {
                         setIsMediaManagerDeleteValue(value)
-                        console.log('contents to be saved', value)
+                        if (onClickMediaManageDelete) onClickMediaManageDelete(value);
                       }}
                     />
                   </ListItem>
@@ -173,13 +186,13 @@ const PermissionsTable = ({
                     {/* <Checkbox />
                     Read */}
                     <RealTimeSwitchRow
+                      isDisabled={isDisabled}
                       label={"Read"}
                       // label, data, entity, onChange
                       data={isSiteDesignerRead}
                       entity={entity}
                       onChange={(value) => {
                         setIsSiteDesignerReadValue(value)
-                        console.log('contents to be saved', value)
                       }}
                     />
                   </ListItem>
@@ -187,13 +200,14 @@ const PermissionsTable = ({
                     {/* <Checkbox />
                     Update */}
                     <RealTimeSwitchRow
+                      isDisabled={isDisabled}
                       label={"Update"}
                       // label, data, entity, onChange
                       data={isSiteDesignerUpdate}
                       entity={entity}
                       onChange={(value) => {
                         setIsSiteDesignerUpdateValue(value)
-                        console.log('contents to be saved', value)
+                        if (onClickSiteDesignerUpdate) onClickSiteDesignerUpdate(value);
                       }}
                     />
                   </ListItem>
@@ -201,13 +215,14 @@ const PermissionsTable = ({
                     {/* <Checkbox />
                     Delete */}
                     <RealTimeSwitchRow
+                      isDisabled={isDisabled}
                       label={"Delete"}
                       // label, data, entity, onChange
                       data={isSiteDesignerDelete}
                       entity={entity}
                       onChange={(value) => {
                         setIsSiteDesignerDeleteValue(value)
-                        console.log('contents to be saved', value)
+                        if (onClickSiteDesignerDelete) onClickSiteDesignerDelete(value);
                       }}
                     />
                   </ListItem>
@@ -226,13 +241,13 @@ const PermissionsTable = ({
                     {/* <Checkbox />
                     Read */}
                     <RealTimeSwitchRow
+                      isDisabled={isDisabled}
                       label={"Read"}
                       // label, data, entity, onChange
                       data={isAdminRead}
                       entity={entity}
                       onChange={(value) => {
                         setIsAdminReadValue(value)
-                        console.log('contents to be saved', value)
                       }}
                     />
                   </ListItem>
@@ -240,13 +255,14 @@ const PermissionsTable = ({
                     {/* <Checkbox />
                     Update */}
                     <RealTimeSwitchRow
+                      isDisabled={isDisabled}
                       label={"Update"}
                       // label, data, entity, onChange
                       data={isAdminUpdate}
                       entity={entity}
                       onChange={(value) => {
                         setIsAdminUpdateValue(value)
-                        console.log('contents to be saved', value)
+                        if (onClickAdminUpdate) onClickAdminUpdate(value);
                       }}
                     />
                   </ListItem>
@@ -254,13 +270,14 @@ const PermissionsTable = ({
                     {/* <Checkbox />
                     Delete */}
                     <RealTimeSwitchRow
+                      isDisabled={isDisabled}
                       label={"Delete"}
                       // label, data, entity, onChange
                       data={isAdminDelete}
                       entity={entity}
                       onChange={(value) => {
                         setIsAdminDeleteValue(value)
-                        console.log('contents to be saved', value)
+                        if (onClickAdminDelete) onClickAdminDelete(value);
                       }}
                     />
                   </ListItem>
@@ -280,13 +297,13 @@ const PermissionsTable = ({
                     {/* <Checkbox />
                     Read */}
                     <RealTimeSwitchRow
+                      isDisabled={isDisabled}
                       label={"Read"}
                       // label, data, entity, onChange
                       data={isUserManagementRead}
                       entity={entity}
                       onChange={(value) => {
                         setIsUserManagementReadValue(value)
-                        console.log('contents to be saved', value)
                       }}
                     />
                   </ListItem>
@@ -294,13 +311,14 @@ const PermissionsTable = ({
                     {/* <Checkbox />
                     Update */}
                     <RealTimeSwitchRow
+                      isDisabled={isDisabled}
                       label={"Update"}
                       // label, data, entity, onChange
                       data={isUserManagementUpdate}
                       entity={entity}
                       onChange={(value) => {
                         setIsUserManagementUpdateValue(value)
-                        console.log('contents to be saved', value)
+                        if (onClickUserManagementUpdate) onClickUserManagementUpdate(value);
                       }}
                     />
                   </ListItem>
@@ -308,13 +326,14 @@ const PermissionsTable = ({
                     {/* <Checkbox />
                     Delete */}
                     <RealTimeSwitchRow
+                      isDisabled={isDisabled}
                       label={"Delete"}
                       // label, data, entity, onChange
                       data={isUserManagementDelete}
                       entity={entity}
                       onChange={(value) => {
                         setIsUserManagementDeleteValue(value)
-                        console.log('contents to be saved', value)
+                        if (onClickUserManagementDelete) onClickUserManagementDelete(value);
                       }}
                     />
                   </ListItem>
@@ -355,7 +374,6 @@ const PermissionsTable = ({
             entity={entity}
             onChange={(value) => {
               setIsReadyValue(value)
-              console.log('contents to be saved', value)
             }}
           /> */}
     </Paper >
