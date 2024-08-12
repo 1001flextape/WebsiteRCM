@@ -99,8 +99,8 @@ export default function getManyWithPagination(d: dependencies) {
         circleColor: null,
         labelColor: null,
       }),
-      roleId: user.userRoles && user.userRoles.length > 0 ? user.userRoles[0].role.id : null,
-      roleName: user.userRoles && user.userRoles.length > 0 ? user.userRoles[0].role.name : null
+      roleId: user.dataValues.userRoles && user.dataValues.userRoles.length > 0 ? user.dataValues.userRoles[0].role.id : null,
+      roleName: user.dataValues.userRoles && user.dataValues.userRoles.length > 0 ? user.dataValues.userRoles[0].role.name : null
     }));
 
     const response = {

@@ -58,7 +58,7 @@ export default function SystemUserDataGrid() {
 
         )
       },
-    }, ,
+    }, 
     {
       field: 'isAdmin',
       headerName: 'Is Admin',
@@ -77,20 +77,38 @@ export default function SystemUserDataGrid() {
     },
     {
       field: 'role',
-      headerName: 'Roles',
-      width: 300,
+      headerName: 'Role',
+      width: 250,
       renderCell: (params) => {
 
         return (
           <>
             <p>
-              {params.row?.roles && params.row.roles.length > 0 && params.row.roles.map(r => r.name).join(', ')}
+              {params.row.roleName}
             </p>
             {/* navigate(`/portal/site/pages/${params.id}`); */}
           </>
         )
       }
-    }
+    }, 
+    {
+      field: 'isDeactivated',
+      headerName: 'Is Deactivated',
+      width: 130,
+      sortable: false,
+      renderCell: (params) => (
+        <div>
+          {params.row.isDeactivated && (
+            <p>Yes</p>
+          )}
+          {!params.row.isDeactivated && (
+            <p>No</p>
+          )}
+        </div>
+      ),
+    },
+
+    // isDeactivated
   ];
 
   const [rows, setRows] = useState([
