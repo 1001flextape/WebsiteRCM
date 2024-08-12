@@ -33,6 +33,8 @@ export function UserProvider({ children }) {
   const [roles, setRoles] = useState([])
   const [email, setEmail] = useState("")
 
+  const [temporaryPassword, setTemporaryPassword] = useState()
+
   const [callByType, setCallByType] = useState()
   const [circleColor, setCircleColor] = useState()
   const [firstName, setFirstName] = useState()
@@ -103,6 +105,7 @@ export function UserProvider({ children }) {
         setUsername(data.username)
         setDisplayName(data.displayName)
 
+        setTemporaryPassword(data.temporaryPassword)
 
         setIsAdmin(data.isAdmin)
         setIsRolesAndPermissionsShowing(!data.Admin)
@@ -639,6 +642,7 @@ export function UserProvider({ children }) {
           <UserContext.Provider value={{
             entity, setEntity,
             email, setEmail,
+            temporaryPassword, setTemporaryPassword,
             role, setRole,
             roleValue, setRoleValue,
             roles, setRoles,

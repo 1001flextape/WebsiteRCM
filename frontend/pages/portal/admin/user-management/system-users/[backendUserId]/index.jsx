@@ -51,6 +51,7 @@ const Page = () => {
   const {
     entity,
     email, setEmail,
+    temporaryPassword, setTemporaryPassword,
     role, setRole,
     roleValue, setRoleValue,
     roles, setRoles,
@@ -124,8 +125,8 @@ const Page = () => {
     onClickAdminDelete,
     onClickUserManagementUpdate,
     onClickUserManagementDelete,
-    
-    
+
+
   } = useContext(UserContext)
 
   const handleBlockToggle = () => {
@@ -237,6 +238,17 @@ const Page = () => {
                     <TableCell sx={{ width: "200px" }}>Email</TableCell>
                     <TableCell>{email}</TableCell>
                   </TableRow>
+                  {temporaryPassword && (
+
+                    <TableRow>
+                      <TableCell sx={{ width: "200px" }}>Temporary Password</TableCell>
+                      <TableCell>
+
+                        {temporaryPassword}
+
+                      </TableCell>
+                    </TableRow>
+                  )}
                 </TableBody>
               </Table>
               <Table>

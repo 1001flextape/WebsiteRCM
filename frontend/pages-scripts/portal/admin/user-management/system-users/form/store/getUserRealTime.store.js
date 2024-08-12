@@ -14,6 +14,7 @@ query ($id: ID!, $socketId: ID!) {
     id
     entity
     email
+    temporaryPassword
     callByType
     circleColor
     firstName

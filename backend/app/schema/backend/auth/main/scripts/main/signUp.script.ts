@@ -29,9 +29,7 @@ export default function signup(d: dependencies) {
     // const { userMain, userProfileMain, userProfileValidation } = makeFoundationUserEntity(d)
     const backendUserMain = makeBackendUserMain(d)
     const backendUserValidation = makeBackendUserValidation(d)
-    const backendUserProfileMain = makeBackendUserProfileMain(d)
-    const backendUserProfileValidation = makeBackendUserProfileMain(d)
-
+    
     const authFunc = makeFoundationAuthFunc(d)
     // const backendUserEntity = makeBackendUserEntity(d)
     // const lookUpCookieCache = makeBackendAuthCache(d)
@@ -110,14 +108,6 @@ export default function signup(d: dependencies) {
     const user = await backendUserMain.addOne({
       email: args.email,
       password: args.password,
-    })
-
-    await backendUserProfileMain.upsertOne({
-      userId: user.data.dataValues.id,
-      username: args.username,
-      labelColor: getRandomColor(),
-      circleColor: getRandomColor(),
-      callByType: CallByTypeEnum.EMAIL,
     })
 
     const token = await authFunc.signinToken({ userId: user.data.dataValues.id })

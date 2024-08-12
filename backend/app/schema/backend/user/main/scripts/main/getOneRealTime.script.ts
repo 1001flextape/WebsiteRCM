@@ -279,6 +279,7 @@ export default function getOneRealTime(d: dependencies) {
           id: user.data.dataValues.id,
           email: user.data.dataValues.email,
           ...(userProfile.data?.dataValues || {}),
+          temporaryPassword: user.data?.dataValues.temporaryPassword,
         },
         socketId: args.socketId,
       })

@@ -6,6 +6,9 @@ import { returningSuccessObj } from "../../../../../utils/types/returningObjs.ty
 import makeBackendUserSql from "../../../preMain/backendUser.sql";
 import makeBackendUserValidation from "../../../preMain/backendUser.validation";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
+import makeBackendUserProfileMain from "../../backendUserProfile.main";
+import getRandomColor from "../../../../../utils/helpers/getRandomColor";
+import { CallByTypeEnum } from "../../../preMain/scripts/userProfileSql/upsertOne.script";
 
 
 type input = {
@@ -19,6 +22,7 @@ export default function addOne(d: dependencies) {
   return async (args: input): Promise<returningSuccessObj<Model<backendUser> | null>> => {
 
     const backendUserSql = makeBackendUserSql(d)
+    const backendUserProfileMain = makeBackendUserProfileMain(d)
     const backendUserValidation = makeBackendUserValidation(d)
 
     //////////////////////////////////////
@@ -89,6 +93,14 @@ export default function addOne(d: dependencies) {
       isAdmin: args.isAdmin,
     })
     // .catch(error => d.errorHandler(error, d.loggers))
+
+    // new user gets a profile.
+    await backendUserProfileMain.upsertOne({
+      userId: response.data.dataValues.id,
+      labelColor: getRandomColor(),
+      circleColor: getRandomColor(),
+      callByType: CallByTypeEnum.EMAIL,
+    })
 
     return response;
   }

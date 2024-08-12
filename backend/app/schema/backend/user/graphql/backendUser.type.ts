@@ -41,6 +41,7 @@ const userType = gql`
     id: ID
     email: String
     isAdmin: RealTimeSwitch
+    temporaryPassword: String
     isDeactivated: RealTimeSwitch
 
     #userProfile
