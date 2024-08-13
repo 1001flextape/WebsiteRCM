@@ -82,6 +82,19 @@ const Page = () => {
     //helper functions
     saveRole,
 
+
+
+    onClickMediaManageInboxOnly,
+    onClickMediaManageRead,
+    onClickMediaManageUpdate,
+    onClickMediaManageDelete,
+    onClickSiteDesignerUpdate,
+    onClickSiteDesignerDelete,
+    onClickAdminUpdate,
+    onClickAdminDelete,
+    onClickUserManagementUpdate,
+    onClickUserManagementDelete,
+
   } = useContext(RoleContext)
 
   useEffect(() => {
@@ -199,6 +212,19 @@ const Page = () => {
         setIsUserManagementUpdateValue={setIsUserManagementUpdateValue}
         isUserManagementDelete={isUserManagementDelete}
         setIsUserManagementDeleteValue={setIsUserManagementDeleteValue}
+
+
+
+        onClickMediaManageInboxOnly={onClickMediaManageInboxOnly}
+        onClickMediaManageRead={onClickMediaManageRead}
+        onClickMediaManageUpdate={onClickMediaManageUpdate}
+        onClickMediaManageDelete={onClickMediaManageDelete}
+        onClickSiteDesignerUpdate={onClickSiteDesignerUpdate}
+        onClickSiteDesignerDelete={onClickSiteDesignerDelete}
+        onClickAdminUpdate={onClickAdminUpdate}
+        onClickAdminDelete={onClickAdminDelete}
+        onClickUserManagementUpdate={onClickUserManagementUpdate}
+        onClickUserManagementDelete={onClickUserManagementDelete}
 
 
       />

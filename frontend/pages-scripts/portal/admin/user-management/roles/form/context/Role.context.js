@@ -65,6 +65,135 @@ export function RoleProvider({ children }) {
   const { roleId } = router.query;
   // console.log('query', router.query);
 
+  const onClickMediaManageInboxOnly = (booleanValue) => {
+    if (booleanValue) {
+      setIsMediaManagerRead(prevState => ({
+        ...prevState,
+        booleanValue: false
+      }))
+      setIsMediaManagerUpdate(prevState => ({
+        ...prevState,
+        booleanValue: false
+      }))
+      setIsMediaManagerDelete(prevState => ({
+        ...prevState,
+        booleanValue: false
+      }))
+    }
+  }
+
+  const onClickMediaManageRead = (booleanValue) => {
+    if (booleanValue) {
+      setIsMediaManagerInboxOnly(prevState => ({
+        ...prevState,
+        booleanValue: false
+      }))
+    }
+  }
+
+  const onClickMediaManageUpdate = (booleanValue) => {
+    if (booleanValue) {
+      setIsMediaManagerRead(prevState => ({
+        ...prevState,
+        booleanValue: true
+      }))
+      setIsMediaManagerInboxOnly(prevState => ({
+        ...prevState,
+        booleanValue: false
+      }))
+    }
+  }
+
+  const onClickMediaManageDelete = (booleanValue) => {
+    if (booleanValue) {
+      setIsMediaManagerRead(prevState => ({
+        ...prevState,
+        booleanValue: true
+      }))
+      setIsMediaManagerUpdate(prevState => ({
+        ...prevState,
+        booleanValue: true
+      }))
+      setIsMediaManagerInboxOnly(prevState => ({
+        ...prevState,
+        booleanValue: false
+      }))
+    }
+  }
+
+
+  const onClickSiteDesignerUpdate = (booleanValue) => {
+    if (booleanValue) {
+      setIsSiteDesignerRead(prevState => ({
+        ...prevState,
+        booleanValue: true
+      }))
+    }
+  }
+
+  const onClickSiteDesignerDelete = (booleanValue) => {
+    if (booleanValue) {
+      setIsSiteDesignerRead(prevState => ({
+        ...prevState,
+        booleanValue: true
+      }))
+      setIsSiteDesignerUpdate(prevState => ({
+        ...prevState,
+        booleanValue: true
+      }))
+    }
+  }
+
+
+  const onClickAdminUpdate = (booleanValue) => {
+    if (booleanValue) {
+      setIsAdminRead(prevState => ({
+        ...prevState,
+        booleanValue: true
+      }))
+    }
+  }
+
+  const onClickAdminDelete = (booleanValue) => {
+    if (booleanValue) {
+      setIsAdminRead(prevState => ({
+        ...prevState,
+        booleanValue: true
+      }))
+      setIsAdminUpdate(prevState => ({
+        ...prevState,
+        booleanValue: true
+      }))
+    }
+  }
+
+
+
+
+
+
+  const onClickUserManagementUpdate = (booleanValue) => {
+    if (booleanValue) {
+      setIsUserManagementRead(prevState => ({
+        ...prevState,
+        booleanValue: true
+      }))
+    }
+  }
+
+  const onClickUserManagementDelete = (booleanValue) => {
+    if (booleanValue) {
+      setIsUserManagementRead(prevState => ({
+        ...prevState,
+        booleanValue: true
+      }))
+      setIsUserManagementUpdate(prevState => ({
+        ...prevState,
+        booleanValue: true
+      }))
+    }
+  }
+  
   useEffect(() => {
     console.log('roleId', roleId);
     if (roleId) {
@@ -183,6 +312,21 @@ export function RoleProvider({ children }) {
             isUserManagementDeleteValue, setIsUserManagementDeleteValue,
             modal, setModal,
 
+
+            
+            onClickMediaManageInboxOnly,
+            onClickMediaManageRead,
+            onClickMediaManageUpdate,
+            onClickMediaManageDelete,
+            onClickSiteDesignerUpdate,
+            onClickSiteDesignerDelete,
+            onClickAdminUpdate,
+            onClickAdminDelete,
+            onClickUserManagementUpdate,
+            onClickUserManagementDelete,
+
+
+            
             //helper functions
             saveRole,
             deleteRole,
