@@ -4,7 +4,7 @@ import { returningSuccessObj } from "../../../../../utils/types/returningObjs.ty
 import { findAndCountAll } from "../../../../../utils/types/sequelize.types";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
 
-export default function getManyWithPagination(d: dependencies) {
+export default function getMany(d: dependencies) {
 
   const db = d.db.models;
 

@@ -25,6 +25,13 @@ describe("test backendRole.sql.js", () => {
     expect(roles.data.length).toBe(5);
   });
 
+  test("getManyTwoList: works.", async () => {
+    const roleSql = makeBackendRoleSql(d);
+    const getManyTwoList = await roleSql.getManyTwoList();
+    expect(getManyTwoList.data.builtInRoles.length).toBe(5);
+    expect(getManyTwoList.data.customRoles.length).toBe(0);
+  });
+
   test("addOne: backendRoles can add record.", async () => {
     const roleSql = makeBackendRoleSql(d);
     const addOne = await roleSql.addOne({ name: "Cool Role!" });
@@ -75,6 +82,13 @@ describe("test backendRole.sql.js", () => {
     const roleSql = makeBackendRoleSql(d);
     const roles = await roleSql.getMany();
     expect(roles.data.length).toBe(8);
+  });
+  
+  test("getManyTwoList: works with data.", async () => {
+    const roleSql = makeBackendRoleSql(d);
+    const getManyTwoList = await roleSql.getManyTwoList();
+    expect(getManyTwoList.data.builtInRoles.length).toBe(5);
+    expect(getManyTwoList.data.customRoles.length).toBe(3);
   });
 
   test("getPermissionsByRoleId: default role 'media manager inbox only'", async () => {
@@ -151,4 +165,11 @@ describe("test backendRole.sql.js", () => {
     );
     expect(hasAllExpectedPermissions).toBe(true);
   });
+
+
+  
+  afterAll(async () => {
+    
+    await d.dbTransaction.rollback()
+  })
 });

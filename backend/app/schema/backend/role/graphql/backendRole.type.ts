@@ -41,6 +41,11 @@ const backendPermissionGqlType = gql`
     roleId: ID
     permission: ID
   }
+
+  type BackendRolesTwoListType {
+    builtInRoles: [BackendRoleType]
+    customRoles: [BackendRoleType]
+  }
   
   type Query {
     backendRole_getOneById(id: ID): BackendRoleType
@@ -49,6 +54,7 @@ const backendPermissionGqlType = gql`
 
     backendRole_getPermissionsByRoleId(roleId: ID!):[BackendPermissionType]
     backendRole_getMany: [BackendRoleType]
+    backendRole_getManyTwoList: BackendRolesTwoListType
   }
   
   type Mutation {

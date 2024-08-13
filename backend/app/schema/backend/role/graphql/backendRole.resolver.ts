@@ -82,6 +82,19 @@ const backendRoleGqlResolver = {
         return graphqlError(response)
       }
     },
+    backendRole_getManyTwoList: async (parent, args, ctx) => {
+
+      const main = makeBackendRoleMain(ctx.d)
+
+      const response = await main.getManyTwoList()
+
+      if (response?.success) {
+        return response.data
+
+      } else {
+        return graphqlError(response)
+      }
+    },
   },
   BackendRoleType: {
     permission_getAll: async (parent, args, ctx) => {

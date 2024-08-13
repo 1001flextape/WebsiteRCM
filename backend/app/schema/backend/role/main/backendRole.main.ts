@@ -10,6 +10,7 @@ import getOneRealTime from "./scripts/main/getOneRealTime.script"
 import updateOne from "./scripts/main/updateOne.script"
 import updateOneFromUI from "./scripts/main/updateOneFromUI.script"
 import getPermissionsByRoleId from "./scripts/main/getPermissionsByRoleId.script"
+import getManyTwoList from "./scripts/main/getManyTwoList.script"
 
 export default function makeBackendRoleMain(d: dependencies) {
 
@@ -19,6 +20,7 @@ export default function makeBackendRoleMain(d: dependencies) {
     deleteOne: deleteOne(d),
     getManyWithPagination: getManyWithPagination(d),
     getMany: getMany(d),
+    getManyTwoList: getManyTwoList(d),
     getOneById: getOneById(d),
     getOneRealTime: getOneRealTime(d),
     getPermissionsByRoleId: getPermissionsByRoleId(d),

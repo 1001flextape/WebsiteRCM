@@ -24,6 +24,13 @@ describe("test backendRole.main.js", () => {
     expect(roles.data.length).toBe(5);
   });
 
+  test("getManyTwoList: works.", async () => {
+    const roleMain = makeBackendRoleMain(d);
+    const getManyTwoList = await roleMain.getManyTwoList();
+    expect(getManyTwoList.data.builtInRoles.length).toBe(5);
+    expect(getManyTwoList.data.customRoles.length).toBe(0);
+  });
+
   test("addOne: backendRoles can add record.", async () => {
     const roleMain = makeBackendRoleMain(d);
     const addOne = await roleMain.addOne({ name: "Cool Role!" });
@@ -74,6 +81,13 @@ describe("test backendRole.main.js", () => {
     const roleMain = makeBackendRoleMain(d);
     const roles = await roleMain.getMany();
     expect(roles.data.length).toBe(8);
+  });
+
+  test("getManyTwoList: works with data.", async () => {
+    const roleMain = makeBackendRoleMain(d);
+    const getManyTwoList = await roleMain.getManyTwoList();
+    expect(getManyTwoList.data.builtInRoles.length).toBe(5);
+    expect(getManyTwoList.data.customRoles.length).toBe(3);
   });
 
   test("getPermissionsByRoleId: default role 'media manager inbox only'", async () => {
