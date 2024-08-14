@@ -2,6 +2,7 @@ import { returningSuccessObj } from "../../../../../utils/types/returningObjs.ty
 import endMainFromError from "../../../../../utils/graphql/endMainFromError.func"
 import { isStringValidEmail } from "../../../../../utils/stringHelpers/checkEmail"
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types"
+import makeBackendUserMain from "../../../../user/main/backendUser.main"
 
 type input = {
   email: string
@@ -9,6 +10,8 @@ type input = {
 
 export default function forgotPassword(d: dependencies) {
   return async (args: input): Promise<returningSuccessObj<null>> => {
+
+    const backendUserMain = makeBackendUserMain(d)
 
     //////////////////////////////////////
     // Validations
@@ -29,6 +32,17 @@ export default function forgotPassword(d: dependencies) {
       return endMainFromError({
         hint: "Email is not a valid email.",
         errorIdentifier: "backendAuth_forgotPassword_error:0002"
+      })
+    }
+
+    const user = await backendUserMain.getOneByEmail({
+      email: args.email,
+    })
+
+    if (user?.data?.dataValues?.isDeactivated) {
+      return endMainFromError({
+        hint: "Your account has been deactivated by an administrator. Please contact support for further assistance.",
+        errorIdentifier: "backendAuth_forgotPassword_error:0003"
       })
     }
 

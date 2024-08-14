@@ -85,6 +85,13 @@ export default function signIn(d: dependencies) {
       email: args.email,
     })
 
+    if (user.data.dataValues.isDeactivated) {
+      return endMainFromError({
+        hint: "Your account has been deactivated by an administrator. Please contact support for further assistance.",
+        errorIdentifier: "backendAuth_signIn_error:0005"
+      })
+    }
+
     // check for temporary password:
     if (user.data?.dataValues?.temporaryPassword) {
       if (user.data?.dataValues?.temporaryPassword === args.password) {
@@ -105,6 +112,7 @@ export default function signIn(d: dependencies) {
 
     }
 
+    
 
     const isPasswordCorrect = await backendUserValidation.isPasswordCorrect({
       encryptedPassword: user.data.dataValues.password,
@@ -120,6 +128,7 @@ export default function signIn(d: dependencies) {
 
     const token = await backendAuthFunc.signinToken({ userId: user.data.dataValues.id })
 
+    
     //reddis storage matching with cookie
     // const cookie = await lookUpCookieCache.lookupCookieTokenSet({
     //   token: token.data,

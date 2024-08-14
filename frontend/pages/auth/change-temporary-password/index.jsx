@@ -127,6 +127,13 @@ function Page({ searchParams }) {
           case "0009":
             setMessageBoxErrorMessage(result.message)
             break;
+          case "0010":
+            setMessageBoxErrorMessage(result.message)
+            break;
+          default:
+            setMessageBoxErrorMessage(result.message)
+            break;
+
 
         }
       }

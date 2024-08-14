@@ -92,6 +92,20 @@ export default function changeTemporaryPassword(d: dependencies) {
     const user = await backendUserMain.getOneByEmail({
       email: args.email,
     })
+    
+    if (!user.data.dataValues) {
+      return endMainFromError({
+        hint: "Not Authorized.",
+        errorIdentifier: "backendAuth_changeTemporaryPassword_error:0000"
+      })
+    }
+
+    if (user.data.dataValues.isDeactivated) {
+      return endMainFromError({
+        hint: "Your account has been deactivated by an administrator. Please contact support for further assistance.",
+        errorIdentifier: "backendAuth_changeTemporaryPassword_error:0010"
+      })
+    }
 
     if (user.data?.dataValues?.temporaryPassword !== args.temporaryPassword) {
       return endMainFromError({

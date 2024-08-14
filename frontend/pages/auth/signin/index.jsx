@@ -93,6 +93,9 @@ function Page({ searchParams }) {
           case "0004":
             setPasswordErrorMessage(result.message)
             break;
+          case "0005":
+            setMessageBoxErrorMessage(result.message)
+            break;
           case "1000":
             router.push(`/auth/change-temporary-password/`)
 
