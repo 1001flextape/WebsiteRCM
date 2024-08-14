@@ -80,7 +80,7 @@ export default function Navigator(props) {
       <List disablePadding>
         <ListItem
           style={{
-            backgroundColor: "rgb(59 0 0)",
+            backgroundColor: "#154D6C",
             color: "white",
           }}
         >
@@ -101,7 +101,7 @@ export default function Navigator(props) {
 
         </ListItem>
         {leftDrawer.shouldApplyToTopNavMenu && (
-          <ListItem sx={{ ...itemCategory, ...topHeader, fontSize: "11px", color: '#fff', backgroundColor: "#230f34" }}>
+          <ListItem sx={{ ...itemCategory, ...topHeader, fontSize: "11px", color: '#fff', backgroundColor: "#337ca8" }}>
             <br />
             <div style={{ textAlign: "center" }}>
               <img src={`${process.env.NEXT_PUBLIC_WEB_API_URL}${leftDrawer.logo}`} alt="Description of image" style={{ width: "150px" }} />
