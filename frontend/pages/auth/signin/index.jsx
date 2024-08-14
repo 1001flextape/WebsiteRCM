@@ -175,13 +175,13 @@ function Page({ searchParams }) {
             error={passwordErrorMessage.length}
             helperText={passwordErrorMessage}
           />
-          <FormControlLabel
+          {/* <FormControlLabel
             control={<Checkbox name="remember" id="remember" value="remember" color="primary"
             // value={rememberMe} 
             // onChange={event => setRememberMe(event.target.value)} 
             />}
             label="Remember me"
-          />
+          /> */}
 
           {messageBoxErrorMessage && (
             <Box sx={{ color: theme.palette.error.main }}>
