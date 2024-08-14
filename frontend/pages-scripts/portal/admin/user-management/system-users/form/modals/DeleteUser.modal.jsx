@@ -3,36 +3,42 @@ import React, { useContext, useState } from 'react'
 import { useRouter } from 'next/router';
 
 // mine
-import { SiteDesignerPagesContext } from '../context/SiteDesignerPages.context';
 import InformationModal from '@/components/modals/Information.modal';
 
 //mui
 import { Button, TextField, Box, Typography } from '@mui/material';
+import { UserContext } from '../context/SystemUser.context';
 
-function NewPageModal({ isOpened, onClose }) {
+function DeleteUserModal({ isOpened, onClose }) {
+
   const {
-    slug, setSlug,
-    hasHomePage,
-    createPage,
-    createHomePage,
-  } = useContext(SiteDesignerPagesContext)
+    deleteUser,
+    email,
+  } = useContext(UserContext)
 
-  const handleSubmit = () => {
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(true)
+  const [input, setInput] = useState("")
+
+  const handleDeleteUser = () => {
 
     if (onClose) {
       onClose()
     }
 
-    createPage()
+    if (input === email) {
+      deleteUser()
+    }
+
   }
 
-  const handleCreateHomePage = () => {
-    
-    if (onClose) {
-      onClose()
-    }
+  const handleDisableSubmit = (event) => {
+    const text = event.target.value;
 
-    createHomePage()
+    if (text === email) {
+      setIsSubmitDisabled(false)
+    } else {
+      setIsSubmitDisabled(true)
+    }
   }
 
   // // CreatePageForm.js
@@ -87,9 +93,11 @@ function NewPageModal({ isOpened, onClose }) {
     <InformationModal
       isOpened={isOpened}
       onClose={onClose}
-      header="Create Page"
-      onSubmit={handleSubmit}
-      submitLabel={"Create"}
+      header={"Delete User"}
+      onSubmit={handleDeleteUser}
+      submitLabel={"Delete User"}
+      disableSubmit={isSubmitDisabled}
+
     >
       {/* <Box
         sx={{
@@ -100,10 +108,29 @@ function NewPageModal({ isOpened, onClose }) {
         }}
       > */}
       <Typography variant="h6" gutterBottom>
-        Choose a Slug for the New Page
+        <div>
+          You can delete a user account only before the user has activated it by changing their temporary password. Once the password is changed, the account becomes active and deletion is no longer possible.
+        </div>
+        <br />
+        <br />
+        <div>
+          Please type "{email}" to delete
+        </div>
+        <TextField
+          label="Type email address here."
+          variant="outlined"
+          fullWidth
+          value={input}
+          onChange={(e) => {
+            setInput(e.target.value);
+            handleDisableSubmit(e);
+          }}
+        />
       </Typography>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-        <Typography variant="body1" sx={{ mr: 1 }}>
+
+
+        {/* <Typography variant="body1" sx={{ mr: 1 }}>
           /p/
         </Typography>
         <TextField
@@ -112,11 +139,8 @@ function NewPageModal({ isOpened, onClose }) {
           fullWidth
           value={slug}
           onChange={(e) => setSlug(e.target.value)}
-        />
+        /> */}
       </Box>
-      <Button variant="contained" onClick={handleCreateHomePage} disable={hasHomePage}>
-        Create Home Page
-      </Button>
       {/* </Box> */}
     </InformationModal>
   )
@@ -127,4 +151,4 @@ function NewPageModal({ isOpened, onClose }) {
 //   onClose: PropTypes.func,
 // }
 
-export default NewPageModal
+export default DeleteUserModal

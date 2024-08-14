@@ -17,7 +17,8 @@ export default function getPermissionsByRoleId(d: dependencies) {
     // Sql
     // ===================================
 
-    const response = await backendRoleSql.getPermissionsByRoleId(where).catch(error => d.errorHandler(error, d.loggers))
+    const response = await backendRoleSql.getPermissionsByRoleId(where)
+    // .catch(error => d.errorHandler(error, d.loggers))
 
     return response
   }

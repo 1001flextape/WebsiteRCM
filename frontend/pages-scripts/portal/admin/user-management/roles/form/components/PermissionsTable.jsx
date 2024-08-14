@@ -7,7 +7,6 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
-import Checkbox from '@mui/material/Checkbox';
 import HeaderRow from '@/components/global/HeaderRow/HeaderRow.component';
 import RealTimeSwitchRow from '@/components/realtime/SwitchRow/SwitchRow.realtime';
 
@@ -327,7 +326,7 @@ const PermissionsTable = ({
                     Delete */}
                     <RealTimeSwitchRow
                       isDisabled={isDisabled}
-                      label={"Delete"}
+                      label={"Delete / Deactivate"}
                       // label, data, entity, onChange
                       data={isUserManagementDelete}
                       entity={entity}

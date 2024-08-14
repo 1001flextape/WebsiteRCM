@@ -24,7 +24,7 @@ const style = {
   color: '#212121',
 };
 
-export default function InformationModal({ isOpened, onClose, onSubmit, children, disableSubmit, header }) {
+export default function InformationModal({ isOpened, onClose, onSubmit, children, disableSubmit, header, submitLabel, hideSumbitButton }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(isOpened);
 
@@ -87,14 +87,17 @@ export default function InformationModal({ isOpened, onClose, onSubmit, children
                 Cancel
               </Button>
 
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{ background: theme.palette.info.main, color: theme.palette.info.contrastText, borderColor: theme.palette.info.contrastText }}
-                disabled={disableSubmit}
-              >
-                Got it!
-              </Button>
+              {!hideSumbitButton && (
+
+                <Button
+                  type="submit"
+                  variant="contained"
+                  sx={{ background: theme.palette.info.main, color: theme.palette.info.contrastText, borderColor: theme.palette.info.contrastText }}
+                  disabled={disableSubmit}
+                >
+                  {submitLabel || "Got it!"}
+                </Button>
+              )}
             </div>
           </Box>
 

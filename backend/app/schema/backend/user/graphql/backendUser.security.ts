@@ -24,8 +24,8 @@ const backendPermissionSecurity = {
     backendUserManyPermission_setList: isAuthenticated,
     backendUserManyRole_setList: isAuthenticated,
 
-    backendUserProfile_deactivateOne: and(isAuthenticated, isAdmin),
-    backendUserProfile_reactivateOne: and(isAuthenticated, isAdmin),
+    backendUser_deactivateOne: isAuthenticated,
+    backendUser_reactivateOne: isAuthenticated,
     backendUserProfile_updateOne: and(isAuthenticated, isAdmin),
   }
 }

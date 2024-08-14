@@ -167,8 +167,8 @@ const userType = gql`
     backendUserManyPermission_setList(list: [UserManyPermissionInput]): GlobalSuccessType
     backendUserManyRole_setList(list: [UserManyRoleInput]): GlobalSuccessType
 
-    backendUserProfile_deactivateOne(id: ID!): GlobalSuccessType
-    backendUserProfile_reactivateOne(id: ID!): GlobalSuccessType
+    backendUser_deactivateOne(id: ID!): GlobalSuccessType
+    backendUser_reactivateOne(id: ID!): GlobalSuccessType
     backendUserProfile_updateOne(id: ID!, callByType: String, circleColor: String, firstName: String, labelColor: String, lastName: String, picture: String, username: String) : UserType
  }
 `;

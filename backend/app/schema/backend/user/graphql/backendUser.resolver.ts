@@ -227,7 +227,7 @@ const userResolver = {
         return graphqlError(response)
       }
     },
-    backendUserProfile_deactivateOne: async (parent, args, ctx) => {
+    backendUser_deactivateOne: async (parent, args, ctx) => {
 
       const main = makeBackendUserMain(ctx.d)
 
@@ -242,7 +242,7 @@ const userResolver = {
         return graphqlError(response)
       }
     },
-    backendUserProfile_reactivateOne: async (parent, args, ctx) => {
+    backendUser_reactivateOne: async (parent, args, ctx) => {
 
       const main = makeBackendUserMain(ctx.d)
 

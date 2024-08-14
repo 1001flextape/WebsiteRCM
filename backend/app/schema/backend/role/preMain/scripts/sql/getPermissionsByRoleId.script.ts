@@ -23,7 +23,10 @@ export default function getPermissionsByRoleId(d: dependencies) {
           },
         ],
         transaction: d.dbTransaction,
-      }).catch(error => d.errorHandler(error, d.loggers));
+        logging: true,
+      })
+      
+      // .catch(error => d.errorHandler(error, d.loggers));
 
       // Extract Model<backendPermission> instances from the results
       const backendPermissions = permissions.map((permission: backendRoleManyPermission) => permission.permission as Model<backendPermission>);

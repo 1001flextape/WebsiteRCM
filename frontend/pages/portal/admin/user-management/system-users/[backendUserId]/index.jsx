@@ -37,6 +37,8 @@ import UserProvider, { UserContext } from '@/pages-scripts/portal/admin/user-man
 import UserChip from '@/components/chip/user.chip';
 import RealTimeSwitchRow from '@/components/realtime/SwitchRow/SwitchRow.realtime';
 import RealTimeSelectRow from '@/components/realtime/SelectRow/SelectRow.realtime';
+import DeleteUserModal from '@/pages-scripts/portal/admin/user-management/system-users/form/modals/DeleteUser.modal';
+import DeactivateUserModal from '@/pages-scripts/portal/admin/user-management/system-users/form/modals/DeactivateUser.modal';
 
 const Page = () => {
   const theme = useTheme()
@@ -109,6 +111,9 @@ const Page = () => {
     isUserManagementUpdateValue, setIsUserManagementUpdateValue,
     isUserManagementDelete, setIsUserManagementDelete,
     isUserManagementDeleteValue, setIsUserManagementDeleteValue,
+
+    deleteUserModal, setDeleteUserModal,
+    deactivateUserModal, setDeactivateUserModal,
 
 
     //functions
@@ -257,7 +262,14 @@ const Page = () => {
                     <TableCell sx={{ width: "200px" }}>Is Deactivated</TableCell>
                     <TableCell>
 
-                      <RealTimeSwitchRow
+                      {isDeactivated.booleanValue && (
+                        <span>Yes <small>(User doesn't have access)</small></span>
+                      )}
+
+                      {!isDeactivated.booleanValue && (
+                        <span>No <small>(User has access)</small></span>
+                      )}
+                      {/* <RealTimeSwitchRow
                         label={""}
                         // label, data, entity, onChange
                         data={isDeactivated}
@@ -265,7 +277,7 @@ const Page = () => {
                         onChange={(value) => {
                           setIsDeactivated(value)
                         }}
-                      />
+                      /> */}
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -457,6 +469,118 @@ const Page = () => {
           <br />
           <br />
           <br />
+          <br />
+          <br />
+          <br />
+          <br />
+
+
+          <Paper
+            elevation={3}
+            sx={{
+            }}
+          >
+            <List sx={{
+              p: 0,
+            }}>
+              <HeaderRow label="Danger Zone" />
+            </List>
+            <TableContainer component={Paper} sx={{ background: "initial" }}>
+              <Table>
+                <TableBody>
+                  <TableRow>
+                    <TableCell sx={{ width: "200px" }}>{isDeactivated.booleanValue ? "Reactivate" : "Deactivate"}</TableCell>
+                    <TableCell>
+                      {isDeactivated.booleanValue && (
+                        <>
+                        <Button
+                          variant="contained"
+                          color="success"
+                          onClick={() => {
+                            setDeactivateUserModal(prevState => ({
+                              ...prevState,
+                              isOpened: true
+                            }))
+  
+                          }}                      >
+                          Reactivated User
+                        </Button>
+  
+                        </>
+                      )}
+                      {!isDeactivated.booleanValue && (
+                        <>
+                      <Button
+                        variant="contained"
+                        color="error"
+                        startIcon={<DeleteIcon />}
+                        onClick={() => {
+                          setDeactivateUserModal(prevState => ({
+                            ...prevState,
+                            isOpened: true
+                          }))
+
+                        }}                      >
+                        Deactivated User
+                      </Button>
+                      </>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                  {/* {temporaryPassword && (
+                    <TableRow>
+                      <TableCell sx={{ width: "200px" }}>Delete</TableCell>
+                      <TableCell>
+                        <Button
+                          variant="contained"
+                          color="error"
+                          startIcon={<DeleteIcon />}
+                          onClick={() => {
+                            setDeleteUserModal(prevState => ({
+                              ...prevState,
+                              isOpened: true
+                            }))
+
+                          }}
+                        >
+                          Delete User
+                        </Button>
+
+                      </TableCell>
+                    </TableRow>
+                  )} */}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
+
+          <br />
+          <br />
+          <br />
+
+
+          {/* deleteUserModal, setDeleteUserModal,
+    deactivateUserModal, setDeactivateUserModal, */}
+
+          <DeleteUserModal
+            isOpened={deleteUserModal.isOpened}
+            onClose={() => {
+              setDeleteUserModal(prevState => ({
+                ...prevState,
+                isOpened: false
+              }))
+            }}
+          />
+          <DeactivateUserModal
+            isOpened={deactivateUserModal.isOpened}
+            onClose={() => {
+              setDeactivateUserModal(prevState => ({
+                ...prevState,
+                isOpened: false
+              }))
+            }}
+          />
+
         </>
       )}
     </Box>

@@ -9,6 +9,9 @@ import { postUserIsAdminGraphQL } from '../store/postAdmin.store';
 import { enqueueSnackbar } from 'notistack';
 import { postUserRoleGraphQL } from '../store/postPermission.store';
 import { postUserIsCustomPermissionseGraphQL } from '../store/postCustomPermission.store';
+import { postDeleteUserGraphQL } from '../store/postDeleteUser.store';
+import { postDeactivateUserGraphQL } from '../store/postDeactivateUser.store';
+import { postReactivateUserGraphQL } from '../store/postReactivateUser.store';
 
 export const UserContext = React.createContext();
 
@@ -25,7 +28,7 @@ export function UserProvider({ children }) {
 
   // application variables
   const [isRolesAndPermissionsShowing, setIsRolesAndPermissionsShowing] = useState(false)
-  const [isPermissionsButtonsDisabled, setIsPermissionsButtonsDisabled] = useState(false)
+  const [isPermissionsButtonsDisabled, setIsPermissionsButtonsDisabled] = useState(true)
 
   // non realtime props
   const [role, setRole] = useState([])
@@ -47,6 +50,7 @@ export function UserProvider({ children }) {
   const [isAdmin, setIsAdmin] = useState("")
   const [isAdminValue, setIsAdminValue] = useState("")
   const [isDeactivated, setIsDeactivated] = useState("")
+  const [isDeactivatedState, setIsDeactivatedState] = useState("")
   const [isDeactivatedValue, setIsDeactivatedValue] = useState("")
   const [id, setId] = useState()
   const [isDashboardRead, setIsDashboardRead] = useState(false);
@@ -78,6 +82,12 @@ export function UserProvider({ children }) {
   const [isUserManagementDelete, setIsUserManagementDelete] = useState(false);
   const [isUserManagementDeleteValue, setIsUserManagementDeleteValue] = useState(false);
 
+  const [deleteUserModal, setDeleteUserModal] = useState({
+    isOpened: false,
+  })
+  const [deactivateUserModal, setDeactivateUserModal] = useState({
+    isOpened: false,
+  })
 
   useEffect(() => {
     if (backendUserId) {
@@ -110,6 +120,7 @@ export function UserProvider({ children }) {
         setIsAdmin(data.isAdmin)
         setIsRolesAndPermissionsShowing(!data.Admin)
         setIsDeactivated(data.isDeactivated)
+        setIsDeactivatedState(data.isDeactivated)
 
 
 
@@ -147,6 +158,47 @@ export function UserProvider({ children }) {
       });
     }
   }, [backendUserId]);
+
+  const deleteUser = () => {
+    postDeleteUserGraphQL({
+      id: backendUserId,
+    }).then(() => {
+      navigate("/portal/admin/user-management/system-users/")
+    })
+  }
+
+  const reactivateUser = () => {
+    postReactivateUserGraphQL({
+      id: backendUserId,
+    }).then(() => {
+      setIsDeactivated(prevState => ({
+        ...prevState,
+        booleanValue: false,
+      }))
+      setIsDeactivatedState(prevState => ({
+        ...prevState,
+        booleanValue: false
+      }))
+      enqueueSnackbar("User Reactivated")
+    })
+  }
+
+  const deactivateUser = () => {
+    postDeactivateUserGraphQL({
+      id: backendUserId,
+    }).then(() => {
+      setIsDeactivated(prevState => ({
+        ...prevState,
+        booleanValue: true,
+      }))
+      setIsDeactivatedState(prevState => ({
+        ...prevState,
+        booleanValue: true
+      }))
+      enqueueSnackbar("User Deactivated")
+    })
+  }
+
 
   const onClickMediaManageInboxOnly = (booleanValue) => {
     if (booleanValue) {
@@ -666,6 +718,7 @@ export function UserProvider({ children }) {
             isAdmin, setIsAdmin,
             isAdminValue, setIsAdminValue,
             isDeactivated, setIsDeactivated,
+            isDeactivatedState, setIsDeactivatedState,
             isDeactivatedValue, setIsDeactivatedValue,
             isDashboardRead, setIsDashboardRead,
             isDashboardReadValue, setIsDashboardReadValue,
@@ -697,6 +750,9 @@ export function UserProvider({ children }) {
             isUserManagementDeleteValue, setIsUserManagementDeleteValue,
 
 
+            deleteUserModal, setDeleteUserModal,
+            deactivateUserModal, setDeactivateUserModal,
+
             //functions
             changeRole,
 
@@ -712,6 +768,9 @@ export function UserProvider({ children }) {
             onClickUserManagementDelete,
 
             save,
+            deleteUser,
+            reactivateUser,
+            deactivateUser,
           }}>
             {children}
           </UserContext.Provider>
