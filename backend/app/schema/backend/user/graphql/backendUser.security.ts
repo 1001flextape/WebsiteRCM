@@ -26,7 +26,7 @@ const backendPermissionSecurity = {
 
     backendUser_deactivateOne: isAuthenticated,
     backendUser_reactivateOne: isAuthenticated,
-    backendUserProfile_updateOne: and(isAuthenticated, isAdmin),
+    backendUserProfile_updateOne: isAuthenticated,
   }
 }
 
