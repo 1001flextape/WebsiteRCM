@@ -21,7 +21,11 @@ export default function upsertOne(d: dependencies) {
 
       if (instance) {
         // Update the existing record
-        instance = await instance.update(args, {
+        instance = await instance.update(
+          {
+            ...args,
+            isChanged: true,
+          }, {
           transaction: d.dbTransaction,
         });
       } else {

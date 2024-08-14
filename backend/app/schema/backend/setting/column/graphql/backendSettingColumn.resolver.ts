@@ -40,6 +40,7 @@ const backendSettingColumnGqlResolver = {
       const response = await main.upsertOne({
         width: args.width,
         isReady: args.isReady,
+        isChanged: true,
       })
 
       if (response?.success) {

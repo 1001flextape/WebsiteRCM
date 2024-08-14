@@ -40,6 +40,7 @@ const backendSettingFontGqlResolver = {
       const response = await main.upsertOne({
         font: args.font,
         isReady: args.isReady,
+        isChanged: true,
       })
 
       if (response?.success) {

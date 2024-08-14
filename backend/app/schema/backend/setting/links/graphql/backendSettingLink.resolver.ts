@@ -42,6 +42,7 @@ const backendSettingLinkGqlResolver = {
         description: args.description,
         image: args.image,
         isReady: args.isReady,
+        isChanged: true,
       })
 
       if (response?.success) {

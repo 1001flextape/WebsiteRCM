@@ -42,6 +42,7 @@ const backendSettingSiteGqlResolver = {
         favicon: args.favicon,
         tab: args.tab,
         isReady: args.isReady,
+        isChanged: true,
       })
 
       if (response?.success) {

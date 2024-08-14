@@ -23,14 +23,24 @@ export default function upsertOne(d: dependencies) {
 
       if (instance) {
         // Update the existing record
-        instance = await instance.update(args, {
-          transaction: d.dbTransaction,
-        });
+        instance = await instance.update(
+          {
+            ...args,
+            isChanged: true,
+          },
+          {
+            transaction: d.dbTransaction,
+          });
       } else {
         // Create a new record
-        instance = await db.backendSettingLink.create(args, {
-          transaction: d.dbTransaction,
-        });
+        instance = await db.backendSettingLink.create(
+          {
+            ...args,
+            isChanged: true,
+          },
+          {
+            transaction: d.dbTransaction,
+          });
       }
 
       return {

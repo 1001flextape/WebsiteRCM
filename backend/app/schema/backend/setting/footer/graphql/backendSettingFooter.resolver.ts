@@ -57,6 +57,7 @@ const backendSettingFooterGqlResolver = {
         isReady: args.isReady,
         selectionType: args.selectionType,
         selectionId: args.selectionId,
+        isChanged: true,
       })
 
       if (response?.success) {

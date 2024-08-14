@@ -103,6 +103,7 @@ const backendSettingColorsGqlResolver = {
         color7Dark3: args.color7Dark3,
         color7Dark4: args.color7Dark4,
         isReady: args.isReady,
+        isChanged: true,
       })
 
       if (response?.success) {

@@ -112,6 +112,7 @@ export default function upsertOne(d: dependencies) {
         // Update the existing record
         instance = await instance.update({
           ...args,
+          isChanged: true,
         }, {
           transaction: d.dbTransaction,
         });
@@ -119,6 +120,7 @@ export default function upsertOne(d: dependencies) {
         // Create a new record
         instance = await db.backendSettingColors.create({
           ...args,
+          isChanged: true,
         }, {
           transaction: d.dbTransaction,
         });
