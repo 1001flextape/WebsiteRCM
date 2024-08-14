@@ -1,7 +1,7 @@
 'use client'
 
 // libraries
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation'
 
@@ -25,6 +25,7 @@ import Typography from '@mui/material/Typography';
 // icons
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { doesAUserExistGraphQL } from '@/pages-scripts/auth/signin/doesAUserExist.graphql';
 
 function isEmpty(obj) {
   return Object.keys(obj).length === 0;
@@ -34,9 +35,11 @@ function Page({ searchParams }) {
   const theme = useTheme();
   const router = useRouter();
 
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState("")
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("")
-  const [messageBoxErrorMessage, setMessageBoxErrorMessage] = React.useState("")
+  const [isCreateUserShowing, setIsCreateUserShowing] = useState(false)
+
+  const [emailErrorMessage, setEmailErrorMessage] = useState("")
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState("")
+  const [messageBoxErrorMessage, setMessageBoxErrorMessage] = useState("")
 
   console.log("searchParams", searchParams)
 
@@ -103,6 +106,17 @@ function Page({ searchParams }) {
       }
     })
   };
+
+  useEffect(() => {
+    doesAUserExistGraphQL().then(response => {
+
+      const thereIsAUser = response.data.backendAuth_doesAUserExist.result
+
+      if (!thereIsAUser) {
+        setIsCreateUserShowing(true)
+      }
+    })
+  }, [])
 
   return (
     <>
@@ -203,11 +217,13 @@ function Page({ searchParams }) {
                 Forgot password?
               </Link>
             </Grid>
-            <Grid item>
-              <Link href="/auth/signup/">
-                Don't have an account? Sign Up.
-              </Link>
-            </Grid>
+            {isCreateUserShowing && (
+              <Grid item>
+                <Link href="/auth/signup/">
+                  Sign Up
+                </Link>
+              </Grid>
+            )}
           </Grid>
         </Box>
       </Box>

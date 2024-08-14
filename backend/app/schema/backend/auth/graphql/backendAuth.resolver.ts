@@ -2,6 +2,20 @@ import graphqlError from "../../../utils/graphql/grarphql.errorhandler";
 import makeBackendAuthMain from "../main/backendAuth.main";
 
 const backend_authResolver = {
+  Query: {
+    backendAuth_doesAUserExist: async (parent, args, ctx) => {
+      const main = makeBackendAuthMain(ctx.d)
+
+      const response = await main.doesAUserExist()
+
+      if (response?.success) {
+        return response
+
+      } else {
+        return graphqlError(response)
+      }
+    },
+  },
   Mutation: {
     backendAuth_signup: async (parent, args, ctx) => {
       const main = makeBackendAuthMain(ctx.d)

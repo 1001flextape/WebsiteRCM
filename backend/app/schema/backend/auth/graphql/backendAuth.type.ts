@@ -10,6 +10,10 @@ const backendAuthGqlType = gql`
     token: String
   }
 
+  type Query {
+    backendAuth_doesAUserExist: ReturningSuccessObj
+  }
+
   type Mutation {
     backendAuth_signup(email: String!, password: String!, confirmPassword: String!): TokenType
     backendAuth_signin(email: String!, password: String!): TokenType

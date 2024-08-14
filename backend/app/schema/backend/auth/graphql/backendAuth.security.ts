@@ -3,7 +3,7 @@ import { isPublic, isAuthenticated, isAdmin, hasPermissions } from "../../../../
 
 const backendAuthSecurity = {
   Query: {
-
+    backendAuth_doesAUserExist: isPublic
   },
   Mutation: {
     backendAuth_signup: isPublic,
