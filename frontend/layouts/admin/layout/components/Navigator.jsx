@@ -65,6 +65,10 @@ export default function Navigator(props) {
     navigate(href)
   }
 
+  const handleSignOut = () => {
+    document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    navigate("/auth/signin")
+  };
 
 
   // React.useEffect(() => {
@@ -368,6 +372,7 @@ export default function Navigator(props) {
                     // lineHeight: 1.1,
                     color: theme.palette.grey[900]
                   }}
+                  onClick={handleSignOut}
                 >
                   Sign out
                 </Typography>
