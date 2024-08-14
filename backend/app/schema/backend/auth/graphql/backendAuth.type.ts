@@ -16,6 +16,7 @@ const backendAuthGqlType = gql`
     backendAuth_devSignin(email: String!, password: String!): TokenType
     backendAuth_forgotPassword(email: String!) : ReturningSuccessObj
     backendAuth_isTokenValid(token: String!) : ReturningSuccessObj
+    backendAuth_changeTemporaryPassword(email: String!, temporaryPassword: String!, password: String!, confirmPassword: String!): TokenType
   }
 `
 

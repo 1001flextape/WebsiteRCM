@@ -5,6 +5,7 @@ import forgotPassword from "./scripts/main/forgotPassword.script"
 import signin from "./scripts/main/signIn.script"
 import signup from "./scripts/main/signUp.script"
 import isTokenValid from "./scripts/main/isTokenValid.script"
+import changeTemporaryPassword from "./scripts/main/changeTemporaryPassword.script"
 
 export default function makeBackendAuthMain(d: dependencies) {
 
@@ -13,5 +14,6 @@ export default function makeBackendAuthMain(d: dependencies) {
     signin: signin(d),
     signup: signup(d),
     isTokenValid: isTokenValid(d),
+    changeTemporaryPassword: changeTemporaryPassword(d),
   }
 }

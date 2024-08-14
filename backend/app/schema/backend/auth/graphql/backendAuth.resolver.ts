@@ -62,6 +62,23 @@ const backend_authResolver = {
         return graphqlError(response)
       }
     },
+    backendAuth_changeTemporaryPassword: async (parent, args, ctx) => {
+      const main = makeBackendAuthMain(ctx.d)
+
+      const response = await main.changeTemporaryPassword({
+        email: args.email,
+        temporaryPassword: args.temporaryPassword,
+        password: args.password,
+        confirmPassword: args.confirmPassword,
+      })
+
+      if (response?.success) {
+        return response.data
+
+      } else {
+        return graphqlError(response)
+      }
+    },
   },
 };
 

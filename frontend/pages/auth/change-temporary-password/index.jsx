@@ -25,6 +25,7 @@ import Typography from '@mui/material/Typography';
 // icons
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { changeTemporaryPasswordGraphQL } from '@/pages-scripts/auth/change-temporary-password/changeTemporaryPassword.graphql';
 
 function isEmpty(obj) {
   return Object.keys(obj).length === 0;
@@ -34,22 +35,31 @@ function Page({ searchParams }) {
   const theme = useTheme();
   const router = useRouter();
 
+  const [messageBoxErrorMessage, setMessageBoxErrorMessage] = React.useState("")
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("")
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("")
-  const [messageBoxErrorMessage, setMessageBoxErrorMessage] = React.useState("")
+  const [temporaryPasswordErrorMessage, setTemporaryPasswordErrorMessage] = React.useState("")
+  const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] = React.useState("")
 
   console.log("searchParams", searchParams)
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    setEmailErrorMessage("")
-    setPasswordErrorMessage("")
     setMessageBoxErrorMessage("")
     const data = new FormData(event.currentTarget);
+    setEmailErrorMessage("")
+    setTemporaryPasswordErrorMessage("")
+    setPasswordErrorMessage("")
+    setConfirmPasswordErrorMessage("")
 
     if (data.get('email') === "") {
       setEmailErrorMessage("Email is required")
+      return;
+    }
+
+    if (data.get('temporary-password') === "") {
+      setTemporaryPasswordErrorMessage("Temporary password is required")
       return;
     }
 
@@ -58,16 +68,25 @@ function Page({ searchParams }) {
       return;
     }
 
-    signInGraphQL({
+    if (data.get('confirm-password') === "") {
+      setConfirmPasswordErrorMessage("Confirm password is required")
+      return;
+    }
+
+    changeTemporaryPasswordGraphQL({
       email: data.get('email'),
+      temporaryPassword: data.get("temporary-password"),
       password: data.get('password'),
+      confirmPassword: data.get('confirm-password')
     }).then(response => {
 
       const result = processGraphQLErrors({ response })
 
       if (result.success) {
+
+        console.log('response.data.backendAuth_changeTemporaryPassword.token,', response.data.backendAuth_changeTemporaryPassword.token)
         setUserToken({
-          token: response.data.backendAuth_signin.token,
+          token: response.data.backendAuth_changeTemporaryPassword.token,
         })
         if (!searchParams || isEmpty(searchParams)) {
           router.push("/portal/dashboard/")
@@ -82,19 +101,32 @@ function Page({ searchParams }) {
             setMessageBoxErrorMessage(result.message)
             break;
           case "0001":
-            setEmailErrorMessage(result.message)
+            setMessageBoxErrorMessage(result.message)
             break;
           case "0002":
-            setEmailErrorMessage(result.message)
+            setMessageBoxErrorMessage(result.message)
             break;
           case "0003":
-            setPasswordErrorMessage(result.message)
+            setMessageBoxErrorMessage(result.message)
             break;
           case "0004":
-            setPasswordErrorMessage(result.message)
+            setMessageBoxErrorMessage(result.message)
             break;
-          case "1000":
-            router.push(`/auth/change-temporary-password/`)
+          case "0005":
+            setMessageBoxErrorMessage(result.message)
+            break;
+          case "0006":
+            setMessageBoxErrorMessage(result.message)
+            break;
+          case "0007":
+            setMessageBoxErrorMessage(result.message)
+            break;
+          case "0008":
+            setMessageBoxErrorMessage(result.message)
+            break;
+          case "0009":
+            setMessageBoxErrorMessage(result.message)
+            break;
 
         }
       }
@@ -111,25 +143,8 @@ function Page({ searchParams }) {
           flexDirection: 'row',
         }}
       >
-        <Typography component="h2" variant="h6">
-          <Link href="/">
-            <div
-              style={{
-                display: "flex",
-                color: theme.palette.grey[600],
-              }}
-            >
-              <div>
-                <ArrowCircleLeftIcon style={{ marginRight: "3px", fontSize: "30px" }} />
-              </div>
-              <div>
-                Back
-              </div>
-            </div>
-          </Link>
-        </Typography>
-      </Box>
 
+      </Box>
 
       <Box
         sx={{
@@ -144,7 +159,7 @@ function Page({ searchParams }) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Change Temporary Password
         </Typography>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
           <TextField
@@ -152,32 +167,46 @@ function Page({ searchParams }) {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label="Email"
             name="email"
-            autoComplete="email"
+            type="email"
             autoFocus
             error={emailErrorMessage.length}
             helperText={emailErrorMessage}
-
           />
           <TextField
             margin="normal"
             required
             fullWidth
-            name="password"
-            label="Password"
+            id="temporary-password"
+            label="Temporary Password"
+            name="temporary-password"
             type="password"
+            error={temporaryPasswordErrorMessage.length}
+            helperText={temporaryPasswordErrorMessage}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
             id="password"
-            autoComplete="current-password"
+            label="Password"
+            name="password"
+            type="password"
             error={passwordErrorMessage.length}
             helperText={passwordErrorMessage}
           />
-          <FormControlLabel
-            control={<Checkbox name="remember" id="remember" value="remember" color="primary"
-            // value={rememberMe} 
-            // onChange={event => setRememberMe(event.target.value)} 
-            />}
-            label="Remember me"
+          <TextField
+            id="confirm-password"
+            margin="normal"
+            required
+            fullWidth
+            name="confirm-password"
+            label="Confirm Password"
+            type="password"
+            error={confirmPasswordErrorMessage.length}
+            helperText={confirmPasswordErrorMessage}
+
           />
 
           {messageBoxErrorMessage && (
@@ -192,20 +221,8 @@ function Page({ searchParams }) {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign In
+            Change Password
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="/auth/forgot-password">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="/auth/signup/">
-                Don't have an account? Sign Up.
-              </Link>
-            </Grid>
-          </Grid>
         </Box>
       </Box>
     </>

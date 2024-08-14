@@ -11,6 +11,7 @@ const backendAuthSecurity = {
     backendAuth_devSignin: isPublic,
     backendAuth_forgotPassword: isPublic,
     backendAuth_isTokenValid: isPublic,
+    backendAuth_changeTemporaryPassword: isPublic,
   }
 }
 

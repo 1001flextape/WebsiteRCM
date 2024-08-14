@@ -7,7 +7,8 @@ import makeBackendUserMain from "../../../../user/main/backendUser.main"
 import makeBackendUserValidation from "../../../../user/preMain/backendUser.validation"
 
 type returningTokenObj = {
-  token: string
+  token?: string,
+  userId?: string,
 }
 
 type input = {
@@ -83,6 +84,27 @@ export default function signIn(d: dependencies) {
     const user = await backendUserMain.getOneByEmail({
       email: args.email,
     })
+
+    // check for temporary password:
+    if (user.data?.dataValues?.temporaryPassword) {
+      if (user.data?.dataValues?.temporaryPassword === args.password) {
+
+        return endMainFromError({
+          hint: "Change Temporary Password.",
+          errorIdentifier: "backendAuth_signIn_error:1000",
+          data: {
+            userId: user.data.dataValues.id,
+          }
+        })
+      } else {
+        return endMainFromError({
+          hint: "Authorization Failed",
+          errorIdentifier: "backendAuth_signIn_error:0000"
+        })
+      }
+
+    }
+
 
     const isPasswordCorrect = await backendUserValidation.isPasswordCorrect({
       encryptedPassword: user.data.dataValues.password,
