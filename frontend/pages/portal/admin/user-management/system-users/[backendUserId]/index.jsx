@@ -211,7 +211,7 @@ const Page = () => {
               }}
               onClick={handleBack}
             >
-              System Users
+              Users
             </span>
             <Typography color="textPrimary">{email}</Typography>
           </Breadcrumbs>
@@ -377,7 +377,7 @@ const Page = () => {
               </Paper>
               <br />
 
-              <p>Must select role "Custom Permissions" to changed permission table.</p>
+              <p>Must select role "Custom Permissions" to change permissions.</p>
               <PermissionsTable
                 entity={entity}
                 isDisabled={isPermissionsButtonsDisabled}
