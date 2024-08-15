@@ -20,6 +20,8 @@ import InputLabel from '@mui/material/InputLabel';
 import { postSiteDesignerDiscussionComment_addOne_GraphQL } from '../store/DiscussionCommentAdd.store';
 import { getSiteDesignerDiscussionComment_getOneById_GraphQL } from '../store/DiscussionCommentGetById.store';
 import { SiteDesignerDiscussionContext } from '../context/siteDesignerDiscussion.context';
+import dynamic from 'next/dynamic';
+const QuillEditor = dynamic(() => import('@/components/form/quill-editor/QuillEditor'), { ssr: false });
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -55,7 +57,7 @@ export default function InputCard() {
         const comment = result.data.backendSiteDesignerDiscussionComment_getOneById
         const newComments = [...siteDesignerDiscussion.comments]
         newComments.push(comment)
-        
+
         setSiteDesignerDiscussion(prevState => ({
           ...prevState,
           comments: newComments
@@ -78,15 +80,19 @@ export default function InputCard() {
           </Grid>
           <Grid item xs={11}>
 
-            <FormControl variant="filled" sx={{ width: "100%" }}>
-              <InputLabel htmlFor="component-filled">Respond</InputLabel>
-              <FilledInput
+            <p>Respond</p>
+
+            <QuillEditor
+              onContentChange={(content) => setPost(content)}
+            />
+
+            {/* <FilledInput
                 id="component-filled"
                 multiline rows={4}
                 value={post}
                 onChange={event => setPost(event.target.value)}
-              />
-              {/* <TextField
+              /> */}
+            {/* <TextField
                 id="standard-multiline-static"
                 label="Repos"
                 multiline
@@ -94,7 +100,6 @@ export default function InputCard() {
                 defaultValue="Default Value"
                 variant="standard"
               /> */}
-            </FormControl>
             <br />
             <br />
             <Button variant='contained' onClick={handleSubmit}>Post</Button>

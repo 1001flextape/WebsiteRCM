@@ -19,12 +19,21 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { realtimeLink } from '@/utils/realtime/link';
+import DeletePostModal from '@/pages-scripts/portal/site/discussion/modals/DeletePost.modal';
+import DeleteCommentModal from '@/pages-scripts/portal/site/discussion/modals/DeleteComment.modal';
+import EditCommentModal from '@/pages-scripts/portal/site/discussion/modals/EditComment.modal';
+import EditPostModal from '@/pages-scripts/portal/site/discussion/modals/EditPost.modal';
 
 const DiscussionPage = () => {
   const router = useRouter()
   const { setTabs, idChip, panelMeetingDoc, setPanelMeetingDoc } = useContext(AdminLayoutContext)
 
-  const { siteDesignerDiscussion, setSiteDesignerDiscussion } = useContext(SiteDesignerDiscussionContext)
+  const {
+    siteDesignerDiscussion, setSiteDesignerDiscussion,
+    editPostModalTitle, setEditPostModalTitle,
+    editPostModalMessage, setEditPostModalMessage,
+    editCommentModalMessage, setEditCommentModalMessage,
+  } = useContext(SiteDesignerDiscussionContext)
 
   const [pageVar, setPageVar] = useState(1)
   const [pageSizeVar, setPageSizeVar] = useState(25)
@@ -123,17 +132,80 @@ const DiscussionPage = () => {
             />
           ))}
           {/* <PostCard /> */}
+          <NewPostModal
+            isOpened={siteDesignerDiscussion.modal_isNewPostModalOpened}
+            onClose={() => {
+              setSiteDesignerDiscussion(prevState => ({
+                ...prevState,
+                modal_isNewPostModalOpened: false,
+              }))
+            }}
+          />
+
+
+
+
+
+
+
+
+
+
+
+
+          <EditPostModal
+            isOpened={siteDesignerDiscussion.modal_isEditPostModalOpened}
+            onClose={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              setSiteDesignerDiscussion(prevState => ({
+                ...prevState,
+                modal_isEditPostModalOpened: false,
+              }))
+            }}
+
+          />
+
+          <EditCommentModal
+            isOpened={siteDesignerDiscussion.modal_isEditCommentModalOpened}
+            onClose={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              setSiteDesignerDiscussion(prevState => ({
+                ...prevState,
+                modal_isEditCommentModalOpened: false,
+              }))
+            }}
+
+          />
+
+          <DeleteCommentModal
+            isOpened={siteDesignerDiscussion.modal_isDeleteCommentModalOpened}
+            onClose={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              setSiteDesignerDiscussion(prevState => ({
+                ...prevState,
+                modal_isDeleteCommentModalOpened: false,
+              }))
+            }}
+
+          />
+
+          <DeletePostModal
+            isOpened={siteDesignerDiscussion.modal_isDeletePostModalOpened}
+            onClose={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              setSiteDesignerDiscussion(prevState => ({
+                ...prevState,
+                modal_isDeletePostModalOpened: false,
+              }))
+            }}
+          />
+
         </>
       )}
-      <NewPostModal
-        isOpened={siteDesignerDiscussion.modal_isNewPostModalOpened}
-        onClose={() => {
-          setSiteDesignerDiscussion(prevState => ({
-            ...prevState,
-            modal_isNewPostModalOpened: false,
-          }))
-        }}
-      />
     </Box>
   )
 }

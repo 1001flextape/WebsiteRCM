@@ -1,5 +1,4 @@
-// libraries
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 // mine
@@ -8,45 +7,45 @@ import { postSiteDesignerDiscussionComment_deleteOne_GraphQL } from '../store/Di
 import { enqueueSnackbar } from 'notistack';
 import { SiteDesignerDiscussionContext } from '../context/siteDesignerDiscussion.context';
 
-//mui
-
-
 function DeleteCommentModal({ isOpened, onClose }) {
-  const router = useRouter()
-  const { siteDesignerDiscussion, setSiteDesignerDiscussion } = useContext(SiteDesignerDiscussionContext)
+  const router = useRouter();
+  const {
+    siteDesignerDiscussion, setSiteDesignerDiscussion,
 
-  const [post, setPost] = useState("")
+    //comments
+    deleteCommentModalId, setDeleteCommentModalId,
+  } = useContext(SiteDesignerDiscussionContext);
+
+  const [post, setPost] = useState("");
 
   const handleSubmit = (event) => {
     postSiteDesignerDiscussionComment_deleteOne_GraphQL({
-      id: siteDesignerDiscussion.selectedCommentId
+      id: deleteCommentModalId,
     }).then(result => {
       if (result.errors === undefined) {
-        const newComments = [...siteDesignerDiscussion.comments]
+        const newComments = [...siteDesignerDiscussion.comments];
 
         for (let i = 0; i < newComments.length; i++) {
           const comment = newComments[i];
 
           if (comment.id === siteDesignerDiscussion.selectedCommentId) {
-
-            newComments.splice(i, 1)
+            newComments.splice(i, 1);
 
             setSiteDesignerDiscussion(prevState => ({
               ...prevState,
-              comments: newComments
-            }))
+              comments: newComments,
+            }));
             break;
           }
         }
 
-        enqueueSnackbar("Comment deleted.")
+        enqueueSnackbar("Comment deleted.");
       } else {
-
-        enqueueSnackbar("COMMENT DID NOT DELETE. Please message IT.")
+        enqueueSnackbar("COMMENT DID NOT DELETE. Please message IT.");
       }
-    })
-    onClose(event)
-  }
+    });
+    onClose(event);
+  };
 
   useEffect(() => {
     if (siteDesignerDiscussion.selectedCommentId) {
@@ -54,12 +53,12 @@ function DeleteCommentModal({ isOpened, onClose }) {
         const comment = siteDesignerDiscussion.comments[i];
 
         if (comment.id === siteDesignerDiscussion.selectedCommentId) {
-          setPost(comment.post)
+          setPost(comment.post);
           break;
         }
       }
     }
-  }, [siteDesignerDiscussion])
+  }, [siteDesignerDiscussion]);
 
   return (
     <InformationModal
@@ -72,15 +71,11 @@ function DeleteCommentModal({ isOpened, onClose }) {
       <br />
       <p>Would you like to delete this comment?</p>
       <br />
-      {post}
-      <br/>
+      {/* Render the comment post as HTML */}
+      <div dangerouslySetInnerHTML={{ __html: post }} />
+      <br />
     </InformationModal>
-  )
+  );
 }
 
-// NewMeetingModal.propTypes = {
-//   isOpened: PropTypes.boolean,
-//   onClose: PropTypes.func,
-// }
-
-export default DeleteCommentModal
+export default DeleteCommentModal;

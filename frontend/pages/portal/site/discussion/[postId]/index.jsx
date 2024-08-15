@@ -20,6 +20,10 @@ import { getSiteDesignerDiscussion_getOneById_GraphQL } from '@/pages-scripts/po
 import SiteDesignerDiscussionProvider, { SiteDesignerDiscussionContext } from '@/pages-scripts/portal/site/discussion/context/siteDesignerDiscussion.context';
 import PostCard from '@/pages-scripts/portal/site/discussion/components/post.card';
 import { useTheme } from '@mui/material';
+import DeletePostModal from '@/pages-scripts/portal/site/discussion/modals/DeletePost.modal';
+import DeleteCommentModal from '@/pages-scripts/portal/site/discussion/modals/DeleteComment.modal';
+import EditCommentModal from '@/pages-scripts/portal/site/discussion/modals/EditComment.modal';
+import EditPostModal from '@/pages-scripts/portal/site/discussion/modals/EditPost.modal';
 
 
 const DiscussionPage = () => {
@@ -136,6 +140,65 @@ const DiscussionPage = () => {
           <InputCard />
         </>
       )}
+
+
+
+
+
+
+
+
+
+      <EditPostModal
+        isOpened={siteDesignerDiscussion.modal_isEditPostModalOpened}
+        onClose={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          setSiteDesignerDiscussion(prevState => ({
+            ...prevState,
+            modal_isEditPostModalOpened: false,
+          }))
+        }}
+
+      />
+
+      <EditCommentModal
+        isOpened={siteDesignerDiscussion.modal_isEditCommentModalOpened}
+        onClose={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          setSiteDesignerDiscussion(prevState => ({
+            ...prevState,
+            modal_isEditCommentModalOpened: false,
+          }))
+        }}
+
+      />
+
+      <DeleteCommentModal
+        isOpened={siteDesignerDiscussion.modal_isDeleteCommentModalOpened}
+        onClose={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          setSiteDesignerDiscussion(prevState => ({
+            ...prevState,
+            modal_isDeleteCommentModalOpened: false,
+          }))
+        }}
+
+      />
+
+      <DeletePostModal
+        isOpened={siteDesignerDiscussion.modal_isDeletePostModalOpened}
+        onClose={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          setSiteDesignerDiscussion(prevState => ({
+            ...prevState,
+            modal_isDeletePostModalOpened: false,
+          }))
+        }}
+      />
     </Box>
   )
 }

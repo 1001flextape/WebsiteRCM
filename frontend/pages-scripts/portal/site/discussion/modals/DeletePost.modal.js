@@ -1,5 +1,4 @@
-// libraries
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 // mine
@@ -10,49 +9,49 @@ import { postSiteDesignerDiscussion_deleteOne_GraphQL } from '../store/Discussio
 import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
 import { realtimeLink } from '@/utils/realtime/link';
 
-//mui
-
-
 function DeletePostModal({ isOpened, onClose }) {
-  const router = useRouter()
-  const { siteDesignerDiscussion, setSiteDesignerDiscussion } = useContext(SiteDesignerDiscussionContext)
-  const { setTabs, idChip, panelMeetingDoc, setPanelMeetingDoc } = useContext(AdminLayoutContext)
+  const router = useRouter();
+  const {
+    siteDesignerDiscussion, setSiteDesignerDiscussion,
 
-  const [title, setTitle]= useState("")
-  const [post, setPost] = useState("")
+    //post
+    deletePostModalId, setDeletePostModalId
+  } = useContext(SiteDesignerDiscussionContext);
+  const { setTabs, idChip, panelMeetingDoc, setPanelMeetingDoc } = useContext(AdminLayoutContext);
+
+  const [title, setTitle] = useState("");
+  const [post, setPost] = useState("");
 
   const handleSubmit = (event) => {
     postSiteDesignerDiscussion_deleteOne_GraphQL({
-      id: siteDesignerDiscussion.selectedPostId
+      id: deletePostModalId,
     }).then(result => {
       if (result.errors === undefined) {
-        const newPosts = [...siteDesignerDiscussion.posts]
+        const newPosts = [...siteDesignerDiscussion.posts];
 
         for (let i = 0; i < newPosts.length; i++) {
           const post = newPosts[i];
 
           if (post.id === siteDesignerDiscussion.selectedPostId) {
-
-            newPosts.splice(i, 1)
+            newPosts.splice(i, 1);
 
             setSiteDesignerDiscussion(prevState => ({
               ...prevState,
               posts: newPosts
-            }))
+            }));
             break;
           }
         }
 
-        enqueueSnackbar("Discussion deleted.")
-        navigatteToDiscussions()
+        enqueueSnackbar("Discussion deleted.");
+        navigatteToDiscussions();
 
       } else {
-
-        enqueueSnackbar("DISCUSSION DID NOT DELETE! Please message IT.")
+        enqueueSnackbar("DISCUSSION DID NOT DELETE! Please message IT.");
       }
-    })
-    onClose(event)
-  }
+    });
+    onClose(event);
+  };
 
   const navigatteToDiscussions = (event, info) => {
     realtimeLink({
@@ -62,8 +61,8 @@ function DeletePostModal({ isOpened, onClose }) {
       router,
       setPanelMeetingDoc,
       userId: idChip.id,
-    })
-  }
+    });
+  };
 
   useEffect(() => {
     if (siteDesignerDiscussion.selectedPostId) {
@@ -71,13 +70,13 @@ function DeletePostModal({ isOpened, onClose }) {
         const post = siteDesignerDiscussion.posts[i];
 
         if (post.id === siteDesignerDiscussion.selectedPostId) {
-          setPost(post.post)
-          setTitle(post.title)
+          setPost(post.post);
+          setTitle(post.title);
           break;
         }
       }
     }
-  }, [siteDesignerDiscussion])
+  }, [siteDesignerDiscussion]);
 
   return (
     <InformationModal
@@ -92,15 +91,11 @@ function DeletePostModal({ isOpened, onClose }) {
       <br />
       <h2>{title}</h2>
       <br />
-      {post}
+      {/* Render the post HTML safely */}
+      <div dangerouslySetInnerHTML={{ __html: post }} />
       <br />
     </InformationModal>
-  )
+  );
 }
 
-// NewMeetingModal.propTypes = {
-//   isOpened: PropTypes.boolean,
-//   onClose: PropTypes.func,
-// }
-
-export default DeletePostModal
+export default DeletePostModal;

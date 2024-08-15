@@ -1,42 +1,34 @@
-// libraries
-import React, { useContext, useState } from 'react'
-import { useRouter } from 'next/router';
+// NewPostModal.js
+'use client';
 
-// mine
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 import InformationModal from '@/components/modals/Information.modal';
 import { postSiteDesignerDiscussion_addOne_GraphQL } from '../store/DiscussionAdd.store';
-import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
-
-//mui
 import TextField from '@mui/material/TextField';
-import { realtimeLink } from '@/utils/realtime/link';
+// import QuillEditor from '@/components/form/quill-editor/QuillEditor';
 
+// Dynamically import QuillEditor only when needed (on modal open)
+const QuillEditor = dynamic(() => import('@/components/form/quill-editor/QuillEditor'), { ssr: false });
 
 function NewPostModal({ isOpened, onClose }) {
-  const { idChip, panelMeetingDoc, setPanelMeetingDoc } = useContext(AdminLayoutContext)
   const router = useRouter();
+  const [title, setTitle] = useState('');
+  const [post, setPost] = useState('');
 
-  const [title, setTitle] = useState('')
-  const [post, setPost] = useState('')
-
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
     postSiteDesignerDiscussion_addOne_GraphQL({
       post,
       title,
-    }).then(result => {
-      //change page with realTimeLink
-      const newConvo = result.data.backendSiteDesignerDiscussion_addOne
-      realtimeLink({
-        to: `/portal/site/discussion/${newConvo.id}`,
-        meetingId: panelMeetingDoc.id,
-        leaderUserId: panelMeetingDoc.leader?.id,
-        router,
-        setPanelMeetingDoc,
-        userId: idChip.id,
-      })
-    })
-    onClose()
-  }
+    }).then((result) => {
+      const newConvo = result.data.backendSiteDesignerDiscussion_addOne;
+      router.push(`/portal/site/discussion/${newConvo.id}`);
+    }).catch((error) => {
+      console.error('Error posting discussion:', error);
+    });
+    onClose(event);
+  };
 
   return (
     <InformationModal
@@ -44,7 +36,7 @@ function NewPostModal({ isOpened, onClose }) {
       onClose={onClose}
       header="Create a new post."
       onSubmit={handleSubmit}
-      submitLabel={"Create"}
+      submitLabel="Create"
     >
       <br />
       <TextField
@@ -57,25 +49,12 @@ function NewPostModal({ isOpened, onClose }) {
       />
       <br />
       <br />
-
-      <TextField
-        id="outlined-basic"
-        label="Content"
-        variant="outlined"
-        fullWidth
-        value={post}
-        rows={5}
-        multiline
-        onChange={(event) => setPost(event.target.value)}
-      />
+      {isOpened && (
+        <QuillEditor onContentChange={(content) => setPost(content)} />
+      )}
       <br />
     </InformationModal>
-  )
+  );
 }
 
-// NewMeetingModal.propTypes = {
-//   isOpened: PropTypes.boolean,
-//   onClose: PropTypes.func,
-// }
-
-export default NewPostModal
+export default NewPostModal;

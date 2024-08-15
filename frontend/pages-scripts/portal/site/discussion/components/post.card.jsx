@@ -110,7 +110,20 @@ export default function PostCard({ id, title, post, hasBeenEdited, createdAt, vo
 
 
   const { setTabs, idChip, panelMeetingDoc, setPanelMeetingDoc } = useContext(AdminLayoutContext)
-  const { siteDesignerDiscussion, setSiteDesignerDiscussion } = useContext(SiteDesignerDiscussionContext)
+  const {
+    siteDesignerDiscussion, setSiteDesignerDiscussion,
+
+    //post
+    editPostModalId, setEditPostModalId,
+    editPostModalTitle, setEditPostModalTitle,
+    editPostModalMessage, setEditPostModalMessage,
+    deletePostModalId, setDeletePostModalId,
+
+    //comments
+    editCommentModalId, setEditCommentModalId,
+    editCommentModalMessage, setEditCommentModalMessage,
+    deleteCommentModalId, setDeleteCommentModalId,
+  } = useContext(SiteDesignerDiscussionContext)
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
@@ -548,12 +561,38 @@ export default function PostCard({ id, title, post, hasBeenEdited, createdAt, vo
                 open={open}
                 onClose={handleMenuClose}
               >
-                <MenuItem onClick={event => isCommentModeOn ? handleCommentEdit(event, {}) : handlePostEdit(event, {})}>
+                <MenuItem
+                  onClick={event => {
+                    if (isCommentModeOn) {
+                      setEditCommentModalId(id)
+                      setEditCommentModalMessage(post)
+
+                      handleCommentEdit(event, {})
+
+                    } else {
+                      setEditPostModalId(id)
+                      setEditPostModalTitle(title)
+                      setEditPostModalMessage(post)
+                      handlePostEdit(event, {})
+                    }
+                  }}
+                >
                   <EditIcon />
                   Edit
                 </MenuItem>
                 <Divider sx={{ my: 0.5 }} />
-                <MenuItem onClick={event => isCommentModeOn ? handleCommentDelete(event, {}) : handlePostDelete(event, {})}>
+                <MenuItem onClick={event => {
+                  if (isCommentModeOn) {
+                    setDeleteCommentModalId(id)
+
+                    handleCommentDelete(event, {})
+                  } else {
+
+                    setDeletePostModalId(id)
+
+                    handlePostDelete(event, {})
+                  }
+                }}>
                   <DeleteIcon />
                   Delete
                 </MenuItem>
@@ -606,9 +645,11 @@ export default function PostCard({ id, title, post, hasBeenEdited, createdAt, vo
                 )}
 
 
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="text.secondary" dangerouslySetInnerHTML={{ __html: post }} />
+
+                {/* <Typography variant="body2" color="text.secondary">
                   {post}
-                </Typography>
+                </Typography> */}
                 <br />
                 <UserChip
                   callByType={user.callByType}
@@ -654,13 +695,7 @@ export default function PostCard({ id, title, post, hasBeenEdited, createdAt, vo
 
 
 
-      {/* modal_isNewPostModalOpened: false,
-    modal_isDeletePostModalOpened: false,
-    modal_isEditPostModalOpened: false,
-    modal_isEditCommentModalOpened: false,
-    modal_isDeleteCommentModalOpened: false, */}
-
-
+      {/* 
       <EditPostModal
         isOpened={siteDesignerDiscussion.modal_isEditPostModalOpened}
         onClose={(event) => {
@@ -718,7 +753,7 @@ export default function PostCard({ id, title, post, hasBeenEdited, createdAt, vo
             modal_isDeletePostModalOpened: false,
           }))
         }}
-      />
+      /> */}
 
     </Card>
   );
