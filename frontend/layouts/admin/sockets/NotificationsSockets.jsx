@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import AdminLayoutContext from '../layout/adminLayout.context'
 import { initSocket } from '@/utils/realtime/socket';
+import { getTopNotificationsGraphQL } from '../store/top-notifications';
 
 function NotificationSockets({ children }) {
   const { setNotifications, notifications } = useContext(AdminLayoutContext)
@@ -24,7 +25,7 @@ function NotificationSockets({ children }) {
       socket.off('new-notification')
     }
 
-  }, []);
+  }, [setNotifications, notifications]);
 
   return (
     <div>

@@ -1,4 +1,4 @@
-import { callSubDomainApi } from "@/utils/graphql/backend-api"
+import { callApi } from "@/utils/graphql/backend-api"
 
 export const setNotificationSeenByIdGraphQL = ({id}) => {
   return new Promise(async (resolve) => {

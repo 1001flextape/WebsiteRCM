@@ -18,25 +18,26 @@ import { getMeetingById } from '../store/meeting-getById.store'
 import { getUsersNotInMeetingGraphQL } from '../store/meeting-getUsersNotInMeeting.store'
 import { getMeetingUsers } from '../store/meeting-getMeetingUsers.store'
 import { initSocket } from '@/utils/realtime/socket';
+import { getTopNotificationsGraphQL } from '../store/top-notifications';
 
 function MeetingSockets({ children }) {
   const router = useRouter();
-  const { setPanelMeetingDoc, panelMeetingDoc, setMeetingPanel } = useContext(AdminLayoutContext)
+  const { setPanelMeetingDoc, panelMeetingDoc, setMeetingPanel, notifications, setNotifications } = useContext(AdminLayoutContext)
 
   useEffect(() => {
     const socket = initSocket()
 
-    socket.on('new-notification', async () => {
-      const newNoti = await getTopNotificationsGraphQL();
-      const listOfNewNotification = newNoti.data.backendNotification_getFirstByCount
+    // socket.on('new-notification', async () => {
+    //   const newNoti = await getTopNotificationsGraphQL();
+    //   const listOfNewNotification = newNoti.data.backendNotification_getFirstByCount
 
-      setNotifications(prevState => ({
-        ...prevState,
-        badgeCount: notifications.badgeCount + 1,
-        list: listOfNewNotification,
-      }))
+    //   setNotifications(prevState => ({
+    //     ...prevState,
+    //     badgeCount: notifications.badgeCount + 1,
+    //     list: listOfNewNotification,
+    //   }))
 
-    })
+    // })
 
     socket.on('meeting-start', (data) => {
       getMeetingById({ id: data.id }).then(result => {
@@ -215,7 +216,7 @@ function MeetingSockets({ children }) {
     })
 
     return () => {
-      socket.off('new-notification')
+      // socket.off('new-notification')
       socket.off('meeting-start')
       socket.off('meeting-user-join')
       socket.off('meeting-hang-up')
