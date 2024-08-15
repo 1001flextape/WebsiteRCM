@@ -67,17 +67,17 @@ function Page() {
     }))
 
     getProfileGraphQL().then(profileData => {
-      setEmail(profileData.data.backendUser_getOne.email)
+      setEmail(profileData.data.backendUser_getMine.email)
 
-      if (profileData.data.backendUserProfile_getOne) {
-        setCallByType(profileData.data.backendUserProfile_getOne.callByType || "EMAIL")
-        setCircleColor(profileData.data.backendUserProfile_getOne.circleColor)
-        setLabelColor(profileData.data.backendUserProfile_getOne.labelColor)
-        setFirstName(profileData.data.backendUserProfile_getOne.firstName || "")
-        setLastName(profileData.data.backendUserProfile_getOne.lastName || "")
-        setPicturePreview(profileData.data.backendUserProfile_getOne.picture)
-        setUsername(profileData.data.backendUserProfile_getOne.username || "")
-        setOriginalPicture(profileData.data.backendUserProfile_getOne.picture)
+      if (profileData.data.backendUserProfile_getMine) {
+        setCallByType(profileData.data.backendUserProfile_getMine.callByType || "EMAIL")
+        setCircleColor(profileData.data.backendUserProfile_getMine.circleColor)
+        setLabelColor(profileData.data.backendUserProfile_getMine.labelColor)
+        setFirstName(profileData.data.backendUserProfile_getMine.firstName || "")
+        setLastName(profileData.data.backendUserProfile_getMine.lastName || "")
+        setPicturePreview(profileData.data.backendUserProfile_getMine.picture)
+        setUsername(profileData.data.backendUserProfile_getMine.username || "")
+        setOriginalPicture(profileData.data.backendUserProfile_getMine.picture)
       }
 
       setIsLoaded(true)

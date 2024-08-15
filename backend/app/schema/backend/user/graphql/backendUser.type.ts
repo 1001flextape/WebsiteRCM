@@ -146,6 +146,7 @@ const userType = gql`
 
 
   type Query {
+    backendUser_getMine: UserType
     backendUser_getOneById(id: ID!): UserType
     backendUser_getOneRealTime(id: ID!, socketId: ID!): BackendUserRealTimeType
     backendUser_getManyWithPagination(q: String, page: Int, pageSize: Int): UserPaginationType
@@ -155,7 +156,9 @@ const userType = gql`
     backendUserManyPermission_getAll(id: ID!) : [UserManyPermissionType]
     backendUserManyRole_getAll(id: ID!): [UserManyRoleType]
 
+    backendUserProfile_getMine: UserProfileType
     backendUserProfile_getOneById(id: ID!): UserProfileType
+    backendUserProfile_getOneByUserId(userId: ID!): UserProfileType
   
   }
   type Mutation {

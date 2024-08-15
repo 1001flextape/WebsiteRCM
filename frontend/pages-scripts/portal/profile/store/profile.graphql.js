@@ -6,7 +6,7 @@ export const getProfileGraphQL = () => {
     const response = await callApi({
       query: `
       query {
-        backendUserProfile_getOne {
+        backendUserProfile_getMine {
           firstName
           lastName
           username
@@ -15,7 +15,7 @@ export const getProfileGraphQL = () => {
           circleColor
           labelColor
         }
-        backendUser_getOne {
+        backendUser_getMine {
           email
         }
       }

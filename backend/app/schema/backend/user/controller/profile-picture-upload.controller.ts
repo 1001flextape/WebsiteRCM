@@ -14,8 +14,7 @@ export default ({ app }) => {
     }
 
     const d = await makeDObj();
-    
-    
+    d.dbTransaction = await d.db.transaction()
 
     const profile = makeBackendUserProfileMain(d)
     const whoIsOnPage = makeWhoIsOnPage(d)

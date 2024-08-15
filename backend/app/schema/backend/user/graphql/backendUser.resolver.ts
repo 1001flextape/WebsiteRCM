@@ -9,6 +9,21 @@ import makeBackendUserProfileMain from "../main/backendUserProfile.main";
 
 const userResolver = {
   Query: {
+    backendUser_getMine: async (parent, args, ctx) => {
+
+      const main = makeBackendUserMain(ctx.d)
+
+      const response = await main.getOneById({
+        id: ctx.user.id,
+      })
+
+      if (response?.success) {
+        return response.data.dataValues
+
+      } else {
+        return graphqlError(response)
+      }
+    },
     backendUser_getOneById: async (parent, args, ctx) => {
 
       const main = makeBackendUserMain(ctx.d)
@@ -117,6 +132,21 @@ const userResolver = {
         return graphqlError(response)
       }
     },
+    backendUserProfile_getMine: async (parent, args, ctx) => {
+
+      const main = makeBackendUserProfileMain(ctx.d)
+
+      const response = await main.getOneByUserId({
+        userId: ctx.user.id,
+      })
+
+      if (response?.success) {
+        return response.data.dataValues
+
+      } else {
+        return graphqlError(response)
+      }
+    },
     backendUserProfile_getOneById: async (parent, args, ctx) => {
 
       const main = makeBackendUserProfileMain(ctx.d)
@@ -131,7 +161,22 @@ const userResolver = {
       } else {
         return graphqlError(response)
       }
-    }
+    },
+    backendUserProfile_getOneByUserId: async (parent, args, ctx) => {
+
+      const main = makeBackendUserProfileMain(ctx.d)
+
+      const response = await main.getOneByUserId({
+        userId: args.userId,
+      })
+
+      if (response?.success) {
+        return response.data.dataValues
+
+      } else {
+        return graphqlError(response)
+      }
+    },
   },
   Mutation: {
     backendUser_addOne: async (parent, args, ctx) => {

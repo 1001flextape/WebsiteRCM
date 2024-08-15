@@ -43,8 +43,8 @@ export default function changeDisplayForUser(d: dependencies) {
       singleton.data.socketLookUp = []
     }
 
-    const userProfile = await profile.getOneById({
-      id: args.id,
+    const userProfile = await profile.getOneByUserId({
+      userId: args.id,
     })
 
 
