@@ -212,6 +212,7 @@ const Page = () => {
   const handleBrandingSave = () => {
     postBrandingApi({
       id,
+      socketId: getSocketId(),
       previewLogo: logoValue,
       name: nameValue,
       shouldApplyToTopNavMenu: shouldApplyToTopNavMenuValue,

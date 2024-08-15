@@ -5,6 +5,7 @@ import fs from 'fs-extra'
 import util from 'util';
 import { previewLogoUpload } from "./preview-logo-upload.rules";
 import { makeDObj } from "../../../../utils/dependencies/makeDependency";
+import makeBoardcasters from "../../../../collaborate/_singleton/preMain/broadcasters.ram-cache";
 
 
 export default ({ app }) => {
@@ -57,14 +58,28 @@ export default ({ app }) => {
 
     const d = await makeDObj();
 
+    const boardcasters = makeBoardcasters(d)
     const organization = makeBackendSettingOrganizationMain(d)
 
 
-    await organization.upsertOne({
+    const organizationRecord = await organization.upsertOne({
       logo,
       name: req.body.name,
       shouldApplyToTopNavMenu: req.body.shouldApplyToTopNavMenu,
     })
+
+
+    //send to all sockets.
+    await boardcasters.broadCastToAllSockets({
+      channel: "server-change-company-branding",
+      data: {
+        logo: organizationRecord.data.dataValues.logo,
+        name: organizationRecord.data.dataValues.name,
+        shouldApplyToTopNavMenu: organizationRecord.data.dataValues.shouldApplyToTopNavMenu,
+      }
+    })
+
+
 
     return res.status(200).json({
       success: true,

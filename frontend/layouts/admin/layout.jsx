@@ -19,6 +19,7 @@ import NotificationSockets from './sockets/NotificationsSockets';
 import MeetingSockets from './sockets/MeetingSockets';
 import SameDocBuffer from '@/components/realtime/_buffer/SameDocBuffer.context';
 import SameDocEntity from '@/components/realtime/_buffer/SameDocEntity.context';
+import CompanyBrandingSockets from './sockets/CompanyBrandingSockets';
 
 // Icons
 
@@ -235,9 +236,11 @@ export default function AdminLayout({
               <WhoIsOnPageSockets>
                 <NotificationSockets>
                   <MeetingSockets>
-                    {/* {isCourseBuilder && ()} */}
-                    {!PageContext && <RenderLayouts />}
-                    {PageContext && <PageContext><RenderLayouts /></PageContext>}
+                    <CompanyBrandingSockets>
+                      {/* {isCourseBuilder && ()} */}
+                      {!PageContext && <RenderLayouts />}
+                      {PageContext && <PageContext><RenderLayouts /></PageContext>}
+                    </CompanyBrandingSockets>
                   </MeetingSockets>
                 </NotificationSockets>
               </WhoIsOnPageSockets>
