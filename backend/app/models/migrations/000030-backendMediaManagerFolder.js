@@ -9,7 +9,11 @@ async function up({ context: queryInterface }) {
       primaryKey: true,
     },
     name: {
-      type: sequelize.STRING
+      type: sequelize.STRING,
+    },
+    isDefault: {
+      type: sequelize.BOOLEAN,
+      defaultValue: false,
     },
     folderId: {
       type: sequelize.UUID,

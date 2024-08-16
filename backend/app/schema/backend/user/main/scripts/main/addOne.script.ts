@@ -9,6 +9,7 @@ import { dependencies } from "../../../../../utils/dependencies/type/dependencyI
 import makeBackendUserProfileMain from "../../backendUserProfile.main";
 import getRandomColor from "../../../../../utils/helpers/getRandomColor";
 import { CallByTypeEnum } from "../../../preMain/scripts/userProfileSql/upsertOne.script";
+import makeBackendMediaManagerFolderMain from "../../../../mediaManager/main/backendMediaManagerFolder.main";
 
 
 type input = {
@@ -24,6 +25,7 @@ export default function addOne(d: dependencies) {
     const backendUserSql = makeBackendUserSql(d)
     const backendUserProfileMain = makeBackendUserProfileMain(d)
     const backendUserValidation = makeBackendUserValidation(d)
+    const backendMediaManagerFolder = makeBackendMediaManagerFolderMain(d)
 
     //////////////////////////////////////
     // Validations
@@ -100,6 +102,13 @@ export default function addOne(d: dependencies) {
       labelColor: getRandomColor(),
       circleColor: getRandomColor(),
       callByType: CallByTypeEnum.EMAIL,
+    })
+
+    // create user inbox in media manager.
+    const userfolder = await backendMediaManagerFolder.addOne({
+      createdBy: response.data.dataValues.id,
+      name: response.data.dataValues.email,
+      folderId: "34c5f602-0400-48e7-9004-dd8237956d7c",
     })
 
     return response;

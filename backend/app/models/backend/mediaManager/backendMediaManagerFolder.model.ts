@@ -10,7 +10,7 @@ import backendUser from '../user/backendUser.model';
   tableName: "backendMediaManagerFolder",
 })
 export default class backendMediaManagerFolder extends Model {
-  
+
   @Column({
     primaryKey: true,
     type: DataType.UUID,
@@ -23,7 +23,12 @@ export default class backendMediaManagerFolder extends Model {
     type: DataType.STRING,
   })
   name: string;
-  
+
+  @Column({
+    type: DataType.BOOLEAN,
+  })
+  isDefault: boolean;
+
   @Column({
     type: DataType.STRING,
   })
@@ -34,7 +39,7 @@ export default class backendMediaManagerFolder extends Model {
     type: DataType.STRING,
   })
   deletedBy: string;
-  
+
   @ForeignKey(() => backendUser)
   @Column({
     allowNull: false,
