@@ -72,7 +72,10 @@ function DeleteCommentModal({ isOpened, onClose }) {
       <p>Would you like to delete this comment?</p>
       <br />
       {/* Render the comment post as HTML */}
-      <div dangerouslySetInnerHTML={{ __html: post }} />
+      <div
+        className={`discussion-post`}
+        dangerouslySetInnerHTML={{ __html: post }}
+      />
       <br />
     </InformationModal>
   );

@@ -92,7 +92,10 @@ function DeletePostModal({ isOpened, onClose }) {
       <h2>{title}</h2>
       <br />
       {/* Render the post HTML safely */}
-      <div dangerouslySetInnerHTML={{ __html: post }} />
+      <div
+        className={`discussion-post`}
+        dangerouslySetInnerHTML={{ __html: post }}
+      />
       <br />
     </InformationModal>
   );

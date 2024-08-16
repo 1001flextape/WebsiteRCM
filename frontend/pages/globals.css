@@ -34,3 +34,7 @@ a {
 .react-calendar-timeline .rct-header-root {
   background: rgb(66, 66, 66) !important;
 }
+
+.discussion-post ul, .discussion-post ol {
+  margin-left: 40px;
+}

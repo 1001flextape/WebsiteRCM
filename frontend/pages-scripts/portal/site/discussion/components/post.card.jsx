@@ -645,7 +645,12 @@ export default function PostCard({ id, title, post, hasBeenEdited, createdAt, vo
                 )}
 
 
-                <Typography variant="body2" color="text.secondary" dangerouslySetInnerHTML={{ __html: post }} />
+                <Typography
+                  className={`discussion-post`}
+                  variant="body2"
+                  color="text.secondary"
+                  dangerouslySetInnerHTML={{ __html: post }}
+                />
 
                 {/* <Typography variant="body2" color="text.secondary">
                   {post}
