@@ -97,6 +97,15 @@ theme = {
             boxShadow: 'none',
           },
         },
+        containedWhite: {
+          backgroundColor: '#FFFFFF', // White background
+          color: '#000000', // Text color
+          border: '1px solid #CCCCCC', // Optional border color
+          '&:hover': {
+            backgroundColor: '#F0F0F0', // Light gray on hover
+            borderColor: '#BBBBBB', // Border color on hover
+          },
+        },
       },
     },
     MuiTabs: {
