@@ -35,30 +35,30 @@ export default function changeUrlForUser(d: dependencies) {
         singleton.data.socketLookUp[i].pathname = args.currentPathname
         success = true;
 
-        const socketLookUp = makeSocketLookUp(d)
-        const broadcasters = makeBoardcasters(d)
+        // const socketLookUp = makeSocketLookUp(d)
+        // const broadcasters = makeBoardcasters(d)
 
-        const username = await socketLookUp.getUsernameForSocket({
-          socketId: singleton.data.socketLookUp[i].socketId
-        })
+        // const username = await socketLookUp.getUsernameForSocket({
+        //   socketId: singleton.data.socketLookUp[i].socketId
+        // })
 
-        await broadcasters.broadcastByUrl({
-          url: args.currentPathname,
-          channel: "user-enter-page",
-          socketId: singleton.data.socketLookUp[i].socketId,
-          data: {
-            message: `${username.data} has entered the page.`
-          }
-        })
+        // await broadcasters.broadcastByUrl({
+        //   url: args.currentPathname,
+        //   channel: "user-enter-page",
+        //   socketId: singleton.data.socketLookUp[i].socketId,
+        //   data: {
+        //     message: `${username.data} has entered the page.`
+        //   }
+        // })
 
-        await broadcasters.broadcastByUrl({
-          url: args.oldPathname,
-          channel: "user-left-page",
-          socketId: singleton.data.socketLookUp[i].socketId,
-          data: {
-            message: `${username.data} has lefted the page.`
-          }
-        })
+        // await broadcasters.broadcastByUrl({
+        //   url: args.oldPathname,
+        //   channel: "user-left-page",
+        //   socketId: singleton.data.socketLookUp[i].socketId,
+        //   data: {
+        //     message: `${username.data} has lefted the page.`
+        //   }
+        // })
 
         break;
       }
