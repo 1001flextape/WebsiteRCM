@@ -156,7 +156,19 @@ function DashboardPage() {
             </Box>
 
             {/* Row of Tiles */}
-            <Box sx={{ display: 'flex', mt: 2 }}>
+            <Box sx={{
+              display: 'flex',
+              flexWrap: 'wrap', // Allow wrapping
+              justifyContent: 'center', // Center the content
+              gap: 2, // Add some spacing between tiles
+              '& > *': { flexBasis: '100%' }, // Full width for mobile (default)
+              '@media (min-width: 600px)': { // Tablet view
+                '& > *': { flexBasis: 'calc(48% - 20px)' }, // Two tiles in one row
+              },
+              '@media (min-width: 960px)': { // Laptop view
+                '& > *': { flexBasis: 'calc(23% - 16px)' }, // Four tiles in one row
+              },
+            }}>
 
               {/* New Pages */}
               <Paper elevation={3} sx={{ flex: 1, m: 1 }}>
