@@ -83,7 +83,7 @@ const Page = () => {
           <br />
           <br />
 
-          <Paper sx={{ p: 0 }} className='admin-card'>
+          <Paper sx={{ p: 0, maxWidth: "calc(100vw - 30px)" }} className='admin-card'>
             <SystemUserDataGrid />
           </Paper>
 
