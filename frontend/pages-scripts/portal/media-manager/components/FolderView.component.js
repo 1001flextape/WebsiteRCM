@@ -43,6 +43,7 @@ import FolderIcon from '@mui/icons-material/Folder';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ImageIcon from '@mui/icons-material/Image';
+import uploaderUtil from '@/utils/uploader/callUploaderApi';
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -106,7 +107,7 @@ const FolderView = () => {
   const [breadCrumbs, setBreadCrumbs] = useState([])
 
   useEffect(() => {
-    
+
     setTabs(prevState => ({
       ...prevState,
       tabs: []
@@ -307,6 +308,40 @@ const FolderView = () => {
     })
   }
 
+  const handleFileUpload = () => {
+    const inputElement = document.createElement('input');
+    inputElement.type = 'file';
+    inputElement.onchange = (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // Handle file upload logic here
+        console.log('Selected file:', file);
+
+
+        uploaderUtil.postMediaManager({
+          file,
+          folderId: router.query?.id,
+        }).then(() => {
+
+          getMediaManagerPageGraphQL({
+            folderId: router.query?.id,
+          }).then(result => {
+            const foldersFromServer = result.data.backendMediaManagerFolder_getMany
+            const filesFromServer = result.data.backendMediaManagerFile_getMany
+
+            setMediaManager(prevState => ({
+              ...prevState,
+              files: filesFromServer,
+              folders: foldersFromServer
+            }))
+          })
+        })
+      }
+    }
+    inputElement.click(); // This opens the system's file explorer
+    handleClose();
+  };
+
 
   return (
     <Box sx={{
@@ -319,52 +354,46 @@ const FolderView = () => {
     }}>
       {isLoaded && (
         <>
-          {breadCrumbs.length === 0 && (
-            <Breadcrumbs aria-label="breadcrumb">
-              {/* <Link underline="hover" color="inherit" href="/">
-          MUI
-        </Link> */}
-              {/* <Link
-          underline="hover"
-          color="inherit"
-          href="/material-ui/getting-started/installation/"
-        >
-          Core
-        </Link> */}
-              <Typography
-                sx={{ lineHeight: "50px", cursor: "pointer" }}
-                color="text.primary"
-              >
-                Media Manager
-              </Typography>
-            </Breadcrumbs>
-          )}
+          <Grid container spacing={2} sx={{ mb: 2, alignItems: 'center' }}>
+            <Grid item xs={6}>
+              {/* Breadcrumb on the left */}
+              {breadCrumbs.length === 0 && (
+                <Breadcrumbs aria-label="breadcrumb">
+                  <Typography
+                    sx={{ lineHeight: "50px", cursor: "pointer" }}
+                    color="text.primary"
+                  >
+                    Media Manager
+                  </Typography>
+                </Breadcrumbs>
+              )}
 
-          {breadCrumbs.length !== 0 && (
-            <Breadcrumbs aria-label="breadcrumb">
+              {breadCrumbs.length !== 0 && (
+                <Breadcrumbs aria-label="breadcrumb">
+                  <Link
+                    sx={{ lineHeight: "50px", cursor: "pointer" }}
+                    underline="hover"
+                    color="inherit"
+                    onClick={() => navigateToMediaManager()}
+                  >
+                    Media Manager
+                  </Link>
+                  {breadCrumbs.map((b) => (
+                    <Link
+                      sx={{ lineHeight: "50px", cursor: "pointer" }}
+                      underline="hover"
+                      color="inherit"
+                      onClick={() => navigateFolder({ id: b.id })}
+                    >
+                      {b.name}
+                    </Link>
+                  ))}
+                </Breadcrumbs>
+              )}
+            </Grid>
 
-              <Link
-                sx={{ lineHeight: "50px", cursor: "pointer" }}
-                underline="hover"
-                color="inherit"
-                onClick={() => navigateToMediaManager()}
-              >
-                Media Manager
-              </Link>
-              {breadCrumbs.map(b => (
-                <Link
-                  sx={{ lineHeight: "50px", cursor: "pointer" }}
-                  underline="hover"
-                  color="inherit"
-                  onClick={() => navigateFolder({ id: b.id })}
-                >
-                  {b.name}
-                </Link>
-              ))}
-            </Breadcrumbs>
-          )}
-          <Grid container spacing={2} sx={{ mb: 2 }}>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
+              {/* Buttons on the right */}
               <Stack direction="row" spacing={2} sx={{ justifyContent: "flex-end" }}>
                 <Button variant="contained" color="error" onClick={() => navigateToTrashFolder()}>
                   View Trash
@@ -374,7 +403,7 @@ const FolderView = () => {
                   aria-controls={open ? 'demo-customized-menu' : undefined}
                   aria-haspopup="true"
                   aria-expanded={open ? 'true' : undefined}
-                  variant="contained"
+                  variant="containedWhite"
                   disableElevation
                   onClick={handleClick}
                   endIcon={<KeyboardArrowDownIcon />}
@@ -395,14 +424,15 @@ const FolderView = () => {
                     Folder
                   </MenuItem>
                   <Divider sx={{ my: 0.5 }} />
-                  <MenuItem onClick={handleUploader}>
+                  <MenuItem onClick={handleFileUpload}>
                     <FileUploadIcon />
-                    Upload
+                    Upload File
                   </MenuItem>
                 </StyledMenu>
               </Stack>
             </Grid>
           </Grid>
+
           <br />
           <Paper elevation={3}>
 
