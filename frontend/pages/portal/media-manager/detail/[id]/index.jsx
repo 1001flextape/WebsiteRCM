@@ -22,8 +22,7 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import RestoreFileModal from '@/pages-scripts/portal/media-manager/modals/RestoreFile.modal';
-import { Breadcrumbs, Typography } from '@mui/material';
-
+import { Breadcrumbs } from '@mui/material';
 
 const MediaManager = () => {
   const router = useRouter()
@@ -31,56 +30,39 @@ const MediaManager = () => {
   const { mediaManager, setMediaManager } = useContext(MediaManagerContext)
 
   const [isLoaded, setIsLoaded] = useState(false)
-
   const [file, setFile] = useState({})
   const [uploadedUser, setUploadedUser] = useState({})
   const [deletedByUser, setDeleteByUser] = useState({})
   const [breadCrumbs, setBreadCrumbs] = useState([])
 
-  const loadData = ({ id, }) => {
-
-    getMediaManagerFileByIdGraphQL({
-      id,
-    }).then(result => {
-
+  const loadData = ({ id }) => {
+    getMediaManagerFileByIdGraphQL({ id }).then(result => {
       const targetFile = result.data.backendMediaManagerFile_getOneById
       setFile(targetFile)
 
       if (targetFile.folderId) {
-        getMediaManagerBreadCrumbsGraphQL({
-          folderId: targetFile.folderId,
-        }).then(breadResult => {
+        getMediaManagerBreadCrumbsGraphQL({ folderId: targetFile.folderId }).then(breadResult => {
           let newBreadCrumbs = breadResult.data?.backendMediaManagerFolder_getBreadCrumb || []
-
           newBreadCrumbs = newBreadCrumbs.sort((a, b) => b.order - a.order)
           setBreadCrumbs(newBreadCrumbs)
         })
       }
 
-      getMediaManagerUserChipGraphQL({
-        id: targetFile.uploadedBy
-      }).then(uploadUserResult => {
-
+      getMediaManagerUserChipGraphQL({ id: targetFile.uploadedBy }).then(uploadUserResult => {
         const uploadUser = uploadUserResult.data.backendUserBasicView_them
         setUploadedUser(uploadUser)
 
         if (targetFile.deletedAt) {
-          getMediaManagerUserChipGraphQL({
-            id: targetFile.deletedBy
-          }).then(deletedByResult => {
-
+          getMediaManagerUserChipGraphQL({ id: targetFile.deletedBy }).then(deletedByResult => {
             const deletedUser = deletedByResult.data.backendUserBasicView_them
             setDeleteByUser(deletedUser)
             setIsLoaded(true)
-
           })
         } else {
           setIsLoaded(true)
         }
-
       })
     })
-
   }
 
   useEffect(() => {
@@ -89,7 +71,6 @@ const MediaManager = () => {
     }
   }, [router.query])
 
-  // reload after restoring file.
   useEffect(() => {
     if (isLoaded && mediaManager.selectedFileId === null) {
       loadData({ id: router.query.id })
@@ -105,8 +86,8 @@ const MediaManager = () => {
       setPanelMeetingDoc,
       userId: idChip.id,
     })
-
   }
+
   const navigateFolder = ({ id }) => {
     realtimeLink({
       to: `/portal/media-manager/folder/${id}`,
@@ -119,7 +100,6 @@ const MediaManager = () => {
   }
 
   const openRestoreFile = () => {
-
     setMediaManager(prevState => ({
       ...prevState,
       modal_isRestoreFileModalOpened: true,
@@ -134,14 +114,12 @@ const MediaManager = () => {
       width: "100%",
       maxWidth: "900px",
       m: "auto",
-      padding: "20px",
       minHeight: "350px",
     }}>
 
       {isLoaded && (
         <>
           <Grid container sx={{ mb: 2, alignItems: 'center' }}>
-
             {breadCrumbs.length !== 0 && (
               <Breadcrumbs aria-label="breadcrumb">
                 <Link
@@ -153,7 +131,6 @@ const MediaManager = () => {
                   Media Manager
                 </Link>
                 {breadCrumbs.map(b => (
-                  // <Typography key={b.id}>
                   <Link
                     key={b.id}
                     sx={{ lineHeight: "50px", cursor: "pointer" }}
@@ -163,129 +140,138 @@ const MediaManager = () => {
                   >
                     {b.name}
                   </Link>
-                  // </Typography>
                 ))}
               </Breadcrumbs>
             )}
           </Grid>
-          <Paper elevation={3}>
 
-            {/* import FolderIcon from '@mui/icons-material/Folder'; */}
+          <Paper elevation={3} sx={{
+            borderRadius: "8px 8px 0 0",
+          }}>
+            {/* <Grid container spacing={2} sx={{ p: 5 }}> */}
+            <Grid container xs={12} sx={{ p: 5 }}>
+              <img
+                src={`${process.env.NEXT_PUBLIC_WEB_API_URL}${file.url}`}
+                style={{ width: "100%", border: `3px solid #7d7d7d` }}
+              />
 
+              {file.deletedAt && (
+                <>
+                  <p><strong>This file is in the trash folder</strong></p>
+                  <br />
+                </>
+              )}
+              {/* Table-like layout for fields */}
+            </Grid>
+            {/* </Grid> */}
+          </Paper>
 
+          {file.deletedAt && (
+            <>
+              <Paper elevation={3} sx={{ borderRadius: "8px" }}> {/* Wrapper for deleted section */}
+                <Grid container sx={{ p: 0, borderTop: "2px solid #d3d3d3" }}> {/* Top border */}
 
+                  {/* First Row - Deleted On */}
+                  <Grid container sx={{ borderBottom: "2px solid #d3d3d3" }}> {/* Bottom border */}
+                    <Grid item xs={3} sx={{ backgroundColor: "#ffcccc", padding: "8px" }}> {/* Smaller key column with red background */}
+                      <strong>Deleted On</strong>
+                    </Grid>
+                    <Grid item xs={9} sx={{ padding: "8px" }}>
+                      {moment(parseInt(file.deletedAt)).toLocaleString()}
+                    </Grid>
+                  </Grid>
 
-            <Grid container spacing={2} sx={{ p: 5 }}>
-              <Grid item xs={12}>
+                  {/* Second Row - Deleted By */}
+                  <Grid container sx={{ borderBottom: "2px solid #d3d3d3" }}> {/* Bottom border */}
+                    <Grid item xs={3} sx={{ backgroundColor: "#ffcccc", padding: "8px" }}> {/* Smaller key column with red background */}
+                      <strong>Deleted By</strong>
+                    </Grid>
+                    <Grid item xs={9} sx={{ padding: "8px" }}>
+                      <UserChip
+                        callByType={deletedByUser.callByType}
+                        circleColor={deletedByUser.circleColor}
+                        email={deletedByUser.email}
+                        firstName={deletedByUser.firstName}
+                        labelColor={deletedByUser.labelColor}
+                        lastName={deletedByUser.lastName}
+                        username={deletedByUser.username}
+                        picturePreview={deletedByUser.picture}
+                      />
+                    </Grid>
+                  </Grid>
 
-                <img 
-                src={`${process.env.NEXT_PUBLIC_WEB_API_URL}${file.url}`} 
-                style={{ 
-                  width: "100%",
-                  border: `3px solid #7d7d7d`
-                }} 
-                />
-                <br />
-                <br />
-                {file.deletedAt && (
-                  <div>
-                    <p>
-                      <strong>This file is in the trash folder</strong>
-                    </p>
-                    <br />
-                    <p>Deleted on:</p>
-                    <p>{moment(parseInt(file.deletedAt)).toLocaleString()}</p>
+                  {/* Third Row - Restore */}
+                  <Grid container>
+                    <Grid item xs={3} sx={{ backgroundColor: "#ffcccc", padding: "8px" }}> {/* Smaller key column with red background */}
+                      <strong>Restore</strong>
+                    </Grid>
+                    <Grid item xs={9} sx={{ padding: "8px" }}>
+                      <Button variant="contained" color="info" onClick={() => openRestoreFile()}>
+                        Restore File
+                      </Button>
+                    </Grid>
+                  </Grid>
 
-                    {/* <span>Deleted on (Jul 30) <span style={{ textDecoration: "underline" }}>Restore?</span></span> */}
-                    <br />
-                    <p>Deleted by user:</p>
+                </Grid>
+              </Paper>
+            </>
+          )}
+          <Paper elevation={3} sx={{ borderRadius: "0 0 8px 8px" }}> {/* No radius on top */}
+            <Grid container sx={{ p: 0, borderTop: "2px solid #d3d3d3" }}> {/* Top border */}
 
-                    <UserChip
-                      callByType={deletedByUser.callByType}
-                      circleColor={deletedByUser.circleColor}
-                      email={deletedByUser.email}
-                      firstName={deletedByUser.firstName}
-                      labelColor={deletedByUser.labelColor}
-                      lastName={deletedByUser.lastName}
-                      username={deletedByUser.username}
-                      picturePreview={deletedByUser.picture}
-                    />
-                    <br />
-                    <Button variant="contained" color="info" onClick={() => openRestoreFile()}>
-                      Restore File
-                    </Button>
-                    <br />
-                    <br />
-                    <hr />
-                  </div>
-                )}
-                <br />
-                <p>
+              {/* First Row */}
+              <Grid container sx={{ borderBottom: "2px solid #d3d3d3" }}> {/* Bottom border */}
+                <Grid item xs={3} sx={{ backgroundColor: "#f4f4f4", padding: "8px" }}> {/* Smaller key column */}
                   <strong>Name</strong>
-                  <br />
-                  <span>{file.userFileName}</span>
-                </p>
-                <br />
-                <p>
+                </Grid>
+                <Grid item xs={9} sx={{ padding: "8px" }}>
+                  {file.userFileName}
+                </Grid>
+              </Grid>
+
+              {/* Second Row */}
+              <Grid container sx={{ borderBottom: "2px solid #d3d3d3" }}> {/* Bottom border */}
+                <Grid item xs={3} sx={{ backgroundColor: "#f4f4f4", padding: "8px" }}> {/* Smaller key column */}
                   <strong>Location</strong>
-                  <br />
-                  <Link
-                    sx={{ lineHeight: "50px", cursor: "pointer" }}
-                    underline="hover"
-                    color="inherit"
-                    onClick={() => navigateToMediaManager()}
-                  >
+                </Grid>
+                <Grid item xs={9} sx={{ padding: "8px" }}>
+                  <Link sx={{ cursor: "pointer" }} underline="hover" color="inherit" onClick={() => navigateToMediaManager()}>
                     Media Manager
                   </Link>
-                  {/* 
-                  {breadCrumbs.length !== 0 && (
-                    <>
-                      <span> / </span>
-                      {breadCrumbs.map(b => (
-                        <span key={b.id}>
-                          <Link
-                            sx={{ lineHeight: "50px", cursor: "pointer" }}
-                            underline="hover"
-                            color="inherit"
-                            onClick={() => navigateFolder({ id: b.id })}
-                          >
-                            {b.name}
-                          </Link>
+                </Grid>
+              </Grid>
 
-                          <span> / </span>
-                        </span>
-                      ))}
-                    </>
-                  )} */}
-                  {/* <span>Media Manager / cool folder</span> */}
-                </p>
-                <br />
-                <p>
+              {/* Third Row */}
+              <Grid container sx={{ borderBottom: "2px solid #d3d3d3" }}> {/* Bottom border */}
+                <Grid item xs={3} sx={{ backgroundColor: "#f4f4f4", padding: "8px" }}> {/* Smaller key column */}
                   <strong>Uploaded On</strong>
-                  <br />
-                  <span>{moment(parseInt(file.createdAt)).toLocaleString()}</span>
-                </p>
-                <br />
-                <p>
-                  <strong>Uploaded By</strong>
-                  <br />
-                  <span>
-                    <UserChip
-                      callByType={uploadedUser.callByType}
-                      circleColor={uploadedUser.circleColor}
-                      email={uploadedUser.email}
-                      firstName={uploadedUser.firstName}
-                      labelColor={uploadedUser.labelColor}
-                      lastName={uploadedUser.lastName}
-                      username={uploadedUser.username}
-                      picturePreview={uploadedUser.picture}
-                    />
+                </Grid>
+                <Grid item xs={9} sx={{ padding: "8px" }}>
+                  {moment(parseInt(file.createdAt)).toLocaleString()}
+                </Grid>
+              </Grid>
 
-                  </span>
-                </p>
+              {/* Fourth Row */}
+              <Grid container>
+                <Grid item xs={3} sx={{ backgroundColor: "#f4f4f4", padding: "8px" }}> {/* Smaller key column */}
+                  <strong>Uploaded By</strong>
+                </Grid>
+                <Grid item xs={9} sx={{ padding: "8px" }}>
+                  <UserChip
+                    callByType={uploadedUser.callByType}
+                    circleColor={uploadedUser.circleColor}
+                    email={uploadedUser.email}
+                    firstName={uploadedUser.firstName}
+                    labelColor={uploadedUser.labelColor}
+                    lastName={uploadedUser.lastName}
+                    username={uploadedUser.username}
+                    picturePreview={uploadedUser.picture}
+                  />
+                </Grid>
               </Grid>
             </Grid>
           </Paper>
+
           <RestoreFileModal
             isOpened={mediaManager.modal_isRestoreFileModalOpened}
             onClose={() => {
@@ -295,10 +281,8 @@ const MediaManager = () => {
                 selectedFileId: null,
               }))
             }}
-
           />
         </>
-
       )}
     </Box>
   )
@@ -306,12 +290,8 @@ const MediaManager = () => {
 
 MediaManager.getLayout = function getLayout(page) {
   return (
-    <AdminLayout
-      hasNoEntity
-    >
-      <MediaManagerProvider>
-        {page}
-      </MediaManagerProvider>
+    <AdminLayout hasNoEntity>
+      <MediaManagerProvider>{page}</MediaManagerProvider>
     </AdminLayout>
   )
 }
