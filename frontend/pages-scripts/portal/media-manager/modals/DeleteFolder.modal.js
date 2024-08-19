@@ -1,4 +1,3 @@
-// libraries
 import React, { useContext } from 'react';
 import { useRouter } from 'next/router';
 
@@ -39,6 +38,8 @@ function DeleteFolderModal({ isOpened, onClose }) {
           modal_isDeleteFolderFailedModalOpened: true,
         }));
       }
+    }).catch((error) => {
+      console.error('Error deleting folder:', error);
     });
 
     onClose();
@@ -55,20 +56,20 @@ function DeleteFolderModal({ isOpened, onClose }) {
         }
       }}
     >
-      <DialogTitle style={{ padding: '16px 24px', color: 'red' }}>
+      <DialogTitle style={{ padding: '16px 24px', background: '#f44336', color: "#f1f4f5" }}>
         Delete Folder
       </DialogTitle>
 
-      <DialogContent style={{ padding: '5px 20px 20px 20px', minWidth: '300px' }}>
-        <Typography variant="body1" gutterBottom>
+      <DialogContent style={{ padding: '20px', minWidth: '300px' }}>
+        <Typography variant="body1" color="textSecondary">
           Are you sure you want to delete this folder?
         </Typography>
-        <Typography variant="h6" color="error">
+        <Typography variant="h6" color="error" style={{ marginTop: '4px' }}>
           "{mediaManager.selectFolderName}"
         </Typography>
       </DialogContent>
 
-      <DialogActions style={{ padding: '8px 24px' }}>
+      <DialogActions style={{ padding: '8px 24px', borderTop: "2px solid #dbdbdb" }}>
         <Button onClick={onClose} variant="outlined" style={{ marginRight: '8px' }}>
           Cancel
         </Button>
