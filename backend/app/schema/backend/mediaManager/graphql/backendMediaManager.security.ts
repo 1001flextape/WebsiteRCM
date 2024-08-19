@@ -11,6 +11,7 @@ const backendMediaManagerSecurity = {
   },
   Mutation: {
     backendMediaManagerFile_rename: isAuthenticated,
+    backendMediaManagerFile_moveFolder: isAuthenticated,
     backendMediaManagerFile_deleteOne: isAuthenticated,
     backendMediaManagerFolder_addOne: isAuthenticated,
     backendMediaManagerFolder_rename: isAuthenticated,

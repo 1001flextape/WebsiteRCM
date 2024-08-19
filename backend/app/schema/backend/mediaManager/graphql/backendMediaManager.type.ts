@@ -44,6 +44,7 @@ const backendMediaManagerGqlType = gql`
   type Mutation {
     # adding file is done through Express uploading
     backendMediaManagerFile_rename(id: ID!, name: String!): BackendMediaManagerFileType
+    backendMediaManagerFile_moveFolder(id: ID!, folderId: ID): BackendMediaManagerFileType
     backendMediaManagerFile_deleteOne(id: ID!): GlobalSuccessType
 
     backendMediaManagerFolder_addOne(name: String!, folderId: ID): BackendMediaManagerFolderType

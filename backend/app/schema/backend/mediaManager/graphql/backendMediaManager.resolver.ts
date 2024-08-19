@@ -96,6 +96,22 @@ const backendMediaManagerGqlResolver = {
         return graphqlError(response)
       }
     },
+    backendMediaManagerFile_moveFolder: async (parent, args, ctx) => {
+
+      const main = makeBackendMediaManagerFileMain(ctx.d)
+
+      const response = await main.updateOne({
+        id: args.id,
+        folderId: args.folderId,
+      })
+
+      if (response?.success) {
+        return response.data
+
+      } else {
+        return graphqlError(response)
+      }
+    },
     backendMediaManagerFile_deleteOne: async (parent, args, ctx) => {
 
       const main = makeBackendMediaManagerFileMain(ctx.d)

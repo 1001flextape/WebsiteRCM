@@ -44,6 +44,7 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ImageIcon from '@mui/icons-material/Image';
 import uploaderUtil from '@/utils/uploader/callUploaderApi';
+import MoveFileModal from '../modals/MoveFile.modal';
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -281,6 +282,20 @@ const FolderView = () => {
 
     handleCloseDropDown({ event, id })
   }
+
+  const handleMoveFileOpen = ({ event, id, name }) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    setMediaManager(prevState => ({
+      ...prevState,
+      modal_isMoveFileModalOpened: true,
+      selectFileName: name,
+      selectedFileId: id,
+    }));
+
+    handleCloseDropDown({ event, id });
+  };
 
   const handleOpenDropDown = ({ event, id }) => {
     event.preventDefault();
@@ -526,6 +541,10 @@ const FolderView = () => {
                                   Rename
                                 </MenuItem>
                                 <Divider sx={{ my: 0.5 }} />
+                                <MenuItem onClick={(event) => handleMoveFileOpen({ event, id: f.id, name: f.userFileName })}>
+                                  Move File
+                                </MenuItem>
+                                <Divider sx={{ my: 0.5 }} />
                                 <MenuItem onClick={(event) => handleDeleteFileOpen({ event, id: f.id, name: f.userFileName })}>
                                   Delete
                                 </MenuItem>
@@ -620,6 +639,17 @@ const FolderView = () => {
                 modal_isDeleteFolderFailedModalOpened: false,
               }))
             }}
+          />
+          <MoveFileModal
+            isOpened={mediaManager.modal_isMoveFileModalOpened}
+            onClose={() => {
+              setMediaManager(prevState => ({
+                ...prevState,
+                modal_isMoveFileModalOpened: false,
+              }));
+            }}
+            selectedFileId={mediaManager.selectedFileId}
+            selectFileName={mediaManager.selectFileName}
           />
         </>
       )}
