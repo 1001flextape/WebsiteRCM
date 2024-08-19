@@ -2,23 +2,20 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 
-// mine
-import InformationModal from '@/components/modals/Information.modal';
-import { postSiteDesignerDiscussion_updateOne_GraphQL } from '../store/DiscussionUpdate.store';
-import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
+// MUI components
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
 
-//mui
-import TextField from '@mui/material/TextField';
+// mine
+import { postSiteDesignerDiscussion_updateOne_GraphQL } from '../store/DiscussionUpdate.store';
 import { SiteDesignerDiscussionContext } from '../context/siteDesignerDiscussion.context';
 
 // Dynamically import QuillEditor only when needed (on modal open)
 const QuillEditor = dynamic(() => import('@/components/form/quill-editor/QuillEditor'), { ssr: false });
 
-function EditPostModal({ isOpened, onClose, }) {
+function EditPostModal({ isOpened, onClose }) {
   const {
     siteDesignerDiscussion, setSiteDesignerDiscussion,
-
-    //post
+    // post
     editPostModalId, setEditPostModalId,
     editPostModalTitle, setEditPostModalTitle,
     editPostModalMessage, setEditPostModalMessage,
@@ -27,69 +24,83 @@ function EditPostModal({ isOpened, onClose, }) {
   const [titleInput, setTitleInput] = useState(editPostModalTitle);
   const [postInput, setPostInput] = useState(editPostModalMessage);
 
+  useEffect(() => {
+    setTitleInput(editPostModalTitle);
+  }, [editPostModalTitle]);
 
   useEffect(() => {
-    setTitleInput(editPostModalTitle)
-  }, [editPostModalTitle])
-
-  useEffect(() => {
-    setPostInput(editPostModalMessage)
-  }, [editPostModalMessage])
+    setPostInput(editPostModalMessage);
+  }, [editPostModalMessage]);
 
   const handleSubmit = (event) => {
     postSiteDesignerDiscussion_updateOne_GraphQL({
       id: editPostModalId,
       title: titleInput,
       post: postInput,
-    });
-
-    const newPosts = [...siteDesignerDiscussion.posts];
-    for (let i = 0; i < newPosts.length; i++) {
-      const postItem = newPosts[i];
-      if (postItem.id === editPostModalId) {
-        postItem.title = titleInput;
-        postItem.post = postInput;
-        postItem.hasBeenEdited = true;
-        break;
+    }).then(() => {
+      const newPosts = [...siteDesignerDiscussion.posts];
+      for (let i = 0; i < newPosts.length; i++) {
+        const postItem = newPosts[i];
+        if (postItem.id === editPostModalId) {
+          postItem.title = titleInput;
+          postItem.post = postInput;
+          postItem.hasBeenEdited = true;
+          break;
+        }
       }
-    }
 
-    setSiteDesignerDiscussion(prevState => ({
-      ...prevState,
-      posts: newPosts,
-    }));
+      setSiteDesignerDiscussion(prevState => ({
+        ...prevState,
+        posts: newPosts,
+      }));
 
-    onClose(event);
+      onClose(event);
+    }).catch((error) => {
+      console.error('Error updating discussion:', error);
+    });
   };
 
   return (
-    <InformationModal
-      isOpened={isOpened}
+    <Dialog
+      open={isOpened}
       onClose={onClose}
-      header="Edit your post."
-      onSubmit={handleSubmit}
-      submitLabel={"Edit"}
+      maxWidth="md"
+      PaperProps={{
+        style: {
+          padding: 0,
+        }
+      }}
     >
-      <br />
-      <TextField
-        id="outlined-basic"
-        label="Title"
-        variant="outlined"
-        fullWidth
-        value={titleInput}
-        onChange={(event) => setTitleInput(event.target.value)}
-      />
-      <br />
-      <br />
-      {/* Dynamically load QuillEditor when modal is opened */}
-      {isOpened && (
-        <QuillEditor
-          onContentChange={(content) => setPostInput(content)}
-          initialValue={postInput}
+      <DialogTitle style={{ padding: '16px 24px' }}>
+        Edit your post.
+      </DialogTitle>
+
+      <DialogContent style={{ padding: '20px', minWidth: "300px" }}>
+        <TextField
+          id="outlined-basic"
+          label="Title"
+          variant="outlined"
+          fullWidth
+          value={titleInput}
+          onChange={(event) => setTitleInput(event.target.value)}
         />
-      )}
-      <br />
-    </InformationModal>
+        <br />
+        <br />
+        {/* Dynamically load QuillEditor when modal is opened */}
+        {isOpened && (
+          <QuillEditor
+            onContentChange={(content) => setPostInput(content)}
+            initialValue={postInput}
+          />
+        )}
+        <br />
+      </DialogContent>
+
+      <DialogActions style={{ padding: '8px 24px' }}>
+        <Button onClick={onClose} variant="outlined" style={{ marginRight: '8px' }}>Cancel</Button>
+        <Button onClick={handleSubmit} variant="contained" disabled={!titleInput || !postInput}>Edit</Button>
+      </DialogActions>
+    </Dialog>
   );
 }
 

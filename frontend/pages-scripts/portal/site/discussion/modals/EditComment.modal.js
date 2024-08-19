@@ -2,12 +2,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 
-// mine
-import InformationModal from '@/components/modals/Information.modal';
-import { postSiteDesignerDiscussionComment_updateOne_GraphQL } from '../store/DiscussionCommentUpdate.store';
+// MUI components
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
 
-//mui
-import TextField from '@mui/material/TextField';
+// mine
+import { postSiteDesignerDiscussionComment_updateOne_GraphQL } from '../store/DiscussionCommentUpdate.store';
 import { SiteDesignerDiscussionContext } from '../context/siteDesignerDiscussion.context';
 import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
 
@@ -15,16 +14,12 @@ import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
 const QuillEditor = dynamic(() => import('@/components/form/quill-editor/QuillEditor'), { ssr: false });
 
 function EditCommentModal({ isOpened, onClose }) {
-  const { idChip, panelMeetingDoc, setPanelMeetingDoc } = useContext(AdminLayoutContext);
   const {
     siteDesignerDiscussion, setSiteDesignerDiscussion,
-
-    //comments
+    // comments
     editCommentModalId, setEditCommentModalId,
     editCommentModalMessage, setEditCommentModalMessage,
   } = useContext(SiteDesignerDiscussionContext);
-
-  const router = useRouter();
 
   const [postInput, setPostInput] = useState(editCommentModalMessage);
 
@@ -32,26 +27,28 @@ function EditCommentModal({ isOpened, onClose }) {
     postSiteDesignerDiscussionComment_updateOne_GraphQL({
       post: postInput,
       id: editCommentModalId,
-    });
+    }).then(() => {
+      const newComments = [...siteDesignerDiscussion.comments];
 
-    const newComments = [...siteDesignerDiscussion.comments];
+      for (let i = 0; i < newComments.length; i++) {
+        const comment = newComments[i];
 
-    for (let i = 0; i < newComments.length; i++) {
-      const comment = newComments[i];
-
-      if (comment.id === siteDesignerDiscussion.selectedCommentId) {
-        comment.post = postInput;
-        comment.hasBeenEdited = true;
-        break;
+        if (comment.id === siteDesignerDiscussion.selectedCommentId) {
+          comment.post = postInput;
+          comment.hasBeenEdited = true;
+          break;
+        }
       }
-    }
 
-    setSiteDesignerDiscussion((prevState) => ({
-      ...prevState,
-      comments: newComments,
-    }));
+      setSiteDesignerDiscussion(prevState => ({
+        ...prevState,
+        comments: newComments,
+      }));
 
-    onClose(event);
+      onClose(event);
+    }).catch((error) => {
+      console.error('Error updating comment:', error);
+    });
   };
 
   useEffect(() => {
@@ -67,23 +64,36 @@ function EditCommentModal({ isOpened, onClose }) {
   }, [siteDesignerDiscussion]);
 
   return (
-    <InformationModal
-      isOpened={isOpened}
+    <Dialog
+      open={isOpened}
       onClose={onClose}
-      header="Edit your comment."
-      onSubmit={handleSubmit}
-      submitLabel={"Edit"}
+      maxWidth="md"
+      PaperProps={{
+        style: {
+          padding: 0,
+        }
+      }}
     >
-      <br />
-      {/* Dynamically load QuillEditor when modal is opened */}
-      {isOpened && (
-        <QuillEditor
-          onContentChange={(content) => setPostInput(content)}
-          initialValue={postInput}
-        />
-      )}
-      <br />
-    </InformationModal>
+      <DialogTitle style={{ padding: '16px 24px' }}>
+        Edit your comment.
+      </DialogTitle>
+
+      <DialogContent style={{ padding: '20px', minWidth: "300px" }}>
+        {/* Dynamically load QuillEditor when modal is opened */}
+        {isOpened && (
+          <QuillEditor
+            onContentChange={(content) => setPostInput(content)}
+            initialValue={postInput}
+          />
+        )}
+        <br />
+      </DialogContent>
+
+      <DialogActions style={{ padding: '8px 24px' }}>
+        <Button onClick={onClose} variant="outlined" style={{ marginRight: '8px' }}>Cancel</Button>
+        <Button onClick={handleSubmit} variant="contained" disabled={!postInput}>Edit</Button>
+      </DialogActions>
+    </Dialog>
   );
 }
 

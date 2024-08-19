@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
+// MUI components
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@mui/material';
+
 // mine
-import InformationModal from '@/components/modals/Information.modal';
 import { enqueueSnackbar } from 'notistack';
 import { SiteDesignerDiscussionContext } from '../context/siteDesignerDiscussion.context';
 import { postSiteDesignerDiscussion_deleteOne_GraphQL } from '../store/DiscussionDelete.store';
@@ -13,8 +15,6 @@ function DeletePostModal({ isOpened, onClose }) {
   const router = useRouter();
   const {
     siteDesignerDiscussion, setSiteDesignerDiscussion,
-
-    //post
     deletePostModalId, setDeletePostModalId
   } = useContext(SiteDesignerDiscussionContext);
   const { setTabs, idChip, panelMeetingDoc, setPanelMeetingDoc } = useContext(AdminLayoutContext);
@@ -44,16 +44,19 @@ function DeletePostModal({ isOpened, onClose }) {
         }
 
         enqueueSnackbar("Discussion deleted.");
-        navigatteToDiscussions();
+        navigateToDiscussions();
 
       } else {
         enqueueSnackbar("DISCUSSION DID NOT DELETE! Please message IT.");
       }
+    }).catch((error) => {
+      enqueueSnackbar("An error occurred while deleting the discussion.");
+      console.error('Error deleting discussion:', error);
     });
     onClose(event);
   };
 
-  const navigatteToDiscussions = (event, info) => {
+  const navigateToDiscussions = () => {
     realtimeLink({
       to: `/portal/site/discussion/`,
       meetingId: panelMeetingDoc.id,
@@ -79,25 +82,42 @@ function DeletePostModal({ isOpened, onClose }) {
   }, [siteDesignerDiscussion]);
 
   return (
-    <InformationModal
-      isOpened={isOpened}
+    <Dialog
+      open={isOpened}
       onClose={onClose}
-      header="Delete this discussion."
-      onSubmit={handleSubmit}
-      submitLabel={"Delete"}
+      maxWidth="md"
+      PaperProps={{
+        style: {
+          padding: 0,
+        }
+      }}
     >
-      <br />
-      <p>Would you like to delete this discussion?</p>
-      <br />
-      <h2>{title}</h2>
-      <br />
-      {/* Render the post HTML safely */}
-      <div
-        className={`discussion-post`}
-        dangerouslySetInnerHTML={{ __html: post }}
-      />
-      <br />
-    </InformationModal>
+      <DialogTitle style={{ padding: '16px 24px', background: '#f44336', color: "#f1f4f5" }}>
+        Delete this discussion.
+      </DialogTitle>
+
+      <DialogContent style={{ padding: '20px', minWidth: "300px", borderBottom: "2px solid #dbdbdb" }}>
+        <Typography variant="body1" color="textSecondary">
+          Would you like to delete this discussion?
+        </Typography>
+      </DialogContent>
+
+      <DialogContent style={{ padding: '20px', minWidth: "300px" }}>
+        <Typography variant="h6">
+          {title}
+        </Typography>
+        <div
+          className={`discussion-post`}
+          dangerouslySetInnerHTML={{ __html: post }}
+          style={{ marginTop: '4px' }}
+        />
+      </DialogContent>
+
+      <DialogActions style={{ padding: '8px 24px', borderTop: "2px solid #dbdbdb" }}>
+        <Button onClick={onClose} variant="outlined" style={{ marginRight: '8px' }}>Cancel</Button>
+        <Button onClick={handleSubmit} variant="contained" color="error" disabled={!deletePostModalId}>Delete</Button>
+      </DialogActions>
+    </Dialog>
   );
 }
 

@@ -80,8 +80,6 @@ export default function InputCard() {
           </Grid>
           <Grid item xs={11}>
 
-            <p>Respond</p>
-
             <QuillEditor
               onContentChange={(content) => setPost(content)}
             />

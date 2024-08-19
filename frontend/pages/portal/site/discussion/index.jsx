@@ -104,14 +104,13 @@ const DiscussionPage = () => {
     }}>
       {isLoaded && (
         <>
-          <Stack spacing={2} direction="row">
-            <Button variant="contained" color="success" onClick={handleNewPost}>New</Button>
+          <Stack spacing={2} direction="row" sx={{ height: "37px" }}>
+            <Button variant="containedWhite" onClick={handleNewPost}>New Discussion</Button>
 
             {siteDesignerDiscussion.posts.length !== 0 && (
               <FilterToggle onChange={(event, info) => handlePostFilter(event, info)} />
             )}
           </Stack>
-          <br />
           <br />
           {siteDesignerDiscussion.posts.length === 0 && (
             <p style={{ textAlign: "center" }}>Nothing here.</p>

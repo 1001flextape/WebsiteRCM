@@ -1,18 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
+// MUI components
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@mui/material';
+
 // mine
-import InformationModal from '@/components/modals/Information.modal';
-import { postSiteDesignerDiscussionComment_deleteOne_GraphQL } from '../store/DiscussionCommentDelete.store';
 import { enqueueSnackbar } from 'notistack';
 import { SiteDesignerDiscussionContext } from '../context/siteDesignerDiscussion.context';
+import { postSiteDesignerDiscussionComment_deleteOne_GraphQL } from '../store/DiscussionCommentDelete.store';
 
 function DeleteCommentModal({ isOpened, onClose }) {
   const router = useRouter();
   const {
     siteDesignerDiscussion, setSiteDesignerDiscussion,
-
-    //comments
     deleteCommentModalId, setDeleteCommentModalId,
   } = useContext(SiteDesignerDiscussionContext);
 
@@ -43,6 +43,9 @@ function DeleteCommentModal({ isOpened, onClose }) {
       } else {
         enqueueSnackbar("COMMENT DID NOT DELETE. Please message IT.");
       }
+    }).catch((error) => {
+      enqueueSnackbar("An error occurred while deleting the comment.");
+      console.error('Error deleting comment:', error);
     });
     onClose(event);
   };
@@ -61,23 +64,39 @@ function DeleteCommentModal({ isOpened, onClose }) {
   }, [siteDesignerDiscussion]);
 
   return (
-    <InformationModal
-      isOpened={isOpened}
+    <Dialog
+      open={isOpened}
       onClose={onClose}
-      header="Delete Comment"
-      onSubmit={handleSubmit}
-      submitLabel={"Delete"}
+      maxWidth="md"
+      PaperProps={{
+        style: {
+          padding: 0,
+        }
+      }}
     >
-      <br />
-      <p>Would you like to delete this comment?</p>
-      <br />
-      {/* Render the comment post as HTML */}
-      <div
-        className={`discussion-post`}
-        dangerouslySetInnerHTML={{ __html: post }}
-      />
-      <br />
-    </InformationModal>
+      <DialogTitle style={{ padding: '16px 24px', background: '#f44336', color: "#f1f4f5" }}>
+        Delete Comment
+      </DialogTitle>
+
+      <DialogContent style={{ padding: '20px', minWidth: "300px", borderBottom: "2px solid #dbdbdb" }}>
+        <Typography variant="body1" color="textSecondary">
+          Would you like to delete this comment?
+        </Typography>
+      </DialogContent>
+
+      <DialogContent style={{ padding: '20px', minWidth: "300px" }}>
+        <div
+          className={`discussion-post`}
+          dangerouslySetInnerHTML={{ __html: post }}
+          style={{ marginTop: '4px' }}
+        />
+      </DialogContent>
+
+      <DialogActions style={{ padding: '8px 24px', borderTop: "2px solid #dbdbdb" }}>
+        <Button onClick={onClose} variant="outlined" style={{ marginRight: '8px' }}>Cancel</Button>
+        <Button onClick={handleSubmit} variant="contained" color="error" disabled={!deleteCommentModalId}>Delete</Button>
+      </DialogActions>
+    </Dialog>
   );
 }
 
