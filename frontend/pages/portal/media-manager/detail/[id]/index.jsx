@@ -22,6 +22,7 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import RestoreFileModal from '@/pages-scripts/portal/media-manager/modals/RestoreFile.modal';
+import { Breadcrumbs, Typography } from '@mui/material';
 
 
 const MediaManager = () => {
@@ -139,7 +140,34 @@ const MediaManager = () => {
 
       {isLoaded && (
         <>
+          <Grid container sx={{ mb: 2, alignItems: 'center' }}>
 
+            {breadCrumbs.length !== 0 && (
+              <Breadcrumbs aria-label="breadcrumb">
+                <Link
+                  sx={{ lineHeight: "50px", cursor: "pointer" }}
+                  underline="hover"
+                  color="inherit"
+                  onClick={() => navigateToMediaManager()}
+                >
+                  Media Manager
+                </Link>
+                {breadCrumbs.map(b => (
+                  // <Typography key={b.id}>
+                  <Link
+                    key={b.id}
+                    sx={{ lineHeight: "50px", cursor: "pointer" }}
+                    underline="hover"
+                    color="inherit"
+                    onClick={() => navigateFolder({ id: b.id })}
+                  >
+                    {b.name}
+                  </Link>
+                  // </Typography>
+                ))}
+              </Breadcrumbs>
+            )}
+          </Grid>
           <Paper elevation={3}>
 
             {/* import FolderIcon from '@mui/icons-material/Folder'; */}
@@ -150,7 +178,13 @@ const MediaManager = () => {
             <Grid container spacing={2} sx={{ p: 5 }}>
               <Grid item xs={12}>
 
-                <img src={`${process.env.NEXT_PUBLIC_WEB_API_URL}${file.url}`} style={{ width: "100%" }} />
+                <img 
+                src={`${process.env.NEXT_PUBLIC_WEB_API_URL}${file.url}`} 
+                style={{ 
+                  width: "100%",
+                  border: `3px solid #7d7d7d`
+                }} 
+                />
                 <br />
                 <br />
                 {file.deletedAt && (
@@ -203,6 +237,7 @@ const MediaManager = () => {
                   >
                     Media Manager
                   </Link>
+                  {/* 
                   {breadCrumbs.length !== 0 && (
                     <>
                       <span> / </span>
@@ -221,7 +256,7 @@ const MediaManager = () => {
                         </span>
                       ))}
                     </>
-                  )}
+                  )} */}
                   {/* <span>Media Manager / cool folder</span> */}
                 </p>
                 <br />
