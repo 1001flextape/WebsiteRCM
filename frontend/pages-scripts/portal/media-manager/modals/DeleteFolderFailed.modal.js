@@ -1,36 +1,37 @@
 // libraries
-import React from 'react'
-import { useRouter } from 'next/router';
-import PropTypes from 'prop-types';
-
-// mine
-import InformationModal from '@/components/modals/Information.modal';
-import { initSocket } from '@/utils/realtime/socket';
-
-//mui
-import TextField from '@mui/material/TextField';
-
+import React from 'react';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@mui/material';
 
 function DeleteFolderFailedModal({ isOpened, onClose }) {
 
   return (
-    <InformationModal
-      isOpened={isOpened}
+    <Dialog
+      open={isOpened}
       onClose={onClose}
-      disableSubmit
-      header="Cannot Delete Folder."
-      submitLabel={"Ok"}
+      maxWidth="sm"
+      PaperProps={{
+        style: {
+          padding: 0,
+        }
+      }}
     >
-      <br />
-      <p>You can not delete a folder that has a file in it.</p>
-      <br />
-    </InformationModal>
-  )
+      <DialogTitle style={{ padding: '16px 24px' }}>
+        Cannot Delete Folder
+      </DialogTitle>
+
+      <DialogContent style={{ padding: '10px 20px', minWidth: '300px' }}>
+        <Typography variant="body1">
+          You cannot delete a folder that contains files.
+        </Typography>
+      </DialogContent>
+
+      <DialogActions style={{ padding: '8px 24px' }}>
+        <Button onClick={onClose} variant="contained" color="primary">
+          Ok
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 }
 
-// NewMeetingModal.propTypes = {
-//   isOpened: PropTypes.boolean,
-//   onClose: PropTypes.func,
-// }
-
-export default DeleteFolderFailedModal
+export default DeleteFolderFailedModal;

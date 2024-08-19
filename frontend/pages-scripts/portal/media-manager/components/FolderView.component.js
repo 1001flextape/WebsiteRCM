@@ -10,7 +10,6 @@ import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
 import { MediaManagerContext } from '@/pages-scripts/portal/media-manager/context/mediaManager.context';
 import { getMediaManagerPageGraphQL } from '@/pages-scripts/portal/media-manager/store/mediaManager-getPage.store';
 import NewFolderModal from '@/pages-scripts/portal/media-manager/modals/NewFolder.modal';
-import UploadFileModal from '@/pages-scripts/portal/media-manager/modals/UploadFile.modal';
 import RenameFolderModal from '@/pages-scripts/portal/media-manager/modals/RenameFolder.modal';
 import DeleteFolderModal from '@/pages-scripts/portal/media-manager/modals/DeleteFolder.modal';
 import DeleteFileModal from '@/pages-scripts/portal/media-manager/modals/DeleteFile.modal';
@@ -576,16 +575,6 @@ const FolderView = () => {
                 modal_isNewFolderModalOpened: false,
               }))
             }}
-          />
-          <UploadFileModal
-            isOpened={mediaManager.modal_isUploadFileModalOpened}
-            onClose={() => {
-              setMediaManager(prevState => ({
-                ...prevState,
-                modal_isUploadFileModalOpened: false,
-              }))
-            }}
-
           />
 
           <RenameFolderModal
