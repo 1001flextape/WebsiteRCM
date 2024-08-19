@@ -5,7 +5,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
 
 // Mine
-import { realtimeLink } from '@/utils/realtime/link';
 import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
 import { MediaManagerContext } from '@/pages-scripts/portal/media-manager/context/mediaManager.context';
 import { getMediaManagerPageGraphQL } from '@/pages-scripts/portal/media-manager/store/mediaManager-getPage.store';
@@ -95,7 +94,10 @@ const menuItem = {
 
 const FolderView = () => {
   const router = useRouter()
-  const { idChip, panelMeetingDoc, setPanelMeetingDoc, setTabs } = useContext(AdminLayoutContext)
+  const {
+    setTabs,
+    navigate,
+  } = useContext(AdminLayoutContext)
   const { mediaManager, setMediaManager } = useContext(MediaManagerContext)
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -167,48 +169,19 @@ const FolderView = () => {
   };
 
   const navigateToMediaManager = () => {
-    realtimeLink({
-      to: `/portal/media-manager`,
-      meetingId: panelMeetingDoc.id,
-      leaderUserId: panelMeetingDoc.leader?.id,
-      router,
-      setPanelMeetingDoc,
-      userId: idChip.id,
-    })
-
+    navigate(`/portal/media-manager`)
   }
 
   const navigateFile = ({ id }) => {
-    realtimeLink({
-      to: `/portal/media-manager/detail/${id}`,
-      meetingId: panelMeetingDoc.id,
-      leaderUserId: panelMeetingDoc.leader?.id,
-      router,
-      setPanelMeetingDoc,
-      userId: idChip.id,
-    })
+    navigate(`/portal/media-manager/detail/${id}`)
   }
 
   const navigateFolder = ({ id }) => {
-    realtimeLink({
-      to: `/portal/media-manager/folder/${id}`,
-      meetingId: panelMeetingDoc.id,
-      leaderUserId: panelMeetingDoc.leader?.id,
-      router,
-      setPanelMeetingDoc,
-      userId: idChip.id,
-    })
+    navigate(`/portal/media-manager/folder/${id}`)
   }
 
   const navigateToTrashFolder = () => {
-    realtimeLink({
-      to: `/portal/media-manager/trash`,
-      meetingId: panelMeetingDoc.id,
-      leaderUserId: panelMeetingDoc.leader?.id,
-      router,
-      setPanelMeetingDoc,
-      userId: idChip.id,
-    })
+    navigate(`/portal/media-manager/trash`)
   }
 
   const handleNewFolder = () => {
