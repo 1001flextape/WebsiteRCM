@@ -4,7 +4,7 @@ async function up({ context: queryInterface }) {
   await queryInterface.bulkInsert('backendSettingFooter', [
     {
       id: uuidv4(),
-      webAssetImport: "built-in/0.0.0/footers/lite/",
+      webAssetImport: "built-in/0/footers/lite/",
       menuJsonB: '{"menu":[{"header":"Copyright","type":"CONTAINER:V1","isShowing":{"prop":"isCopyrightShowing"},"data":[{"label":"Organization","prop":"copyrightName","type":"TEXTFIELD:V1","placeholder":"Your Brand"},{"label":"Day Color","prop":"copyrightColorDay","isShowing":"isDayMode","type":"COLOR_SELECTION:V1","defaultValue":{"color":"rgb(168, 162, 158)","suggestedTextColor":"DARK"}},{"label":"Night Color","prop":"copyrightColorNight","isShowing":"isNightMode","type":"COLOR_SELECTION:V1","defaultValue":{"color":"rgb(77, 77, 77)","suggestedTextColor":"LIGHT"}}]}]}',
       userAnswersJsonB: JSON.stringify({}),
 

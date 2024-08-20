@@ -1,0 +1,73 @@
+/* General Footer Styles */
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+}
+
+/* Background Colors */
+.bgLight {
+  background-color: #e2e8f0;
+  color: #2d3748;
+}
+
+.bgDark {
+  background-color: #1a202c;
+  color: #e2e8f0;
+}
+
+/* Text Colors */
+.textLight {
+  color: #2d3748;
+}
+
+.textDark {
+  color: #e2e8f0;
+}
+
+/* Resource List Styles */
+.resourceListRow {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  min-width: 75%;
+}
+
+.resourceList {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  padding-bottom: 1.25rem;
+}
+
+.header {
+  font-size: 1.125rem;
+  font-weight: 600;
+  padding-bottom: 0.5rem;
+}
+
+.copyright {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+@media (min-width: 768px) {
+  .resourceListRow {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .resourceList {
+    flex: 0 0 calc(50% - 1rem);
+    margin: 0.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .resourceList {
+    flex: 0 0 calc(25% - 1rem);
+    margin: 0.5rem;
+  }
+}

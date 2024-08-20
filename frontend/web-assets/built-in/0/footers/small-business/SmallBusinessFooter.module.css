@@ -1,0 +1,205 @@
+.footer {
+  background-color: #4a5568;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center; /* Center the footer content */
+}
+
+.footerContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 1200px; /* Optional: set a max width for better alignment */
+}
+
+.textDay {
+  color: #2d3748;
+}
+
+.textNight {
+  color: #e2e8f0;
+}
+
+.leftSide {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the content inside */
+  padding-right: 1rem;
+}
+
+.rightSide {
+  flex: 2;
+  display: flex;
+  flex-direction: row; /* Display as row on desktop */
+  justify-content: center; /* Center columns */
+  gap: 2rem; /* Space between columns */
+}
+
+.resourceListColumn {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 1.25rem;
+  color: #e2e8f0;
+  width: 100%; /* Ensure columns take full width */
+  max-width: 200px; /* Optional: set a max width to prevent columns from becoming too wide */
+  margin-top: 10px;
+
+}
+
+.header {
+  font-size: 1.125rem;
+  font-weight: 600;
+  padding-bottom: 0.5rem;
+}
+
+.resourceListColumn a {
+  color: #ffffff;
+  margin: 0.25rem 0;
+  text-decoration: none;
+}
+
+.resourceListColumn a:hover {
+  color: #b3b3b3;
+}
+
+.contactInfo {
+  margin-top: 1rem;
+}
+
+.logo {
+  width: 100px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.companyName {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.socialIcons {
+  display: flex;
+  gap: 1rem;
+}
+
+.socialIcons a {
+  color: #ffffff;
+  font-size: 1.5rem;
+}
+
+.ctaPanel {
+  text-align: center;
+  padding: 2rem;
+  border-radius: 0.5rem;
+}
+
+.ctaHeading {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.ctaText {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.ctaButton {
+  background-color: #3182ce;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  text-decoration: none;
+}
+
+.ctaButton:hover {
+  background-color: #2b6cb0;
+}
+
+.copyright {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+}
+
+.icon {
+  font-size: 1.5rem;
+}
+
+/* Media Queries */
+
+/* For mobile devices (less than 600px) */
+@media (max-width: 599px) {
+  .footerContent {
+    flex-direction: column;
+    align-items: center; /* Center the content on mobile */
+  }
+
+  .leftSide, .rightSide {
+    flex: none;
+    width: 100%;
+  }
+
+  .rightSide {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column; /* Stack columns vertically on mobile */
+    align-items: center; /* Center columns on mobile */
+  }
+}
+
+@media (max-width: 599px) {
+  .resourceListColumn {
+    max-width: none;
+  }
+
+}
+/* For tablet devices (600px to 899px) */
+@media (min-width: 600px) and (max-width: 899px) {
+  .footerContent {
+    flex-direction: row;
+    gap: 2rem;
+    justify-content: center; /* Center the content on tablet */
+  }
+
+  .leftSide, .rightSide {
+    flex: 1;
+    margin: 0;
+  }
+
+  .rightSide {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center; /* Center columns on tablet */
+  }
+}
+
+/* For desktop devices (900px and above) */
+@media (min-width: 900px) {
+  .footerContent {
+    flex-direction: row;
+    gap: 2rem;
+    justify-content: center; /* Center the content on desktop */
+  }
+
+  .leftSide {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the content inside */
+  }
+
+  .rightSide {
+    flex: 2;
+    display: flex;
+    flex-direction: row;
+    justify-content: center; /* Center columns */
+    gap: 2rem; /* Space between columns */
+  }
+}

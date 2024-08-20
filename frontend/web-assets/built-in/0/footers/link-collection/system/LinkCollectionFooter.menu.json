@@ -1,0 +1,68 @@
+{
+  "menu": [
+    {
+      "data": [
+        {
+          "prop": "colorFooterDay",
+          "type": "COLOR_SELECTION:V1",
+          "label": "Day Color",
+          "isShowing": "isDayMode",
+          "defaultValue": {
+            "color": "#57534e",
+            "suggestedTextColor": "DARK"
+          }
+        },
+        {
+          "prop": "colorFooterNight",
+          "type": "COLOR_SELECTION:V1",
+          "label": "Night Color",
+          "isShowing": "isNightMode",
+          "defaultValue": {
+            "color": "#57534e",
+            "suggestedTextColor": "DARK"
+          }
+        }
+      ],
+      "type": "CONTAINER:V1",
+      "header": "Footer",
+      "isShowing": {
+        "prop": "isFooterShowing"
+      }
+    },
+    {
+      "data": [
+        {
+          "prop": "copyrightName",
+          "type": "TEXTFIELD:V1",
+          "label": "Organization",
+          "placeholder": "Your Brand"
+        },
+        {
+          "prop": "copyrightColorDay",
+          "type": "COLOR_SELECTION:V1",
+          "label": "Day Color",
+          "isShowing": "isDayMode",
+          "defaultValue": {
+            "color": "rgb(168, 162, 158)",
+            "suggestedTextColor": "DARK"
+          }
+        },
+        {
+          "prop": "copyrightColorNight",
+          "type": "COLOR_SELECTION:V1",
+          "label": "Night Color",
+          "isShowing": "isNightMode",
+          "defaultValue": {
+            "color": "rgb(77, 77, 77)",
+            "suggestedTextColor": "LIGHT"
+          }
+        }
+      ],
+      "type": "CONTAINER:V1",
+      "header": "Copyright",
+      "isShowing": {
+        "prop": "isCopyrightShowing"
+      }
+    }
+  ]
+}

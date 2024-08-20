@@ -1,9 +1,9 @@
 import React from 'react';
-import Footer from './Footer';
+import LiteFooter from './LiteFooter';
 
 function Entry(props) {
   return (
-    <Footer {...props} />
+    <LiteFooter {...props} />
   );
 }
 

@@ -1,0 +1,43 @@
+/* General Footer Styles */
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  text-align: center;
+}
+
+/* Footer Background Colors */
+.bgDay {
+  background-color: #cbd5e0;
+  color: #212529;
+  /* Lighter background for day mode */
+}
+
+.bgNight {
+  background-color: #2d3748;
+  /* Darker background for night mode */
+  color: #f8f9fa;
+}
+
+/* Text Colors */
+.textLight {
+  color: #f8f9fa;
+  /* Light text */
+}
+
+.textDark {
+  color: #212529;
+  /* Dark text */
+}
+
+/* Copyright Styles */
+.copyright {
+  padding: 2rem 0;
+  text-align: center;
+}
+
+.copyrightText {
+  color: inherit;
+}
