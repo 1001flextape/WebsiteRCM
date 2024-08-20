@@ -37,8 +37,8 @@ export default function PageDataGrid() {
   const columns = [
     {
       field: 'isReady',
-      headerName: 'Ready?',
-      width: 120,
+      headerName: '',
+      width: 50,
       renderCell: (params) => {
         return params.row.isReady === true
           ? <CircleStatusSuccess />
@@ -49,7 +49,7 @@ export default function PageDataGrid() {
     {
       field: 'slug',
       headerName: 'Slug',
-      width: 150,
+      width: 250,
       renderCell: (params) => {
 
         return (
@@ -69,8 +69,8 @@ export default function PageDataGrid() {
     },
     {
       field: 'actions',
-      headerName: 'Actions',
-      width: 130,
+      headerName: '',
+      width: 50,
       sortable: false,
       renderCell: (params) => (
         <div>
