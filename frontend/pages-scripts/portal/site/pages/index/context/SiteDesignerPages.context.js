@@ -12,6 +12,7 @@ export function SiteDesignerPagesProvider({ children }) {
   const [isNewPageModalOpen, setIsNewPageModalOpen] = useState(false)
   const [slug, setSlug] = useState("")
   const [hasHomePage, setHasHomePage] = useState(false)
+  const [isHomePageOptionShowing, setIsHomePageOptionShowing] = useState(false)
 
   const onCreatePage = ({ url }) => {
     postNewPageGraphQL({
@@ -46,6 +47,7 @@ export function SiteDesignerPagesProvider({ children }) {
       hasHomePage,
       createPage,
       createHomePage,
+      isHomePageOptionShowing, setIsHomePageOptionShowing,
     }}>
       {children}
     </SiteDesignerPagesContext.Provider>

@@ -3,6 +3,7 @@ import { isAuthenticated, isAdmin, isPublic, hasPermissions } from "../../../../
 
 export default {
   Query: {
+    backendSiteDesignerPage_doesHomePageExist: isAuthenticated,
     // backendSiteDesignerPage_getOneById: and(isAuthenticated, or(isAdmin, hasPermissions(['backend-siteDesigner-read']))),
     backendSiteDesignerPage_getOneById: isAuthenticated,
     backendSiteDesignerPage_getOneBySlug: isAuthenticated,

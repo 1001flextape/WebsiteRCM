@@ -6,6 +6,9 @@ export const getPagesGraphQL = ({ q, page, pageSize }) => {
     const response = await callApi({
       query: `
       query($q: String, $page: Int, $pageSize: Int) {
+        backendSiteDesignerPage_doesHomePageExist {
+          result
+        }
         backendSiteDesignerPage_getManyWithPagination(
           q: $q
           page: $page

@@ -5,6 +5,7 @@ import MoreVert from '@mui/icons-material/MoreVert';
 import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
 import { useRouter } from 'next/navigation';
 import { getPagesGraphQL } from '../store/getPages.store';
+import { SiteDesignerPagesContext } from '../context/SiteDesignerPages.context';
 
 export default function PageDataGrid() {
   const router = useRouter()
@@ -16,6 +17,10 @@ export default function PageDataGrid() {
     //links
     navigate,
   } = React.useContext(AdminLayoutContext)
+
+  const {
+    isHomePageOptionShowing, setIsHomePageOptionShowing
+  } = React.useContext(SiteDesignerPagesContext)
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
@@ -99,7 +104,7 @@ export default function PageDataGrid() {
 
       setRows(data.rows)
 
-
+      setIsHomePageOptionShowing(!response?.data?.backendSiteDesignerPage_doesHomePageExist?.result)
     })
   }, [])
 

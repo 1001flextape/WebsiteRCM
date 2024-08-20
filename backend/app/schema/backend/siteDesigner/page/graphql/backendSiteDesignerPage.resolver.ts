@@ -6,9 +6,22 @@ import makeBackendSiteDesignerPageSectionLoudMain from "../main/backendSiteDesig
 import makeBackendSiteDesignerPageSectionLoudBuiltInMain from "../main/backendSiteDesignerPageSectionLoudBuiltIn.main";
 import makeBackendSiteDesignerPageSectionNormalMain from "../main/backendSiteDesignerPageSectionNormal.main";
 import makeBackendSiteDesignerPageSectionNormalBuiltInMain from "../main/backendSiteDesignerPageSectionNormalBuiltIn.main";
+import makeBackendSiteDesignerPageValidation from "../preMain/backendSiteDesignerPage.validation";
 
 const backendSiteDesignerPageResolver = {
   Query: {
+    backendSiteDesignerPage_doesHomePageExist: async (parent, args, ctx) => {
+      const main = makeBackendSiteDesignerPageValidation(ctx.d)
+
+      const response = await main.doesHomePageExist()
+
+      if (response?.success) {
+        return response
+
+      } else {
+        return graphqlError(response)
+      }
+    },
     backendSiteDesignerPage_getOneById: async (parent, args, ctx) => {
       const main = makeBackendSiteDesignerPageMain(ctx.d)
 

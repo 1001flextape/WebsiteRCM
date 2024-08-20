@@ -67,6 +67,30 @@ describe("test backendSiteDesignerPage.validation.js", () => {
     expect(isIdValid.result).toBe(false);
   })
 
+
+  test("doesHomePageExist: No", async () => {
+    const pageValidation = makeBackendSiteDesignerPageValidation(d)
+
+    const isIdValid = await pageValidation.doesHomePageExist()
+
+    expect(isIdValid.result).toBe(false);
+  })
+
+  test("doesHomePageExist: Yes", async () => {
+    const pageSql = makeBackendSiteDesignerPageSql(d);
+    const pageValidation = makeBackendSiteDesignerPageValidation(d)
+
+    await pageSql.addOne({
+      slug: "/",
+    })
+
+    const isIdValid = await pageValidation.doesHomePageExist()
+
+    expect(isIdValid.result).toBe(true);
+  })
+
+  // doesHomePageExist
+
   afterAll(async () => {
     
     await d.dbTransaction.rollback()

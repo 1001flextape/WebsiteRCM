@@ -45,14 +45,12 @@ const Page = () => {
 
       <Stack spacing={2} direction="row">
         <Button
-          variant="contained"
-          color="success"
+          variant="containedWhite"
           onClick={handleNew}
         >
-          New
+          New Page
         </Button>
       </Stack>
-      <br />
       <br />
       <Paper sx={{ p: 0 }} className='admin-card'>
         <PageDataGrid />
