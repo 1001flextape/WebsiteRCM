@@ -1,0 +1,146 @@
+/* SmallBusinessFewPagesHeader.module.css */
+
+/* General styles */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.navbarDay {
+  background-color: #d1d5db;
+  color: #1f2937;
+}
+
+.navbarNight {
+  background-color: #1f2937;
+  color: #d1d5db;
+}
+
+.textGray800 {
+  color: #1f2937;
+}
+
+.textGray200 {
+  color: #e5e7eb;
+}
+
+.textGray800Hover:hover {
+  color: #1f2937;
+}
+
+.textGray200Hover:hover {
+  color: #e5e7eb;
+}
+
+.bgStone500 {
+  background-color: #6b7280;
+}
+
+.bgStone600 {
+  background-color: #4b5563;
+}
+
+.bgZinc200 {
+  background-color: #e4e4e7;
+}
+
+.bgZinc800 {
+  background-color: #27272a;
+}
+
+.p2 {
+  padding: 0.5rem;
+}
+
+.textCenter {
+  text-align: center;
+}
+
+.hoverUnderline:hover {
+  text-decoration: underline;
+}
+
+.navbarLinksDesktop a,
+.navbarLinksMobile a {
+  margin-right: 1rem;
+  width: 100%;
+}
+
+.navbarSocialDesktop a,
+.navbarSocialMobile a {
+  margin-right: 1rem;
+}
+
+.navbarLinksMobile {
+  width: 100%;
+}
+
+.navbarLinksMobile ul {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+}
+
+.navbarLinksMobile li {
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
+/* Dropdown */
+.dropdownContainer {
+  position: relative;
+}
+
+.dropdownContent {
+  position: absolute;
+  top: 32px;
+  right: 0;
+  background-color: #4b5563;
+  color: #e5e7eb;
+  padding: 0.5rem;
+  z-index: 10;
+}
+
+/* Specific navbar styles */
+.mobileMenu {
+  display: none;
+}
+
+.desktopMenu {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.overflowHidden {
+  overflow: hidden;
+}
+
+.animatedMenu {
+  margin: 1rem 0.5rem;
+  border-bottom: 1px solid rgb(229, 231, 235);
+  width: 100%;
+}
+
+.callToActionContainer {
+  padding: 0.5rem 0;
+}
+
+.signInButton {
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .mobileMenu {
+    display: flex;
+  }
+
+  .desktopMenu {
+    display: none;
+  }
+}

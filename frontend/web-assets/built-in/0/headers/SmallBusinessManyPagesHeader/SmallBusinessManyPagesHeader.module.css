@@ -1,0 +1,112 @@
+/* Navbar Styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.navbarDay {
+  background-color: rgb(228, 228, 231);
+}
+
+.navbarNight {
+  background-color: rgb(77, 77, 77);
+}
+
+.navbarContent {
+  display: flex;
+  align-items: center;
+}
+
+.logoButton {
+  margin-right: 1rem;
+}
+
+.brandText {
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.navbarSocialDesktop {
+  display: flex;
+}
+
+.navbarSocialDesktop a {
+  margin-left: 0.5rem;
+}
+
+/* Mobile Menu */
+.mobileMenu {
+  display: none;
+}
+
+.menuIconButton {
+  margin-left: 1rem;
+}
+
+/* Desktop Menu */
+.desktopMenu {
+  display: flex;
+  align-items: center;
+}
+
+.navbarLinksDesktop {
+  display: flex;
+}
+
+.navbarLinksDesktop a {
+  margin-right: 1rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Call to Action */
+.callToActionContainer {
+  display: flex;
+  align-items: center;
+}
+
+.signInButton {
+  margin-left: 1rem;
+}
+
+/* Dropdown Styles */
+.bgStone500 {
+  background-color: rgb(107, 114, 128);
+}
+
+.bgStone600 {
+  background-color: rgb(75, 85, 99);
+}
+
+.animatedMenu {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbarLinksMobile {
+  display: none;
+}
+
+.overflowHidden {
+  overflow: hidden;
+}
+
+/* Text Colors */
+.textGray800Hover {
+  color: #2d3748;
+}
+
+.textGray200Hover {
+  color: #edf2f7;
+}
+
+.textGray800 {
+  color: #2d3748;
+}
+
+.textGray200 {
+  color: #edf2f7;
+}
