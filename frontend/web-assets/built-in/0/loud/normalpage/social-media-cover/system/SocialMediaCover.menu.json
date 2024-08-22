@@ -1,0 +1,41 @@
+{
+  "menu": [
+    {
+      "data": [
+        {
+          "prop": "coverImage",
+          "type": "MEDIA_SELECTION:V1",
+          "label": "Cover Image",
+          "fileFilter": [
+            "images"
+          ]
+        },
+        {
+          "prop": "profileImage",
+          "type": "MEDIA_SELECTION:V1",
+          "label": "Profile Image",
+          "fileFilter": [
+            "images"
+          ]
+        },
+        {
+          "prop": "header",
+          "type": "TEXTFIELD:V1",
+          "label": "Header",
+          "placeholder": "Empower Your Business Growth"
+        },
+        {
+          "prop": "description",
+          "type": "WYSIWYG:V1",
+          "label": "Description",
+          "placeholder": "@johndoe123\nWeb Developer | Travel Enthusiast"
+        }
+      ],
+      "type": "CONTAINER:V1",
+      "header": "Social Media Cover",
+      "isShowing": {
+        "prop": "isShowing"
+      }
+    }
+  ]
+}

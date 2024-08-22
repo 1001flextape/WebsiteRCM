@@ -1,0 +1,30 @@
+{
+    "menu": [
+      {
+        "data": [
+          {
+            "prop": "youtubeVideoId",
+            "type": "TEXTFIELD:V1",
+            "label": "Youtube Video ID"
+          },
+          {
+            "prop": "header",
+            "type": "TEXTFIELD:V1",
+            "label": "Header",
+            "placeholder": "Empower Your Business Growth"
+          },
+          {
+            "prop": "description",
+            "type": "WYSIWYG:V1",
+            "label": "Description",
+            "placeholder": "Unlock success with tailored solutions and expert guidance."
+          }
+        ],
+        "type": "CONTAINER:V1",
+        "header": "Basic Call-to-Action",
+        "isShowing": {
+          "prop": "isShowing"
+        }
+      }
+    ]
+  }
