@@ -1,0 +1,239 @@
+{
+  "menu": [
+    {
+      "data": [
+        {
+          "prop": "noticeTitle",
+          "type": "TEXTFIELD:V1",
+          "label": "Title",
+          "placeholder": "Important notice goes here."
+        },
+        {
+          "prop": "noticeLink",
+          "type": "LINK_SELECTION:V1",
+          "label": "Link"
+        },
+        {
+          "prop": "noticeColorDay",
+          "type": "COLOR_SELECTION:V1",
+          "label": "Background",
+          "isShowing": "isDayMode",
+          "defaultValue": {
+            "color": "rgb(228, 228, 231)",
+            "suggestedTextColor": "DARK"
+          }
+        },
+        {
+          "prop": "noticeColorNight",
+          "type": "COLOR_SELECTION:V1",
+          "label": "Background",
+          "isShowing": "isNightMode",
+          "defaultValue": {
+            "color": "rgb(39, 39, 42)",
+            "suggestedTextColor": "LIGHT"
+          }
+        }
+      ],
+      "type": "CONTAINER:V1",
+      "header": "Notice",
+      "isShowing": {
+        "prop": "isNoticeShowing"
+      }
+    },
+    {
+      "data": [
+        {
+          "prop": "navColorDay",
+          "type": "COLOR_SELECTION:V1",
+          "label": "Background",
+          "isShowing": "isDayMode",
+          "defaultValue": {
+            "color": "rgb(168, 162, 158)",
+            "suggestedTextColor": "DARK"
+          }
+        },
+        {
+          "prop": "navColorNight",
+          "type": "COLOR_SELECTION:V1",
+          "label": "Background",
+          "isShowing": "isNightMode",
+          "defaultValue": {
+            "color": "rgb(77, 77, 77)",
+            "suggestedTextColor": "LIGHT"
+          }
+        }
+      ],
+      "type": "CONTAINER:V1",
+      "header": "Navigation Bar",
+      "isShowing": {
+        "prop": "isNavShowing"
+      }
+    },
+    {
+      "data": [
+        {
+          "prop": "isLogoShowing",
+          "type": "SWITCH:V1",
+          "label": "Show Logo",
+          "defaultValue": true
+        },
+        {
+          "prop": "logo",
+          "type": "MEDIA_SELECTION:V1",
+          "label": "Logo",
+          "fileFilter": [
+            "images"
+          ]
+        },
+        {
+          "prop": "isBrandTextShowing",
+          "type": "SWITCH:V1",
+          "label": "Show Text",
+          "defaultValue": true
+        },
+        {
+          "prop": "brandText",
+          "type": "TEXTFIELD:V1",
+          "label": "Text",
+          "placeholder": "Your Brand"
+        },
+        {
+          "prop": "brandLink",
+          "type": "LINK_SELECTION:V1",
+          "label": "Link"
+        }
+      ],
+      "type": "CONTAINER:V1",
+      "header": "Branding",
+      "isShowing": {
+        "prop": "isBrandShowing"
+      }
+    },
+    {
+      "data": [
+        {
+          "prop": "isFacebookShowing",
+          "type": "SWITCH:V1",
+          "label": "Show Facebook",
+          "isShowing": "organization.hasFacebook"
+        },
+        {
+          "prop": "isXShowing",
+          "type": "SWITCH:V1",
+          "label": "Show 𝕏",
+          "isShowing": "organization.hasX"
+        },
+        {
+          "prop": "isInstagramShowing",
+          "type": "SWITCH:V1",
+          "label": "Show Instagram",
+          "isShowing": "organization.hasInstagram"
+        },
+        {
+          "prop": "isLinkedInShowing",
+          "type": "SWITCH:V1",
+          "label": "Show LinkedIn",
+          "isShowing": "organization.hasLinkedIn"
+        },
+        {
+          "prop": "isYoutubeShowing",
+          "type": "SWITCH:V1",
+          "label": "Show FacebookYoutube",
+          "isShowing": "organization.hasYoutube"
+        },
+        {
+          "prop": "isPinterestShowing",
+          "type": "SWITCH:V1",
+          "label": "Show Pinterest",
+          "isShowing": "organization.hasPinterest"
+        },
+        {
+          "prop": "issocialWhatsappShowing",
+          "type": "SWITCH:V1",
+          "label": "Show socialWhatsapp",
+          "isShowing": "organization.hassocialWhatsapp"
+        },
+        {
+          "prop": "isRedditShowing",
+          "type": "SWITCH:V1",
+          "label": "Show Reddit",
+          "isShowing": "organization.hasReddit"
+        }
+      ],
+      "type": "CONTAINER:V1",
+      "header": "Social",
+      "isShowing": {
+        "prop": "isSocialShowing"
+      }
+    },
+    {
+      "data": [
+        {
+          "prop": "dayNightSelectorColorDay",
+          "type": "COLOR_SELECTION:V1",
+          "label": "Drop Down",
+          "isShowing": "isDayMode",
+          "defaultValue": {
+            "color": "rgb(120, 113, 108)",
+            "suggestedTextColor": "DARK"
+          }
+        },
+        {
+          "prop": "dayNightSelectorColorNight",
+          "type": "COLOR_SELECTION:V1",
+          "label": "Drop Down",
+          "isShowing": "isNightMode",
+          "defaultValue": {
+            "color": "rgb(87, 83, 78)",
+            "suggestedTextColor": "LIGHT"
+          }
+        }
+      ],
+      "type": "CONTAINER:V1",
+      "header": "Day/Night Selector",
+      "isShowing": {
+        "prop": "isDayNightSelectorShowing"
+      }
+    },
+    {
+      "data": [
+        {
+          "prop": "callToActionTitle",
+          "type": "TEXTFIELD:V1",
+          "label": "Title",
+          "placeholder": "Contact"
+        },
+        {
+          "prop": "callToActionLink",
+          "type": "LINK_SELECTION:V1",
+          "label": "Go To"
+        },
+        {
+          "prop": "callToActionColorDay",
+          "type": "COLOR_SELECTION:V1",
+          "label": "Button Color",
+          "isShowing": "isDayMode",
+          "defaultValue": {
+            "color": "rgb(228, 228, 231)",
+            "suggestedTextColor": "DARK"
+          }
+        },
+        {
+          "prop": "callToActionColorNight",
+          "type": "COLOR_SELECTION:V1",
+          "label": "Button Color",
+          "isShowing": "isNightMode",
+          "defaultValue": {
+            "color": "rgb(39, 39, 42)",
+            "suggestedTextColor": "LIGHT"
+          }
+        }
+      ],
+      "type": "CONTAINER:V1",
+      "header": "Call To Action",
+      "isShowing": {
+        "prop": "isCallToActionShowing"
+      }
+    }
+  ]
+}
