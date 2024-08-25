@@ -1,23 +1,16 @@
 'use client'
 
-//library
+// library
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 // Mine
-// import AdminLayoutContext from '../../../layout/adminLayout.context';
-// import * as tabsJson from '../../tabs.json';
-// import * as settingsTabsJson from '../tabs.json';
-// import FaviconUpload from './favicon.upload';
-// import SettingTabsContext from '../setting-tabs.context';
-// import SettingTabs from '../tabs';
 import tabsJson from '@/pages-scripts/portal/admin/tabs.json';
 import settingsTabsJson from '@/pages-scripts/portal/admin/settings/tabs/tabs.json';
 import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
 import AdminLayout from '@/layouts/admin/layout';
 import SettingTabs from '@/pages-scripts/portal/admin/settings/tabs/tabs';
 import SettingTabsContext, { SettingTabsProvider } from '@/pages-scripts/portal/admin/settings/tabs/setting-tabs.context';
-// import FaviconUpload from '@/pages-scripts/portal/admin/settings/website/favicon.upload';
 
 // MUI
 import Button from '@mui/material/Button';
@@ -29,36 +22,32 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
-// import { getSettingsSiteGraphQL, postSettingsSiteGraphQL } from '@/pages-scripts/portal/admin/settings/site/site.graphql';
-import { processGraphQLErrors } from '@/utils/graphql/processGraphQLErrors.func';
-import { realtimeLink } from '@/utils/realtime/link';
-import { List } from '@mui/material';
+import List from '@mui/material/List';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import HeaderRow from '@/components/global/HeaderRow/HeaderRow.component';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { useTheme } from '@mui/material';
+
 
 const Page = () => {
   const router = useRouter()
-  const { setTabs } = React.useContext(AdminLayoutContext)
+  const theme = useTheme();
+  const { setTabs, navigate } = React.useContext(AdminLayoutContext)
   const settingsTabsContext = React.useContext(SettingTabsContext)
 
   const [isLoaded, setIsLoaded] = useState(false)
 
-  const [churchShortName, setChurchShortName] = useState("")
-  const [churchShortNameError, setChurchShortNameError] = useState("")
   const [favicon, setFavicon] = useState("")
 
   const { setLeftDrawer, idChip, panelMeetingDoc, setPanelMeetingDoc } = React.useContext(AdminLayoutContext)
 
-  const changeUrl = (href) => {
-    // router.push(href)
-    realtimeLink({
-      to: href,
-      leaderUserId: panelMeetingDoc.leader?.id,
-      meetingId: panelMeetingDoc.id,
-      router,
-      userId: idChip.id,
-      setPanelMeetingDoc,
+  const [anchorEl, setAnchorEl] = useState(null);
 
-    })
+  const changeUrl = (href) => {
+    navigate(href)
   }
 
   React.useEffect(() => {
@@ -74,41 +63,28 @@ const Page = () => {
       selectedValue: 0,
     }))
 
-    // getSettingsSiteGraphQL().then(response => {
-    //   setChurchShortName(response?.data?.backendSetting_site_getOne?.churchShortName)
-    //   setFavicon(response?.data?.backendSetting_site_getOne?.favicon)
     setIsLoaded(true)
-    // })
-
   }, [])
+
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    setChurchShortNameError("")
-
-    // postSettingsSiteGraphQL({
-    //   churchShortName,
-    // }).then(response => {
-    //   const result = processGraphQLErrors({ response })
-
-    //   console.log('response', response, result)
-
-    // })
-
   }
 
   return (
-
     <Box sx={{
       flexGrow: 1,
       width: "100%",
       maxWidth: "900px",
       m: "auto"
     }}
-      component="form"
-      noValidate
-      onSubmit={handleSubmit}
     >
 
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -124,12 +100,127 @@ const Page = () => {
               <HeaderRow label="Website Settings Portal" />
             </List>
             <div className="admin-card">
-
               <p>Website settings serve as your portal to customize branding, headers, footers, colors, and more, enhancing your online presence.</p>
               <br />
               <Button onClick={() => changeUrl("/portal/admin/settings/website/settings")} variant="contained" color="secondary" type="submit">Start Customizing Now!</Button>
             </div>
           </Paper>
+
+          <br />
+
+
+          {/* Section 2 */}
+          <Paper elevation={3}>
+            <List sx={{ p: 0 }}>
+              <Typography variant="h6" sx={{ p: 2 }}>External Scripts</Typography>
+
+              <HeaderRow
+                label="HTML Head"
+                secondaryAction={(
+                  <>
+                    <IconButton>
+                      <AddCircleIcon
+                        sx={{
+                          color: theme.palette.grey[200],
+                          '&:hover': {
+                            color: theme.palette.grey[400],
+                          },
+                        }}
+                      />
+                    </IconButton>
+                  </>
+                )} />
+            </List>
+            <Box sx={{ p: 2 }}>
+
+              <Grid container spacing={2} alignItems="center">
+                <Grid item xs={9}>
+                  <Typography component="a" href="#" sx={{ textDecoration: 'none', color: '#1976d2' }}>Global CSS</Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <Box sx={{ textAlign: 'right' }}>
+                    <IconButton onClick={handleMenuClick}>
+                      <MoreVertIcon />
+                    </IconButton>
+                    <Menu
+                      anchorEl={anchorEl}
+                      open={Boolean(anchorEl)}
+                      onClose={handleMenuClose}
+                    >
+                      <MenuItem onClick={handleMenuClose}>Edit</MenuItem>
+                      <MenuItem onClick={handleMenuClose}>Disable</MenuItem>
+                      <MenuItem onClick={handleMenuClose}>Delete</MenuItem>
+                    </Menu>
+                  </Box>
+                </Grid>
+              </Grid>
+            </Box>
+            <List sx={{ p: 0 }}>
+              <HeaderRow
+                label="HTML Body"
+                secondaryAction={(
+                  <>
+                    <IconButton>
+                      <AddCircleIcon
+                        sx={{
+                          color: theme.palette.grey[200],
+                          '&:hover': {
+                            color: theme.palette.grey[400],
+                          },
+                        }}
+                      />
+                    </IconButton>
+                  </>
+                )}
+              />
+            </List>
+            <Box sx={{ p: 2 }}>
+              <Grid container spacing={2} alignItems="center">
+                <Grid item xs={9}>
+                  <Typography component="a" href="#" sx={{ textDecoration: 'none', color: '#1976d2' }}>Cookie Policy</Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <Box sx={{ textAlign: 'right' }}>
+                    <IconButton onClick={handleMenuClick}>
+                      <MoreVertIcon />
+                    </IconButton>
+                    <Menu
+                      anchorEl={anchorEl}
+                      open={Boolean(anchorEl)}
+                      onClose={handleMenuClose}
+                    >
+                      <MenuItem onClick={handleMenuClose}>Edit</MenuItem>
+                      <MenuItem onClick={handleMenuClose}>Disable</MenuItem>
+                      <MenuItem onClick={handleMenuClose}>Delete</MenuItem>
+                    </Menu>
+                  </Box>
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={2} alignItems="center" sx={{ mt: 1 }}>
+                <Grid item xs={9}>
+                  <Typography component="a" href="#" sx={{ textDecoration: 'none', color: '#1976d2' }}>Chat Bot</Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <Box sx={{ textAlign: 'right' }}>
+                    <IconButton onClick={handleMenuClick}>
+                      <MoreVertIcon />
+                    </IconButton>
+                    <Menu
+                      anchorEl={anchorEl}
+                      open={Boolean(anchorEl)}
+                      onClose={handleMenuClose}
+                    >
+                      <MenuItem onClick={handleMenuClose}>Edit</MenuItem>
+                      <MenuItem onClick={handleMenuClose}>Disable</MenuItem>
+                      <MenuItem onClick={handleMenuClose}>Delete</MenuItem>
+                    </Menu>
+                  </Box>
+                </Grid>
+              </Grid>
+            </Box>
+          </Paper>
+
           <br />
           <br />
           <br />
@@ -142,9 +233,7 @@ const Page = () => {
 
 Page.getLayout = function getLayout(page) {
   return (
-    <AdminLayout
-      hasNoEntity
-    >
+    <AdminLayout hasNoEntity>
       <SettingTabsProvider>
         {page}
       </SettingTabsProvider>
