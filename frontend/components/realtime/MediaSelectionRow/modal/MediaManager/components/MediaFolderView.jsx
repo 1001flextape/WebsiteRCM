@@ -1,24 +1,7 @@
-'use client'
-
-// Library
 import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
-
-// Mine
-import { realtimeLink } from '@/utils/realtime/link';
 import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
-// import { getMediaManagerPageGraphQL } from '@/pages-scripts/portal/media-manager/store/mediaManager-getPage.store';
-// import NewFolderModal from '@/pages-scripts/portal/media-manager/modals/NewFolder.modal';
-// import UploadFileModal from '@/pages-scripts/portal/media-manager/modals/UploadFile.modal';
-// import RenameFolderModal from '@/pages-scripts/portal/media-manager/modals/RenameFolder.modal';
-// import DeleteFolderModal from '@/pages-scripts/portal/media-manager/modals/DeleteFolder.modal';
-// import DeleteFileModal from '@/pages-scripts/portal/media-manager/modals/DeleteFile.modal';
-// import RenameFileModal from '@/pages-scripts/portal/media-manager/modals/RenameFile.modal';
-// import { getMediaManagerBreadCrumbsGraphQL } from '../store/mediaManager-breadCrumbs.store';
-// import DeleteFolderFailedModal from '../modals/DeleteFolderFailed.modal';
 import { SelectMediaManagerContext } from '../context/selectMediaManager.context';
-
-// MUI
 import { styled, alpha } from '@mui/material/styles';
 import Menu from '@mui/material/Menu';
 import Box from '@mui/material/Box'
@@ -36,63 +19,22 @@ import IconButton from '@mui/material/IconButton';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-
-//icon
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FolderIcon from '@mui/icons-material/Folder';
-import FileUploadIcon from '@mui/icons-material/FileUpload';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ImageIcon from '@mui/icons-material/Image';
-// import NewFolderModal from '@/pages-scripts/portal/media-manager/modals/NewFolder.modal';
-// import UploadFileModal from '@/pages-scripts/portal/media-manager/modals/UploadFile.modal';
-// import RenameFolderModal from '@/pages-scripts/portal/media-manager/modals/RenameFolder.modal';
-// import DeleteFolderModal from '@/pages-scripts/portal/media-manager/modals/DeleteFolder.modal';
-// import DeleteFileModal from '@/pages-scripts/portal/media-manager/modals/DeleteFile.modal';
-// import RenameFileModal from '@/pages-scripts/portal/media-manager/modals/RenameFile.modal';
-// import DeleteFolderFailedModal from '@/pages-scripts/portal/media-manager/modals/DeleteFolderFailed.modal';
-import { getMediaManagerPageGraphQL } from '@/pages-scripts/portal/media-manager/store/mediaManager-getPage.store';
 import { getMediaManagerModelGraphQL } from '../store/getMedia.store';
+import NewFolderSelectionModal from '../modals/NewFolderSelectionModal.modal';
+import DeleteFolderFailedSelectionModal from '../modals/DeleteFolderFailedSelectionModal.modal';
+import DeleteFolderSelectionModal from '../modals/DeleteFolderSelectionModal.modal';
+import DeleteFileSelectionModal from '../modals/DeleteFileSelectionModal.modal';
+import MoveFileSelectionModal from '../modals/MoveFileSelectionModal.modal';
+import RenameFileSelectionModal from '../modals/RenameFileSelectionModal.modal';
+import RenameFolderSelectionModal from '../modals/RenameFolderSelectionModal.modal';
+import { ListItemButton } from '@mui/material';
+import uploaderUtil from '@/utils/uploader/callUploaderApi';
+import { getMediaManagerPageGraphQL } from '@/pages-scripts/portal/media-manager/store/mediaManager-getPage.store';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 
-const StyledMenu = styled((props) => (
-  <Menu
-    elevation={0}
-    anchorOrigin={{
-      vertical: 'bottom',
-      horizontal: 'right',
-    }}
-    transformOrigin={{
-      vertical: 'top',
-      horizontal: 'right',
-    }}
-    {...props}
-  />
-))(({ theme }) => ({
-  '& .MuiPaper-root': {
-    borderRadius: 6,
-    marginTop: theme.spacing(1),
-    minWidth: 180,
-    color:
-      theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
-    boxShadow:
-      'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
-    '& .MuiMenu-list': {
-      padding: '4px 0',
-    },
-    '& .MuiMenuItem-root': {
-      '& .MuiSvgIcon-root': {
-        fontSize: 18,
-        color: theme.palette.text.secondary,
-        marginRight: theme.spacing(1.5),
-      },
-      '&:active': {
-        backgroundColor: alpha(
-          theme.palette.primary.main,
-          theme.palette.action.selectedOpacity,
-        ),
-      },
-    },
-  },
-}));
 
 const menuItem = {
   cursor: "pointer",
@@ -112,208 +54,168 @@ const MediaFolderView = () => {
     selectedImage, setSelectedImage,
     selectImage,
     selectFolder,
+
+    //functions:
+    changeFileExplorerFolder,
+
   } = useContext(SelectMediaManagerContext)
 
   const [anchorEl, setAnchorEl] = useState(null);
-  const [open, setOpen] = useState(false);
-
+  const [menuAnchorEl, setMenuAnchorEl] = useState({});
   const [isLoaded, setIsLoaded] = useState(false)
-  const [dropDowns, setDropDowns] = useState({})
 
   useEffect(() => {
-
-    getMediaManagerModelGraphQL({}).then(result => {
-      const foldersFromServer = result.data.backendMediaManagerFolder_getMany
-      const filesFromServer = result.data.backendMediaManagerFile_getMany
-
-      setMediaManager(prevState => ({
-        ...prevState,
-        folders: foldersFromServer,
-        files: filesFromServer,
-      }))
-
-      const newDropDown = {}
-      foldersFromServer.map(f => {
-        newDropDown[f.id] = false
-      })
-      filesFromServer.map(f => {
-        newDropDown[f.id] = false
-      })
-
-      setDropDowns(newDropDown)
-      setIsLoaded(true)
+    //:folderId, :callBack
+    selectFolder({
+      folderId: null,
+      cb: () => {
+        setIsLoaded(true)
+      },
     })
   }, [])
 
-
-  // useEffect(() => {
-
-  //   setTabs(prevState => ({
-  //     ...prevState,
-  //     tabs: []
-  //   }))
-  //   setMediaManager(prevState => ({
-  //     ...prevState,
-  //     selectedFolderId: null,
-  //     folders: [],
-  //     files: [],
-  //   }))
-
-  //   getMediaManagerPageGraphQL({
-  //     folderId: router.query?.id,
-  //   }).then(result => {
-  //     const foldersFromServer = result.data.backendMediaManagerFolder_getMany
-  //     const filesFromServer = result.data.backendMediaManagerFile_getMany
-
-  //     setMediaManager(prevState => ({
-  //       ...prevState,
-  //       folders: foldersFromServer,
-  //       files: filesFromServer,
-  //     }))
-
-  //     const newDropDown = {}
-  //     foldersFromServer.map(f => {
-  //       newDropDown[f.id] = false
-  //     })
-  //     filesFromServer.map(f => {
-  //       newDropDown[f.id] = false
-  //     })
-
-  //     setDropDowns(newDropDown)
-  //     setIsLoaded(true)
-  //   })
-
-  //   if (router.query?.id) {
-  //     getMediaManagerBreadCrumbsGraphQL({
-  //       folderId: router.query.id
-  //     }).then(result => {
-
-  //       let newBreadCrumbs = result.data?.backendMediaManagerFolder_getBreadCrumb || []
-  //       newBreadCrumbs = newBreadCrumbs.sort((a, b) => b.order - a.order)
-  //       setBreadCrumbs(newBreadCrumbs)
-
-  //     })
-  //   }
+  const handleFileUpload = () => {
+    const inputElement = document.createElement('input');
+    inputElement.type = 'file';
+    inputElement.onchange = (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        // Handle file upload logic here
+        console.log('Selected file:', file);
 
 
-  // }, [router.query])
+        uploaderUtil.postMediaManager({
+          file,
+          folderId: mediaManager.explorerFolderId,
+        }).then(() => {
 
-  // const handleClick = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  //   setOpen(true)
-  // };
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
+          getMediaManagerPageGraphQL({
+            folderId: mediaManager.explorerFolderId,
+          }).then(result => {
+            const foldersFromServer = result.data.backendMediaManagerFolder_getMany
+            const filesFromServer = result.data.backendMediaManagerFile_getMany
 
-  // const handleNewFolder = () => {
-  //   setMediaManager(prevState => ({
-  //     ...prevState,
-  //     modal_isNewFolderModalOpened: true,
-  //   }))
-  //   handleClose()
-  // }
-
-  // const handleUploader = () => {
-  //   setMediaManager(prevState => ({
-  //     ...prevState,
-  //     modal_isUploadFileModalOpened: true,
-  //   }))
-  //   handleClose()
-  // }
-
-  // const handleRenameFolderOpen = ({ event, id, name }) => {
-  //   event.preventDefault();
-  //   event.stopPropagation();
-
-  //   setMediaManager(prevState => ({
-  //     ...prevState,
-  //     modal_isRenameFolderModalOpened: true,
-  //     selectFolderName: name,
-  //     selectedFolderId: id,
-  //   }))
-
-  //   handleCloseDropDown({ event, id })
-  // }
-
-  // const handleRenameFileOpen = ({ event, id, name }) => {
-  //   event.preventDefault();
-  //   event.stopPropagation();
-
-  //   setMediaManager(prevState => ({
-  //     ...prevState,
-  //     modal_isRenameFileModalOpened: true,
-  //     selectFileName: name,
-  //     selectedFileId: id,
-  //   }))
-
-  //   handleCloseDropDown({ event, id })
-  // }
-  // const handleDeleteFolderOpen = ({ event, id, name }) => {
-  //   event.preventDefault();
-  //   event.stopPropagation();
-
-  //   setMediaManager(prevState => ({
-  //     ...prevState,
-  //     modal_isDeleteFolderModalOpened: true,
-  //     selectFolderName: name,
-  //     selectedFolderId: id,
-  //   }))
-
-  //   handleCloseDropDown({ event, id })
-  // }
-
-  // const handleDeleteFileOpen = ({ event, id, name }) => {
-  //   event.preventDefault();
-  //   event.stopPropagation();
-
-  //   setMediaManager(prevState => ({
-  //     ...prevState,
-  //     modal_isDeleteFileModalOpened: true,
-  //     selectFileName: name,
-  //     selectedFileId: id,
-  //   }))
-
-  //   handleCloseDropDown({ event, id })
-  // }
-
-  // const handleOpenDropDown = ({ event, id }) => {
-  //   event.preventDefault();
-  //   event.stopPropagation();
-
-  //   setAnchorEl(event.currentTarget);
-  //   setDropDowns(prevState => {
-  //     const newDropDown = { ...prevState }
-
-  //     newDropDown[id] = true
-
-  //     return newDropDown
-  //   })
-  // }
-
-  // const handleCloseDropDown = ({ event, id }) => {
-  //   event.preventDefault();
-  //   event.stopPropagation();
-  //   setDropDowns(prevState => {
-  //     const newDropDown = { ...prevState }
-
-  //     newDropDown[id] = false
-
-  //     return newDropDown
-  //   })
-  // }
+            setMediaManager(prevState => ({
+              ...prevState,
+              files: filesFromServer,
+              folders: foldersFromServer
+            }))
+          })
+        })
+      }
+    }
+    inputElement.click(); // This opens the system's file explorer
+    handleClose();
+  };
 
   const handleImageSelection = ({ imageId }) => {
-    selectImage({
-      imageId,
-    })
+    selectImage({ imageId });
   }
 
   const handleFolderSelection = ({ folderId }) => {
-    selectFolder({
-      folderId,
-    })
+    selectFolder({ folderId });
   }
+
+  // Menu handling
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleMenuClick = (event, itemId) => {
+    event.stopPropagation(); // Prevents the ListItem click
+    setMenuAnchorEl(prevState => ({
+      ...prevState,
+      [itemId]: event.currentTarget
+    }));
+  };
+
+  const handleMenuClose = () => {
+    setMenuAnchorEl({});
+  };
+
+  const handleNewFolder = () => {
+    // Handle New Folder
+
+    setMediaManager(prevState => ({
+      ...prevState,
+      modal_isNewFolderModalOpened: true,
+    }))
+
+    handleClose();
+  };
+
+  const handleOpen = (folderId) => {
+    // Handle Open Folder
+    handleMenuClose();
+  };
+
+  const handleRename = (folderId, folderName) => {
+    setMediaManager(prevState => ({
+      ...prevState,
+      modal_isRenameFolderModalOpened: true,
+      selectedFolderId: folderId,
+      selectFolderName: folderName,
+    }))
+    handleMenuClose();
+  };
+
+  const handleFolderDelete = (folderId, folderName) => {
+    setMediaManager(prevState => ({
+      ...prevState,
+      modal_isDeleteFolderModalOpened: true,
+      selectedFolderId: folderId,
+      selectFolderName: folderName,
+    }))
+    // Handle Delete (Folder or File)
+    handleMenuClose();
+  };
+
+  const handleFileSelect = (fileId) => {
+    // Handle Select File
+    console.log(`Selected file ID: ${fileId}`);
+    handleImageSelection({
+      imageId: fileId,
+    })
+    handleMenuClose();
+  };
+
+  const handleFileRename = (fileId, fileName) => {
+    setMediaManager(prevState => ({
+      ...prevState,
+      modal_isRenameFileModalOpened: true,
+      selectedFileId: fileId,
+      selectFileName: fileName,
+    }))
+    handleMenuClose();
+  };
+
+  const handleMoveFile = (fileId, fileName) => {
+    setMediaManager(prevState => ({
+      ...prevState,
+      modal_isMoveFileModalOpened: true,
+      selectedFileId: fileId,
+      selectFileName: fileName,
+    }))
+
+    handleMenuClose();
+  };
+
+  const handleFileDelete = (fileId, fileName) => {
+    // Handle Delete File
+    console.log(`Deleting file ID: ${fileId}`);
+    setMediaManager(prevState => ({
+      ...prevState,
+      modal_isDeleteFileModalOpened: true,
+      selectedFileId: fileId,
+      selectFileName: fileName,
+    }))
+
+    handleMenuClose();
+  };
 
   return (
     <>
@@ -324,50 +226,81 @@ const MediaFolderView = () => {
         m: "auto",
         padding: "20px",
       }}>
+        <Grid container alignItems="center" spacing={1}>
+          <Grid item xs={11}>
+            {isLoaded && (
+              <>
+                {mediaManager.breadCrumbs.length === 0 && (
+                  <Breadcrumbs aria-label="breadcrumb">
+                    <Typography
+                      sx={{ lineHeight: "50px", cursor: "pointer" }}
+                      color="text.primary"
+                    >
+                      Media Manager
+                    </Typography>
+                  </Breadcrumbs>
+                )}
 
-
-        {isLoaded && (
-          <>
-            {mediaManager.breadCrumbs.length === 0 && (
-              <Breadcrumbs aria-label="breadcrumb">
-                <Typography
-                  sx={{ lineHeight: "50px", cursor: "pointer" }}
-                  color="text.primary"
-                >
-                  Media Manager
-                </Typography>
-                <Typography></Typography>
-
-              </Breadcrumbs>
+                {mediaManager.breadCrumbs.length !== 0 && (
+                  <Breadcrumbs aria-label="breadcrumb">
+                    <Link
+                      sx={{ lineHeight: "50px", cursor: "pointer" }}
+                      underline="hover"
+                      color="inherit"
+                      onClick={() => handleFolderSelection({ folderId: null })}
+                    >
+                      Media Manager
+                    </Link>
+                    {mediaManager.breadCrumbs.map(b => (
+                      <Link
+                        key={b.id}
+                        sx={{ lineHeight: "50px", cursor: "pointer" }}
+                        underline="hover"
+                        color="inherit"
+                        onClick={() => handleFolderSelection({ folderId: b.id })}
+                      >
+                        {b.name}
+                      </Link>
+                    ))}
+                  </Breadcrumbs>
+                )}
+              </>
             )}
-
-            {mediaManager.breadCrumbs.length !== 0 && (
-              <Breadcrumbs aria-label="breadcrumb">
-
-                <Link
-                  sx={{ lineHeight: "50px", cursor: "pointer" }}
-                  underline="hover"
-                  color="inherit"
-                  onClick={() => handleFolderSelection({ folderId: null })}
-                >
-                  Media Manager
-                </Link>
-                {mediaManager.breadCrumbs.map(b => (
-                  <Link
-                    sx={{ lineHeight: "50px", cursor: "pointer" }}
-                    underline="hover"
-                    color="inherit"
-                    onClick={() => handleFolderSelection({ folderId: b.id })}
-                  >
-                    {b.name}
-                  </Link>
-                ))}
-              </Breadcrumbs>
-            )}
-
-
-          </>
-        )}
+          </Grid>
+          <Grid item xs={1} display="flex" justifyContent="flex-end">
+            <IconButton onClick={handleClick}>
+              <MoreVertIcon />
+            </IconButton>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              PaperProps={{
+                style: {
+                  marginTop: 8, // Adjust margin if needed to ensure menu is below the button
+                },
+              }}
+            >
+              <MenuItem onClick={handleFileUpload}>
+              <FileUploadIcon sx={{mr: "10px"}} />
+                Upload File
+              </MenuItem>
+              <Divider />
+              <MenuItem onClick={handleNewFolder}>
+                <FolderIcon sx={{mr: "10px"}} />
+                New Folder
+              </MenuItem>
+            </Menu>
+          </Grid>
+        </Grid>
       </Box>
 
       <Box sx={{
@@ -375,201 +308,187 @@ const MediaFolderView = () => {
         width: "100%",
         maxWidth: "900px",
         m: "auto",
-        // padding: "20px",
         minHeight: "350px",
       }}>
         <Paper elevation={3} sx={{ borderRadius: 0 }}>
-
-
           <Grid container spacing={2}>
             <Grid item xs={12}>
               {isLoaded && mediaManager.folders.length === 0 && mediaManager.files.length === 0 && (
                 <p style={{ textAlign: "center" }}>
-                  <em>
-                    Nothing here
-                  </em>
-                  <br />
-                  <br />
+                  <br /><em>Nothing here</em><br /><br />
                 </p>
               )}
-              {isLoaded && (mediaManager.folders.length !== 0 || mediaManager.files.length !== 0) && (
+              {isLoaded && (
                 <List dense={false}>
                   {mediaManager.folders.map(f => (
                     <div key={f.id}>
-                      <ListItem
-                        sx={menuItem}
+                      <ListItemButton
+                        sx={{ menuItem }}
                         onClick={() => handleFolderSelection({ folderId: f.id })}
-                      // secondaryAction={
-                      //   <>
-                      //     <IconButton
-                      //       onClick={(event) => handleOpenDropDown({ event, id: f.id })}
-                      //     >
-                      //       <MoreVertIcon />
-                      //     </IconButton>
-                      //     <StyledMenu
-                      //       id="demo-customized-menu"
-                      //       MenuListProps={{
-                      //         'aria-labelledby': 'demo-customized-button',
-                      //       }}
-                      //       anchorEl={anchorEl}
-                      //       open={dropDowns[f.id]}
-                      //       onClose={(event) => handleCloseDropDown({ event, id: f.id })}
-                      //     >
-                      //       <MenuItem onClick={() => navigateFolder({ id: f.id })}>
-                      //         Open
-                      //       </MenuItem>
-                      //       <Divider sx={{ my: 0.5 }} />
-                      //       <MenuItem onClick={(event) => handleRenameFolderOpen({ event, id: f.id, name: f.name })}>
-                      //         Rename
-                      //       </MenuItem>
-                      //       <Divider sx={{ my: 0.5 }} />
-                      //       <MenuItem onClick={(event) => handleDeleteFolderOpen({ event, id: f.id, name: f.name })}>
-                      //         Delete
-                      //       </MenuItem>
-                      //     </StyledMenu>
-                      //   </>
-                      // }
                       >
                         <ListItemIcon>
                           <FolderIcon />
                         </ListItemIcon>
-                        <ListItemText
-                          primary={f.name}
-                        />
-                      </ListItem>
-
-                      <Divider />
+                        <ListItemText primary={f.name} />
+                        <IconButton
+                          edge="end"
+                          onClick={(event) => handleMenuClick(event, f.id)}
+                        >
+                          <MoreVertIcon />
+                        </IconButton>
+                        <Menu
+                          anchorEl={menuAnchorEl[f.id] || null}
+                          open={Boolean(menuAnchorEl[f.id])}
+                          onClose={handleMenuClose}
+                          anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
+                          }}
+                          transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                          }}
+                          PaperProps={{
+                            style: {
+                              marginTop: 8,
+                            },
+                          }}
+                          onClick={(event) => event.stopPropagation()} // Prevents menu click from triggering ListItem click
+                        >
+                          <MenuItem onClick={(event) => { event.stopPropagation(); handleOpen(f.id); }}>Open</MenuItem>
+                          <MenuItem onClick={(event) => { event.stopPropagation(); handleRename(f.id, f.name); }}>Rename</MenuItem>
+                          <MenuItem onClick={(event) => { event.stopPropagation(); handleFolderDelete(f.id, f.name); }}>Delete</MenuItem>
+                        </Menu>
+                      </ListItemButton>
                     </div>
                   ))}
                   {mediaManager.files.map(f => (
                     <div key={f.id}>
-                      <ListItem
-                        sx={{ ...(selectedImage?.id && selectedImage?.id === f.id ? menuItemSelected : {}), ...menuItem }}
-                        onClick={() => handleImageSelection({ imageId: f.id })}
-                      // secondaryAction={
-                      //   <>
-                      //     <IconButton
-                      //       onClick={(event) => handleOpenDropDown({ event, id: f.id })}
-                      //     >
-                      //       <MoreVertIcon />
-                      //     </IconButton>
-                      //     <StyledMenu
-                      //       id="demo-customized-menu"
-                      //       MenuListProps={{
-                      //         'aria-labelledby': 'demo-customized-button',
-                      //       }}
-                      //       anchorEl={anchorEl}
-                      //       open={dropDowns[f.id]}
-                      //       onClose={(event) => handleCloseDropDown({ event, id: f.id })}
-                      //     >
-                      //       <MenuItem onClick={() => navigateFile({ id: f.id })}>
-                      //         Open
-                      //       </MenuItem>
-                      //       <Divider sx={{ my: 0.5 }} />
-                      //       <MenuItem onClick={(event) => handleRenameFileOpen({ event, id: f.id, name: f.userFileName })}>
-                      //         Rename
-                      //       </MenuItem>
-                      //       <Divider sx={{ my: 0.5 }} />
-                      //       <MenuItem onClick={(event) => handleDeleteFileOpen({ event, id: f.id, name: f.userFileName })}>
-                      //         Delete
-                      //       </MenuItem>
-                      //     </StyledMenu>
-                      //   </>
-                      // }
+                      <ListItemButton
+                        sx={{ menuItem }}
+                        onClick={() => handleFileSelect(f.id)}
                       >
                         <ListItemIcon>
                           <ImageIcon />
                         </ListItemIcon>
-                        <ListItemText
-                          primary={f.userFileName}
-                        />
-                      </ListItem>
-                      <Divider />
+                        <ListItemText primary={f.userFileName} />
+                        <IconButton
+                          edge="end"
+                          onClick={(event) => handleMenuClick(event, f.id)}
+                        >
+                          <MoreVertIcon />
+                        </IconButton>
+                        <Menu
+                          anchorEl={menuAnchorEl[f.id] || null}
+                          open={Boolean(menuAnchorEl[f.id])}
+                          onClose={handleMenuClose}
+                          anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
+                          }}
+                          transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                          }}
+                          PaperProps={{
+                            style: {
+                              marginTop: 8,
+                            },
+                          }}
+                          onClick={(event) => event.stopPropagation()} // Prevents menu click from triggering ListItem click
+                        >
+                          <MenuItem onClick={(event) => { event.stopPropagation(); handleFileSelect(f.id); }}>Select</MenuItem>
+                          <MenuItem onClick={(event) => { event.stopPropagation(); handleFileRename(f.id, f.userFileName); }}>Rename</MenuItem>
+                          <MenuItem onClick={(event) => { event.stopPropagation(); handleMoveFile(f.id, f.userFileName); }}>Move</MenuItem>
+                          <MenuItem onClick={(event) => { event.stopPropagation(); handleFileDelete(f.id, f.userFileName); }}>Delete</MenuItem>
+                        </Menu>
+                      </ListItemButton>
                     </div>
                   ))}
-
                 </List>
               )}
             </Grid>
           </Grid>
         </Paper>
-        {/* <NewFolderModal
-            isOpened={mediaManager.modal_isNewFolderModalOpened}
-            onClose={() => {
-              setMediaManager(prevState => ({
-                ...prevState,
-                modal_isNewFolderModalOpened: false,
-              }))
-            }}
-          />
-          <UploadFileModal
-            isOpened={mediaManager.modal_isUploadFileModalOpened}
-            onClose={() => {
-              setMediaManager(prevState => ({
-                ...prevState,
-                modal_isUploadFileModalOpened: false,
-              }))
-            }}
+        {isLoaded && (
+          <>
+            <DeleteFileSelectionModal
+              isOpened={mediaManager.modal_isDeleteFileModalOpened}
+              onClose={() => {
+                setMediaManager(prevState => ({
+                  ...prevState,
+                  modal_isDeleteFileModalOpened: false,
+                }))
+              }}
+            />
 
-          />
+            <DeleteFolderFailedSelectionModal
+              isOpened={mediaManager.modal_isDeleteFolderFailedModalOpened}
+              onClose={() => {
+                setMediaManager(prevState => ({
+                  ...prevState,
+                  modal_isDeleteFolderFailedModalOpened: false,
+                }))
+              }}
+            />
 
-          <RenameFolderModal
-            isOpened={mediaManager.modal_isRenameFolderModalOpened}
-            onClose={() => {
-              setMediaManager(prevState => ({
-                ...prevState,
-                modal_isRenameFolderModalOpened: false,
-              }))
-            }}
+            <DeleteFolderSelectionModal
+              isOpened={mediaManager.modal_isDeleteFolderModalOpened}
+              onClose={() => {
+                setMediaManager(prevState => ({
+                  ...prevState,
+                  modal_isDeleteFolderModalOpened: false,
+                }))
+              }}
+            />
 
-          />
+            <MoveFileSelectionModal
+              isOpened={mediaManager.modal_isMoveFileModalOpened}
+              onClose={() => {
+                setMediaManager(prevState => ({
+                  ...prevState,
+                  modal_isMoveFileModalOpened: false,
+                }))
+              }}
+              selectedFileId={mediaManager.selectedFileId}
+              selectFileName={mediaManager.selectFileName}
+            />
 
-          <DeleteFolderModal
-            isOpened={mediaManager.modal_isDeleteFolderModalOpened}
-            onClose={() => {
-              setMediaManager(prevState => ({
-                ...prevState,
-                modal_isDeleteFolderModalOpened: false,
-              }))
-            }}
+            <NewFolderSelectionModal
+              isOpened={mediaManager.modal_isNewFolderModalOpened}
+              onClose={() => {
+                setMediaManager(prevState => ({
+                  ...prevState,
+                  modal_isNewFolderModalOpened: false,
+                }))
+              }}
+            />
 
-          />
+            <RenameFileSelectionModal
+              isOpened={mediaManager.modal_isRenameFileModalOpened}
+              onClose={() => {
+                setMediaManager(prevState => ({
+                  ...prevState,
+                  modal_isRenameFileModalOpened: false,
+                }))
+              }}
+            />
 
-          <DeleteFileModal
-            isOpened={mediaManager.modal_isDeleteFileModalOpened}
-            onClose={() => {
-              setMediaManager(prevState => ({
-                ...prevState,
-                modal_isDeleteFileModalOpened: false,
-              }))
-            }}
-          />
-
-          <RenameFileModal
-            isOpened={mediaManager.modal_isRenameFileModalOpened}
-            onClose={() => {
-              setMediaManager(prevState => ({
-                ...prevState,
-                modal_isRenameFileModalOpened: false,
-              }))
-            }}
-
-          />
-
-          <DeleteFolderFailedModal
-            isOpened={mediaManager.modal_isDeleteFolderFailedModalOpened}
-            onClose={() => {
-              setMediaManager(prevState => ({
-                ...prevState,
-                modal_isDeleteFolderFailedModalOpened: false,
-              }))
-            }}
-          /> */}
+            <RenameFolderSelectionModal
+              isOpened={mediaManager.modal_isRenameFolderModalOpened}
+              onClose={() => {
+                setMediaManager(prevState => ({
+                  ...prevState,
+                  modal_isRenameFolderModalOpened: false,
+                }))
+              }}
+            />
+          </>
+        )}
       </Box>
 
     </>
-  )
+  );
 }
 
-
-export default MediaFolderView
+export default MediaFolderView;

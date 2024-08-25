@@ -11,13 +11,6 @@ const SelectMediaModal = ({ open, onClose, onSelect }) => {
       isOpened={open}
       onClose={onClose}
       title={"Select Media"}
-      tabs={[
-        {
-          label: "Media Manager",
-          value: "MEDIA_MANAGER",
-        },
-      ]}
-      selectedTabValue={"MEDIA_MANAGER"}
       isFullDisplay
       FullDisplay={(<MediaManagerModalView onClose={onClose} onSelect={onSelect} />)}
     >

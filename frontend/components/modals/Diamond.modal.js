@@ -86,32 +86,36 @@ const DiamondModal = ({
         </div>
 
         {/* Row 2: Tabs */}
-        <Tabs
-          value={selectedTabValue}
+        {tabs && (
 
-          onChange={() => { }}
-          sx={{
-            backgroundColor: theme.palette.primary.main,
-            // color: theme.palette.grey[200],
-            m: 0,
-          }}
-        >
+          <Tabs
+            value={selectedTabValue}
 
-          {tabs && tabs.length > 0 && tabs.map((tab) => (
-            <Tab
-              key={tab.label}
-              label={tab.label}
-              value={tab.value}
-              sx={{
-                color: theme.palette.grey[200],
-                minWidth: 'auto',
-                '&.Mui-selected': {
-                  color: theme.palette.common.white,
-                },
-              }}
-            />
-          ))}
-        </Tabs>
+            onChange={() => { }}
+            sx={{
+              backgroundColor: theme.palette.primary.main,
+              // color: theme.palette.grey[200],
+              m: 0,
+            }}
+          >
+
+            {tabs.length > 0 && tabs.map((tab) => (
+              <Tab
+                key={tab.label}
+                label={tab.label}
+                value={tab.value}
+                sx={{
+                  color: theme.palette.grey[200],
+                  minWidth: 'auto',
+                  '&.Mui-selected': {
+                    color: theme.palette.common.white,
+                  },
+                }}
+              />
+            ))}
+          </Tabs>
+
+        )}
 
         {/* Row 3: Left and Right Columns */}
         <Box sx={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
