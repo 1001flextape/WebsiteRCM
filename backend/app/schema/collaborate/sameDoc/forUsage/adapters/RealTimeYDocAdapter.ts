@@ -1,6 +1,7 @@
 import * as Y from 'yjs';
 import { v4 as uuidv4 } from "uuid";
 import { RealTimeYDocAdapterGraphQL, SelectionCursor } from "./RealTimeYDocAdapter.d";
+import { socketLookUpType } from '../../../_singleton/preMain/scripts/socketLookUp/socketRecord.types';
 
 type input = {
   initialText: string,
@@ -27,6 +28,7 @@ class RealTimeYDocAdapter {
 
   //display
   public label?: string;
+  public usersWhoChangedValue?: socketLookUpType[] = [];
 
   constructor({ initialText, name, label }: input) {
     this.name = name;
@@ -48,6 +50,12 @@ class RealTimeYDocAdapter {
 
     // display
     this.label = label;
+  }
+
+  updateUsersWhoChangeValue?(socketLookUp: socketLookUpType) {
+    if (this.usersWhoChangedValue.filter(u => u.userId === socketLookUp.userId).length === 0) {
+      this.usersWhoChangedValue.push(socketLookUp)
+    }
   }
 
   // Add a new selection cursor or update if it already exists
@@ -119,6 +127,22 @@ class RealTimeYDocAdapter {
   }
 
   getData?() {
+
+    let usersWhoChangedValue = []
+    if (this.usersWhoChangedValue) {
+      this.usersWhoChangedValue.map(u => {
+
+        const safeLookUpForJson = {
+          ...u,
+        }
+
+        delete safeLookUpForJson.socket;
+
+        usersWhoChangedValue.push(safeLookUpForJson)
+      })
+    }
+
+
     return {
       sameDocType: this.sameDocType,
       name: this.name,
@@ -127,6 +151,7 @@ class RealTimeYDocAdapter {
       textValue: this.textValue,
       label: this.label,
       readableTextValue: this.readableTextValue,
+      usersWhoChangedValue,
     }
   }
 }

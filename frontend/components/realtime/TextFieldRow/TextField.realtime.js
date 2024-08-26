@@ -3,13 +3,15 @@
 import React, { useRef, useEffect, useState, useContext } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { ListItem } from '@mui/material';
+import { AvatarGroup, ListItem, ButtonBase } from '@mui/material';
 import * as Y from 'yjs';
 import { QuillBinding } from 'y-quill';
 import { initSocket } from '@/utils/realtime/socket';
 import QuillCursors from 'quill-cursors';
 import Quill from 'quill';
 import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
+import UserAvatar from '@/components/chip/user.avatar';
+import WhoEditThisInputModal from './modal/WhoEditThisInput.modal';
 
 // Register the quill-cursors module
 Quill.register('modules/cursors', QuillCursors);
@@ -18,6 +20,8 @@ Quill.register('modules/cursors', QuillCursors);
 function RealTimeTextField({ onTextUpdate, onChangeByUser, ...props }) {
   const quillRef = useRef(null);
   const { idChip, applyTextFieldSelectionBuffer } = useContext(AdminLayoutContext)
+
+  const [isModalOpened, setIsModalOpened] = useState(false)
 
   const [orderNumber, setOrderNumber] = useState(0)
 
@@ -171,8 +175,56 @@ function RealTimeTextField({ onTextUpdate, onChangeByUser, ...props }) {
           if (onChangeByUser) {
             onChangeByUser(quill.getText().replace(/\n/g, ""))
           }
+
+          if (!props?.data?.usersWhoChangedValue) {
+            props = props || {}
+            props.data = props.data || {}
+            props.data.usersWhoChangedValue = props.data.usersWhoChangedValue || [];
+          }
+
+          let hasId = false;
+
+          for (let i = 0; i < props.data.usersWhoChangedValue.length; i++) {
+            const user = props.data.usersWhoChangedValue[i];
+
+            if (user.id === idChip.id) {
+              hasId = true;
+              break;
+            }
+          }
+
+          if (!hasId) {
+            props.data.usersWhoChangedValue.push(idChip)
+          }
         }
       });
+
+      socket.on('samedoc-yjs-userChangeInput-update', data => {
+        if (props.entity === data.entity && props.data.name === data.name) {
+
+          if (!props?.data?.usersWhoChangedValue) {
+            props = props || {}
+            props.data = props.data || {}
+            props.data.usersWhoChangedValue = props.data.usersWhoChangedValue || [];
+          }
+
+          let hasId = false;
+
+          for (let i = 0; i < props.data.usersWhoChangedValue.length; i++) {
+            const user = props.data.usersWhoChangedValue[i];
+
+            if (user.id === data.user.userId) {
+              hasId = true;
+              break;
+            }
+          }
+
+          if (!hasId) {
+            props.data.usersWhoChangedValue.push(data.user)
+          }
+        }
+      })
+
       // Listen for Yjs updates from the server
       socket.on('samedoc-yjs-update', (data) => {
         try {
@@ -264,7 +316,61 @@ function RealTimeTextField({ onTextUpdate, onChangeByUser, ...props }) {
       <div style={{ width: "100%" }}>
         <p>{props.label}</p>
         <ReactQuill ref={quillRef} theme="snow" modules={quillModules} style={{ width: "100%" }} />
+        {props.data?.usersWhoChangedValue?.length > 0 && (
+          <ButtonBase
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '8px', // Adjust for button feel
+              padding: '5px', // Adjust padding if needed
+              '&:hover': {
+                backgroundColor: 'rgba(0, 0, 0, 0.08)', // Optional: Add a hover effect
+              },
+              mt: "7px",
+              float: "right",
+            }}
+            onClick={() => {
+              setIsModalOpened(true)
+            }}
+          >
+            <AvatarGroup
+              max={5}
+            // total={whoIsOnPage.total} 
+            // onClick={onOpen}
+            >
+              {props.data?.usersWhoChangedValue.map(user => (
+                <UserAvatar
+                  {...user}
+                // key={user.id}
+                // callByType={user.callByType}
+                // circleColor={user.circleColor}
+                // email={user.email}
+                // firstName={user.firstName}
+                // labelColor={user.labelColor}
+                // lastName={user.lastName}
+                // picture={user.picture}
+                // username={user.username}
+                />
+              ))}
+            </AvatarGroup>
+          </ButtonBase>
+        )}
+
+        {props.data?.usersWhoChangedValue?.length === 0 && (
+          <>
+            <br />
+            <br />
+          </>
+        )}
       </div>
+      <WhoEditThisInputModal
+        isOpened={isModalOpened}
+        onClose={() => {
+          setIsModalOpened(false)
+        }}
+        usersWhoChangedValue={props.data?.usersWhoChangedValue || []}
+      />
     </ListItem>
   );
 }

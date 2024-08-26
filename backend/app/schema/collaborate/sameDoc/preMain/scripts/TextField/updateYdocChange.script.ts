@@ -1,5 +1,6 @@
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
 import { returningSuccessObj } from "../../../../../utils/types/returningObjs.types";
+import makeSocketLookUp from "../../../../_singleton/preMain/socketLookUp.ram-cache";
 import RealTimeYDocAdapter from "../../../forUsage/adapters/RealTimeYDocAdapter";
 import makeCollaborateSameDoc from "../../collaborateSameDoc.ram-cache";
 
@@ -16,6 +17,7 @@ export default function updateYdocChange(d: dependencies) {
   return async (args: input): Promise<returningSuccessObj<null>> => {
 
     const sameDocEntity = makeCollaborateSameDoc(d)
+    const socketLookUp = makeSocketLookUp(d)
 
     const prop = (await sameDocEntity.getByPropertyName({
       entity: args.entity,
@@ -31,6 +33,32 @@ export default function updateYdocChange(d: dependencies) {
 
     try {
       data.order = await prop.applyYdocUpdate(args.ydoc)
+
+      const userSocket = await socketLookUp.getLookUpBySocketId({
+        socketId: args.socketId
+      })
+
+      // This user has edit the feed.
+      prop.updateUsersWhoChangeValue(userSocket.data)
+
+      let user = { ...userSocket.data }
+
+      delete user.socket;
+      delete user.socketId;
+      delete user.pathname;
+      delete user.entities;
+
+      await sameDocEntity.broadcast({
+        data: {
+          entity: args.entity,
+          name: args.name,
+          user,
+        },
+        entity: args.entity,
+        socketId: args.socketId,
+        socketChannel: 'samedoc-yjs-userChangeInput-update',
+      })
+
     }
     catch (ex) {
       return {

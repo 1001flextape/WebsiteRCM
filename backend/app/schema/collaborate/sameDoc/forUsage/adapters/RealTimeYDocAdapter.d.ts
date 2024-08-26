@@ -23,9 +23,11 @@ declare class RealTimeYDocAdapter {
   public textValue?: string;
   public order?: number;
   public name?: string;
+  public usersWhoChangedValue?: socketLookUpType[] = [];
 
   constructor({ initialText, name }: { initialText: string, name: string });
 
+  updateUsersWhoChangeValue?(socketLookUp: socketLookUpType): void;
   addOrUpdateSelection?(selectionCursor: SelectionCursor): void;
   removeSelection?(userId: string): boolean;
   hasSelection?(userId: string): boolean;
