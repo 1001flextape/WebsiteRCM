@@ -5,7 +5,7 @@ export const getRoleRealTimeGraphQL = ({ socketId, roleId }) => {
 
     const response = await callApi({
       query: `
-query($roleId: ID!, $socketId: ID!) {
+query ($roleId: ID!, $socketId: ID!) {
   backendRole_getOneRealTime(socketId: $socketId, roleId: $roleId) {
     id
     entity
@@ -23,6 +23,18 @@ query($roleId: ID!, $socketId: ID!) {
           index
           length
         }
+      }
+      usersWhoChangedValue {
+        id
+        email
+        firstName
+        lastName
+        username
+        picture
+        callByType
+        circleColor
+        labelColor
+        displayName
       }
     }
     isDashboardRead {
@@ -181,8 +193,6 @@ query($roleId: ID!, $socketId: ID!) {
     }
   }
 }
-
-      
       `,
       variables: { socketId, roleId }
     })

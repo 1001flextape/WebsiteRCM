@@ -48,6 +48,7 @@ const userType = gql`
     name: String,
     textValue: String,
     selections: [SelectionCursor]
+    usersWhoChangedValue: [UserDisplay]
   }
 
   type RealTimeSwitch {
