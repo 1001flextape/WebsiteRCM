@@ -37,6 +37,7 @@ export default {
     backendSiteDesignerPage_addOne: isAuthenticated,
     // backendSiteDesignerPage_updateOne: and(isAuthenticated, or(isAdmin, hasPermissions(['backend-siteDesigner-update']))),
     backendSiteDesignerPage_updateOne: isAuthenticated,
+    backendSiteDesignerPage_updateOneFromUI: isAuthenticated,
     // backendSiteDesignerPage_deleteOne: and(isAuthenticated, or(isAdmin, hasPermissions(['backend-siteDesigner-update']))),
     backendSiteDesignerPage_deleteOne: isAuthenticated,
 

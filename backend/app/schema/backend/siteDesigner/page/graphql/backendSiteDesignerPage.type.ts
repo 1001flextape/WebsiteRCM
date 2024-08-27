@@ -7,7 +7,10 @@ const backendSiteDesignerPageType = gql`
     id: ID
     slug: String
     name: String
-    isReady: Boolean,
+    isReady: Boolean
+    isDraft: Boolean
+    isRecentlyCreated: Boolean
+    isPublished: Boolean
   }
 
   type BackendSiteDesignerPageRealTimeType {
@@ -15,6 +18,9 @@ const backendSiteDesignerPageType = gql`
     entity: String
     slug: String
     isReady: RealTimeSwitch
+    isDraft: RealTimeSwitch
+    isRecentlyCreated: Boolean
+    isPublished: Boolean
   }
 
   ${paginationType("BackendSiteDesignerPagePaginationType", "BackendSiteDesignerPageType")}
@@ -187,7 +193,8 @@ const backendSiteDesignerPageType = gql`
   type Mutation {
     # page
     backendSiteDesignerPage_addOne(slug: String!, name: String, isReady: Boolean): BackendSiteDesignerPageType
-    backendSiteDesignerPage_updateOne(id: ID!, slug: String, name: String, isReady: Boolean): BackendSiteDesignerPageType
+    backendSiteDesignerPage_updateOne(id: ID!, slug: String, isReady: Boolean): BackendSiteDesignerPageType
+    backendSiteDesignerPage_updateOneFromUI(id: ID!, isReady: Boolean, isDraft: Boolean): GlobalSuccessType
     backendSiteDesignerPage_deleteOne(id: ID!): BackendSiteDesignerPageType
 
     # browser

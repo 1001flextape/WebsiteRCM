@@ -32,6 +32,8 @@ import RealTimeResortLockedRow from '@/components/realtime/LockResortRow/LockRes
 import DeletePageListItem from '../delete/components/DeletePageListItem';
 import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
 import LoudSectionItem from './components/LoudSectionItem';
+import { postPageGraphQL } from './store/SiteDesignerPage_upsert.store';
+import { enqueueSnackbar } from 'notistack';
 // const DynamicNavLinksWrapper = dynamic(() => import('../../components/NavLinks/NavLinksWrapper.component'), {
 //   ssr: false,
 // });
@@ -42,6 +44,8 @@ function SiteDesignerPageSidebar() {
 
   const {
     isLoaded,
+    
+    id, setId,
 
     isLoudSectionModalOpened, setIsLoudSectionModalOpened,
     isNormalSectionModalOpened, setIsNormalSectionModalOpened,
@@ -52,6 +56,11 @@ function SiteDesignerPageSidebar() {
 
     isReady, setIsReady,
     isReadyValue, setIsReadyValue,
+
+    isDraft, setIsDraft,
+    isDraftValue, setIsDraftValue,
+    isRecentlyCreated, setIsRecentlyCreated,
+    isPublished, setIsPublished,
 
     entity,
 
@@ -72,6 +81,16 @@ function SiteDesignerPageSidebar() {
 
   const handleNewNormalSection = () => {
     setIsNormalSectionModalOpened(true)
+  }
+
+  const handleSave = () => {
+    postPageGraphQL({
+      id,
+      isReady: isReadyValue,
+      isDraft: isDraftValue,
+    }).then(() => {
+      enqueueSnackbar("Page Saved!")
+    })
   }
 
   return (
@@ -175,6 +194,22 @@ function SiteDesignerPageSidebar() {
                 console.log('contents to be saved', value)
               }}
             />
+            {!isPublished && (
+              <RealTimeSwitchRow
+                label={(
+                  <>
+                    <span>Saved as Draft</span>
+                  </>
+                )}
+                // label, data, entity, onChange
+                data={isDraft}
+                entity={entity}
+                onChange={(value) => {
+                  setIsDraftValue(value)
+                  console.log('contents to be saved', value)
+                }}
+              />
+            )}
             <Divider component="li" style={{ borderTopWidth: "5px" }} />
             <ListItem alignItems="flex-start">
               {/* <ListItemAvatar>
@@ -185,7 +220,10 @@ function SiteDesignerPageSidebar() {
                 secondary={
                   <React.Fragment>
                     <br />
-                    <Button variant="contained">Save</Button>
+                    <Button
+                      variant="contained"
+                      onClick={handleSave}
+                    >Save</Button>
                   </React.Fragment>
                 }
               />

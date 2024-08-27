@@ -286,6 +286,23 @@ const backendSiteDesignerPageResolver = {
         return graphqlError(response)
       }
     },
+    backendSiteDesignerPage_updateOneFromUI: async (parent, args, ctx) => {
+
+      const main = makeBackendSiteDesignerPageMain(ctx.d)
+
+      const response = await main.updateOneFromUI({
+        id: args.id,
+        isReady: args.isReady,
+        isDraft: args.isDraft,
+      })
+
+      if (response?.success) {
+        return response.data
+
+      } else {
+        return graphqlError(response)
+      }
+    },
     backendSiteDesignerPage_deleteOne: async (parent, args, ctx) => {
       const main = makeBackendSiteDesignerPageMain(ctx.d)
 

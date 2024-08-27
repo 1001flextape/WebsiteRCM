@@ -47,6 +47,7 @@ export default function getOneRealTimeById(d: dependencies) {
         success: true,
         data: {
           ...record.data,
+          ...entityRecord.data.nonRealTimeProps,
           ...entityRecord.data.props,
           entity,
         }
@@ -62,11 +63,24 @@ export default function getOneRealTimeById(d: dependencies) {
         name: "isReady"
       }
 
+      const isDraft: RealTimeAdapterPropertyValue = {
+        adapter: new RealTimeSwitchAdapter({
+          initialBoolean: record.data?.dataValues?.isDraft || false,
+          name: "isDraft"
+        }),
+        name: "isDraft"
+      } 
+
       const setEntity = await sameDoc.set({
         entity,
         properties: [
           isReady,
+          isDraft,
         ],
+        nonRealTimeProps:{
+          isRecentlyCreated: record.data?.dataValues?.isRecentlyCreated,
+          isPublished: record.data?.dataValues?.isPublished,
+        },
         socketId: args.socketId,
       })
 
@@ -74,6 +88,7 @@ export default function getOneRealTimeById(d: dependencies) {
         success: true,
         data: {
           ...record.data?.dataValues,
+          ...setEntity.data.nonRealTimeProps,
           ...setEntity.data.props,
           entity,
         }

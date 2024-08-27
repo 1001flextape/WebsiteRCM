@@ -8,6 +8,7 @@ import getOneById from "./scripts/pageMain/getOneById.script"
 import getOneRealTimeById from "./scripts/pageMain/getOneRealTimeById.script"
 import updateOne from "./scripts/pageMain/updateOne.script"
 import getOneBySlug from "./scripts/pageMain/getOneBySlug.script"
+import updateOneFromUI from "./scripts/pageMain/updateOneFromUI.script"
 
 export default function makeBackendSiteDesignerPageMain(d: dependencies) {
   const validators = makeValidations(d)
@@ -21,6 +22,7 @@ export default function makeBackendSiteDesignerPageMain(d: dependencies) {
     getOneBySlug: getOneBySlug(d),
     getOneRealTimeById: getOneRealTimeById(d),
     updateOne: updateOne(d),
+    updateOneFromUI: updateOneFromUI(d),
     ...validators
   }
 }

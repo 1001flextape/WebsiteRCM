@@ -35,6 +35,11 @@ export function SiteDesignerPageProvider({ children }) {
   const [sections, setSections] = useState([])
   const [isReady, setIsReady] = useState()
   const [isReadyValue, setIsReadyValue] = useState()
+  const [isDraft, setIsDraft] = useState()
+  const [isDraftValue, setIsDraftValue] = useState()
+  const [isRecentlyCreated, setIsRecentlyCreated] = useState()
+  const [isPublished, setIsPublished] = useState()
+
 
 
 
@@ -178,6 +183,9 @@ export function SiteDesignerPageProvider({ children }) {
         })
         setEntity(pageData.entity)
         setIsReady(pageData.isReady)
+        setIsDraft(pageData.isDraft)
+        setIsRecentlyCreated(pageData.isRecentlyCreated)
+        setIsPublished(pageData.isPublished)
         setSlug(pageData.slug)
       }
 
@@ -224,7 +232,7 @@ export function SiteDesignerPageProvider({ children }) {
       id, setId,
       slug, setSlug,
       entity, setEntity,
-      
+
 
       isLoudSectionModalOpened, setIsLoudSectionModalOpened,
       isNormalSectionModalOpened, setIsNormalSectionModalOpened,
@@ -235,10 +243,15 @@ export function SiteDesignerPageProvider({ children }) {
 
       isReady, setIsReady,
       isReadyValue, setIsReadyValue,
+      isDraft, setIsDraft,
+      isDraftValue, setIsDraftValue,
+      isRecentlyCreated, setIsRecentlyCreated,
+      isPublished, setIsPublished,
 
       loudSection, setLoudSection,
       sections, setSections,
 
+      // functions
       selectLoudSectionComponent,
       getNextLoudSectionComponent,
       getPreviousLoudSectionComponent,

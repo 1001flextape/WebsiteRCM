@@ -1,39 +1,25 @@
 import { callApi } from "@/utils/graphql/backend-api"
 
-export const postSettingHeaderGraphQL = ({
+export const postPageGraphQL = ({
   id,
-  selectionType,
-  selectionId,
-  userAnswers,
   isReady,
+  isDraft,
 }) => {
   return new Promise(async (resolve) => {
 
     const response = await callApi({
       query: `
-      mutation(
-        $selectionType: SelectionTypeEnum!
-        $selectionId: ID!
-        $userAnswers: String
-        $isReady: Boolean!
-      ) {
-        backendSettingHeader_upsertOne(
-          selectionType: $selectionType
-          selectionId: $selectionId
-          userAnswers: $userAnswers
-          isReady: $isReady
-        ) {
-          success
-        }
-      }
-      
+mutation ($id: ID!, $isReady: Boolean, $isDraft: Boolean) {
+  backendSiteDesignerPage_updateOneFromUI(id: $id, isReady: $isReady, isDraft: $isDraft) {
+    success
+  }
+}
+ 
       `,
       variables: {
         id,
-        selectionType,
-        selectionId,
-        userAnswers,
         isReady,
+        isDraft,
       }
     })
 
