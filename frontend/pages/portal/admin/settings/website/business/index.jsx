@@ -29,7 +29,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import HeaderRow from '@/components/global/HeaderRow/HeaderRow.component';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { useTheme } from '@mui/material';
+import { Breadcrumbs, Link, ListItem, useTheme } from '@mui/material';
 
 
 const Page = () => {
@@ -88,48 +88,42 @@ const Page = () => {
     >
 
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <SettingTabs />
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link
+            sx={{ lineHeight: "50px", cursor: "pointer" }}
+            underline="hover"
+            color="inherit"
+            onClick={() => navigate("/portal/admin/settings/website")}
+          >
+            Website Settings
+          </Link>
+          <Typography
+            sx={{ lineHeight: "50px", cursor: "pointer" }}
+            color="text.primary"
+          >
+            Business Settings
+          </Typography>
+        </Breadcrumbs>
+
       </Box>
 
       {isLoaded && (
         <>
           <br />
 
+
+
+          {/* Section 2 */}
           <Paper elevation={3}>
             <List sx={{ p: 0 }}>
-              <HeaderRow label="Website Settings Portal" />
+              <HeaderRow
+                label="Website"
+                />
+                <ListItem>
+                  Switch for day/night mode activation
+                </ListItem>
             </List>
-            <div className="admin-card">
-              <p>Website settings serve as your portal to customize branding, headers, footers, colors, and more, enhancing your online presence.</p>
-              <br />
-              <Button onClick={() => changeUrl("/portal/admin/settings/website/settings")} variant="contained" color="secondary" type="submit">Start Customizing Now!</Button>
-            </div>
           </Paper>
-
-          <br />
-
-
-          <Paper elevation={3}>
-            <List sx={{ p: 0 }}>
-              <HeaderRow label="Business Settings" />
-            </List>
-            <div className="admin-card">
-              <Button onClick={() => changeUrl("/portal/admin/settings/website/business")} variant="containedWhite">Business Settings</Button>
-            </div>
-          </Paper>
-
-          <br />
-          <Paper elevation={3}>
-            <List sx={{ p: 0 }}>
-              <HeaderRow label="Developer Settings" />
-            </List>
-            <div className="admin-card">
-              <Button onClick={() => changeUrl("/portal/admin/settings/website/developer")} variant="containedWhite">Developer Settings</Button>
-            </div>
-          </Paper>
-
-          <br />
-          <br />
 
           <br />
           <br />
