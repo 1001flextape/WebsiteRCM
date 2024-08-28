@@ -13,6 +13,7 @@ import { RealTimeAdapterPropertyValue, RealTimeAllAdapters } from "./set.script"
 import RealTimeColorSelectionAdapter from "../../../forUsage/adapters/RealTimeColorSelectionAdapter";
 import RealTimeMediaSelectionAdapter from "../../../forUsage/adapters/RealTimeMediaSelectionAdapter";
 import RealTimeLinkSelectionAdapter from "../../../forUsage/adapters/RealTimeLinkSelectionAdapter";
+import RealTimeWysiwygAdapter from "../../../forUsage/adapters/RealTimeWysiwygAdapter";
 
 type sameDocMenuItemType =
   | {
@@ -101,6 +102,22 @@ export const selectAdapter = ({ type, prop, initialValue, userAnswers, label, is
 
       return new RealTimeYDocAdapter({
         initialText: initialText || "",
+        name: prop,
+        label,
+      })
+    case "WYSIWYG:V1":
+      let initialWysisyg: string
+
+      if (initialValue) {
+        initialWysisyg = initialValue
+      }
+
+      if (userAnswers && userAnswers[prop]) {
+        initialWysisyg = userAnswers[prop]
+      }
+
+      return new RealTimeWysiwygAdapter({
+        initialText: initialWysisyg || "",
         name: prop,
         label,
       })

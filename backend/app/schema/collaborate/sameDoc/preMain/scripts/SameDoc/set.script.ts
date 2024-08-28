@@ -14,8 +14,9 @@ import RealTimeColorSelectionAdapter from "../../../forUsage/adapters/RealTimeCo
 import RealTimeMediaSelectionAdapter from "../../../forUsage/adapters/RealTimeMediaSelectionAdapter";
 import RealTimeSelectAdapter from "../../../forUsage/adapters/RealTimeSelectAdapter";
 import RealTimeLinkSelectionAdapter from "../../../forUsage/adapters/RealTimeLinkSelectionAdapter";
+import RealTimeWysiwygAdapter from "../../../forUsage/adapters/RealTimeWysiwygAdapter";
 
-export type RealTimeAllAdapters = RealTimeYDocAdapter | RealTimeSwitchAdapter | RealTimePictureSelectionAdapter | RealTimeColorAdapter | RealTimeFaviconSelectionAdapter | RealTimeColorSelectionAdapter | RealTimeMediaSelectionAdapter | RealTimeSelectAdapter | RealTimeLinkSelectionAdapter
+export type RealTimeAllAdapters = RealTimeYDocAdapter | RealTimeSwitchAdapter | RealTimePictureSelectionAdapter | RealTimeColorAdapter | RealTimeFaviconSelectionAdapter | RealTimeColorSelectionAdapter | RealTimeMediaSelectionAdapter | RealTimeSelectAdapter | RealTimeLinkSelectionAdapter | RealTimeWysiwygAdapter
 
 export type RealTimeAdapterPropertyValue = {
   name: string,

@@ -18,6 +18,11 @@ const DynamicRealTimeLinkSelection = dynamic(() => import('@/components/realtime
 });
 
 
+const DynamicRealTimeWysiwyg = dynamic(() => import('@/components/realtime/WysiwygRow/Wysiwyg.realtime'), {
+  ssr: false
+});
+
+
 
 const isShowingComponent = ({ isShowing, isDarkMode }) => {
   if (!isShowing) {
@@ -40,8 +45,45 @@ const SelectComponentByType = ({ entity, menuItemRow, isDarkMode, setIsDarkMode,
 
   const { sameDocType, label, isShowing, ...data } = menuItemRow
 
-  console.log("asdf!!!!!")
   switch (sameDocType) {
+    case "WYSIWYG:V1":
+      console.log('Wysiwyg loading...')
+      return (
+        <div style={{
+          display: isShowingComponent({ isShowing, isDarkMode })
+            ? "block"
+            : "none"
+        }}>
+          <DynamicRealTimeWysiwyg
+            label={label}
+            data={data}
+            entity={entity}
+            onChangeByUser={(value) => {
+              if (onChangeByUser) {
+                onChangeByUser({
+                  type: sameDocType,
+                  name: data.name,
+                  value,
+                })
+              }
+              // // setNameValue(text)
+              // const socket = initSocket()
+
+              // socket.emit('server-setting-header-change-prop', {
+              //   name: data.name,
+              //   value,
+              // })
+            }}
+            onChange={value => {
+              setAnswer({
+                name: data.name,
+                value,
+              })
+            }}
+          />
+        </div>
+      )
+    
     case "YDOC:V1":
       return (
         <div style={{

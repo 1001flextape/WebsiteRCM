@@ -30,7 +30,7 @@
           },
           {
             "prop": "ctaPanelDescription",
-            "type": "TEXTFIELD:V1",
+            "type": "WYSIWYG:V1",
             "label": "Description",
             "defaultValue": "Have questions or need assistance? We're here to help. Contact us for more information."
           },
