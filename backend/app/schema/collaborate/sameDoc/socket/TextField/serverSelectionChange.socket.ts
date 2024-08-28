@@ -1,5 +1,5 @@
-import { dependencies } from "../../../utils/dependencies/type/dependencyInjection.types";
-import makeCollaborateSameDocTextField from "../preMain/collaborateSameDocTextField.cache";
+import { dependencies } from "../../../../utils/dependencies/type/dependencyInjection.types";
+import makeCollaborateSameDocTextField from "../../preMain/collaborateSameDocTextField.cache";
 
 type input = {
   socket: any,

@@ -12,6 +12,7 @@ import { dependencies } from "../../../../../utils/dependencies/type/dependencyI
 import { RealTimeAdapterPropertyValue, RealTimeAllAdapters } from "./set.script";
 import RealTimeColorSelectionAdapter from "../../../forUsage/adapters/RealTimeColorSelectionAdapter";
 import RealTimeMediaSelectionAdapter from "../../../forUsage/adapters/RealTimeMediaSelectionAdapter";
+import RealTimeLinkSelectionAdapter from "../../../forUsage/adapters/RealTimeLinkSelectionAdapter";
 
 type sameDocMenuItemType =
   | {
@@ -71,8 +72,24 @@ type selectAdapterInput = {
 
 export const selectAdapter = ({ type, prop, initialValue, userAnswers, label, isShowing }: selectAdapterInput) => {
   switch (type) {
+    case "LINK_SELECTION:V1":
+      let initialLink: string
+
+      if (initialValue) {
+        initialLink = initialValue
+      }
+
+      if (userAnswers && userAnswers[prop]) {
+        initialLink = userAnswers[prop]
+      }
+
+      return new RealTimeLinkSelectionAdapter({
+        initialText: initialLink || "",
+        name: prop,
+        label,
+      })
     case "TEXTFIELD:V1":
-      let initialText
+      let initialText: string
 
       if (initialValue) {
         initialText = initialValue
@@ -121,7 +138,7 @@ export const selectAdapter = ({ type, prop, initialValue, userAnswers, label, is
       return new RealTimeColorSelectionAdapter({
         name: prop,
         color: color || "#fff",
-        suggestedTextColor, 
+        suggestedTextColor,
         label,
         isShowing,
       })

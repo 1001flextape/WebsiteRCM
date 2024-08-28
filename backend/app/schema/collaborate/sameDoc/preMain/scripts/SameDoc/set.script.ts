@@ -13,8 +13,9 @@ import { EntityMenuItemType, EntityMenuType, sameDocMenuType, selectAdapter } fr
 import RealTimeColorSelectionAdapter from "../../../forUsage/adapters/RealTimeColorSelectionAdapter";
 import RealTimeMediaSelectionAdapter from "../../../forUsage/adapters/RealTimeMediaSelectionAdapter";
 import RealTimeSelectAdapter from "../../../forUsage/adapters/RealTimeSelectAdapter";
+import RealTimeLinkSelectionAdapter from "../../../forUsage/adapters/RealTimeLinkSelectionAdapter";
 
-export type RealTimeAllAdapters = RealTimeYDocAdapter | RealTimeSwitchAdapter | RealTimePictureSelectionAdapter | RealTimeColorAdapter | RealTimeFaviconSelectionAdapter | RealTimeColorSelectionAdapter | RealTimeMediaSelectionAdapter | RealTimeSelectAdapter
+export type RealTimeAllAdapters = RealTimeYDocAdapter | RealTimeSwitchAdapter | RealTimePictureSelectionAdapter | RealTimeColorAdapter | RealTimeFaviconSelectionAdapter | RealTimeColorSelectionAdapter | RealTimeMediaSelectionAdapter | RealTimeSelectAdapter | RealTimeLinkSelectionAdapter
 
 export type RealTimeAdapterPropertyValue = {
   name: string,
