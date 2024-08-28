@@ -102,7 +102,7 @@ function renderFooterContent(props) {
             <div className={styles.footerContent}>
               {/* Left Side */}
               <div className={styles.leftSide}>
-                <img src={getRandomImageUrl()} alt="Company Logo" className={styles.logo} />
+                <img src={"https://picsum.photos/800/600?sig=1"} alt="Company Logo" className={styles.logo} />
                 <p className={styles.companyName}>Company Name</p>
                 <div className={styles.socialIcons}>
                   <a href="#" className={styles.icon}><i className="fab fa-facebook"></i></a>

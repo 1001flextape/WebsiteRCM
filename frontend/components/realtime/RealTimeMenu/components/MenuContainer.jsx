@@ -8,10 +8,16 @@ import { initSocket } from '@/utils/realtime/socket'
 import dynamic from 'next/dynamic'
 import RealTimeColorSelectionRow from '../../ColorSelectionRow/ColorSelectionRow.realtime'
 import RealTimeMediaSelectionRow from '../../MediaSelectionRow/MediaSelection'
+import RealTimeLinkSelection from '@/components/realtime/LinkSelectionRow/LinkSelection.realtime'
 
 const DynamicRealTimeTextField = dynamic(() => import('@/components/realtime/TextFieldRow/TextField.realtime'), {
   ssr: false
 });
+
+const DynamicRealTimeLinkSelection = dynamic(() => import('@/components/realtime/LinkSelectionRow/LinkSelection.realtime'), {
+  ssr: false
+});
+
 
 
 const isShowingComponent = ({ isShowing, isDarkMode }) => {
@@ -35,6 +41,7 @@ const SelectComponentByType = ({ entity, menuItemRow, isDarkMode, setIsDarkMode,
 
   const { sameDocType, label, isShowing, ...data } = menuItemRow
 
+  console.log("asdf!!!!!")
   switch (sameDocType) {
     case "YDOC:V1":
       return (
@@ -177,6 +184,43 @@ const SelectComponentByType = ({ entity, menuItemRow, isDarkMode, setIsDarkMode,
           })
         }}
       />)
+
+    case "LINK_SELECTION:V1":
+      return (
+        <div style={{
+          display: isShowingComponent({ isShowing, isDarkMode })
+            ? "block"
+            : "none"
+        }}>
+          <DynamicRealTimeLinkSelection
+            label={label}
+            data={data}
+            entity={entity}
+            onChangeByUser={(value) => {
+              if (onChangeByUser) {
+                onChangeByUser({
+                  type: sameDocType,
+                  name: data.name,
+                  value,
+                })
+              }
+              // // setNameValue(text)
+              // const socket = initSocket()
+
+              // socket.emit('server-setting-header-change-prop', {
+              //   name: data.name,
+              //   value,
+              // })
+            }}
+            onChange={value => {
+              setAnswer({
+                name: data.name,
+                value,
+              })
+            }}
+          />
+        </div>
+      )
 
     default:
       return <div></div>

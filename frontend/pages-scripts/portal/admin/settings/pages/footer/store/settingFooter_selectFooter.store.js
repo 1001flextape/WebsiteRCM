@@ -7,7 +7,6 @@ export const selectSettingFooterGraphQL = ({ id, type, socketId }) => {
       query: `
       mutation($id: ID!, $type: SelectionTypeEnum!, $socketId: ID!) {
         backendSettingFooter_selectFooter(id: $id, type: $type, socketId: $socketId) {
-          id
           entity
           webAssetImport
           menuJsonB
