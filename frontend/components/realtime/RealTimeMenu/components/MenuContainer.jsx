@@ -8,7 +8,6 @@ import { initSocket } from '@/utils/realtime/socket'
 import dynamic from 'next/dynamic'
 import RealTimeColorSelectionRow from '../../ColorSelectionRow/ColorSelectionRow.realtime'
 import RealTimeMediaSelectionRow from '../../MediaSelectionRow/MediaSelection'
-import RealTimeLinkSelection from '@/components/realtime/LinkSelectionRow/LinkSelection.realtime'
 
 const DynamicRealTimeTextField = dynamic(() => import('@/components/realtime/TextFieldRow/TextField.realtime'), {
   ssr: false
