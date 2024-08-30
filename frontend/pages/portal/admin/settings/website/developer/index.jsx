@@ -29,7 +29,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import HeaderRow from '@/components/global/HeaderRow/HeaderRow.component';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { Breadcrumbs, Link, useTheme } from '@mui/material';
+import { Breadcrumbs, Link, ListItem, useTheme } from '@mui/material';
 
 
 const Page = () => {
@@ -87,7 +87,7 @@ const Page = () => {
     }}
     >
 
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <Box>
         <Breadcrumbs aria-label="breadcrumb">
           <Link
             sx={{ lineHeight: "50px", cursor: "pointer" }}
@@ -109,37 +109,50 @@ const Page = () => {
 
       {isLoaded && (
         <>
-          <br />
-
 
 
           {/* Section 2 */}
           <Paper elevation={3}>
             <List sx={{ p: 0 }}>
-              <Typography variant="h6" sx={{ p: 2 }}>External Scripts</Typography>
 
               <HeaderRow
-                label="HTML Head"
+                label="External Scripts"
+
+              />
+              {/* <Typography variant="h6" sx={{ p: 2 }}>External Scripts</Typography> */}
+
+              <ListItem
+                sx={{
+                  pt: "15px",
+                  pb: "15px",
+                  background: theme.palette.grey[100],
+                }}
                 secondaryAction={(
                   <>
                     <IconButton>
                       <AddCircleIcon
                         sx={{
-                          color: theme.palette.grey[200],
+                          color: theme.palette.primary.main,
                           '&:hover': {
-                            color: theme.palette.grey[400],
+                            color: theme.palette.primary.dark,
                           },
                         }}
                       />
                     </IconButton>
                   </>
-                )} />
+                )}>
+                HTML Head
+              </ListItem>
             </List>
             <Box sx={{ p: 2 }}>
 
               <Grid container spacing={2} alignItems="center">
                 <Grid item xs={9}>
-                  <Typography component="a" href="#" sx={{ textDecoration: 'none', color: '#1976d2' }}>Global CSS</Typography>
+                  <Typography
+                    sx={{ textDecoration: 'none', color: '#1976d2', cursor: "pointer" }}
+
+                    onClick={() => navigate("/portal/admin/settings/website/developer/html-head/42")}
+                  >Global CSS</Typography>
                 </Grid>
                 <Grid item xs={3}>
                   <Box sx={{ textAlign: 'right' }}>
@@ -160,28 +173,37 @@ const Page = () => {
               </Grid>
             </Box>
             <List sx={{ p: 0 }}>
-              <HeaderRow
-                label="HTML Body"
+
+              <ListItem
+                sx={{
+                  pt: "15px",
+                  pb: "15px",
+                  background: theme.palette.grey[100],
+                }}
                 secondaryAction={(
                   <>
                     <IconButton>
                       <AddCircleIcon
                         sx={{
-                          color: theme.palette.grey[200],
+                          color: theme.palette.primary.main,
                           '&:hover': {
-                            color: theme.palette.grey[400],
+                            color: theme.palette.primary.dark,
                           },
                         }}
                       />
                     </IconButton>
                   </>
-                )}
-              />
+                )}>
+                HTML Body
+              </ListItem>
             </List>
             <Box sx={{ p: 2 }}>
               <Grid container spacing={2} alignItems="center">
                 <Grid item xs={9}>
-                  <Typography component="a" href="#" sx={{ textDecoration: 'none', color: '#1976d2' }}>Cookie Policy</Typography>
+                  <Typography
+                    sx={{ textDecoration: 'none', color: '#1976d2', cursor: "pointer" }}
+                    onClick={() => navigate("/portal/admin/settings/website/developer/html-body/42")}
+                  >Cookie Policy</Typography>
                 </Grid>
                 <Grid item xs={3}>
                   <Box sx={{ textAlign: 'right' }}>
@@ -203,7 +225,10 @@ const Page = () => {
 
               <Grid container spacing={2} alignItems="center" sx={{ mt: 1 }}>
                 <Grid item xs={9}>
-                  <Typography component="a" href="#" sx={{ textDecoration: 'none', color: '#1976d2' }}>Chat Bot</Typography>
+                  <Typography
+                    sx={{ textDecoration: 'none', color: '#1976d2', cursor: "pointer" }}
+                    onClick={() => navigate("/portal/admin/settings/website/developer/html-body/42")}
+                  >Chat Bot</Typography>
                 </Grid>
                 <Grid item xs={3}>
                   <Box sx={{ textAlign: 'right' }}>
