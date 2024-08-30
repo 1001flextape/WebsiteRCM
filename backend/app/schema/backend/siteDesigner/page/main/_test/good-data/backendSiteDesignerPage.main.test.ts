@@ -1,6 +1,7 @@
 import makeBackendSiteDesignerPageMain from "../../backendSiteDesignerPage.main";
 import { dependencies } from "../../../../../../utils/dependencies/type/dependencyInjection.types";
 import { makeDTestObj } from "../../../../../../utils/dependencies/makeTestDependency";
+import { PageStatusEnum } from "../../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 jest.setTimeout(100000)
 
 
@@ -22,11 +23,13 @@ describe("test backendSiteDesignerPage.main.js", () => {
     const addOne = await pageMain.addOne({
       slug: "/test/should-not-be-saved/",
       isReady: true,
+      status: PageStatusEnum.New,
     })
     recordId = addOne.data.dataValues.id
 
     expect(addOne.data.dataValues.slug).toEqual("/test/should-not-be-saved/")
     expect(addOne.data.dataValues.isReady).toEqual(true)
+    expect(addOne.data.dataValues.status).toEqual(PageStatusEnum.New)
   })
 
   test("getMany: can get all records.", async () => {
@@ -64,9 +67,11 @@ describe("test backendSiteDesignerPage.main.js", () => {
       id: recordId,
       slug: "/tested/updated/",
       isReady: true,
+      status: PageStatusEnum.Draft,
     })
     expect(updatePage.data.dataValues.slug).toEqual("/tested/updated/")
     expect(updatePage.data.dataValues.isReady).toEqual(true)
+    expect(updatePage.data.dataValues.status).toEqual(PageStatusEnum.Draft)
   })
 
   test("getManyWithPagination: can get many with pagination.", async () => {

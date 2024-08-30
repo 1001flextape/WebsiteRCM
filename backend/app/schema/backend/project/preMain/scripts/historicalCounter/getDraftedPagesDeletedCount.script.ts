@@ -1,6 +1,7 @@
 import { returningSuccessObj } from "../../../../../utils/types/returningObjs.types";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
 import { Op } from "sequelize";
+import { PageStatusEnum } from "../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 
 type input = {
   projectId: string
@@ -16,10 +17,7 @@ export default function getDraftedPagesDeletedCount(d: dependencies) {
       const data = await db.backendProjectPage.count({
         where: {
           projectId: args.projectId,
-          isPublished: {
-            [Op.not]: true,
-          },
-          isDraft: true,
+          status: PageStatusEnum.Draft,
           isDeleted: true,
         },
         paranoid: false, // Disable paranoid for this specific query

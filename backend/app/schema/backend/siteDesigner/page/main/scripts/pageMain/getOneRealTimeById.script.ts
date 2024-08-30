@@ -4,6 +4,7 @@ import { RealTimeAdapterPropertyValue } from "../../../../../../collaborate/same
 import RealTimeSwitchAdapter from "../../../../../../collaborate/sameDoc/forUsage/adapters/RealTimeSwitchAdapter";
 import { dependencies } from "../../../../../../utils/dependencies/type/dependencyInjection.types";
 import makeBackendSiteDesignerPageSql from "../../../preMain/backendSiteDesignerPage.sql";
+import { PageStatusEnum } from "../../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 
 type input = {
   socketId: string;
@@ -65,7 +66,7 @@ export default function getOneRealTimeById(d: dependencies) {
 
       const isDraft: RealTimeAdapterPropertyValue = {
         adapter: new RealTimeSwitchAdapter({
-          initialBoolean: record.data?.dataValues?.isDraft || false,
+          initialBoolean: record.data?.dataValues?.status === PageStatusEnum.Draft ? true : false,
           name: "isDraft"
         }),
         name: "isDraft"
@@ -79,7 +80,7 @@ export default function getOneRealTimeById(d: dependencies) {
         ],
         nonRealTimeProps:{
           isRecentlyCreated: record.data?.dataValues?.isRecentlyCreated,
-          isPublished: record.data?.dataValues?.isPublished,
+          status: record.data?.dataValues?.status,
         },
         socketId: args.socketId,
       })

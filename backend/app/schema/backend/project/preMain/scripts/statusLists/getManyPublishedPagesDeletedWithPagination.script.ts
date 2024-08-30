@@ -2,7 +2,7 @@ import { FindAndCountOptions, Op } from "sequelize";
 import { returningSuccessObj } from "../../../../../utils/types/returningObjs.types";
 import { findAndCountAll } from "../../../../../utils/types/sequelize.types";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
-import backendSiteDesignerPage from "../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
+import backendSiteDesignerPage, { PageStatusEnum } from "../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 
 type input = {
   q?: string
@@ -29,10 +29,7 @@ export default function getManyPublishedPagesDeletedWithPagination(d: dependenci
 
     let search: FindAndCountOptions = {
       where: {
-        isPublished: true,
-        isDraft: {
-          [Op.not]: true
-        },
+        status: PageStatusEnum.Published,
         isRecentlyDeleted: true,
       },
       offset,

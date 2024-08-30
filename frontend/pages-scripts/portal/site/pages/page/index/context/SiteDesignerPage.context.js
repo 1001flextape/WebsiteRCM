@@ -38,7 +38,7 @@ export function SiteDesignerPageProvider({ children }) {
   const [isDraft, setIsDraft] = useState()
   const [isDraftValue, setIsDraftValue] = useState()
   const [isRecentlyCreated, setIsRecentlyCreated] = useState()
-  const [isPublished, setIsPublished] = useState()
+  const [status, setStatus] = useState()
 
 
 
@@ -185,7 +185,8 @@ export function SiteDesignerPageProvider({ children }) {
         setIsReady(pageData.isReady)
         setIsDraft(pageData.isDraft)
         setIsRecentlyCreated(pageData.isRecentlyCreated)
-        setIsPublished(pageData.isPublished)
+        setStatus(pageData.status)
+        console.log('pageData.status', pageData.status)
         setSlug(pageData.slug)
       }
 
@@ -246,7 +247,7 @@ export function SiteDesignerPageProvider({ children }) {
       isDraft, setIsDraft,
       isDraftValue, setIsDraftValue,
       isRecentlyCreated, setIsRecentlyCreated,
-      isPublished, setIsPublished,
+      status, setStatus,
 
       loudSection, setLoudSection,
       sections, setSections,

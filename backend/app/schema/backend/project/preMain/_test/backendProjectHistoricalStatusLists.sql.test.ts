@@ -25,6 +25,7 @@ import makeBackendProjectLinkSql from "../backendProjectLink.sql";
 import makeBackendProjectOrganizationSql from "../backendProjectOrganization.sql";
 import makeBackendProjectHistoricalStatusListsSql from "../backendProjectHistoricalStatusLists.sql";
 import makeBackendProjectHeaderSql from "../backendProjectHeader.sql";
+import { PageStatusEnum } from "../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 jest.setTimeout(100000)
 
 
@@ -78,8 +79,7 @@ describe("test backendProjectHistoricalStatusLists.sql.js", () => {
     let newPage1 = await projectPageSql.addOne({
       projectId: project1.id,
       slug: "/p/1",
-      isDraft: false,
-      isPublished: true,
+      status: PageStatusEnum.Published,
       isChanged: true,
       isNew: false,
       isDeleted: false,
@@ -89,8 +89,7 @@ describe("test backendProjectHistoricalStatusLists.sql.js", () => {
     let newPage2 = await projectPageSql.addOne({
       projectId: project1.id,
       slug: "/p/1",
-      isDraft: false,
-      isPublished: true,
+      status: PageStatusEnum.Published,
       isChanged: true,
       isNew: false,
       isDeleted: false,
@@ -100,8 +99,7 @@ describe("test backendProjectHistoricalStatusLists.sql.js", () => {
     let newPage3 = await projectPageSql.addOne({
       projectId: project1.id,
       slug: "/p/1",
-      isDraft: false,
-      isPublished: true,
+      status: PageStatusEnum.Published,
       isChanged: false,
       isNew: true,
       isDeleted: false,
@@ -111,8 +109,7 @@ describe("test backendProjectHistoricalStatusLists.sql.js", () => {
     let newPage4 = await projectPageSql.addOne({
       projectId: project1.id,
       slug: "/p/1",
-      isDraft: false,
-      isPublished: true,
+      status: PageStatusEnum.Published,
       isChanged: false,
       isNew: true,
       isDeleted: false,
@@ -122,8 +119,7 @@ describe("test backendProjectHistoricalStatusLists.sql.js", () => {
     let newPage5 = await projectPageSql.addOne({
       projectId: project1.id,
       slug: "/p/1",
-      isDraft: false,
-      isPublished: true,
+      status: PageStatusEnum.Published,
       isChanged: false,
       isNew: false,
       isDeleted: true,
@@ -133,8 +129,7 @@ describe("test backendProjectHistoricalStatusLists.sql.js", () => {
     let newPage6 = await projectPageSql.addOne({
       projectId: project1.id,
       slug: "/p/1",
-      isDraft: false,
-      isPublished: true,
+      status: PageStatusEnum.Published,
       isChanged: false,
       isNew: false,
       isDeleted: true,
@@ -144,8 +139,7 @@ describe("test backendProjectHistoricalStatusLists.sql.js", () => {
     let newPage7 = await projectPageSql.addOne({
       projectId: project1.id,
       slug: "/p/1",
-      isDraft: true,
-      isPublished: false,
+      status: PageStatusEnum.Draft,
       isChanged: true,
       isNew: true,
       isDeleted: false,
@@ -155,8 +149,7 @@ describe("test backendProjectHistoricalStatusLists.sql.js", () => {
     let newPage8 = await projectPageSql.addOne({
       projectId: project1.id,
       slug: "/p/1",
-      isDraft: true,
-      isPublished: false,
+      status: PageStatusEnum.Draft,
       isChanged: false,
       isNew: true,
       isDeleted: false,
@@ -166,8 +159,7 @@ describe("test backendProjectHistoricalStatusLists.sql.js", () => {
     let newPage9 = await projectPageSql.addOne({
       projectId: project1.id,
       slug: "/p/1",
-      isDraft: true,
-      isPublished: false,
+      status: PageStatusEnum.Draft,
       isChanged: false,
       isNew: false,
       isDeleted: true,
@@ -177,8 +169,7 @@ describe("test backendProjectHistoricalStatusLists.sql.js", () => {
     let newPage10 = await projectPageSql.addOne({
       projectId: project1.id,
       slug: "/p/1",
-      isDraft: true,
-      isPublished: false,
+      status: PageStatusEnum.Draft,
       isChanged: false,
       isNew: false,
       isDeleted: true,

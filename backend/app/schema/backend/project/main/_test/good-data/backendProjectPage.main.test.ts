@@ -1,5 +1,6 @@
 import backendProject from "../../../../../../models/backend/project/backendProject.model";
 import backendProjectPage from "../../../../../../models/backend/project/backendProjectPage.model";
+import { PageStatusEnum } from "../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 import { makeDTestObj } from "../../../../../utils/dependencies/makeTestDependency";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
 import makeBackendProjectMain from "../../backendProject.main";
@@ -36,10 +37,12 @@ describe("test backendProjectPage.main.js", () => {
     const addOne = await pageMain.addOne({
       projectId: project.id,
       slug: "/test/should-not-be-saved/",
+      status: PageStatusEnum.New,
     })
     record = addOne.data.dataValues
 
     expect(addOne.data.dataValues.slug).toEqual("/test/should-not-be-saved/")
+    expect(addOne.data.dataValues.status).toEqual(PageStatusEnum.New)
   })
 
   test("getManyWithPagination: can get all records.", async () => {

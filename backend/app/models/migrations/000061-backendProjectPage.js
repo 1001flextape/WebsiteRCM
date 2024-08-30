@@ -22,16 +22,20 @@ async function up({ context: queryInterface }) {
       type: sequelize.STRING,
       allowNull: false,
     },
+    status: {
+      type: sequelize.ENUM("NEW", "DRAFT", "PUBLISHED"),
+      default: "NEW",
+    },
     
     
-    isPublished: {
-      type: sequelize.BOOLEAN,
-      default: false,
-    },
-    isDraft: {
-      type: sequelize.BOOLEAN,
-      default: false,
-    },
+    // isPublished: {
+    //   type: sequelize.BOOLEAN,
+    //   default: false,
+    // },
+    // isDraft: {
+    //   type: sequelize.BOOLEAN,
+    //   default: false,
+    // },
     isNew: {
       type: sequelize.BOOLEAN,
       default: false,

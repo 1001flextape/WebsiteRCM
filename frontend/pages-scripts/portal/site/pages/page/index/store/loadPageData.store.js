@@ -33,7 +33,7 @@ query ($pageId: ID!, $socketId: ID!) {
       }
     }
     isRecentlyCreated
-    isPublished
+    status
   }
   backendSiteDesignerPageSectionNormal_getManyByPageId(pageId: $pageId) {
     id

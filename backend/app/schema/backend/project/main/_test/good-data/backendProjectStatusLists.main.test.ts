@@ -1,7 +1,7 @@
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
 import { makeDTestObj } from "../../../../../utils/dependencies/makeTestDependency";
 import makeBackendProjectStatusListMain from "../../backendProjectStatusLists.main";
-import backendSiteDesignerPage from "../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
+import backendSiteDesignerPage, { PageStatusEnum } from "../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 import makeBackendSettingColorsMain from "../../../../setting/colors/main/backendSettingColors.main";
 import makeBackendSettingBackgroundColorMain from "../../../../setting/backgroundColor/main/backendSettingBackgroundColor.main";
 import backendSettingBackgroundColor from "../../../../../../models/backend/setting/backendSettingBackgroundColor.model";
@@ -38,8 +38,7 @@ describe("test backendProjectStatusLists.main.js", () => {
       slug: "/p/1",
       isReady: false,
       isChanged: false,
-      isDraft: false,
-      isPublished: false,
+      status: PageStatusEnum.New,
       isRecentlyCreated: true,
       isRecentlyDeleted: false,
     })
@@ -50,8 +49,7 @@ describe("test backendProjectStatusLists.main.js", () => {
       slug: "/p/2",
       isReady: false,
       isChanged: false,
-      isDraft: false,
-      isPublished: false,
+      status: PageStatusEnum.New,
       isRecentlyCreated: true,
       isRecentlyDeleted: false,
     })
@@ -62,8 +60,7 @@ describe("test backendProjectStatusLists.main.js", () => {
       slug: "/p/3",
       isReady: true,
       isChanged: true,
-      isDraft: false,
-      isPublished: false,
+      status: PageStatusEnum.New,
       isRecentlyCreated: true,
       isRecentlyDeleted: false,
     })
@@ -74,8 +71,7 @@ describe("test backendProjectStatusLists.main.js", () => {
       slug: "/p/4",
       isReady: true,
       isChanged: true,
-      isDraft: false,
-      isPublished: true,
+      status: PageStatusEnum.Published,
       isRecentlyCreated: false,
       isRecentlyDeleted: false,
     })
@@ -86,8 +82,7 @@ describe("test backendProjectStatusLists.main.js", () => {
       slug: "/p/5",
       isReady: true,
       isChanged: true,
-      isDraft: false,
-      isPublished: true,
+      status: PageStatusEnum.Published,
       isRecentlyCreated: false,
       isRecentlyDeleted: false,
     })
@@ -98,8 +93,7 @@ describe("test backendProjectStatusLists.main.js", () => {
       slug: "/p/6",
       isReady: false,
       isChanged: false,
-      isDraft: false,
-      isPublished: true,
+      status: PageStatusEnum.Published,
       isRecentlyCreated: true,
       isRecentlyDeleted: false,
     })
@@ -110,8 +104,7 @@ describe("test backendProjectStatusLists.main.js", () => {
       slug: "/p/7",
       isReady: true,
       isChanged: true,
-      isDraft: true,
-      isPublished: false,
+      status: PageStatusEnum.Draft,
       isRecentlyCreated: true,
       isRecentlyDeleted: false,
     })
@@ -122,8 +115,7 @@ describe("test backendProjectStatusLists.main.js", () => {
       slug: "/p/8",
       isReady: true,
       isChanged: true,
-      isDraft: true,
-      isPublished: false,
+      status: PageStatusEnum.Draft,
       isRecentlyCreated: false,
       isRecentlyDeleted: false,
     })
@@ -134,8 +126,7 @@ describe("test backendProjectStatusLists.main.js", () => {
       slug: "/p/9",
       isReady: true,
       isChanged: true,
-      isDraft: true,
-      isPublished: false,
+      status: PageStatusEnum.Draft,
       isRecentlyCreated: false,
       isRecentlyDeleted: false,
     })
@@ -145,8 +136,7 @@ describe("test backendProjectStatusLists.main.js", () => {
       slug: "/p/1",
       isReady: true,
       isChanged: true,
-      isDraft: true,
-      isPublished: false,
+      status: PageStatusEnum.Draft,
       isRecentlyCreated: false,
       isRecentlyDeleted: false,
     })

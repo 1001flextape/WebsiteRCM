@@ -1,6 +1,7 @@
 import { returningSuccessObj } from "../../../../../utils/types/returningObjs.types";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
 import { Op } from "sequelize";
+import { PageStatusEnum } from "../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 
 export default function getNewPagesProgress(d: dependencies) {
 
@@ -11,12 +12,7 @@ export default function getNewPagesProgress(d: dependencies) {
       // Count total non-published pages
       const totalNonPublished = await db.backendSiteDesignerPage.count({
         where: {
-          isPublished: {
-            [Op.not]: true,
-          },
-          isDraft: {
-            [Op.not]: true,
-          },
+          status: PageStatusEnum.New,
         },
         transaction: d.dbTransaction,
       });
@@ -25,12 +21,7 @@ export default function getNewPagesProgress(d: dependencies) {
       const readyNonPublished = await db.backendSiteDesignerPage.count({
         where: {
           isReady: true,
-          isPublished: {
-            [Op.not]: true,
-          },
-          isDraft: {
-            [Op.not]: true,
-          },
+          status: PageStatusEnum.New,
         },
         transaction: d.dbTransaction,
       });

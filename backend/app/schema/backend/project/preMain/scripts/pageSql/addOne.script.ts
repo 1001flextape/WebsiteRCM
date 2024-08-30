@@ -2,12 +2,12 @@ import { Model } from "sequelize";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
 import { returningSuccessObj } from "../../../../../utils/types/returningObjs.types";
 import backendProjectPage from "../../../../../../models/backend/project/backendProjectPage.model";
+import { PageStatusEnum } from "../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 
 type input = { 
   projectId: string
   slug: string
-  isPublished?: boolean
-  isDraft?: boolean
+  status?: PageStatusEnum,
   isNew?: boolean
   isChanged?: boolean
   isDeleted?: boolean

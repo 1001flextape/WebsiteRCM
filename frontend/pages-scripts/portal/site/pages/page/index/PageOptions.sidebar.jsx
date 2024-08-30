@@ -60,7 +60,7 @@ function SiteDesignerPageSidebar() {
     isDraft, setIsDraft,
     isDraftValue, setIsDraftValue,
     isRecentlyCreated, setIsRecentlyCreated,
-    isPublished, setIsPublished,
+    status, setStatus,
 
     entity,
 
@@ -194,7 +194,7 @@ function SiteDesignerPageSidebar() {
                 console.log('contents to be saved', value)
               }}
             />
-            {!isPublished && (
+            {status !== "PUBLISHED" && (
               <RealTimeSwitchRow
                 label={(
                   <>

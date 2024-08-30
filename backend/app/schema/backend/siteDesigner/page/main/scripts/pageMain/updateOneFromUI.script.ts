@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { Model } from "sequelize";
-import backendSiteDesignerPage from "../../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
+import backendSiteDesignerPage, { PageStatusEnum } from "../../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 import endMainFromError from "../../../../../../utils/graphql/endMainFromError.func";
 import stringHelpers from "../../../../../../utils/stringHelpers";
 import { returningSuccessObj } from "../../../../../../utils/types/returningObjs.types";
@@ -12,11 +12,12 @@ type input = {
   id: string
   slug?: string
   isReady?: boolean
-//   isPublished?: boolean,
-//   isChanged?: boolean,
+  //   isPublished?: boolean,
+  //   isChanged?: boolean,
   isDraft?: boolean,
-//   isRecentlyCreated?: boolean,
-//   isRecentlyDeleted?: boolean,
+  status?: PageStatusEnum,
+  //   isRecentlyCreated?: boolean,
+  //   isRecentlyDeleted?: boolean,
 }
 
 export default function updateOneFromUI(d: dependencies) {
@@ -39,12 +40,16 @@ export default function updateOneFromUI(d: dependencies) {
     const isIdStringFromUuid = stringHelpers.isStringValidUuid({
       str: args.id
     })
-    
+
     if (!isIdStringFromUuid.result) {
       return endMainFromError({
         hint: "Datapoint 'id' is not UUID format.",
         errorIdentifier: "backendSiteDesignerPage_updateOneFromUI_error:0001"
       })
+    }
+
+    if (args.isDraft) {
+      args.status = PageStatusEnum.Draft;
     }
 
     //////////////////////////////////////

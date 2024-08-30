@@ -8,22 +8,18 @@ async function up({ context: queryInterface }) {
       defaultValue: sequelize.UUIDV4,
       primaryKey: true,
     },
+    isReady: {
+      type: sequelize.BOOLEAN
+    },
     slug: {
       type: sequelize.STRING,
       allowNull: false,
     },
-    isReady: {
-      type: sequelize.BOOLEAN
-    },
-    isPublished: {
-      type: sequelize.BOOLEAN,
-      default: false,
+    status: {
+      type: sequelize.ENUM("NEW", "DRAFT", "PUBLISHED"),
+      default: "NEW",
     },
     isChanged: {
-      type: sequelize.BOOLEAN,
-      default: false,
-    },
-    isDraft: {
       type: sequelize.BOOLEAN,
       default: false,
     },

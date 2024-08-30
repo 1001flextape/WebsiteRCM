@@ -3,10 +3,17 @@ import { paginationType } from "../../../utils";
 
 const backendProjectType = gql`
 
+  enum BackendProjectPageStatusEnum {
+    # NEW # I don't think I need new.
+    DRAFT
+    PUBLISHED
+  }
+
   type BackendProjectPageType {
     id: ID
     slug: String
     name: String
+    status: BackendProjectPageStatusEnum
   }
 
   ${paginationType("BackendProjectPagePaginationType", "BackendProjectPageType")}

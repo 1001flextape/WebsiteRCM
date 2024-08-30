@@ -24,6 +24,7 @@ import makeBackendProjectLinkMain from "../../backendProjectLink.main";
 import makeBackendProjectOrganizationMain from "../../backendProjectOrganization.main";
 import makeBackendProjectHistoricalStatusListsMain from "../../backendProjectHistoricalStatusLists.main";
 import makeBackendProjectHeaderMain from "../../backendProjectHeader.main";
+import { PageStatusEnum } from "../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 jest.setTimeout(100000)
 
 
@@ -76,8 +77,7 @@ describe("test backendProjectHistoricalStatusLists.main.js", () => {
     let newPage1 = await projectPageMain.addOne({
       projectId: project1.id,
       slug: "/p/1",
-      isDraft: false,
-      isPublished: true,
+      status: PageStatusEnum.Published,
       isChanged: true,
       isNew: false,
       isDeleted: false,
@@ -87,8 +87,7 @@ describe("test backendProjectHistoricalStatusLists.main.js", () => {
     let newPage2 = await projectPageMain.addOne({
       projectId: project1.id,
       slug: "/p/1",
-      isDraft: false,
-      isPublished: true,
+      status: PageStatusEnum.Published,
       isChanged: true,
       isNew: false,
       isDeleted: false,
@@ -98,8 +97,7 @@ describe("test backendProjectHistoricalStatusLists.main.js", () => {
     let newPage3 = await projectPageMain.addOne({
       projectId: project1.id,
       slug: "/p/1",
-      isDraft: false,
-      isPublished: true,
+      status: PageStatusEnum.Published,
       isChanged: false,
       isNew: true,
       isDeleted: false,
@@ -109,8 +107,7 @@ describe("test backendProjectHistoricalStatusLists.main.js", () => {
     let newPage4 = await projectPageMain.addOne({
       projectId: project1.id,
       slug: "/p/1",
-      isDraft: false,
-      isPublished: true,
+      status: PageStatusEnum.Published,
       isChanged: false,
       isNew: true,
       isDeleted: false,
@@ -120,8 +117,7 @@ describe("test backendProjectHistoricalStatusLists.main.js", () => {
     let newPage5 = await projectPageMain.addOne({
       projectId: project1.id,
       slug: "/p/1",
-      isDraft: false,
-      isPublished: true,
+      status: PageStatusEnum.Published,
       isChanged: false,
       isNew: false,
       isDeleted: true,
@@ -131,8 +127,7 @@ describe("test backendProjectHistoricalStatusLists.main.js", () => {
     let newPage6 = await projectPageMain.addOne({
       projectId: project1.id,
       slug: "/p/1",
-      isDraft: false,
-      isPublished: true,
+      status: PageStatusEnum.Published,
       isChanged: false,
       isNew: false,
       isDeleted: true,
@@ -142,8 +137,7 @@ describe("test backendProjectHistoricalStatusLists.main.js", () => {
     let newPage7 = await projectPageMain.addOne({
       projectId: project1.id,
       slug: "/p/1",
-      isDraft: true,
-      isPublished: false,
+      status: PageStatusEnum.Draft,
       isChanged: true,
       isNew: true,
       isDeleted: false,
@@ -153,8 +147,7 @@ describe("test backendProjectHistoricalStatusLists.main.js", () => {
     let newPage8 = await projectPageMain.addOne({
       projectId: project1.id,
       slug: "/p/1",
-      isDraft: true,
-      isPublished: false,
+      status: PageStatusEnum.Draft,
       isChanged: false,
       isNew: true,
       isDeleted: false,
@@ -164,8 +157,7 @@ describe("test backendProjectHistoricalStatusLists.main.js", () => {
     let newPage9 = await projectPageMain.addOne({
       projectId: project1.id,
       slug: "/p/1",
-      isDraft: true,
-      isPublished: false,
+      status: PageStatusEnum.Draft,
       isChanged: false,
       isNew: false,
       isDeleted: true,
@@ -175,8 +167,7 @@ describe("test backendProjectHistoricalStatusLists.main.js", () => {
     let newPage10 = await projectPageMain.addOne({
       projectId: project1.id,
       slug: "/p/1",
-      isDraft: true,
-      isPublished: false,
+      status: PageStatusEnum.Draft,
       isChanged: false,
       isNew: false,
       isDeleted: true,

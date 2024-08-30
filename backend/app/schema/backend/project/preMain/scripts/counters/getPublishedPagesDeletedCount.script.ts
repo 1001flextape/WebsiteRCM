@@ -1,5 +1,6 @@
 import { returningSuccessObj } from "../../../../../utils/types/returningObjs.types";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
+import { PageStatusEnum } from "../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 
 export default function getPublishedPagesDeletedCount(d: dependencies) {
 
@@ -9,7 +10,7 @@ export default function getPublishedPagesDeletedCount(d: dependencies) {
     try {
       const data = await db.backendSiteDesignerPage.count({
         where: {
-          isPublished: true,
+          status: PageStatusEnum.Published,
           isRecentlyDeleted: true,
         },
         paranoid: false, // Disable paranoid for this specific query

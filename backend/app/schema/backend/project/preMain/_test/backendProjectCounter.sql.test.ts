@@ -6,7 +6,7 @@ import makeBackendSettingColorsMain from "../../../setting/colors/main/backendSe
 import backendSettingColors from "../../../../../models/backend/setting/backendSettingColors.model";
 import makeBackendSettingBackgroundColorMain from "../../../setting/backgroundColor/main/backendSettingBackgroundColor.main";
 import backendSettingBackgroundColor from "../../../../../models/backend/setting/backendSettingBackgroundColor.model";
-import backendSiteDesignerPage from "../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
+import backendSiteDesignerPage, { PageStatusEnum } from "../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 import makeBackendSiteDesignerPageSql from "../../../siteDesigner/page/preMain/backendSiteDesignerPage.sql";
 jest.setTimeout(100000)
 
@@ -39,8 +39,7 @@ describe("test backendProjectCounter.sql.js", () => {
       slug: "/p/1",
       isReady: false,
       isChanged: false,
-      isDraft: false,
-      isPublished: false,
+      status: PageStatusEnum.New,
       isRecentlyCreated: true,
       isRecentlyDeleted: false,
     })
@@ -51,8 +50,7 @@ describe("test backendProjectCounter.sql.js", () => {
       slug: "/p/2",
       isReady: false,
       isChanged: false,
-      isDraft: false,
-      isPublished: false,
+      status: PageStatusEnum.New,
       isRecentlyCreated: true,
       isRecentlyDeleted: false,
     })
@@ -63,8 +61,7 @@ describe("test backendProjectCounter.sql.js", () => {
       slug: "/p/3",
       isReady: true,
       isChanged: true,
-      isDraft: false,
-      isPublished: false,
+      status: PageStatusEnum.New,
       isRecentlyCreated: true,
       isRecentlyDeleted: false,
     })
@@ -75,8 +72,7 @@ describe("test backendProjectCounter.sql.js", () => {
       slug: "/p/4",
       isReady: true,
       isChanged: true,
-      isDraft: false,
-      isPublished: true,
+      status: PageStatusEnum.Published,
       isRecentlyCreated: false,
       isRecentlyDeleted: false,
     })
@@ -87,8 +83,7 @@ describe("test backendProjectCounter.sql.js", () => {
       slug: "/p/5",
       isReady: true,
       isChanged: true,
-      isDraft: false,
-      isPublished: true,
+      status: PageStatusEnum.Published,
       isRecentlyCreated: false,
       isRecentlyDeleted: false,
     })
@@ -99,8 +94,7 @@ describe("test backendProjectCounter.sql.js", () => {
       slug: "/p/6",
       isReady: false,
       isChanged: false,
-      isDraft: false,
-      isPublished: true,
+      status: PageStatusEnum.Published,
       isRecentlyCreated: true,
       isRecentlyDeleted: false,
     })
@@ -111,8 +105,7 @@ describe("test backendProjectCounter.sql.js", () => {
       slug: "/p/7",
       isReady: true,
       isChanged: true,
-      isDraft: true,
-      isPublished: false,
+      status: PageStatusEnum.Draft,
       isRecentlyCreated: true,
       isRecentlyDeleted: false,
     })
@@ -123,8 +116,7 @@ describe("test backendProjectCounter.sql.js", () => {
       slug: "/p/8",
       isReady: true,
       isChanged: true,
-      isDraft: true,
-      isPublished: false,
+      status: PageStatusEnum.Draft,
       isRecentlyCreated: false,
       isRecentlyDeleted: false,
     })
@@ -135,8 +127,7 @@ describe("test backendProjectCounter.sql.js", () => {
       slug: "/p/9",
       isReady: true,
       isChanged: true,
-      isDraft: true,
-      isPublished: false,
+      status: PageStatusEnum.Draft,
       isRecentlyCreated: false,
       isRecentlyDeleted: false,
     })
@@ -146,8 +137,7 @@ describe("test backendProjectCounter.sql.js", () => {
       slug: "/p/1",
       isReady: true,
       isChanged: true,
-      isDraft: true,
-      isPublished: false,
+      status: PageStatusEnum.Draft,
       isRecentlyCreated: false,
       isRecentlyDeleted: false,
     })

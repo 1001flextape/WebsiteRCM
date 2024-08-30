@@ -2,6 +2,7 @@ import { Model } from "sequelize";
 import { returningSuccessObj } from "../../../../../utils/types/returningObjs.types";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
 import { Op } from "sequelize";
+import { PageStatusEnum } from "../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 
 export default function getDraftedPagesNewCount(d: dependencies) {
 
@@ -11,7 +12,7 @@ export default function getDraftedPagesNewCount(d: dependencies) {
 
     const data = await db.backendSiteDesignerPage.count({
       where:{
-        isDraft: true,
+        status: PageStatusEnum.Draft,
         isRecentlyCreated: true,
       },
       transaction: d.dbTransaction,

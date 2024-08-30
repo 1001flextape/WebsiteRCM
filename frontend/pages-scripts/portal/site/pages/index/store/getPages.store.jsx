@@ -22,6 +22,7 @@ export const getPagesGraphQL = ({ q, page, pageSize }) => {
             id
             slug
             isReady
+            status
           }
         }
       }

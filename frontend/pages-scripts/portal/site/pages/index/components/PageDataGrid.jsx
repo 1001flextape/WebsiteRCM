@@ -47,6 +47,11 @@ export default function PageDataGrid() {
       },
     },
     {
+      field: 'status',
+      headerName: 'Status',
+      width: 100,
+    },
+    {
       field: 'slug',
       headerName: 'Slug',
       width: 250,

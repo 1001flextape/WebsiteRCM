@@ -1,6 +1,7 @@
 import { returningSuccessObj } from "../../../../../utils/types/returningObjs.types";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
 import { Op } from "sequelize";
+import { PageStatusEnum } from "../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 
 export default function getNewPagesDeletedCount(d: dependencies) {
 
@@ -10,12 +11,7 @@ export default function getNewPagesDeletedCount(d: dependencies) {
     try {
       const data = await db.backendSiteDesignerPage.count({
         where: {
-          isPublished: {
-            [Op.not]: true,
-          },
-          isDraft: {
-            [Op.not]: true,
-          },
+          status: PageStatusEnum.New,
           isRecentlyDeleted: true,
         },
         paranoid: false, // Disable paranoid for this specific query

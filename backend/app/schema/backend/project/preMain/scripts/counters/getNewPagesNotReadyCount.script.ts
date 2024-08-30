@@ -2,6 +2,7 @@ import { Model } from "sequelize";
 import { returningSuccessObj } from "../../../../../utils/types/returningObjs.types";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
 import { Op } from "sequelize";
+import { PageStatusEnum } from "../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 
 export default function getNewPagesNotReadyCount(d: dependencies) {
 
@@ -11,12 +12,7 @@ export default function getNewPagesNotReadyCount(d: dependencies) {
 
     const data = await db.backendSiteDesignerPage.count({
       where:{
-        isPublished: {
-          [Op.not]: true,
-        },
-        isDraft: {
-          [Op.not]: true,
-        },
+        status: PageStatusEnum.New,
         isReady: {
           [Op.not]: true,
         },

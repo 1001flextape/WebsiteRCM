@@ -1,6 +1,7 @@
 import makeBackendSiteDesignerPageSql from "../backendSiteDesignerPage.sql";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
 import { makeDTestObj } from "../../../../../utils/dependencies/makeTestDependency";
+import { PageStatusEnum } from "../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 jest.setTimeout(100000)
 
 
@@ -21,8 +22,7 @@ describe("test backendSiteDesignerPage.sql.js", () => {
       slug: "/test/should-not-be-saved/",
       isReady: true,
       isChanged: true,
-      isDraft: true,
-      isPublished: true,
+      status: PageStatusEnum.New,
       isRecentlyCreated: true,
       isRecentlyDeleted: true,
     })
@@ -30,9 +30,8 @@ describe("test backendSiteDesignerPage.sql.js", () => {
 
     expect(addOne.data.dataValues.slug).toEqual("/test/should-not-be-saved/")
     expect(addOne.data.dataValues.isReady).toEqual(true)
-    expect(addOne.data.dataValues.isChanged).toEqual(true)
-    expect(addOne.data.dataValues.isDraft).toEqual(true)
-    expect(addOne.data.dataValues.isPublished).toEqual(true)
+    expect(addOne.data.dataValues.isChanged).toEqual(true)    
+    expect(addOne.data.dataValues.status).toEqual(PageStatusEnum.New)
     expect(addOne.data.dataValues.isRecentlyCreated).toEqual(true)
     expect(addOne.data.dataValues.isRecentlyDeleted).toEqual(true)
   })
@@ -77,8 +76,7 @@ describe("test backendSiteDesignerPage.sql.js", () => {
     expect(getOneById.data.dataValues.slug).toEqual("/test/should-not-be-saved/")
     expect(getOneById.data.dataValues.isReady).toEqual(true)
     expect(getOneById.data.dataValues.isChanged).toEqual(true)
-    expect(getOneById.data.dataValues.isDraft).toEqual(true)
-    expect(getOneById.data.dataValues.isPublished).toEqual(true)
+    expect(getOneById.data.dataValues.status).toEqual(PageStatusEnum.New)
     expect(getOneById.data.dataValues.isRecentlyCreated).toEqual(false)
     expect(getOneById.data.dataValues.isRecentlyDeleted).toEqual(true)
   })
@@ -90,9 +88,11 @@ describe("test backendSiteDesignerPage.sql.js", () => {
       id: recordId,
       slug: "/tested/updated/",
       isReady: true,
+      status: PageStatusEnum.Draft,
     })
     expect(updatePage.data.dataValues.slug).toEqual("/tested/updated/")
     expect(updatePage.data.dataValues.isReady).toEqual(true)
+    expect(updatePage.data.dataValues.status).toEqual(PageStatusEnum.Draft)
   })
 
   test("getManyWithPagination: can get many with pagination.", async () => {

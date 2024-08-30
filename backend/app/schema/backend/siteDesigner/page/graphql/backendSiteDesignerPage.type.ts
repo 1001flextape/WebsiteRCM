@@ -3,14 +3,19 @@ import { paginationType } from "../../../../utils";
 
 const backendSiteDesignerPageType = gql`
 
+  enum BackendSiteDesignerPageStatusEnum {
+    NEW
+    DRAFT
+    PUBLISHED
+  }
+
   type BackendSiteDesignerPageType {
     id: ID
     slug: String
     name: String
+    status: BackendSiteDesignerPageStatusEnum
     isReady: Boolean
-    isDraft: Boolean
     isRecentlyCreated: Boolean
-    isPublished: Boolean
   }
 
   type BackendSiteDesignerPageRealTimeType {
@@ -20,7 +25,7 @@ const backendSiteDesignerPageType = gql`
     isReady: RealTimeSwitch
     isDraft: RealTimeSwitch
     isRecentlyCreated: Boolean
-    isPublished: Boolean
+    status: BackendSiteDesignerPageStatusEnum
   }
 
   ${paginationType("BackendSiteDesignerPagePaginationType", "BackendSiteDesignerPageType")}

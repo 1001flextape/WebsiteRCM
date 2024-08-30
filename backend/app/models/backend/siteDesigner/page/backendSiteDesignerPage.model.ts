@@ -1,6 +1,12 @@
 import sequelize from 'sequelize';
 import { Table, Column, Model, DataType } from 'sequelize-typescript';
 
+export enum PageStatusEnum {
+  New = "NEW",
+  Draft = "DRAFT",
+  Published = "PUBLISHED",
+}
+
 @Table({
   paranoid: true,
   timestamps: true,
@@ -17,34 +23,41 @@ export default class backendSiteDesignerPage extends Model {
   id: string;
 
   @Column({
-    type: sequelize.STRING,
-    allowNull: false,
-  })
-  slug: string;
-
-  @Column({
     type: sequelize.BOOLEAN,
     defaultValue: false,
   })
   isReady: boolean;
 
   @Column({
-    type: sequelize.BOOLEAN,
-    defaultValue: false,
+    type: sequelize.STRING,
+    allowNull: false,
   })
-  isPublished: boolean;
+  slug: string;
+  
+  @Column({
+    type: sequelize.ENUM("NEW", "DRAFT", "PUBLISHED"),
+    defaultValue: "NEW",
+  })
+  status: PageStatusEnum;
+
+
+  // @Column({
+  //   type: sequelize.BOOLEAN,
+  //   defaultValue: false,
+  // })
+  // isPublished: boolean;
+
+  // @Column({
+  //   type: sequelize.BOOLEAN,
+  //   defaultValue: false,
+  // })
+  // isDraft: boolean;
 
   @Column({
     type: sequelize.BOOLEAN,
     defaultValue: false,
   })
   isChanged: boolean;
-  
-  @Column({
-    type: sequelize.BOOLEAN,
-    defaultValue: false,
-  })
-  isDraft: boolean;
 
   @Column({
     type: sequelize.BOOLEAN,

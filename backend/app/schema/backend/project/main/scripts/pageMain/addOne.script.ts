@@ -5,12 +5,12 @@ import { dependencies } from "../../../../../utils/dependencies/type/dependencyI
 import { returningSuccessObj } from "../../../../../utils/types/returningObjs.types";
 import backendProjectPage from "../../../../../../models/backend/project/backendProjectPage.model";
 import endMainFromError from "../../../../../utils/graphql/endMainFromError.func";
+import { PageStatusEnum } from "../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 
 type input = { 
   projectId: string
   slug: string
-  isPublished?: boolean
-  isDraft?: boolean
+  status?: PageStatusEnum,
   isNew?: boolean
   isChanged?: boolean
   isDeleted?: boolean

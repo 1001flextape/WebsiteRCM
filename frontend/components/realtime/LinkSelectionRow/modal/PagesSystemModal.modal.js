@@ -80,12 +80,12 @@ function PagesSystemModal({ isOpened, onClose, setInput }) {
         params.row.isReady === true ? <CircleStatusSuccess /> : <CircleStatusDanger />
       ),
     },
-    ...commonColumns,
     {
       field: 'status',
       headerName: 'Status',
       width: 150,
     },
+    ...commonColumns,
   ];
 
   return (

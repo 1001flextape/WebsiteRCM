@@ -1,20 +1,18 @@
 import _ from "lodash";
 import { Model } from "sequelize";
-import backendSiteDesignerPage from "../../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
+import backendSiteDesignerPage, { PageStatusEnum } from "../../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 import endMainFromError from "../../../../../../utils/graphql/endMainFromError.func";
 import stringHelpers from "../../../../../../utils/stringHelpers";
 import { returningSuccessObj } from "../../../../../../utils/types/returningObjs.types";
 import makeBackendSiteDesignerPageSql from "../../../preMain/backendSiteDesignerPage.sql";
-import makeBackendSiteDesignerPageValidation from "../../../preMain/backendSiteDesignerPage.validation";
 import { dependencies } from "../../../../../../utils/dependencies/type/dependencyInjection.types";
 
 type input = {
   id: string
-  slug?: string
-  isReady?: boolean
-  isPublished?: boolean,
+  isReady?: boolean,
+  slug?: string,
+  status?: PageStatusEnum,
   isChanged?: boolean,
-  isDraft?: boolean,
   isRecentlyCreated?: boolean,
   isRecentlyDeleted?: boolean,
 }

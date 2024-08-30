@@ -1,6 +1,7 @@
 import { returningSuccessObj } from "../../../../../utils/types/returningObjs.types";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
 import { Op } from "sequelize";
+import { PageStatusEnum } from "../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 
 export default function getDraftedPagesDeletedCount(d: dependencies) {
 
@@ -11,7 +12,7 @@ export default function getDraftedPagesDeletedCount(d: dependencies) {
       // Override paranoid setting for this query
       const data = await db.backendSiteDesignerPage.count({
         where: {
-          isDraft: true,
+          status: PageStatusEnum.Draft,
           isRecentlyDeleted: true,
         },
         paranoid: false, // Disable paranoid for this specific query

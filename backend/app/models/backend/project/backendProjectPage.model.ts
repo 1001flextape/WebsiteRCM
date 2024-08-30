@@ -1,6 +1,7 @@
 import sequelize from 'sequelize';
 import { Table, Column, Model, DataType, ForeignKey } from 'sequelize-typescript';
 import backendProject from './backendProject.model';
+import { PageStatusEnum } from '../siteDesigner/page/backendSiteDesignerPage.model';
 
 @Table({
   paranoid: true,
@@ -30,33 +31,39 @@ export default class backendProjectPage extends Model {
   slug: string;
 
   @Column({
-    type: sequelize.BOOLEAN,
-    defaultValue: false,
+    type: sequelize.ENUM("NEW", "DRAFT", "PUBLISHED"),
+    defaultValue: "NEW",
   })
-  isPublished: boolean;
+  status: PageStatusEnum;
+
+  // @Column({
+  //   type: sequelize.BOOLEAN,
+  //   defaultValue: false,
+  // })
+  // isPublished: boolean;
+
+  // @Column({
+  //   type: sequelize.BOOLEAN,
+  //   defaultValue: false,
+  // })
+  // isDraft: boolean;
 
   @Column({
     type: sequelize.BOOLEAN,
     defaultValue: false,
   })
-  isDraft: boolean;
-  
-  @Column({
-    type: sequelize.BOOLEAN,
-    defaultValue: false,
-  })
   isNew: boolean;
-  
+
   @Column({
     type: sequelize.BOOLEAN,
     defaultValue: false,
   })
   isChanged: boolean;
-  
+
   @Column({
     type: sequelize.BOOLEAN,
     defaultValue: false,
   })
   isDeleted: boolean;
-  
+
 }

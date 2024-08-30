@@ -1,14 +1,13 @@
 import { Model } from "sequelize";
-import backendSiteDesignerPage from "../../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
+import backendSiteDesignerPage, { PageStatusEnum } from "../../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 import { returningSuccessObj } from "../../../../../../utils/types/returningObjs.types";
 import { dependencies } from "../../../../../../utils/dependencies/type/dependencyInjection.types";
 
 type input = {
-  slug: string
-  isReady?: boolean
-  isPublished?: boolean,
+  isReady?: boolean,
+  slug: string,
+  status?: PageStatusEnum,
   isChanged?: boolean,
-  isDraft?: boolean,
   isRecentlyCreated?: boolean,
   isRecentlyDeleted?: boolean,
 }

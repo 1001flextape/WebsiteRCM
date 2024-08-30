@@ -1,5 +1,6 @@
 import { returningSuccessObj } from "../../../../../utils/types/returningObjs.types";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
+import { PageStatusEnum } from "../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 
 export default function getPublishedPagesProgress(d: dependencies) {
 
@@ -10,7 +11,7 @@ export default function getPublishedPagesProgress(d: dependencies) {
       // Count total published pages
       const totalPublished = await db.backendSiteDesignerPage.count({
         where: {
-          isPublished: true,
+          status: PageStatusEnum.Published,
         },
         transaction: d.dbTransaction,
       });
@@ -18,7 +19,7 @@ export default function getPublishedPagesProgress(d: dependencies) {
       // Count published pages that are ready
       const readyPublished = await db.backendSiteDesignerPage.count({
         where: {
-          isPublished: true,
+          status: PageStatusEnum.Published,
           isReady: true,
         },
         transaction: d.dbTransaction,

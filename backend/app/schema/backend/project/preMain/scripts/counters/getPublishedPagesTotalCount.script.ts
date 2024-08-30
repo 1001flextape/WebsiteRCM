@@ -2,6 +2,7 @@ import { Model } from "sequelize";
 import { returningSuccessObj } from "../../../../../utils/types/returningObjs.types";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
 import { Op } from "sequelize";
+import { PageStatusEnum } from "../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 
 export default function getPublishedPagesTotalCount(d: dependencies) {
 
@@ -11,10 +12,7 @@ export default function getPublishedPagesTotalCount(d: dependencies) {
 
     const data = await db.backendSiteDesignerPage.count({
       where:{
-        isPublished: true,
-        isDraft: {
-          [Op.not]: true,
-        },
+        status: PageStatusEnum.Published,
       },
       transaction: d.dbTransaction,
     }).catch(error => d.errorHandler(error, d.loggers))
