@@ -8,10 +8,12 @@ import styles from './LiteHeader.module.css';
 
 const LiteHeader = (props) => {
   const { system, user } = props.data;
-  const { isDisplayMode, isFunctionalMode, isDayMode } = system.state;
+  const { isDisplayMode, isFunctionalMode, isDayMode, isDevMode, isProdMode } = system.state;
   const [isNightMode, setIsNightMode] = useState(!isDayMode);
   const [isBrightnessDropdownOpen, setBrightnessDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+
+  console.log('props', props)
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -41,13 +43,41 @@ const LiteHeader = (props) => {
     // Implement the logic to switch between day and night mode here
   };
 
-  const renderNotice = () => (
-    <div className={`${styles.notice} ${isDayMode ? styles.noticeDay : styles.noticeNight}`}>
-      Important notice goes here.
-    </div>
+  const RenderNotice = () => (
+    <>
+      {isDisplayMode && (
+        <div
+          className={`${styles.notice} ${isDayMode ? styles.noticeDay : styles.noticeNight}`}
+        >
+          Important notice goes here.
+        </div>
+      )}
+      {isFunctionalMode && user.isNoticeShowing && (
+        <div
+          className={`${styles.notice} ${isDayMode ? styles.noticeDay : styles.noticeNight}`}
+          style={{
+            background: isDayMode ? user.noticeColorDay.color : user.noticeColorNight.color,
+            color: isDayMode ? user.noticeColorDay.suggestedTextColor : user.noticeColorNight.suggestedTextColor,
+          }}
+        >
+          {/* Important notice goes here. */}
+          {isDevMode && (
+            <>
+              {user.noticeTitle || "Important notice goes here."}
+            </>
+          )}
+          {isProdMode && (
+            <>
+              {user.noticeTitle}
+            </>
+          )}
+
+        </div>
+      )}
+    </>
   );
 
-  const renderBranding = () => (
+  const RenderBranding = () => (
     <div className={`${styles.branding} ${isDayMode ? styles.textGray800 : styles.textGray200}`}>
       <IconButton className={styles.brandingIcon}>
         <HomeIcon />
@@ -56,7 +86,7 @@ const LiteHeader = (props) => {
     </div>
   );
 
-  const renderNightModeSwitch = () => (
+  const RenderNightModeSwitch = () => (
     <div className={styles.nightModeSwitch}>
       <IconButton className={styles.nightModeSwitchButton} onClick={toggleBrightnessDropdown}>
         {!isNightMode ? <LightModeIcon /> : <ModeNightIcon />}
@@ -81,19 +111,21 @@ const LiteHeader = (props) => {
     <>
       {isDisplayMode && (
         <>
-          {renderNotice()}
+          <RenderNotice />
           <nav className={`${styles.nav} ${isDayMode ? styles.navDay : styles.navNight}`}>
-            {renderBranding()}
-            {renderNightModeSwitch()}
+            <RenderBranding />
+            <RenderNightModeSwitch />
           </nav>
         </>
       )}
       {isFunctionalMode && (
         <>
-          {renderNotice()}
-          <nav className={`${styles.nav} ${isDayMode ? styles.navDay : styles.navNight}`}>
-            {renderBranding()}
-            {renderNightModeSwitch()}
+          <RenderNotice />
+          <nav
+            className={`${styles.nav} ${isDayMode ? styles.navDay : styles.navNight}`}
+          >
+            <RenderBranding />
+            <RenderNightModeSwitch />
           </nav>
         </>
       )}

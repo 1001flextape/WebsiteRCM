@@ -359,8 +359,7 @@ function RealTimeTextField({ onTextUpdate, onChangeByUser, ...props }) {
 
         {props.data?.usersWhoChangedValue?.length === 0 && (
           <>
-            <br />
-            <br />
+            <div style={{ height: "53px" }} />
           </>
         )}
       </div>

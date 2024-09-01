@@ -371,7 +371,7 @@ function RealTimeLinkSelection({ onTextUpdate, onChangeByUser, ...props }) {
         </Button>
         {props.data?.usersWhoChangedValue?.length === 0 && (
           <>
-            <div style={{ height: "115px" }} />
+            <div style={{ height: "10px" }} />
           </>
         )}
       </div>

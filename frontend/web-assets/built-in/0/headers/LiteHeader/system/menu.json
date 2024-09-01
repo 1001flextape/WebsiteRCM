@@ -108,35 +108,6 @@
       "isShowing": {
         "prop": "isBrandShowing"
       }
-    },
-    {
-      "data": [
-        {
-          "prop": "dayNightSelectorColorDay",
-          "type": "COLOR_SELECTION:V1",
-          "label": "Drop Down",
-          "isShowing": "isDayMode",
-          "defaultValue": {
-            "color": "rgb(120, 113, 108)",
-            "suggestedTextColor": "DARK"
-          }
-        },
-        {
-          "prop": "dayNightSelectorColorNight",
-          "type": "COLOR_SELECTION:V1",
-          "label": "Drop Down",
-          "isShowing": "isNightMode",
-          "defaultValue": {
-            "color": "rgb(87, 83, 78)",
-            "suggestedTextColor": "LIGHT"
-          }
-        }
-      ],
-      "type": "CONTAINER:V1",
-      "header": "Day/Night Selector",
-      "isShowing": {
-        "prop": "isDayNightSelectorShowing"
-      }
     }
   ]
 }

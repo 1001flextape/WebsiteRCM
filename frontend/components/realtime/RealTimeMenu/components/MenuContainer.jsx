@@ -74,7 +74,8 @@ const SelectComponentByType = ({ entity, menuItemRow, isDarkMode, setIsDarkMode,
               //   value,
               // })
             }}
-            onChange={value => {
+            onTextUpdate={value => {
+              console.log('text', data.name, value)
               setAnswer({
                 name: data.name,
                 value,
@@ -83,7 +84,7 @@ const SelectComponentByType = ({ entity, menuItemRow, isDarkMode, setIsDarkMode,
           />
         </div>
       )
-    
+
     case "YDOC:V1":
       return (
         <div style={{
@@ -97,6 +98,11 @@ const SelectComponentByType = ({ entity, menuItemRow, isDarkMode, setIsDarkMode,
             entity={entity}
             onChangeByUser={(value) => {
               if (onChangeByUser) {
+                console.log('onChangeByUser', {
+                  type: sameDocType,
+                  name: data.name,
+                  value,
+                }, onChangeByUser)
                 onChangeByUser({
                   type: sameDocType,
                   name: data.name,
@@ -111,7 +117,8 @@ const SelectComponentByType = ({ entity, menuItemRow, isDarkMode, setIsDarkMode,
               //   value,
               // })
             }}
-            onChange={value => {
+            onTextUpdate={value => {
+              console.log('setting answer', data.name, value)
               setAnswer({
                 name: data.name,
                 value,
@@ -253,7 +260,7 @@ const SelectComponentByType = ({ entity, menuItemRow, isDarkMode, setIsDarkMode,
               //   value,
               // })
             }}
-            onChange={value => {
+            onTextUpdate={value => {
               setAnswer({
                 name: data.name,
                 value,
