@@ -9,6 +9,7 @@ import { getSocketId, initSocket } from '@/utils/realtime/socket';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { getSettingNormalSectionRealTimeGraphQL } from '@/pages-scripts/portal/previewer/normalSection/store/settingNormalSection_getRealTime.store';
+import { getRcmProps } from '@/components/rcm-components/getRcmProps';
 
 const PreviewLoudSectionPage = (props) => {
   const theme = useTheme()
@@ -31,25 +32,27 @@ const PreviewLoudSectionPage = (props) => {
 
       const data = response.data.backendSiteDesignerPageSectionNormal_getOneRealTimeById
 
-      console.log('###################', data, response)
       const user = (JSON.parse(data.userAnswersJsonB))
 
-      setComponentProps({
-        data: {
-          user,
-          system: {
-            state: {
-              isDisplayMode: false,
-              isFunctionalMode: true,
-              isDevMode: true,
-              isProdMode: false,
-              isDayMode: isDayModeVar,
-              isNightMode: !isDayModeVar,
-            },
-            // organization
-          }
-        }
-      })
+      setComponentProps(getRcmProps({
+        state: {
+          // functional states
+          isDisplayMode: false,
+          isFunctionalMode: true,
+          isDevMode: true,
+          isProdMode: false,
+
+          //night mode
+          isDayNightModeEnable: true,
+          isDayMode: isDayModeVar,
+          isNightMode: !isDayModeVar,
+
+          // make API
+          assetApiUrl: "http://localhost:8080", // old term: serverUrl
+        },
+        user,
+      }))
+
       setWebAssetImport(data.webAssetImport)
       setEntity(data.entity)
       setIsLoaded(true)

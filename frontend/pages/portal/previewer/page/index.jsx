@@ -12,6 +12,7 @@ import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { getSettingLoudSectionRealTimeGraphQL } from '@/pages-scripts/portal/previewer/loudSection/store/settingHeader_getRealTime.store';
 import { getPageGraphQL } from '@/pages-scripts/portal/previewer/page/store/getPage.store';
+import { getRcmProps } from '@/components/rcm-components/getRcmProps';
 
 const PreviewLoudSectionPage = (props) => {
   const theme = useTheme()
@@ -26,25 +27,6 @@ const PreviewLoudSectionPage = (props) => {
 
   const [loudSection, setLoudSection] = useState()
   const [normalSections, setNormalSections] = useState()
-
-  const generateProps = ({ userAnswers, isDayMode }) => {
-    return {
-      data: {
-        user: userAnswers,
-        system: {
-          state: {
-            isDisplayMode: false,
-            isFunctionalMode: true,
-            isDevMode: true,
-            isProdMode: false,
-            isDayMode: isDayMode,
-            isNightMode: !isDayMode,
-          },
-          // socials
-        }
-      }
-    }
-  }
 
   const initData = (isDayModeVar) => {
     console.log('router.query.pageId,', router.query.pageId)
@@ -136,11 +118,26 @@ const PreviewLoudSectionPage = (props) => {
             <DynamicComponent
               filePath={loudSection.webAssetImport}
               props={
-                generateProps({
-                  isDayMode,
-                  userAnswers: loudSection.userAnswerJSONB
+                getRcmProps({
+                  state: {
+                    // functional states
+                    isDisplayMode: false,
+                    isFunctionalMode: true,
+                    isDevMode: true,
+                    isProdMode: false,
+
+                    //night mode
+                    isDayNightModeEnable: true,
+                    isDayMode: isDayMode,
+                    isNightMode: !isDayMode,
+
+                    // make API
+                    assetApiUrl: "http://localhost:8080", // old term: serverUrl
+                  },
+                  user: loudSection?.userAnswerJSONB
                     ? JSON.parse(loudSection.userAnswerJSONB)
                     : {},
+
                 })
               }
             />
@@ -149,11 +146,26 @@ const PreviewLoudSectionPage = (props) => {
             <DynamicComponent
               filePath={n.webAssetImport}
               props={
-                generateProps({
-                  isDayMode,
-                  userAnswers: n.userAnswerJSONB
-                    ? JSON.parse(n.userAnswerJSONB)
+                getRcmProps({
+                  state: {
+                    // functional states
+                    isDisplayMode: false,
+                    isFunctionalMode: true,
+                    isDevMode: true,
+                    isProdMode: false,
+
+                    //night mode
+                    isDayNightModeEnable: true,
+                    isDayMode: isDayMode,
+                    isNightMode: !isDayMode,
+
+                    // make API
+                    assetApiUrl: "http://localhost:8080", // old term: serverUrl
+                  },
+                  user: loudSection?.userAnswerJSONB
+                    ? JSON.parse(loudSection.userAnswerJSONB)
                     : {},
+
                 })
               }
             />
@@ -172,68 +184,7 @@ const PreviewLoudSectionPage = (props) => {
       )}
     </>
   )
-
 }
-
-// export async function getServerSideProps(context) {
-//   // Extract the cookie from the request headers
-//   const cookies = parse(context.req.headers.cookie || '');
-
-//   // Now `cookies` is an object containing key-value pairs of all cookies
-//   const token = cookies.authToken;
-
-//   console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', getSocketId())
-
-//   const response = await callSubDomainApiMiddlewareWithToken({
-//     token,
-//     query: `
-//     query($socketId: ID) {
-//       backendSettingHeader_getOneRealTime(socketId: $socketId) {
-//         entity
-//         webAssetImport
-//         menuJsonB
-//         userAnswersJsonB
-//         isReady {
-//           order
-//           name
-//           booleanValue
-//           user {
-//             id
-//             displayName
-//             circleColor
-//             labelColor
-//             picture
-//           }
-//         }
-//       }
-//     }
-//     `,
-//     variables: {
-//       socketId: getSocketId(),
-//     }
-//   })
-
-//   const data = response.data.backendSettingHeader_getOneRealTime
-
-//   return {
-//     props: {
-//       webAssetImport: data.webAssetImport,
-//       data: {
-//         user: JSON.parse(data.userAnswersJsonB),
-//         system: {
-//           state: {
-//             isDisplayMode: false,
-//             isFunctionalMode: true,
-//             // isDayMode: //added later
-//             // isNightMode //added later 
-//           },
-//           // socials
-//         }
-//       }
-//     },
-//   };
-// }
-
 
 PreviewLoudSectionPage.getLayout = function getLayout(page) {
   return (

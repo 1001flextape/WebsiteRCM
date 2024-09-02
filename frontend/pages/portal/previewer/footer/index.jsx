@@ -10,6 +10,7 @@ import DynamicComponent from '@/components/previews/DynamicComponent/DynamicComp
 import { callApiMiddlewareWithToken, callSubDomainApiMiddlewareWithToken } from '@/utils/graphql/backend-api.middleware';
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
+import { getRcmProps } from '@/components/rcm-components/getRcmProps';
 
 const PreviewFooterPage = (props) => {
   const theme = useTheme()
@@ -24,7 +25,7 @@ const PreviewFooterPage = (props) => {
   const [webAssetImport, setWebAssetImport] = useState()
 
   const initData = (isDayModeVar) => {
-    
+
     getSettingFooterRealTimeGraphQL({
       socketId: getSocketId()
     }).then(response => {
@@ -33,26 +34,25 @@ const PreviewFooterPage = (props) => {
 
       const user = (JSON.parse(data.userAnswersJsonB))
 
-      setComponentProps({
-        data: {
-          user,
-          system: {
-            state: {
-              isDisplayMode: false,
-              isFunctionalMode: true,
-              isDevMode: true,
-              isProdMode: false,
-              isDayMode: isDayModeVar,
-              isNightMode: !isDayModeVar,
-            },
-            utils: {
-              getContrastTextClass,
-              getContrastTextClassWithHover,
-            },
-            // socials
-          }
-        }
-      })
+      setComponentProps(getRcmProps({
+        state: {
+          // functional states
+          isDisplayMode: false,
+          isFunctionalMode: true,
+          isDevMode: true,
+          isProdMode: false,
+
+          //night mode
+          isDayNightModeEnable: true,
+          isDayMode: isDayModeVar,
+          isNightMode: !isDayModeVar,
+
+          // make API
+          assetApiUrl: "http://localhost:8080", // old term: serverUrl
+        },
+        user,
+      }))
+
       setWebAssetImport(data.webAssetImport)
       setEntity(data.entity)
       setIsLoaded(true)

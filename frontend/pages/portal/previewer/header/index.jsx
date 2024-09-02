@@ -9,6 +9,7 @@ import { getSettingHeaderRealTimeGraphQL } from '@/pages-scripts/portal/admin/se
 import DynamicComponent from '@/components/previews/DynamicComponent/DynamicComponent.component'
 import { useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
+import { getRcmProps } from '@/components/rcm-components/getRcmProps';
 
 const PreviewHeaderPage = (props) => {
   const theme = useTheme()
@@ -23,37 +24,33 @@ const PreviewHeaderPage = (props) => {
   const [webAssetImport, setWebAssetImport] = useState()
 
   const initData = (isDayModeVar) => {
-    
+
     getSettingHeaderRealTimeGraphQL({
       socketId: getSocketId()
     }).then(response => {
 
       const data = response.data.backendSettingHeader_getOneRealTime
 
-      const user = (JSON.parse(data.userAnswersJsonB))
-console.log('HEADER USER HEADER USER', data)
-      setComponentProps({
-        data: {
-          user,
-          system: {
-            state: {
-              isDisplayMode: false,
-              isFunctionalMode: true,
-              isDevMode: true,
-              isProdMode: false,
-              isDayMode: isDayModeVar,
-              isNightMode: !isDayModeVar,
-              serverUrl: "http://localhost:8080",
-            },
-            utils: {
-              getContrastTextClass,
-              getContrastTextClassWithHover,
-              navigate,
-            },
-            // socials
-          }
-        }
-      })
+      const user = JSON.parse(data.userAnswersJsonB)
+
+      setComponentProps(getRcmProps({
+        state: {
+          // functional states
+          isDisplayMode: false,
+          isFunctionalMode: true,
+          isDevMode: true,
+          isProdMode: false,
+
+          //night mode
+          isDayNightModeEnable: true,
+          isDayMode: isDayModeVar,
+          isNightMode: !isDayModeVar,
+
+          // make API
+          assetApiUrl: "http://localhost:8080", // old term: serverUrl
+        },
+        user,
+      }))
       setWebAssetImport(data.webAssetImport)
       setEntity(data.entity)
       setIsLoaded(true)
@@ -92,7 +89,7 @@ console.log('HEADER USER HEADER USER', data)
     const socket = initSocket()
 
     socket.on('setting-header-change-prop', data => {
-      
+
       console.log('setting-header-change-prop', data)
       if (data.name !== undefined && data.value !== undefined) {
         setComponentProps(prevState => {
@@ -116,47 +113,6 @@ console.log('HEADER USER HEADER USER', data)
       socket.off("samedoc-header-selection-change")
     }
   }, [])
-
-
-  const getContrastTextClass = (color) => {
-    const contrastText = theme.palette.getContrastText(color)
-    switch (contrastText) {
-      case "#fff":
-        return "text-gray-100";
-
-      case "rgba(0, 0, 0, 0.87)":
-        return "text-gray-800";
-
-      default:
-        return "text-gray-800";
-    }
-  }
-
-  const getContrastTextClassWithHover = (color) => {
-    const contrastText = theme.palette.getContrastText(color)
-    switch (contrastText) {
-      case "#fff":
-        return "text-gray-100 hover:text-gray-200";
-
-      case "rgba(0, 0, 0, 0.87)":
-        return "text-gray-800 hover:text-gray-900";
-
-      default:
-        return "text-gray-800 hover:text-gray-900";
-    }
-  }
-  
-  const navigate = (href) => {
-    // Check if the href is an external URL
-    if (href.startsWith('//') || href.startsWith('http://') || href.startsWith('https://')) {
-      window.location.href = href;  // External navigation
-    } else if (href.startsWith('/')) {
-      router.push(href);  // Internal navigation using Next.js router
-    } else {
-      console.error('Invalid URL format:', href);
-    }
-  };
-
 
   return (
     <>
@@ -191,67 +147,7 @@ console.log('HEADER USER HEADER USER', data)
       )}
     </>
   )
-
 }
-
-// export async function getServerSideProps(context) {
-//   // Extract the cookie from the request headers
-//   const cookies = parse(context.req.headers.cookie || '');
-
-//   // Now `cookies` is an object containing key-value pairs of all cookies
-//   const token = cookies.authToken;
-
-//   console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', getSocketId())
-
-//   const response = await callSubDomainApiMiddlewareWithToken({
-//     token,
-//     query: `
-//     query($socketId: ID) {
-//       backendSettingHeader_getOneRealTime(socketId: $socketId) {
-//         entity
-//         webAssetImport
-//         menuJsonB
-//         userAnswersJsonB
-//         isReady {
-//           order
-//           name
-//           booleanValue
-//           user {
-//             id
-//             displayName
-//             circleColor
-//             labelColor
-//             picture
-//           }
-//         }
-//       }
-//     }
-//     `,
-//     variables: {
-//       socketId: getSocketId(),
-//     }
-//   })
-
-//   const data = response.data.backendSettingHeader_getOneRealTime
-
-//   return {
-//     props: {
-//       webAssetImport: data.webAssetImport,
-//       data: {
-//         user: JSON.parse(data.userAnswersJsonB),
-//         system: {
-//           state: {
-//             isDisplayMode: false,
-//             isFunctionalMode: true,
-//             // isDayMode: //added later
-//             // isNightMode //added later 
-//           },
-//           // socials
-//         }
-//       }
-//     },
-//   };
-// }
 
 
 PreviewHeaderPage.getLayout = function getLayout(page) {
