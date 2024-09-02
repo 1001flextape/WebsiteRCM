@@ -228,7 +228,9 @@ const SelectComponentByType = ({ entity, menuItemRow, isDarkMode, setIsDarkMode,
         onChange={value => {
           setAnswer({
             name: data.name,
-            value,
+            value: {
+              url: value,
+            },
           })
         }}
       />)

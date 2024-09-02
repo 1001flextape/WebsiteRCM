@@ -5,15 +5,33 @@ import Switch from '@mui/material/Switch';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
 import styles from './LiteHeader.module.css';
+import { useRouter } from 'next/router';
 
 const LiteHeader = (props) => {
   const { system, user } = props.data;
-  const { isDisplayMode, isFunctionalMode, isDayMode, isDevMode, isProdMode } = system.state;
+  const { isDisplayMode, isFunctionalMode, isDayMode, isDevMode, isProdMode, serverUrl } = system.state;
+  const { navigate } = system.utils
   const [isNightMode, setIsNightMode] = useState(!isDayMode);
   const [isBrightnessDropdownOpen, setBrightnessDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   console.log('props', props)
+  let navStyles = {};
+
+  if (isFunctionalMode) {
+    if (isDayMode) {
+      navStyles = {
+        background: user.navColorDay.color,
+        color: user.navColorDay.suggestedTextColor,
+      }
+      // night mode
+    } else {
+      navStyles = {
+        background: user.navColorNight.color,
+        color: user.navColorNight.suggestedTextColor,
+      }
+    }
+  }
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -62,14 +80,16 @@ const LiteHeader = (props) => {
         >
           {/* Important notice goes here. */}
           {isDevMode && (
-            <>
+            <div>
               {user.noticeTitle || "Important notice goes here."}
-            </>
+            </div>
           )}
           {isProdMode && (
-            <>
+            <div
+              onClick={() => navigate(user.noticeLink)}
+            >
               {user.noticeTitle}
-            </>
+            </div>
           )}
 
         </div>
@@ -77,58 +97,105 @@ const LiteHeader = (props) => {
     </>
   );
 
-  const RenderBranding = () => (
-    <div className={`${styles.branding} ${isDayMode ? styles.textGray800 : styles.textGray200}`}>
-      <IconButton className={styles.brandingIcon}>
-        <HomeIcon />
-      </IconButton>
-      <a href="#" className={styles.brandingText}>Your Logo</a>
-    </div>
-  );
-
-  const RenderNightModeSwitch = () => (
-    <div className={styles.nightModeSwitch}>
-      <IconButton className={styles.nightModeSwitchButton} onClick={toggleBrightnessDropdown}>
-        {!isNightMode ? <LightModeIcon /> : <ModeNightIcon />}
-      </IconButton>
-      {isBrightnessDropdownOpen && (
-        <div className={`${styles.nightModeDropdown} ${isDayMode ? styles.dropdownDay : styles.dropdownNight}`} ref={dropdownRef}>
-          <Switch
-            checked={isNightMode}
-            onChange={toggleNightMode}
-            color="default"
-            inputProps={{ 'aria-label': 'toggle day/night mode' }}
-          />
-          <div className={styles.dropdownContent}>
-            {!isNightMode ? <LightModeIcon /> : <ModeNightIcon />}
+  const RenderBranding = () => {
+    return (
+      <>
+        {isDisplayMode && (
+          <div className={`${styles.branding} ${isDayMode ? styles.textGray800 : styles.textGray200}`}>
+            <IconButton className={styles.brandingIcon}>
+              <HomeIcon />
+            </IconButton>
+            <a href="#" className={styles.brandingText}>Your Logo</a>
           </div>
-        </div>
-      )}
-    </div>
-  );
+        )}
+        {isFunctionalMode && user.isBrandShowing && (
+          <div className={`${styles.branding} ${isDayMode ? styles.textGray800 : styles.textGray200}`}>
+            {user.logo.url && user.logo.url !== "NO_MEDIA" && (
+              <IconButton
+                className={styles.brandingIcon}
+                onClick={isProdMode ? () => navigate(user.brandLink) : () => { }}
+              >
+                <img
+                  src={`${serverUrl}${user.logo.url}`}
+                  style={{
+                    width: "50px",
+                  }}
+                />
+              </IconButton>
+            )}
+            <div
+              onClick={isProdMode ? () => navigate(user.brandLink) : () => { }}
+              className={styles.brandingText}>
+              {user.brandText}
+            </div>
+          </div>
+        )}
+      </>
+    )
+  }
 
-  return (
-    <>
-      {isDisplayMode && (
-        <>
-          <RenderNotice />
+  const RenderNav = () => {
+
+    return (
+      // navColorDay
+      <>
+        {isDisplayMode && (
           <nav className={`${styles.nav} ${isDayMode ? styles.navDay : styles.navNight}`}>
             <RenderBranding />
             <RenderNightModeSwitch />
           </nav>
-        </>
-      )}
-      {isFunctionalMode && (
-        <>
-          <RenderNotice />
+        )}
+        {isFunctionalMode && user.isNavShowing && (
           <nav
             className={`${styles.nav} ${isDayMode ? styles.navDay : styles.navNight}`}
+            style={{
+              ...navStyles,
+            }}
           >
             <RenderBranding />
             <RenderNightModeSwitch />
           </nav>
-        </>
-      )}
+        )}
+      </>
+
+    )
+  }
+
+  const RenderNightModeSwitch = () => {
+    return (
+      <div className={styles.nightModeSwitch}>
+        <IconButton className={styles.nightModeSwitchButton} onClick={toggleBrightnessDropdown}>
+          {!isNightMode ? <LightModeIcon /> : <ModeNightIcon />}
+        </IconButton>
+        {isBrightnessDropdownOpen && (
+          <div
+            className={`${styles.nightModeDropdown} ${isDayMode ? styles.dropdownDay : styles.dropdownNight}`}
+            style={{
+              ...(isFunctionalMode ? navStyles : {}),
+            }}
+            ref={dropdownRef}
+          >
+            <Switch
+              checked={isNightMode}
+              onChange={toggleNightMode}
+              color="default"
+              inputProps={{ 'aria-label': 'toggle day/night mode' }}
+            />
+            <div className={styles.dropdownContent}>
+              {!isNightMode ? <LightModeIcon /> : <ModeNightIcon />}
+            </div>
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  return (
+    <>
+      <>
+        <RenderNotice />
+        <RenderNav />
+      </>
     </>
   );
 };
