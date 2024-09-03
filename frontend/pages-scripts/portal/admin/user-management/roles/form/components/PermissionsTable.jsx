@@ -94,6 +94,7 @@ const PermissionsTable = ({
                       onChange={(value) => {
                         setIsDashboardReadValue(value)
                       }}
+                      shouldAllowDataToChange={true}
                     />
                     {/* <Checkbox />
                     Read */}
@@ -122,6 +123,7 @@ const PermissionsTable = ({
 
                         if (onClickMediaManageInboxOnly) onClickMediaManageInboxOnly(value);
                       }}
+                      shouldAllowDataToChange={true}
                     />
                   </ListItem>
                   <ListItem>
@@ -138,6 +140,7 @@ const PermissionsTable = ({
 
                         if (onClickMediaManageRead) onClickMediaManageRead(value);
                       }}
+                      shouldAllowDataToChange={true}
                     />
                   </ListItem>
                   <ListItem>
@@ -153,6 +156,7 @@ const PermissionsTable = ({
                         setIsMediaManagerUpdateValue(value)
                         if (onClickMediaManageUpdate) onClickMediaManageUpdate(value);
                       }}
+                      shouldAllowDataToChange={true}
                     />
                   </ListItem>
                   <ListItem>
@@ -168,6 +172,7 @@ const PermissionsTable = ({
                         setIsMediaManagerDeleteValue(value)
                         if (onClickMediaManageDelete) onClickMediaManageDelete(value);
                       }}
+                      shouldAllowDataToChange={true}
                     />
                   </ListItem>
 
@@ -193,6 +198,7 @@ const PermissionsTable = ({
                       onChange={(value) => {
                         setIsSiteDesignerReadValue(value)
                       }}
+                      shouldAllowDataToChange={true}
                     />
                   </ListItem>
                   <ListItem>
@@ -208,6 +214,7 @@ const PermissionsTable = ({
                         setIsSiteDesignerUpdateValue(value)
                         if (onClickSiteDesignerUpdate) onClickSiteDesignerUpdate(value);
                       }}
+                      shouldAllowDataToChange={true}
                     />
                   </ListItem>
                   <ListItem>
@@ -223,6 +230,7 @@ const PermissionsTable = ({
                         setIsSiteDesignerDeleteValue(value)
                         if (onClickSiteDesignerDelete) onClickSiteDesignerDelete(value);
                       }}
+                      shouldAllowDataToChange={true}
                     />
                   </ListItem>
 
@@ -248,6 +256,7 @@ const PermissionsTable = ({
                       onChange={(value) => {
                         setIsAdminReadValue(value)
                       }}
+                      shouldAllowDataToChange={true}
                     />
                   </ListItem>
                   <ListItem>
@@ -263,6 +272,7 @@ const PermissionsTable = ({
                         setIsAdminUpdateValue(value)
                         if (onClickAdminUpdate) onClickAdminUpdate(value);
                       }}
+                      shouldAllowDataToChange={true}
                     />
                   </ListItem>
                   <ListItem>
@@ -278,6 +288,7 @@ const PermissionsTable = ({
                         setIsAdminDeleteValue(value)
                         if (onClickAdminDelete) onClickAdminDelete(value);
                       }}
+                      shouldAllowDataToChange={true}
                     />
                   </ListItem>
 
@@ -304,6 +315,7 @@ const PermissionsTable = ({
                       onChange={(value) => {
                         setIsUserManagementReadValue(value)
                       }}
+                      shouldAllowDataToChange={true}
                     />
                   </ListItem>
                   <ListItem>
@@ -319,6 +331,7 @@ const PermissionsTable = ({
                         setIsUserManagementUpdateValue(value)
                         if (onClickUserManagementUpdate) onClickUserManagementUpdate(value);
                       }}
+                      shouldAllowDataToChange={true}
                     />
                   </ListItem>
                   <ListItem>
@@ -334,6 +347,7 @@ const PermissionsTable = ({
                         setIsUserManagementDeleteValue(value)
                         if (onClickUserManagementDelete) onClickUserManagementDelete(value);
                       }}
+                      shouldAllowDataToChange={true}
                     />
                   </ListItem>
 
