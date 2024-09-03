@@ -164,7 +164,7 @@ export const selectAdapter = ({ type, prop, initialValue, userAnswers, label, is
       let media
 
       if (initialValue !== undefined) {
-        media = initialValue?.value
+        media = initialValue?.value?.url
       }
 
       if (userAnswers && userAnswers[prop]?.value?.url) {

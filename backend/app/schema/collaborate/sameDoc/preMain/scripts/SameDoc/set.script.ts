@@ -289,25 +289,36 @@ export default function set(d: dependencies) {
 
                 switch (data.sameDocType) {
                   case "SWITCH:V1":
-                    sameDoc[args.entity].userAnswers[data.name] = (data as any).booleanValue
+                    sameDoc[args.entity].userAnswers[data.name] = {
+                      type: data.sameDocType,
+                      value: (data as any).booleanValue,
+                    }
                     break;
 
                   case "YDOC:V1":
-                    sameDoc[args.entity].userAnswers[data.name] = (data as any).readableTextValue
+                    sameDoc[args.entity].userAnswers[data.name] = {
+                      type: data.sameDocType,
+                      value: (data as any).readableTextValue,
+                    }
                     break;
 
                   case "COLOR_SELECTION:V1":
                     sameDoc[args.entity].userAnswers[data.name] = {
-
-                      color: (data as any).color,
-                      suggestedTextColor: getTextColorBrightness((data as any).color),
+                      type: data.sameDocType,
+                      value: {
+                        color: (data as any).color,
+                        suggestedTextColor: getTextColorBrightness((data as any).color),
+                      },
                     }
                     break;
 
                   case "MEDIA_SELECTION:V1":
                     sameDoc[args.entity].userAnswers[data.name] = {
-                      type: (data as any).selection === "NO_MEDIA" ? "NONE" : "BUILT_IN",
-                      url: (data as any).selection === "CURRENT_MEDIA" ? (data as any).currentSelection.media : (data as any).selection,
+                      type: data.sameDocType,
+                      value: {
+                        type: (data as any).selection === "NO_MEDIA" ? "NONE" : "BUILT_IN",
+                        url: (data as any).selection === "CURRENT_MEDIA" ? (data as any).currentSelection.media : (data as any).selection,
+                      },
                     }
                     break;
 

@@ -22,8 +22,8 @@ function LiteFooter(props) {
 
   const textClass = renderTextColorClass(
     isDayMode
-      ? user?.copyrightColorDay?.suggestedTextColor
-      : user?.copyrightColorNight?.suggestedTextColor
+      ? user?.copyrightColorDay?.value?.suggestedTextColor
+      : user?.copyrightColorNight?.value?.suggestedTextColor
   );
 
   const backgroundColorClass = isDayMode ? styles.bgDay : styles.bgNight;
@@ -35,16 +35,16 @@ function LiteFooter(props) {
           &copy; 2023 Your Company. All rights reserved.
         </div>
       )}
-      {isFunctionalMode && user.isCopyrightShowing && (
+      {isFunctionalMode && user.isCopyrightShowing.value && (
         <div
           className={`${styles.copyright} ${textClass}`}
           style={{
             background: isDayMode
-              ? user?.copyrightColorDay?.color
-              : user?.copyrightColorNight?.color,
+              ? user?.copyrightColorDay?.value?.color
+              : user?.copyrightColorNight?.value?.color,
           }}
         >
-          &copy; 2023 {user.copyrightName || "Your Brand"}. All rights reserved.
+          &copy; 2023 {user?.copyrightName?.value || "Your Brand"}. All rights reserved.
         </div>
       )}
     </>

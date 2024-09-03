@@ -49,7 +49,7 @@ export default function getOneRealTime(d: dependencies) {
           ...props,
           ...nonRealTimeProps,
           menuJsonB: menuObj ? JSON.stringify(menuObj) : null,
-          userAnswersJsonB: Object.keys(answers).length ? JSON.stringify(answers): null,
+          userAnswersJsonB: record.data?.dataValues?.userAnswersJsonB,
           entity,
         }
       }
@@ -90,7 +90,7 @@ export default function getOneRealTime(d: dependencies) {
           ...nonRealTimeProps,
           ...props,
           menuJsonB: menu ? JSON.stringify({...menu}) : null,
-          userAnswersJsonB: Object.keys(answers).length ? JSON.stringify(answers): null,
+          userAnswersJsonB: record.data?.dataValues?.userAnswersJsonB,
           entity,
         }
       }

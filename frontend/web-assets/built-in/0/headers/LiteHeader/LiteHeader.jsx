@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 
 const LiteHeader = (props) => {
   const { system, user } = props.data;
-  const { isDisplayMode, isFunctionalMode, isDayMode, isDevMode, isProdMode, serverUrl } = system.state;
+  const { isDisplayMode, isFunctionalMode, isDayMode, isDevMode, isProdMode, assetApiUrl } = system.state;
   const { navigate } = system.utils
   const [isNightMode, setIsNightMode] = useState(!isDayMode);
   const [isBrightnessDropdownOpen, setBrightnessDropdownOpen] = useState(false);
@@ -21,14 +21,14 @@ const LiteHeader = (props) => {
   if (isFunctionalMode) {
     if (isDayMode) {
       navStyles = {
-        background: user.navColorDay.color,
-        color: user.navColorDay.suggestedTextColor,
+        background: user.navColorDay.value.color,
+        color: user.navColorDay.value.suggestedTextColor,
       }
       // night mode
     } else {
       navStyles = {
-        background: user.navColorNight.color,
-        color: user.navColorNight.suggestedTextColor,
+        background: user.navColorNight.value.color,
+        color: user.navColorNight.value.suggestedTextColor,
       }
     }
   }
@@ -70,25 +70,25 @@ const LiteHeader = (props) => {
           Important notice goes here.
         </div>
       )}
-      {isFunctionalMode && user.isNoticeShowing && (
+      {isFunctionalMode && user.isNoticeShowing.value && (
         <div
           className={`${styles.notice} ${isDayMode ? styles.noticeDay : styles.noticeNight}`}
           style={{
-            background: isDayMode ? user.noticeColorDay.color : user.noticeColorNight.color,
-            color: isDayMode ? user.noticeColorDay.suggestedTextColor : user.noticeColorNight.suggestedTextColor,
+            background: isDayMode ? user.noticeColorDay.value.color : user.noticeColorNight.value.color,
+            color: isDayMode ? user.noticeColorDay.value.suggestedTextColor : user.noticeColorNight.value.suggestedTextColor,
           }}
         >
           {/* Important notice goes here. */}
           {isDevMode && (
             <div>
-              {user.noticeTitle || "Important notice goes here."}
+              {user.noticeTitle.value || "Important notice goes here."}
             </div>
           )}
           {isProdMode && (
             <div
-              onClick={() => navigate(user.noticeLink)}
+              onClick={() => navigate(user.noticeLink.value)}
             >
-              {user.noticeTitle}
+              {user.noticeTitle.value}
             </div>
           )}
 
@@ -108,15 +108,15 @@ const LiteHeader = (props) => {
             <a href="#" className={styles.brandingText}>Your Logo</a>
           </div>
         )}
-        {isFunctionalMode && user.isBrandShowing && (
+        {isFunctionalMode && user.isBrandShowing.value && (
           <div className={`${styles.branding} ${isDayMode ? styles.textGray800 : styles.textGray200}`}>
-            {user.logo.url && user.logo.url !== "NO_MEDIA" && (
+            {user.logo.value.url && user.logo.value.url !== "NO_MEDIA" && (
               <IconButton
                 className={styles.brandingIcon}
-                onClick={isProdMode ? () => navigate(user.brandLink) : () => { }}
+                onClick={isProdMode ? () => navigate(user.brandLink.value) : () => { }}
               >
                 <img
-                  src={`${serverUrl}${user.logo.url}`}
+                  src={`${assetApiUrl}${user.logo.value.url}`}
                   style={{
                     width: "50px",
                   }}
@@ -124,9 +124,9 @@ const LiteHeader = (props) => {
               </IconButton>
             )}
             <div
-              onClick={isProdMode ? () => navigate(user.brandLink) : () => { }}
+              onClick={isProdMode ? () => navigate(user.brandLink.value) : () => { }}
               className={styles.brandingText}>
-              {user.brandText}
+              {user.brandText.value}
             </div>
           </div>
         )}

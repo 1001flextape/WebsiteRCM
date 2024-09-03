@@ -97,9 +97,14 @@ const PreviewLoudSectionPage = (props) => {
     //   console.log('setting-header-change-prop', data)
     //   if (data.name !== undefined && data.value !== undefined) {
     //     setComponentProps(prevState => {
-    //       prevState.data.user[data.name] = data.value
+      // const newState = { ...prevState }
 
-    //       return { ...prevState }
+      // if (!newState.data.user[data.name]) {
+      //   newState.data.user[data.name] = {}
+      // }
+      // newState.data.user[data.name].value = data.value
+
+      // return newState
     //     })
     //   }
     // })
