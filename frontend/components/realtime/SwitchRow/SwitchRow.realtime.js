@@ -33,9 +33,10 @@ function RealTimeSwitchRow({ id, label, data, entity, onChange, onChangeByUser, 
   }, [switchValue])
 
   useEffect(() => {
-    console.log('changing user%%%%%%%%%%%%%%%%%%', data?.user)
-    setUser(data?.user)
-    setSwitchValue(data?.booleanValue)
+    if (data?.booleanValue) {
+      setUser(data?.user)
+      setSwitchValue(data?.booleanValue)
+    }
   }, [data])
 
   useEffect(() => {
@@ -59,7 +60,6 @@ function RealTimeSwitchRow({ id, label, data, entity, onChange, onChangeByUser, 
 
     if (data) {
       socket.on("samedoc-switch-change", result => {
-
         if (result?.entity === entity && result?.name === data.name) {
           if (result?.user) {
             setUser(result.user)

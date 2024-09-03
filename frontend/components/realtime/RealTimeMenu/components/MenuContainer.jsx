@@ -47,7 +47,6 @@ const SelectComponentByType = ({ entity, menuItemRow, isDarkMode, setIsDarkMode,
 
   switch (sameDocType) {
     case "WYSIWYG:V1":
-      console.log('Wysiwyg loading...')
       return (
         <div style={{
           display: isShowingComponent({ isShowing, isDarkMode })
@@ -75,8 +74,8 @@ const SelectComponentByType = ({ entity, menuItemRow, isDarkMode, setIsDarkMode,
               // })
             }}
             onTextUpdate={value => {
-              console.log('text', data.name, value)
               setAnswer({
+                type: sameDocType,
                 name: data.name,
                 value,
               })
@@ -98,11 +97,6 @@ const SelectComponentByType = ({ entity, menuItemRow, isDarkMode, setIsDarkMode,
             entity={entity}
             onChangeByUser={(value) => {
               if (onChangeByUser) {
-                console.log('onChangeByUser', {
-                  type: sameDocType,
-                  name: data.name,
-                  value,
-                }, onChangeByUser)
                 onChangeByUser({
                   type: sameDocType,
                   name: data.name,
@@ -118,8 +112,8 @@ const SelectComponentByType = ({ entity, menuItemRow, isDarkMode, setIsDarkMode,
               // })
             }}
             onTextUpdate={value => {
-              console.log('setting answer', data.name, value)
               setAnswer({
+                type: sameDocType,
                 name: data.name,
                 value,
               })
@@ -127,6 +121,7 @@ const SelectComponentByType = ({ entity, menuItemRow, isDarkMode, setIsDarkMode,
           />
         </div>
       )
+
     case "SWITCH:V1":
       return (
         <div style={{
@@ -158,6 +153,7 @@ const SelectComponentByType = ({ entity, menuItemRow, isDarkMode, setIsDarkMode,
             }}
             onChange={value => {
               setAnswer({
+                type: sameDocType,
                 name: data.name,
                 value,
               })
@@ -165,6 +161,7 @@ const SelectComponentByType = ({ entity, menuItemRow, isDarkMode, setIsDarkMode,
           />
         </div>
       )
+
     case "COLOR_SELECTION:V1":
       return (
         <div style={{
@@ -196,6 +193,7 @@ const SelectComponentByType = ({ entity, menuItemRow, isDarkMode, setIsDarkMode,
             }}
             onChange={value => {
               setAnswer({
+                type: sameDocType,
                 name: data.name,
                 value,
               })
@@ -227,13 +225,15 @@ const SelectComponentByType = ({ entity, menuItemRow, isDarkMode, setIsDarkMode,
         }}
         onChange={value => {
           setAnswer({
+            type: sameDocType,
             name: data.name,
             value: {
               url: value,
             },
           })
         }}
-      />)
+      />
+      )
 
     case "LINK_SELECTION:V1":
       return (
@@ -264,6 +264,7 @@ const SelectComponentByType = ({ entity, menuItemRow, isDarkMode, setIsDarkMode,
             }}
             onTextUpdate={value => {
               setAnswer({
+                type: sameDocType,
                 name: data.name,
                 value,
               })
@@ -293,11 +294,10 @@ function MenuContainer({ menuItem, isDarkMode, setIsDarkMode, entity, onChangeBy
             data={menuItem.isShowing}
             entity={entity}
             onChangeByUser={(value) => {
-              // setIsReadyValue(value)
-              const socket = initSocket()
 
               if (onChangeByUser) {
                 onChangeByUser({
+                  type: "SWITCH:V1",
                   name: menuItem.isShowing.name,
                   value,
                 })
@@ -310,6 +310,7 @@ function MenuContainer({ menuItem, isDarkMode, setIsDarkMode, entity, onChangeBy
             }}
             onChange={value => {
               setAnswer({
+                type: "SWITCH:V1",
                 name: menuItem.isShowing.name,
                 value,
               })

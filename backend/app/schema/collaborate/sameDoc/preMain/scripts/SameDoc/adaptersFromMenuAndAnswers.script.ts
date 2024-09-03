@@ -77,11 +77,11 @@ export const selectAdapter = ({ type, prop, initialValue, userAnswers, label, is
       let initialLink: string
 
       if (initialValue) {
-        initialLink = initialValue
+        initialLink = initialValue.value
       }
 
       if (userAnswers && userAnswers[prop]) {
-        initialLink = userAnswers[prop]
+        initialLink = userAnswers[prop].value
       }
 
       return new RealTimeLinkSelectionAdapter({
@@ -93,11 +93,11 @@ export const selectAdapter = ({ type, prop, initialValue, userAnswers, label, is
       let initialText: string
 
       if (initialValue) {
-        initialText = initialValue
+        initialText = initialValue.value
       }
 
       if (userAnswers && userAnswers[prop]) {
-        initialText = userAnswers[prop]
+        initialText = userAnswers[prop].value
       }
 
       return new RealTimeYDocAdapter({
@@ -109,11 +109,11 @@ export const selectAdapter = ({ type, prop, initialValue, userAnswers, label, is
       let initialWysisyg: string
 
       if (initialValue) {
-        initialWysisyg = initialValue
+        initialWysisyg = initialValue.value
       }
 
       if (userAnswers && userAnswers[prop]) {
-        initialWysisyg = userAnswers[prop]
+        initialWysisyg = userAnswers[prop].value
       }
 
       return new RealTimeWysiwygAdapter({
@@ -125,11 +125,11 @@ export const selectAdapter = ({ type, prop, initialValue, userAnswers, label, is
       let initialBoolean;
 
       if (initialValue !== undefined) {
-        initialBoolean = initialValue
+        initialBoolean = initialValue.value
       }
 
       if (userAnswers && userAnswers[prop] !== undefined && userAnswers[prop] !== null) {
-        initialBoolean = userAnswers[prop]
+        initialBoolean = userAnswers[prop].value
       }
 
       return new RealTimeSwitchAdapter({
@@ -143,13 +143,13 @@ export const selectAdapter = ({ type, prop, initialValue, userAnswers, label, is
       let suggestedTextColor;
 
       if (initialValue !== undefined && initialValue !== null) {
-        color = initialValue.color
-        suggestedTextColor = initialValue.suggestedTextColor
+        color = initialValue?.value?.color
+        suggestedTextColor = initialValue?.value?.suggestedTextColor
       }
 
       if (userAnswers && userAnswers[prop]) {
-        color = userAnswers[prop].color
-        suggestedTextColor = userAnswers[prop].suggestedTextColor
+        color = userAnswers[prop]?.value?.color
+        suggestedTextColor = userAnswers[prop]?.value?.suggestedTextColor
       }
 
       return new RealTimeColorSelectionAdapter({
@@ -164,11 +164,11 @@ export const selectAdapter = ({ type, prop, initialValue, userAnswers, label, is
       let media
 
       if (initialValue !== undefined) {
-        media = initialValue
+        media = initialValue?.value
       }
 
-      if (userAnswers && userAnswers[prop]) {
-        media = userAnswers[prop].url
+      if (userAnswers && userAnswers[prop]?.value?.url) {
+        media = userAnswers[prop].value.url
       }
 
       return new RealTimeMediaSelectionAdapter({

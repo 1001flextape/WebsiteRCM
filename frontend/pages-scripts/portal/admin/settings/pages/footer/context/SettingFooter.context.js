@@ -165,7 +165,7 @@ export function SettingFooterProvider({ children }) {
     })
   }
 
-  const setAnswer = ({ name, value }) => {
+  const setAnswer = ({ name, ...value }) => {
     setUserAnswers(prevState => {
       const newState = { ...prevState }
 

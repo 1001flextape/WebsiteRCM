@@ -86,7 +86,6 @@ export function SettingHeaderProvider({ children }) {
 
       const data = response.data.backendSettingHeader_getOneRealTime
 
-      console.log("!@#!@#!@#!@#!@#", data)
       updateEntity({
         entity: data.entity
       })
@@ -113,7 +112,6 @@ export function SettingHeaderProvider({ children }) {
     }).then(response => {
       const data = response.data.backendSettingHeader_selectHeader
 
-      console.log('lkajsdlfkjasldkfjlasdf', data)
       setWebAssetImport(data.webAssetImport)
       setMenu(JSON.parse(data.menuJsonB))
       setSelectionType(data.selectionType)
@@ -154,13 +152,6 @@ export function SettingHeaderProvider({ children }) {
   }, [])
 
   const saveHeader = () => {
-    console.log('user answers', {
-      id,
-      isReady: isReadyValue,
-      selectionId,
-      selectionType,
-      userAnswers: JSON.stringify(userAnswers),
-    })
     postSettingHeaderGraphQL({
       id,
       isReady: isReadyValue,
@@ -174,7 +165,7 @@ export function SettingHeaderProvider({ children }) {
     })
   }
 
-  const setAnswer = ({ name, value }) => {
+  const setAnswer = ({ name, ...value }) => {
     setUserAnswers(prevState => {
       const newState = { ...prevState }
 
