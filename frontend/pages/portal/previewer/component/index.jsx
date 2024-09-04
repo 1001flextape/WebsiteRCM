@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import MainSiteLayout from '@/layouts/mainSiteLayout/layout';
 import DynamicComponent from '@/components/previews/DynamicComponent/DynamicComponent.component';
 import { useTheme } from '@mui/material';
+import { getRcmProps } from '@/components/rcm-components/getRcmProps';
 
 const PreviewComponentPage = () => {
   const router = useRouter()
@@ -36,24 +37,25 @@ const PreviewComponentPage = () => {
           break;
       }
     }
+    
+    setComponentProps(getRcmProps({
+      state: {
+        // functional states
+        isDisplayMode: true,
+        isFunctionalMode: false,
+        isDevMode: false,
+        isProdMode: false,
 
-    if (modeQueryParam) {
-      setComponentProps({
-        props: {
-          data: {
-            system: {
-              state: {
-                isDisplayMode: true,
-                isFunctionalMode: false,
-                isDayMode: modeQueryParam.toString() === "day",
-                isNightMode: modeQueryParam.toString() === "night",
-              },
-              // socials
-            }
-          }
-        },
-      })
-    }
+        //night mode
+        isDayNightModeEnable: true,
+        isDayMode: modeQueryParam.toString() === "day",
+        isNightMode: modeQueryParam.toString() === "night",
+
+        // make API
+        assetApiUrl: "http://localhost:8080", // old term: serverUrl
+      },
+    }))
+
 
     setIsLoaded(true)
 
@@ -73,7 +75,7 @@ const PreviewComponentPage = () => {
           {webAssetImport && (
             <DynamicComponent
               filePath={webAssetImport}
-              props={componentProps?.props}
+              props={componentProps}
             />
           )}
           <br />
