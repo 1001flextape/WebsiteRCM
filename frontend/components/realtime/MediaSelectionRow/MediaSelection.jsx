@@ -128,7 +128,7 @@ function RealTimeMediaSelectionRow({ data, entity, onChangeByUser, onChange }) {
       if (tabValue === "NO_MEDIA") {
         onChange(null)
       } else if (tabValue === "CURRENT_MEDIA") {
-        onChange(undefined)
+        onChange(currentSelection.media)
       } else {
         onChange(tabValue)
       }

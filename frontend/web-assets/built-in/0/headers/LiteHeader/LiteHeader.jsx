@@ -145,7 +145,7 @@ const LiteHeader = (props) => {
             <RenderNightModeSwitch />
           </nav>
         )}
-        {isFunctionalMode && user.isNavShowing && (
+        {isFunctionalMode && user.isNavShowing.value && (
           <nav
             className={`${styles.nav} ${isDayMode ? styles.navDay : styles.navNight}`}
             style={{
