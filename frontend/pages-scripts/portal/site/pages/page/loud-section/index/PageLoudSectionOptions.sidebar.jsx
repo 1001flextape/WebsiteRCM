@@ -45,12 +45,13 @@ function SiteDesignerPageLoudSectionSidebar() {
     menu, setMenu,
     userAnswers, setUserAnswers,
     // result
-    answer, setAnswer,
+    setAnswer,
     // config
     isDarkMode, setIsDarkMode,
 
     // utils
     deleteLoudSection,
+    handleSave,
 
   } = useContext(SiteDesignerPageLoudSectionContext);
 
@@ -118,7 +119,10 @@ function SiteDesignerPageLoudSectionSidebar() {
                 secondary={
                   <React.Fragment>
                     <br />
-                    <Button variant="contained">Save</Button>
+                    <Button
+                      variant="contained"
+                      onClick={handleSave}
+                    >Save</Button>
                   </React.Fragment>
                 }
               />
@@ -133,9 +137,9 @@ function SiteDesignerPageLoudSectionSidebar() {
               deleteLoudSection()
             }}
           />
-          <br/>
-          <br/>
-          <br/>
+          <br />
+          <br />
+          <br />
         </>
       )}
     </>

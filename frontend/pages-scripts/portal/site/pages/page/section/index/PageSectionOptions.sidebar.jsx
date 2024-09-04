@@ -51,7 +51,7 @@ function SiteDesignerPageSectionSidebar() {
 
     // utils
     deleteSection,
-
+    handleSave,
   } = useContext(SiteDesignerPageSectionContext);
 
   const {
@@ -118,7 +118,10 @@ function SiteDesignerPageSectionSidebar() {
                 secondary={
                   <React.Fragment>
                     <br />
-                    <Button variant="contained">Save</Button>
+                    <Button
+                      variant="contained"
+                      onClick={handleSave}
+                    >Save</Button>
                   </React.Fragment>
                 }
               />
@@ -133,9 +136,9 @@ function SiteDesignerPageSectionSidebar() {
               deleteSection()
             }}
           />
-          <br/>
-          <br/>
-          <br/>
+          <br />
+          <br />
+          <br />
         </>
       )}
     </>

@@ -5,6 +5,8 @@ import { useRouter } from 'next/router';
 import { normalSectionGraphQL } from '../store/loadSectionData.store';
 import { getSocketId } from '@/utils/realtime/socket';
 import { deleteNormalSectionGraphQL } from '../store/deleteNormalSection.store';
+import { postSiteDesignerPageSectionNormalGraphQL } from '../store/SiteDesignerPage_upsert.store';
+import { enqueueSnackbar } from 'notistack';
 
 export const SiteDesignerPageSectionContext = React.createContext();
 
@@ -15,7 +17,6 @@ export function SiteDesignerPageSectionProvider({ children }) {
 
   const [isLoaded, setIsLoaded] = useState(false)
   const [isLoudSectionDeletionModalOpened, setIsLoudSectionDeletionModalOpened] = useState(false)
-  const [answer, setAnswer] = useState()
   const [isDarkMode, setIsDarkMode] = useState(false)
 
   // selected
@@ -115,6 +116,25 @@ export function SiteDesignerPageSectionProvider({ children }) {
     // })
   }, [])
 
+  const setAnswer = ({ name, ...value }) => {
+    setUserAnswers(prevState => {
+      const newState = { ...prevState }
+
+      newState[name] = value
+
+      return newState;
+    })
+  }
+
+  const handleSave = () => {
+    postSiteDesignerPageSectionNormalGraphQL({
+      id,
+      userAnswersJsonB: JSON.stringify(userAnswers),
+
+    }).then(response => {
+      enqueueSnackbar("Page Section Saved")
+    })
+  }
 
   return (
     <SiteDesignerPageSectionContext.Provider value={{
@@ -129,13 +149,15 @@ export function SiteDesignerPageSectionProvider({ children }) {
       userAnswers, setUserAnswers,
       name, setName,
       // result
-      answer, setAnswer,
+      // answer, setAnswer,
       // config
       isDarkMode, setIsDarkMode,
       // name input
       nameInput, setNameInput,
       // utils
       deleteSection,
+      handleSave,
+      setAnswer,
     }}>
       {children}
     </SiteDesignerPageSectionContext.Provider>

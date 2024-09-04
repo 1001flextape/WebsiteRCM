@@ -5,6 +5,8 @@ import { useRouter } from 'next/router';
 import { getSocketId } from '@/utils/realtime/socket';
 import { deleteLoudSectionGraphQL } from '../store/deleteLoudSection.store';
 import { loadLoudSectionGraphQL } from '../store/loadLoudSectionData.store';
+import { postSiteDesignerPageSectionLoudGraphQL } from '../store/SiteDesignerPage_upsert.store';
+import { enqueueSnackbar } from 'notistack';
 
 export const SiteDesignerPageLoudSectionContext = React.createContext();
 
@@ -15,7 +17,6 @@ export function SiteDesignerPageLoudSectionProvider({ children }) {
 
   const [isLoaded, setIsLoaded] = useState(false)
   const [isLoudLoudSectionDeletionModalOpened, setIsLoudLoudSectionDeletionModalOpened] = useState(false)
-  const [answer, setAnswer] = useState()
   const [isDarkMode, setIsDarkMode] = useState(false)
 
   // selected
@@ -115,6 +116,25 @@ export function SiteDesignerPageLoudSectionProvider({ children }) {
     // })
   }, [])
 
+  const setAnswer = ({ name, ...value }) => {
+    setUserAnswers(prevState => {
+      const newState = { ...prevState }
+
+      newState[name] = value
+
+      return newState;
+    })
+  }
+
+  const handleSave = () => {
+    postSiteDesignerPageSectionLoudGraphQL({
+      pageId: router.query.pageId,
+      userAnswersJsonB: JSON.stringify(userAnswers),
+
+    }).then(response => {
+      enqueueSnackbar("Page Loud Section Saved")
+    })
+  }
 
   return (
     <SiteDesignerPageLoudSectionContext.Provider value={{
@@ -128,14 +148,15 @@ export function SiteDesignerPageLoudSectionProvider({ children }) {
       menu, setMenu,
       userAnswers, setUserAnswers,
       name, setName,
-      // result
-      answer, setAnswer,
+
       // config
       isDarkMode, setIsDarkMode,
       // name input
       nameInput, setNameInput,
       // utils
       deleteLoudSection,
+      handleSave,
+      setAnswer,
     }}>
       {children}
     </SiteDesignerPageLoudSectionContext.Provider>

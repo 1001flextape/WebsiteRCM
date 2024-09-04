@@ -5,20 +5,18 @@ export const normalSectionGraphQL = ({ id, socketId }) => {
 
     const response = await callApi({
       query: `
-      query($id: ID!, $socketId: ID!) {
-        backendSiteDesignerPageSectionNormal_getOneRealTimeById(
-          id: $id
-          socketId: $socketId
-        ) {
-          id
-          entity
-          name
-          webAssetImport
-          menuJsonB
-          userAnswersJsonB
-        }
-      }
-      
+query ($id: ID!, $socketId: ID!) {
+  backendSiteDesignerPageSectionNormal_getOneRealTimeById(id: $id, socketId: $socketId) {
+    id
+    entity
+    name
+    webAssetImport
+    menuJsonB
+    userAnswersJsonB
+  }
+}
+
+
       `,
       variables: { id, socketId }
       // variables: { pageId, socketId }

@@ -1,46 +1,27 @@
-// import { callApi } from "@/utils/graphql/backend-api"
+import { callApi } from "@/utils/graphql/backend-api"
 
-// export const postSettingHeaderGraphQL = ({
-//   id,
-//   selectionType,
-//   selectionId,
-//   userAnswers,
-//   isReady,
-// }) => {
-//   return new Promise(async (resolve) => {
+export const postSiteDesignerPageSectionLoudGraphQL = ({
+  pageId,
+  userAnswersJsonB,
+}) => {
+  return new Promise(async (resolve) => {
 
-//     const response = await callApi({
-//       query: `
-//       mutation(
-//         $id: ID!
-//         $selectionType: SelectionTypeEnum!
-//         $selectionId: ID!
-//         $userAnswers: String
-//         $isReady: Boolean!
-//       ) {
-//         backendSettingHeader_upsertOne(
-//           id: $id
-//           selectionType: $selectionType
-//           selectionId: $selectionId
-//           userAnswers: $userAnswers
-//           isReady: $isReady
-//         ) {
-//           success
-//         }
-//       }
-      
-//       `,
-//       variables: {
-//         id,
-//         selectionType,
-//         selectionId,
-//         userAnswers,
-//         isReady,
-//       }
-//     })
+    const response = await callApi({
+      query: `
+mutation ($pageId: ID!, $userAnswersJsonB: String) {
+  backendSiteDesignerPageSectionLoud_upsertOne(pageId: $pageId, userAnswersJsonB: $userAnswersJsonB) {
+    isReady
+  }
+}
+      `,
+      variables: {
+        pageId,
+        userAnswersJsonB,
+      }
+    })
 
-//     //clean up
-//     resolve(response?.data)
-//   })
-// }
+    //clean up
+    resolve(response?.data)
+  })
+}
 
