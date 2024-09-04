@@ -273,7 +273,10 @@ export default function set(d: dependencies) {
 
             menu.menu[i].isShowing = props[menuItem.isShowing.name].getData()
 
-            sameDoc[args.entity].userAnswers[menu.menu[i].isShowing.name] = menu.menu[i].isShowing.booleanValue
+            sameDoc[args.entity].userAnswers[menu.menu[i].isShowing.name] = {
+              type: menu.menu[i].isShowing.sameDocType,
+              value: menu.menu[i].isShowing.booleanValue,
+            }
 
             delete props[menuItem.isShowing.name]
           }
@@ -296,6 +299,28 @@ export default function set(d: dependencies) {
                     break;
 
                   case "YDOC:V1":
+                    sameDoc[args.entity].userAnswers[data.name] = {
+                      type: data.sameDocType,
+                      value: (data as any).readableTextValue,
+                    }
+                    break;
+
+                  case "TEXTFIELD:V1":
+                    sameDoc[args.entity].userAnswers[data.name] = {
+                      type: data.sameDocType,
+                      value: (data as any).readableTextValue,
+                    }
+                    break;
+
+                  case "LINK_SELECTION:V1":
+                    sameDoc[args.entity].userAnswers[data.name] = {
+                      type: data.sameDocType,
+                      value: (data as any).readableTextValue,
+                    }
+                    break;
+
+
+                  case "WYSIWYG:V1":
                     sameDoc[args.entity].userAnswers[data.name] = {
                       type: data.sameDocType,
                       value: (data as any).readableTextValue,

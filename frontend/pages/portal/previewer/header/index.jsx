@@ -95,7 +95,7 @@ const PreviewHeaderPage = (props) => {
         setComponentProps(prevState => {
           const newState = { ...prevState }
 
-          if (!newState.data.user[data.name]) {
+          if (!newState.data.user[data.name] || typeof newState.data.user[data.name] !== 'object') {
             newState.data.user[data.name] = {}
           }
           newState.data.user[data.name].value = data.value

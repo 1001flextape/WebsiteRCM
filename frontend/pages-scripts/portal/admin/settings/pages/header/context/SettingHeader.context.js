@@ -152,6 +152,7 @@ export function SettingHeaderProvider({ children }) {
   }, [])
 
   const saveHeader = () => {
+    console.log('saving: ', userAnswers)
     postSettingHeaderGraphQL({
       id,
       isReady: isReadyValue,
