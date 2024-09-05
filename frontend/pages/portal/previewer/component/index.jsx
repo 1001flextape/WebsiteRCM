@@ -18,13 +18,13 @@ const PreviewComponentPage = () => {
   const [backgroundColor, setBackgroundColor] = useState()
 
   useEffect(() => {
-    const { webAssetImport: webAssetQueryParam, mode: modeQueryParam } = router.query;
+    const { webAssetImport: webAssetQueryParam, mode: modeQueryParam = "day" } = router.query;
 
     // Check if the query parameter is present before setting the state
     if (webAssetQueryParam) {
       setWebAssetImport(webAssetQueryParam.toString());
 
-      switch (modeQueryParam.toString()) {
+      switch (modeQueryParam?.toString()) {
         case "night":
           setBackgroundColor(theme.palette.grey[800])
           break;
