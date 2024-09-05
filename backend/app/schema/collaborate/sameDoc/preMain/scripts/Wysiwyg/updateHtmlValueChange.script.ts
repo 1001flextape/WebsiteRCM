@@ -8,11 +8,11 @@ type input = {
   socketId: string
   entity: string
   name: string
-  readableTextValue: string
+  htmlValue: string
 }
 
 
-export default function updateReadableTextValueChange(d: dependencies) {
+export default function updateHtmlValueChange(d: dependencies) {
 
   return async (args: input): Promise<returningSuccessObj<null>> => {
 
@@ -29,7 +29,9 @@ export default function updateReadableTextValueChange(d: dependencies) {
       name: args.name,
     })).data as RealTimeWysiwygAdapter
 
-    prop.updateReadableTextValue(args.readableTextValue)
+    if (prop.updateHtmlValue) {
+      prop.updateHtmlValue(args.htmlValue)
+    }
 
     // nothing to broadcast, keeping update for fresh load.
 

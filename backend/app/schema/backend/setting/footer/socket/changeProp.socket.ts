@@ -17,7 +17,7 @@ export default ({ socket, d }: input) => {
       entity,
     })
 
-    if (record.data) {
+    if (record.data?.updateUserAnswer) {
       record.data.updateUserAnswer({
         name: data.name,
         value: data.value,

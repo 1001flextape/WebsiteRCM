@@ -3,7 +3,7 @@
 
 
 import { dependencies } from "../../../../utils/dependencies/type/dependencyInjection.types";
-import makeCollaborateSameDocTextField from "../../preMain/collaborateSameDocTextField.cache";
+import makeCollaborateSameDocWysiwyg from "../../preMain/collaborateSameWysiwyg.ram-cache";
 
 type input = {
   socket: any,
@@ -14,15 +14,15 @@ export default ({ socket, d }: input) => {
   socket.on('server-samedoc-wysiwyg-readable-text-update', async ({
     entity,
     name,
-    readableTextValue
+    htmlValue,
   }) => {
 
-    const sameDocTextField = makeCollaborateSameDocTextField(d)
+    const sameDocTextField = makeCollaborateSameDocWysiwyg(d)
 
-    sameDocTextField.updateReadableTextValueChange({
+    sameDocTextField.updateHtmlValueChange({
       entity,
       name,
-      readableTextValue,
+      htmlValue,
       socketId: socket.id,
     })
   });

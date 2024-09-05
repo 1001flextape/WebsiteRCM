@@ -3,7 +3,7 @@
 
 
 import { dependencies } from "../../../../utils/dependencies/type/dependencyInjection.types";
-import makeCollaborateSameDocTextField from "../../preMain/collaborateSameDocTextField.cache";
+import makeCollaborateSameDocWysiwyg from "../../preMain/collaborateSameWysiwyg.ram-cache";
 
 type input = {
   socket: any,
@@ -18,7 +18,7 @@ export default ({ socket, d }: input) => {
   }) => {
 
     
-    const sameDocTextField = makeCollaborateSameDocTextField(d)
+    const sameDocTextField = makeCollaborateSameDocWysiwyg(d)
 
     sameDocTextField.updateYdocChange({
       entity,

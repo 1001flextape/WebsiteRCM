@@ -50,7 +50,7 @@ const PreviewFooterPage = (props) => {
           // make API
           assetApiUrl: "http://localhost:8080", // old term: serverUrl
         },
-        user,
+        user: user || {},
       }))
 
       setWebAssetImport(data.webAssetImport)

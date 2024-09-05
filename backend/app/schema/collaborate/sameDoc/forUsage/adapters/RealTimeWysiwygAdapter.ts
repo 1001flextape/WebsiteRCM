@@ -5,7 +5,8 @@ import { socketLookUpType } from '../../../_singleton/preMain/scripts/socketLook
 import { SelectionCursor } from './RealTimeYDocAdapter.d';
 
 type input = {
-  initialText: string,
+  initialText?: string,  // Make initialText optional
+  initialDelta?: any,    // Add initialDelta to the input type
   name: string,
   label?: string,
 }
@@ -13,7 +14,7 @@ type input = {
 class RealTimeWysiwygAdapter {
   //id
   public id?: string = uuidv4();
-  public sameDocType? = "WYSIWYG:V1"
+  public sameDocType? = "WYSIWYG:V1";
   public name?: string;
 
   //props
@@ -25,38 +26,99 @@ class RealTimeWysiwygAdapter {
   public ydoc?: Y.Doc;
   public yText?: Y.Text;
   public textValue?: string;
-  public readableTextValue?: string = "";
+  public htmlValue?: string = "";
+  public deltaValue?: any;
 
   //display
   public label?: string;
   public usersWhoChangedValue?: socketLookUpType[] = [];
-
-  constructor({ initialText, name, label }: input) {
+  constructor({ initialText, initialDelta, name, label }: input) {
     this.name = name;
     this.ydoc = new Y.Doc();
-    const yText = this.ydoc.getText('quill');
+    this.yText = this.ydoc.getText('quill'); // Ensure 'quill' is used as the key
 
-    // Set the initial content of the Yjs Text
-    yText.insert(0, initialText);
+    // Load delta if provided, otherwise load initial text
+    if (initialDelta) {
+      // const simpleDelta = { ops: [{ insert: "Hello World\n" }] };
+      // this.loadQuillDelta(simpleDelta);
+      this.loadQuillDelta(initialDelta);  // Apply Quill delta
+    } else if (initialText) {
+      this.yText.insert(0, initialText); // Insert the text content
+    }
 
+    this.textValue = this.getTextValue();
+    this.htmlValue = initialText || ''; // Use initial text or empty string
 
-    this.textValue = this.getTextValue()
+    // Listen to Yjs updates
     this.ydoc.on('update', (update, origin) => {
-
-      this.textValue = this.getTextValue()
-      // console.log('Document updated!', this.textValue);
+      this.textValue = this.getTextValue();
+      this.updateHtmlValueFromYjs();
     });
-
-    this.readableTextValue = initialText;
 
     // display
     this.label = label;
   }
 
-  updateUsersWhoChangeValue?(socketLookUp: socketLookUpType) {
-    if (this.usersWhoChangedValue.filter(u => u.userId === socketLookUp.userId).length === 0) {
-      this.usersWhoChangedValue.push(socketLookUp)
+  // Load delta into Yjs Text
+  // Load delta into Yjs Text
+  loadQuillDelta(delta: any) {
+    try {
+      if (this.yText) {
+        console.log("Delta being applied:", delta);
+        this.yText.applyDelta(delta.ops);  // Ensure applying only the ops array
+        console.log("Yjs document state after delta:", this.yText.toDelta());
+      } else {
+        console.error("YText instance is not initialized.");
+      }
+    } catch (error) {
+      console.error("Failed to apply Quill delta:", error);
     }
+  }
+
+
+
+  // loadYjsUpdate(encodedUpdate: string) {
+  //   try {
+  //     const binaryUpdate = Buffer.from(encodedUpdate, 'base64');
+  //     Y.applyUpdate(this.ydoc, binaryUpdate);
+  //     console.log("Applied Yjs Update:", this.yText.toDelta()); // For debugging
+  //   } catch (error) {
+  //     console.error("Failed to apply Yjs update:", error);
+  //   }
+  // }
+
+  // loadDeltaIntoYjs(delta: any) {
+  //   this.ydoc.getText('quill').applyDelta(delta); // Apply delta to Yjs Text
+  //   console.log("Applied Delta: ", this.yText.toDelta());
+  // }
+
+  // Convert Yjs Text to HTML or another format if needed
+  updateHtmlValueFromYjs() {
+    // Assuming you want to convert the Yjs document to HTML or a similar format
+    const delta = this.yText.toDelta();
+    this.htmlValue = this.convertDeltaToHtml(delta); // You need to implement this method
+    this.order = ++this.orderCounter;
+  }
+
+  // Convert Delta to HTML (or other format)
+  convertDeltaToHtml(delta: any): string {
+    // Implement this function to convert the Delta to HTML
+    // This might involve using a library or custom conversion logic
+    return ''; // Placeholder
+  }
+
+  // Get text value in base64 encoded format
+  private getTextValue(): string {
+    const updatedDoc = Y.encodeStateAsUpdate(this.ydoc);
+    const base64Encoded = Buffer.from(updatedDoc).toString('base64');
+    return base64Encoded;
+  }
+
+  // Update HTML value
+  updateHtmlValue(htmlValue: string): number {
+    this.htmlValue = htmlValue;
+    this.order = ++this.orderCounter;
+    return this.order;
   }
 
   // Add a new selection cursor or update if it already exists
@@ -112,19 +174,10 @@ class RealTimeWysiwygAdapter {
     return this.order
   }
 
-  updateReadableTextValue?(textValue: string): number {
-    this.readableTextValue = textValue
-
-    this.order = ++this.orderCounter;
-
-    return this.order
-  }
-
-  private getTextValue?(): string {
-    // const value = this.ydoc.getText("quill").toString();
-    const updatedDoc = Y.encodeStateAsUpdate(this.ydoc);
-    const base64Encoded = Buffer.from(updatedDoc).toString('base64');
-    return base64Encoded;
+  updateUsersWhoChangeValue?(socketLookUp: socketLookUpType) {
+    if (this.usersWhoChangedValue.filter(u => u.userId === socketLookUp.userId).length === 0) {
+      this.usersWhoChangedValue.push(socketLookUp)
+    }
   }
 
   getData?() {
@@ -143,15 +196,17 @@ class RealTimeWysiwygAdapter {
       })
     }
 
+    console.log("Yjs Document State:", this.yText.toDelta());
+
 
     return {
       sameDocType: this.sameDocType,
       name: this.name,
       order: this.order,
       selections: this.selections,
-      textValue: this.textValue,
+      textValue: this.getTextValue(),
       label: this.label,
-      readableTextValue: this.readableTextValue,
+      htmlValue: this.htmlValue,
       usersWhoChangedValue,
     }
   }

@@ -107,17 +107,23 @@ export const selectAdapter = ({ type, prop, initialValue, userAnswers, label, is
       })
     case "WYSIWYG:V1":
       let initialWysisyg: string
+      let initialDelta: any
 
       if (initialValue) {
         initialWysisyg = initialValue.value
       }
 
+      if (userAnswers && userAnswers[prop]?.value) {
+        initialWysisyg = userAnswers[prop].value.html
+      }
+
       if (userAnswers && userAnswers[prop]) {
-        initialWysisyg = userAnswers[prop].value
+        initialDelta = userAnswers[prop].value.delta
       }
 
       return new RealTimeWysiwygAdapter({
         initialText: initialWysisyg || "",
+        initialDelta: initialDelta,
         name: prop,
         label,
       })
@@ -125,7 +131,7 @@ export const selectAdapter = ({ type, prop, initialValue, userAnswers, label, is
       let initialBoolean;
 
       if (initialValue !== undefined) {
-        initialBoolean = initialValue.value
+        initialBoolean = initialValue
       }
 
       if (userAnswers && userAnswers[prop] !== undefined && userAnswers[prop] !== null) {
@@ -143,8 +149,8 @@ export const selectAdapter = ({ type, prop, initialValue, userAnswers, label, is
       let suggestedTextColor;
 
       if (initialValue !== undefined && initialValue !== null) {
-        color = initialValue?.value?.color
-        suggestedTextColor = initialValue?.value?.suggestedTextColor
+        color = initialValue?.color
+        suggestedTextColor = initialValue?.suggestedTextColor
       }
 
       if (userAnswers && userAnswers[prop]) {

@@ -17,7 +17,7 @@ import WhoEditThisInputModal from './modal/WhoEditThisInput.modal';
 Quill.register('modules/cursors', QuillCursors);
 
 
-function RealTimeWysiwyg({ onTextUpdate, onChangeByUser, ...props }) {
+function RealTimeWysiwyg({ onUpdate, onHtmlUpdate, onDeltaUpdate, onChangeByUser, ...props }) {
   const quillRef = useRef(null);
   const { idChip, applyTextFieldSelectionBuffer } = useContext(AdminLayoutContext)
 
@@ -32,6 +32,7 @@ function RealTimeWysiwyg({ onTextUpdate, onChangeByUser, ...props }) {
       ['bold', 'italic', 'underline'],
       [{ list: 'ordered' }, { list: 'bullet' }],
       ['code-block'],
+      [{ 'align': [] }],
     ],
     // keyboard: {
     //   bindings: {
@@ -95,12 +96,23 @@ function RealTimeWysiwyg({ onTextUpdate, onChangeByUser, ...props }) {
         // Apply this to the Y.Doc
         Y.applyUpdate(ydoc, updateArray);
 
-        if (onTextUpdate) {
-          onTextUpdate(quill.getText().replace(/\n/g, ""))
+        if (onHtmlUpdate) {
+          onHtmlUpdate(quill.root.innerHTML)
+        }
+
+        if (onDeltaUpdate) {
+          onDeltaUpdate(quill.getContents())
+        }
+
+        if (onUpdate) {
+          onUpdate({
+            delta: quill.getContents(),
+            html: quill.root.innerHTML,
+          })
         }
 
         if (onChangeByUser) {
-          onChangeByUser(quill.getText().replace(/\n/g, ""))
+          onChangeByUser(quill.root.innerHTML)
         }
       }
 
@@ -166,19 +178,30 @@ function RealTimeWysiwyg({ onTextUpdate, onChangeByUser, ...props }) {
             ydoc: updatedYdoc,
           });
 
-          socket.emit('server-samedoc-textfield-readable-text-update', {
+          socket.emit('server-samedoc-wysiwyg-readable-text-update', {
             entity: props.entity,
             name: props.data.name,
-            readableTextValue: quill.getText().replace(/\n/g, ""),
+            htmlValue: quill.root.innerHTML,
           })
 
 
-          if (onTextUpdate) {
-            onTextUpdate(quill.getText().replace(/\n/g, ""))
+          if (onHtmlUpdate) {
+            onHtmlUpdate(quill.root.innerHTML)
+          }
+
+          if (onDeltaUpdate) {
+            onDeltaUpdate(quill.getContents())
+          }
+
+          if (onUpdate) {
+            onUpdate({
+              delta: quill.getContents(),
+              html: quill.root.innerHTML,
+            })
           }
 
           if (onChangeByUser) {
-            onChangeByUser(quill.getText().replace(/\n/g, ""))
+            onChangeByUser(quill.root.innerHTML)
           }
 
           if (!props?.data?.usersWhoChangedValue) {
@@ -237,8 +260,19 @@ function RealTimeWysiwyg({ onTextUpdate, onChangeByUser, ...props }) {
             // console.log('samedoc-yjs-update', data)
             Y.applyUpdate(ydoc, new Uint8Array(data.ydoc));
 
-            if (onTextUpdate) {
-              onTextUpdate(quill.getText().replace(/\n/g, ""))
+            if (onHtmlUpdate) {
+              onHtmlUpdate(quill.root.innerHTML)
+            }
+
+            if (onDeltaUpdate) {
+              onDeltaUpdate(quill.getContents())
+            }
+
+            if (onUpdate) {
+              onUpdate({
+                delta: quill.getContents(),
+                html: quill.root.innerHTML,
+              })
             }
           }
         } catch (error) {
@@ -273,7 +307,7 @@ function RealTimeWysiwyg({ onTextUpdate, onChangeByUser, ...props }) {
           setOrderNumber(order)
           quill.on('selection-change', (range, oldRange, source) => {
             if (source === 'user' || source === "api") {
-              socket.emit('server-samedoc-selection-change', {
+              socket.emit('server-samedoc-wysiwyg-selection-change', {
                 range,
                 entity: props.entity,
                 name: props.data.name,

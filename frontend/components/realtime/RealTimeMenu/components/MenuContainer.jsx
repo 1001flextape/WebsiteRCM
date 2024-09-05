@@ -73,7 +73,7 @@ const SelectComponentByType = ({ entity, menuItemRow, isDarkMode, setIsDarkMode,
               //   value,
               // })
             }}
-            onTextUpdate={value => {
+            onUpdate={value => {
               setAnswer({
                 type: sameDocType,
                 name: data.name,

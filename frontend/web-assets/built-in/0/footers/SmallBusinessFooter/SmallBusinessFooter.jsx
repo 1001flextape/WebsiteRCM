@@ -62,41 +62,53 @@ function renderFooterContent(props) {
 
   // Render Functional Mode Content
   if (isFunctionalMode) {
+    console.log('user?.ctaPanelDescription', user?.ctaPanelDescription)
     return (
       <>
-        {user.isCtaPanelShowing && (
+        {user.isCtaPanelShowing.value && (
           <div
             className={`${styles.ctaPanel} ${textClass}`}
             style={{
               background: isDayMode
-                ? user.colorCtaPanelDay?.color
-                : user.colorCtaPanelNight?.color,
+                ? user.colorCtaPanelDay?.value?.color
+                : user.colorCtaPanelNight?.value?.color,
+              borderRadius: 0,
             }}
           >
-            <h2 className={styles.ctaHeading}>Contact Us Today</h2>
+            <h2 className={styles.ctaHeading}>{user.ctaPanelHeader.value || "Contact Us Today"}</h2>
             <p className={styles.ctaText}>
-              Have questions or need assistance? We're here to help. Contact us for more information.
+              {user?.ctaPanelDescription?.value && (
+                <div
+                  dangerouslySetInnerHTML={{ __html: user.ctaPanelDescription.value }}
+                ></div>
+              )}
+              {!user?.ctaPanelDescription?.value && (
+                <div>
+                  Have questions or need assistance? We're here to help. Contact us for more information.
+                </div>
+              )}
+
             </p>
             <a
               href="/contact"
               className={styles.ctaButton}
               style={{
                 background: isDayMode
-                  ? user.colorCtaButtonDay?.color
-                  : user.colorCtaButtonNight?.color,
+                  ? user.colorCtaButtonDay?.value?.color
+                  : user.colorCtaButtonNight?.value?.color,
               }}
             >
               Get in Touch
             </a>
           </div>
         )}
-        {user.isFooterShowing && (
+        {user.isFooterShowing.value && (
           <footer
             className={`${styles.footer} ${textClass}`}
             style={{
               background: isDayMode
-                ? user.colorFooterDay?.color
-                : user.colorFooterNight?.color,
+                ? user.colorFooterDay?.value?.color
+                : user.colorFooterNight?.value?.color,
             }}
           >
             <div className={styles.footerContent}>
@@ -131,19 +143,20 @@ function renderFooterContent(props) {
                 </div>
               </div>
             </div>
-            {user.isCopyrightShowing && (
-              <div
-                className={`${styles.copyright} ${textClass}`}
-                style={{
-                  background: isDayMode
-                    ? user.copyrightColorDay?.color
-                    : user.copyrightColorNight?.color,
-                }}
-              >
-                &copy; 2023 {user.copyrightName || 'Your Brand'}. All rights reserved.
-              </div>
-            )}
+
           </footer>
+        )}
+        {user.isCopyrightShowing && (
+          <div
+            className={`${styles.copyright} ${textClass}`}
+            style={{
+              background: isDayMode
+                ? user.copyrightColorDay?.value?.color
+                : user.copyrightColorNight?.value?.color,
+            }}
+          >
+            &copy; 2023 {user.copyrightName?.value || 'Your Brand'}. All rights reserved.
+          </div>
         )}
       </>
     );
