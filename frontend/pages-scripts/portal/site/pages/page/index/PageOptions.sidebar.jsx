@@ -44,7 +44,7 @@ function SiteDesignerPageSidebar() {
 
   const {
     isLoaded,
-    
+
     id, setId,
 
     isLoudSectionModalOpened, setIsLoudSectionModalOpened,
@@ -268,9 +268,11 @@ function SiteDesignerPageSidebar() {
       />
     </ListItem> */}
           </List>
-          <br />
-          <br />
-          <br />
+          <div>
+            <br />
+            <br />
+            <br />
+          </div>
         </>
       )}
     </>

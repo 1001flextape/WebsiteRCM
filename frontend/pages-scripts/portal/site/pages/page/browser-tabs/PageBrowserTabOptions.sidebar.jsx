@@ -86,6 +86,11 @@ function PageBrowserTabSidebar() {
               />
             </ListItem>
           </List>
+          <div>
+            <br />
+            <br />
+            <br />
+          </div>
         </>
       )}
     </>

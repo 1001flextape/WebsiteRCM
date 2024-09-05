@@ -137,9 +137,11 @@ function SiteDesignerPageLoudSectionSidebar() {
               deleteLoudSection()
             }}
           />
-          <br />
-          <br />
-          <br />
+          <div>
+            <br />
+            <br />
+            <br />
+          </div>
         </>
       )}
     </>
