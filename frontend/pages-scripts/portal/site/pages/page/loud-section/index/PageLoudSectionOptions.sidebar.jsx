@@ -26,6 +26,7 @@ import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
 import { SiteDesignerPageLoudSectionContext } from './context/SiteDesignerPageLoudSection.context';
 import LoudSectionDeletionModal from './modals/LoudSectionDeletion.modal';
 import RealTimeMenu from '@/components/realtime/RealTimeMenu/RealTimeMenu';
+import { initSocket } from '@/utils/realtime/socket';
 // const DynamicNavLinksWrapper = dynamic(() => import('../../components/NavLinks/NavLinksWrapper.component'), {
 //   ssr: false,
 // });
@@ -81,9 +82,10 @@ function SiteDesignerPageLoudSectionSidebar() {
               isDarkMode={isDarkMode}
               setIsDarkMode={setIsDarkMode}
               onChangeByUser={(propInfo) => {
-                // const socket = initSocket()
+                const socket = initSocket()
 
-                // socket.emit('server-setting-header-change-prop', propInfo)
+                console.log('server-page-loud-section-change-prop', { ...propInfo, entity })
+                socket.emit('server-page-loud-section-change-prop', { ...propInfo, entity })
               }}
               setAnswer={setAnswer}
             />

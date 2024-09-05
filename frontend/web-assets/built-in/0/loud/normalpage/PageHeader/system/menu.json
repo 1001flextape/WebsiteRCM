@@ -24,7 +24,7 @@
             "label": "Night Color",
             "isShowing": "isNightMode",
             "defaultValue": {
-              "color": "rgb(31, 41, 55)",
+              "color": "#1a202c",
               "suggestedTextColor": "LIGHT"
             }
           }
