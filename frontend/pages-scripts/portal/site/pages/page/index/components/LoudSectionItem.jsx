@@ -81,6 +81,7 @@ const LoudSectionItem = ({ onSelectEdit, onSelectDelete, onSelectCreateSummary }
                     keepMounted
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
+                    
                   >
                     <MenuItem onClick={() => {
                       handleClose();
