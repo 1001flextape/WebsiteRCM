@@ -34,6 +34,7 @@ import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
 import LoudSectionItem from './components/LoudSectionItem';
 import { postPageGraphQL } from './store/SiteDesignerPage_upsert.store';
 import { enqueueSnackbar } from 'notistack';
+import DeleteLoudComponentModal from './modals/loudComponents/delete/DeleteLoudComponent.modal';
 // const DynamicNavLinksWrapper = dynamic(() => import('../../components/NavLinks/NavLinksWrapper.component'), {
 //   ssr: false,
 // });
@@ -48,7 +49,9 @@ function SiteDesignerPageSidebar() {
     id, setId,
 
     isLoudSectionModalOpened, setIsLoudSectionModalOpened,
+    loudSectionDeleteModal, setLoudSectionDeleteModal,
     isNormalSectionModalOpened, setIsNormalSectionModalOpened,
+    normalSectionDeleteModal, setNormalSectionDeleteModal,
 
     createNormalSection,
     createLoudSection,
@@ -108,6 +111,16 @@ function SiteDesignerPageSidebar() {
             <HeaderRow label={"Loud Section"} />
             <LoudSectionItem
               onSelectCreateSummary={handleNewLoudSection}
+              onSelectDelete={({id, name, author}) => {
+                setLoudSectionDeleteModal(prevState => ({
+                  ...prevState,
+                  isOpened: true,
+                  id,
+                  name, 
+                  author,
+                }))
+              }}
+
             />
             <Divider component="li" style={{ borderTopWidth: "5px" }} />
             <HeaderRow
@@ -245,6 +258,15 @@ function SiteDesignerPageSidebar() {
               onSelect={info => createNormalSection(info)}
             />
 
+            <DeleteLoudComponentModal
+              isOpened={loudSectionDeleteModal.isOpened}
+              onClose={() => {
+                setLoudSectionDeleteModal(prevState => ({
+                  ...prevState,
+                  isOpened: false,
+                }))
+              }}
+            />
             {/* <Divider variant="inset" component="li" />
     <ListItem alignItems="flex-start">
       <ListItemAvatar>

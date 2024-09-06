@@ -82,8 +82,17 @@ const LoudSectionItem = ({ onSelectEdit, onSelectDelete, onSelectCreateSummary }
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                   >
-                    <MenuItem onClick={() => { onSelectEdit(id); handleClose(); }}>Edit</MenuItem>
-                    <MenuItem onClick={() => { onSelectDelete(id); handleClose(); }}>Delete</MenuItem>
+                    <MenuItem onClick={() => {
+                      handleClose();
+                      navigate(`/portal/site/pages/${router.query.pageId}/loud-section/${loudSection.id}`)
+                    }}>Edit</MenuItem>
+                    <MenuItem onClick={() => {
+                      onSelectDelete({
+                        id: loudSection.id,
+                        name: loudSection.name,
+                        author: loudSection.author,
+                      }); handleClose();
+                    }}>Delete</MenuItem>
                   </Menu>
                 </ListItemSecondaryAction>
               </>

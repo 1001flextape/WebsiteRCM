@@ -7,6 +7,7 @@ import { enqueueSnackbar } from 'notistack';
 import { useRouter } from 'next/router';
 import { createNormalSectionGraphQL } from '../store/createNormalSection.store';
 import { createLoudSectionGraphQL } from '../store/createLoudSection.story';
+import { deletePageLoudSectionGraphQL } from '../store/deleteLoudSection.store';
 
 export const SiteDesignerPageContext = React.createContext();
 
@@ -24,7 +25,19 @@ export function SiteDesignerPageProvider({ children }) {
 
   //component options
   const [isLoudSectionModalOpened, setIsLoudSectionModalOpened] = useState(false)
+  const [loudSectionDeleteModal, setLoudSectionDeleteModal] = useState({
+    isOpened: false,
+    id: undefined,
+    name: undefined,
+    author: undefined,
+  })
   const [isNormalSectionModalOpened, setIsNormalSectionModalOpened] = useState(false)
+  const [normalSectionDeleteModal, setNormalSectionDeleteModal] = useState({
+    isOpened: false,
+    id: undefined,
+    name: undefined,
+    author: undefined,
+  })
   const [loudSectionBuiltIn, setLoudSectionBuiltIn] = useState([])
   const [loudSectionBuiltInSelected, setLoudSectionBuiltInSelected] = useState()
   const [normalSectionBuiltIn, setNormalSectionBuiltIn] = useState([])
@@ -139,6 +152,16 @@ export function SiteDesignerPageProvider({ children }) {
     })
   }
 
+  const handleLoudSectionDeletion = () => {
+    if (loudSectionDeleteModal?.id) {
+      deletePageLoudSectionGraphQL({
+        id: loudSectionDeleteModal?.id,
+      }).then(response => {
+        init();
+      })
+    }
+  }
+
 
 
   useEffect(() => {
@@ -162,7 +185,7 @@ export function SiteDesignerPageProvider({ children }) {
     }
   }, [loudSectionBuiltIn])
 
-  useEffect(() => {
+  const init = () => {
     loadPageGraphQL({
       pageId: router.query.pageId,
       socketId: getSocketId(),
@@ -174,6 +197,7 @@ export function SiteDesignerPageProvider({ children }) {
       const sectionsData = response.data.backendSiteDesignerPageSectionNormal_getManyByPageId
       const loudSectionData = response.data.backendSiteDesignerPageSectionLoud_getOneByPageId
 
+      console.log('loudSectionData', loudSectionData)
 
 
       if (pageData) {
@@ -186,7 +210,6 @@ export function SiteDesignerPageProvider({ children }) {
         setIsDraft(pageData.isDraft)
         setIsRecentlyCreated(pageData.isRecentlyCreated)
         setStatus(pageData.status)
-        console.log('pageData.status', pageData.status)
         setSlug(pageData.slug)
       }
 
@@ -217,12 +240,16 @@ export function SiteDesignerPageProvider({ children }) {
         setSections(sectionsData)
       }
 
-      if (loudSectionData) {
+      if (loudSectionData !== undefined) {
         setLoudSection(loudSectionData)
       }
 
       setIsLoaded(true)
     })
+  }
+
+  useEffect(() => {
+    init()
   }, [])
 
 
@@ -236,7 +263,9 @@ export function SiteDesignerPageProvider({ children }) {
 
 
       isLoudSectionModalOpened, setIsLoudSectionModalOpened,
+      loudSectionDeleteModal, setLoudSectionDeleteModal,
       isNormalSectionModalOpened, setIsNormalSectionModalOpened,
+      normalSectionDeleteModal, setNormalSectionDeleteModal,
       loudSectionBuiltIn, setLoudSectionBuiltIn,
       loudSectionBuiltInSelected, setLoudSectionBuiltInSelected,
       normalSectionBuiltIn, setNormalSectionBuiltIn,
@@ -262,6 +291,8 @@ export function SiteDesignerPageProvider({ children }) {
 
       createNormalSection,
       createLoudSection,
+
+      handleLoudSectionDeletion,
     }}>
       {children}
     </SiteDesignerPageContext.Provider>
