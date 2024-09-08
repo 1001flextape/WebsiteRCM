@@ -13,7 +13,7 @@ const getTextColor = (suggestedTextColor) => {
   }
 }
 
-const GitHeader = ({ isImageOnRight, ...props }) => {
+const GitHeader = (props) => {
   const { system, user } = props.data;
   const {
     isDayMode,
@@ -33,6 +33,7 @@ const GitHeader = ({ isImageOnRight, ...props }) => {
   let buttonText = "Learn More"
   let image = "https://dsimple.com/wp-content/uploads/2017/03/redes-sociales-estrategia.gif"
   let imageAlt = "Animated Business Growth"
+  let isImageOnRight = false;
 
   let backgroundStyles = {}
   let buttonStyles = {}
@@ -44,6 +45,7 @@ const GitHeader = ({ isImageOnRight, ...props }) => {
     buttonText = user?.ctaButtonText?.value
     image = assetApiUrl + user?.image?.value?.url
     imageAlt = user?.image?.value?.alt
+    isImageOnRight = user?.isImageOnRight.value || false
 
     backgroundStyles = {
       backgroundColor: isNightMode

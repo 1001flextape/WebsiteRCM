@@ -58,18 +58,7 @@ const BasicCtaHeader = (props) => {
         ? getTextColor(user?.ctaButtonColorNight?.value?.suggestedTextColor)
         : getTextColor(user?.ctaButtonColorDay?.value?.suggestedTextColor),
     }
-
   }
-
-  // backgroundColorDay: Object { type: "COLOR_SELECTION:V1", value: {…} }
-  // backgroundColorNight: Object { type: "COLOR_SELECTION:V1", value: {…} }
-  // ctaButtonColorDay: Object { type: "COLOR_SELECTION:V1", value: {…} }
-  // ctaButtonColorNight: Object { type: "COLOR_SELECTION:V1", value: {…} }
-  // ctaButtonLink: Object { type: "LINK_SELECTION:V1", value: "/p/test/neat_test" }
-  // ctaButtonText: Object { type: "YDOC:V1", value: "blah blah blah" }
-  // description: Object { type: "WYSIWYG:V1", value: {…} }
-  // header: Object { type: "YDOC:V1", value: "blah" }
-  // isShowing: Object { type: "SWITCH:V1", value: true }
 
   return (
     <>

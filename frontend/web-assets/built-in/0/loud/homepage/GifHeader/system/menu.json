@@ -80,6 +80,17 @@
       "isShowing": {
         "prop": "isShowing"
       }
+    },
+    {
+      "data": [
+        {
+          "prop": "isImageOnRight",
+          "type": "SWITCH:V1",
+          "label": "Image on left/right side"
+        }
+      ],
+      "type": "CONTAINER:V1",
+      "header": "Options"
     }
   ]
 }
