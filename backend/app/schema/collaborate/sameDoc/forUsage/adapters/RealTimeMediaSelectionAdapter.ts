@@ -81,6 +81,7 @@ class RealTimeMediaSelectionAdapter {
     const uploads: any[] = [...this.uploads]
 
     return {
+      label: this.label,
       sameDocType: this.sameDocType,
       name: this.name,
       order: this.order,

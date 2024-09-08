@@ -75,7 +75,7 @@ async function up({ context: queryInterface }) {
     {
       id: "2401e702-a728-416e-9a6e-40e591d23ae3",
       webAssetImport: "built-in/0/loud/normalpage/PageHeader/",
-      menuJsonB: '{"menu":[{"header":"Page Header","type":"CONTAINER:V1","isShowing":{"prop":"isShowing"},"data":[{"label":"Header","prop":"header","type":"TEXTFIELD:V1","placeholder":"Ignite Your Journey with Innovative Solutions"},{"label":"Day Color","prop":"backgroundColorDay","isShowing":"isDayMode","type":"COLOR_SELECTION:V1","defaultValue":{"color":"rgb(238, 238, 238)","suggestedTextColor":"DARK"}},{"label":"Night Color","prop":"backgroundColorNight","isShowing":"isNightMode","type":"COLOR_SELECTION:V1","defaultValue":{"color":"rgb(31, 41, 55)","suggestedTextColor":"LIGHT"}}]}]}',
+      menuJsonB: '{"menu":[{"data":[{"prop":"header","type":"TEXTFIELD:V1","label":"Header","placeholder":"Ignite Your Journey with Innovative Solutions"},{"prop":"backgroundColorDay","type":"COLOR_SELECTION:V1","label":"Day Color","isShowing":"isDayMode","defaultValue":{"color":"rgb(238, 238, 238)","suggestedTextColor":"DARK"}},{"prop":"backgroundColorNight","type":"COLOR_SELECTION:V1","label":"Night Color","isShowing":"isNightMode","defaultValue":{"color":"#1a202c","suggestedTextColor":"LIGHT"}}],"type":"CONTAINER:V1","header":"Page Header","isShowing":{"prop":"isShowing"}}]}',
 
       description: `Ignite the path ahead with our page header, a beacon of innovation and solutions. Centered around excellence, this section is designed to spark your journey with a clear and compelling message. The bold typography and subtle background create an inviting space, setting the tone for an exploration of innovative solutions that await. Join us as we pave the way for your next exciting venture.`,
       category: LoudSectionEnum.NORMALPAGE,
@@ -92,7 +92,7 @@ async function up({ context: queryInterface }) {
     {
       id: "85f5c249-8690-4d7e-8148-0b1682962e0f",
       webAssetImport: "built-in/0/loud/normalpage/SocialMediaCover/",
-      menuJsonB: '{"menu":[{"header":"Social Media Cover","type":"CONTAINER:V1","isShowing":{"prop":"isShowing"},"data":[{"label":"Cover Image","prop":"coverImage","type":"MEDIA_SELECTION:V1","fileFilter":["images"]},{"label":"Profile Image","prop":"profileImage","type":"MEDIA_SELECTION:V1","fileFilter":["images"]},{"label":"Header","prop":"header","type":"TEXTFIELD:V1","placeholder":"Empower Your Business Growth"},{"label":"Description","prop":"description","type":"WYSIWYG:V1","placeholder":"@johndoe123\\nWeb Developer | Travel Enthusiast"}]}]}',
+      menuJsonB: '{"menu":[{"data":[{"prop":"coverImage","type":"MEDIA_SELECTION:V1","label":"Cover Image","fileFilter":["images"]},{"prop":"profileImage","type":"MEDIA_SELECTION:V1","label":"Profile Image","fileFilter":["images"]},{"prop":"header","type":"TEXTFIELD:V1","label":"Header","placeholder":"John Doe"},{"prop":"title1","type":"TEXTFIELD:V1","label":"First Title","placeholder":"Web Developer"},{"prop":"title2","type":"TEXTFIELD:V1","label":"Second Title","placeholder":"Travel Enthusiast"}],"type":"CONTAINER:V1","header":"Social Media Cover","isShowing":{"prop":"isShowing"}}]}',
 
       description: `Whether you're a professional or a brand, our Social Media Cover captures attention and establishes a strong online identity. Impress your audience with a combination of striking visuals and essential details, setting the stage for a meaningful and memorable online experience.`,
       category: LoudSectionEnum.NORMALPAGE,

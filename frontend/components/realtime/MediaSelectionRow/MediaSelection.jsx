@@ -14,7 +14,7 @@ import AdminLayoutContext from '@/layouts/admin/layout/adminLayout.context';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import SelectMediaModal from './modal/Media.modal';
 
-function RealTimeMediaSelectionRow({ data, entity, onChangeByUser, onChange }) {
+function RealTimeMediaSelectionRow({ data, label, entity, onChangeByUser, onChange }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
   const { idChip } = useContext(AdminLayoutContext)
@@ -44,7 +44,7 @@ function RealTimeMediaSelectionRow({ data, entity, onChangeByUser, onChange }) {
       selection: newValue,
     })
 
-    
+
     if (onChangeByUser) {
       if (newValue === "NO_MEDIA") {
         onChangeByUser({
@@ -86,7 +86,7 @@ function RealTimeMediaSelectionRow({ data, entity, onChangeByUser, onChange }) {
       setTabValue(mediaObj.url)
     }
 
-    
+
     if (onChangeByUser) {
       onChangeByUser({
         type: "BUILT_IN",
@@ -168,79 +168,85 @@ function RealTimeMediaSelectionRow({ data, entity, onChangeByUser, onChange }) {
   }, [uploads])
 
   return (
-    <ListItem>
-      <Box display="flex" flexDirection={isMobile ? "column" : "row"} width="100%">
-        {/* Image Upload Button and Tabs */}
-        <Box
-          flex="0 0 auto"
-          minHeight={isMobile ? 'auto' : 'calc((48px * 4) + 45px)'}
-          display="flex"
-          flexDirection="column"
-          justifyContent="flex-start"
-          mb={isMobile ? 2 : 0}
-          mr={!isMobile ? 2 : 0}
-        >
-          <Button
-            variant="contained"
-            color='primary'
-            component="label"
-            fullWidth
-            style={{ marginBottom: '10px' }}
-            onClick={() => setIsModalOpened(true)}
+    <>
+      {label && (
+        <ListItem>
+          <p>{label}</p>
+        </ListItem>
+      )}
+      <ListItem>
+        <Box display="flex" flexDirection={isMobile ? "column" : "row"} width="100%">
+          {/* Image Upload Button and Tabs */}
+          <Box
+            flex="0 0 auto"
+            minHeight={isMobile ? 'auto' : 'calc((48px * 4) + 45px)'}
+            display="flex"
+            flexDirection="column"
+            justifyContent="flex-start"
+            mb={isMobile ? 2 : 0}
+            mr={!isMobile ? 2 : 0}
           >
-            Select
-          </Button>
-          <Tabs
-            orientation="vertical"
-            value={tabValue}
-            onChange={handleTabChange}
-            aria-label="Vertical tabs"
-            variant="scrollable"
-            indicatorColor="primary"
-            textColor="primary"
-            sx={{
-              p: 0,
-              m: 0,
-              ".Mui-selected": {
-                border: `3px solid ${theme.palette.primary.main}`,
-                px: 2,
-                borderRadius: "10px",
-                width: "100%",
+            <Button
+              variant="contained"
+              color='primary'
+              component="label"
+              fullWidth
+              style={{ marginBottom: '10px' }}
+              onClick={() => setIsModalOpened(true)}
+            >
+              Select
+            </Button>
+            <Tabs
+              orientation="vertical"
+              value={tabValue}
+              onChange={handleTabChange}
+              aria-label="Vertical tabs"
+              variant="scrollable"
+              indicatorColor="primary"
+              textColor="primary"
+              sx={{
+                p: 0,
                 m: 0,
-              }
-            }}
-          >
-            <Tab
-              label="No Media"
-              value="NO_MEDIA"
-            />
-            {currentSelection && (
+                ".Mui-selected": {
+                  border: `3px solid ${theme.palette.primary.main}`,
+                  px: 2,
+                  borderRadius: "10px",
+                  width: "100%",
+                  m: 0,
+                }
+              }}
+            >
               <Tab
-                label="Current Media"
-                value="CURRENT_MEDIA"
+                label="No Media"
+                value="NO_MEDIA"
+              />
+              {currentSelection && (
+                <Tab
+                  label="Current Media"
+                  value="CURRENT_MEDIA"
 
-              />
-            )}
-            {uploads.length > 0 && uploads.map((upload) => (
-              <Tab
-                label={(
-                  <UserChip
-                    displayName={upload.user.displayName}
-                    picturePreview={upload.user.picture}
-                    labelColor={upload.user.labelColor}
-                    circleColor={upload.user.circleColor}
-                    callByType={upload.user.callByType}
-                    email={upload.user.email}
-                    firstName={upload.user.firstName}
-                    lastName={upload.user.lastName}
-                    username={upload.user.username}
-                  />
-                )}
-                value={upload.media}
-              />
-            ))}
-            {/* Uncomment and modify the UserChip section for actual user pictures */}
-            {/* {userPictures.map((picture, index) => (
+                />
+              )}
+              {uploads.length > 0 && uploads.map((upload) => (
+                <Tab
+                  label={(
+                    <UserChip
+                      displayName={upload.user.displayName}
+                      picturePreview={upload.user.picture}
+                      labelColor={upload.user.labelColor}
+                      circleColor={upload.user.circleColor}
+                      callByType={upload.user.callByType}
+                      email={upload.user.email}
+                      firstName={upload.user.firstName}
+                      lastName={upload.user.lastName}
+                      username={upload.user.username}
+                    />
+                  )}
+                  value={upload.media}
+                />
+              ))}
+              {/* Uncomment and modify the UserChip section for actual user pictures */}
+              {/* {userPictures.map((picture, index) => (
                 <UserChip
                   key={index}
                   picturePreview={picture.src}
@@ -254,31 +260,32 @@ function RealTimeMediaSelectionRow({ data, entity, onChangeByUser, onChange }) {
                   displayName={picture.displayName}
                 />
               ))} */}
-          </Tabs>
+            </Tabs>
+          </Box>
+
+          {/* Tabs Content View */}
+          <Box flex="1" display="flex" alignItems="center" justifyContent="center" p={2} bgcolor={theme.palette.grey[200]}>
+            {/* {tabValue === "NO_MEDIA" && <InsertDriveFileIcon />} */}
+            {tabValue === "CURRENT_MEDIA" && currentSelection && <img src={`${process.env.NEXT_PUBLIC_WEB_API_URL}${currentSelection.media}`} alt="Current Image Placeholder" style={{ width: "100%" }} />}
+
+            {uploads.length > 0 && uploads.map((upload, i) => {
+
+              return (
+                <>
+                  {tabValue === upload.media && <img alt={`Logo-${i + 1}`} src={`${process.env.NEXT_PUBLIC_WEB_API_URL}${upload.media}`} style={{ width: "100%" }} />}
+                </>
+              )
+            })}
+            {/* Add other tab views as required */}
+          </Box>
         </Box>
-
-        {/* Tabs Content View */}
-        <Box flex="1" display="flex" alignItems="center" justifyContent="center" p={2} bgcolor={theme.palette.grey[200]}>
-          {/* {tabValue === "NO_MEDIA" && <InsertDriveFileIcon />} */}
-          {tabValue === "CURRENT_MEDIA" && currentSelection && <img src={`${process.env.NEXT_PUBLIC_WEB_API_URL}${currentSelection.media}`} alt="Current Image Placeholder" style={{ width: "100%" }} />}
-
-          {uploads.length > 0 && uploads.map((upload, i) => {
-
-            return (
-              <>
-                {tabValue === upload.media && <img alt={`Logo-${i + 1}`} src={`${process.env.NEXT_PUBLIC_WEB_API_URL}${upload.media}`} style={{ width: "100%" }} />}
-              </>
-            )
-          })}
-          {/* Add other tab views as required */}
-        </Box>
-      </Box>
-      <SelectMediaModal
-        open={isModalOpened}
-        onClose={() => setIsModalOpened(false)}
-        onSelect={handleMediaSelection}
-      />
-    </ListItem>
+        <SelectMediaModal
+          open={isModalOpened}
+          onClose={() => setIsModalOpened(false)}
+          onSelect={handleMediaSelection}
+        />
+      </ListItem>
+    </>
   );
 }
 

@@ -22,13 +22,19 @@
           "prop": "header",
           "type": "TEXTFIELD:V1",
           "label": "Header",
-          "placeholder": "Empower Your Business Growth"
+          "placeholder": "John Doe"
         },
         {
-          "prop": "description",
-          "type": "WYSIWYG:V1",
-          "label": "Description",
-          "placeholder": "@johndoe123\nWeb Developer | Travel Enthusiast"
+          "prop": "title1",
+          "type": "TEXTFIELD:V1",
+          "label": "First Title",
+          "placeholder": "Web Developer"
+        },
+        {
+          "prop": "title2",
+          "type": "TEXTFIELD:V1",
+          "label": "Second Title",
+          "placeholder": "Travel Enthusiast"
         }
       ],
       "type": "CONTAINER:V1",
