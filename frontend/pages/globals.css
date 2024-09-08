@@ -4,7 +4,7 @@
   margin: 0;
 }
 
-.css-12u49z-MuiDataGrid-root .MuiDataGrid-row:not(.MuiDataGrid-row--dynamicHeight) > .MuiDataGrid-cell {
+.css-12u49z-MuiDataGrid-root .MuiDataGrid-row:not(.MuiDataGrid-row--dynamicHeight)>.MuiDataGrid-cell {
   overflow: auto;
   white-space: break-spaces;
 }
@@ -13,7 +13,7 @@ a {
   color: inherit;
 }
 
-.admin-card { 
+.admin-card {
   padding: 20px 10px;
 }
 
@@ -30,11 +30,23 @@ a {
   overflow: inherit !important;
 }
 
+.ql-align-center {
+  text-align: center;
+}
+
+.ql-align-right {
+  text-align: right;
+}
+
+.ql-align-justify {
+  text-align: justify;
+}
 
 .react-calendar-timeline .rct-header-root {
   background: rgb(66, 66, 66) !important;
 }
 
-.discussion-post ul, .discussion-post ol {
+.discussion-post ul,
+.discussion-post ol {
   margin-left: 40px;
 }
