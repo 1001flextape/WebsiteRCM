@@ -89,22 +89,21 @@ const PreviewLoudSectionPage = (props) => {
   useEffect(() => {
     const socket = initSocket()
 
-    // socket.on('setting-header-change-prop', data => {
+    socket.on('page-normal-section-change-prop', data => {
 
-    //   console.log('setting-header-change-prop', data)
-    //   if (data.name !== undefined && data.value !== undefined) {
-    //     setComponentProps(prevState => {
-      // const newState = { ...prevState }
+      if (data.name !== undefined && data.value !== undefined) {
+        setComponentProps(prevState => {
+      const newState = { ...prevState }
 
-      // if (!newState.data.user[data.name]) {
-      //   newState.data.user[data.name] = {}
-      // }
-      // newState.data.user[data.name].value = data.value
+      if (!newState.data.user[data.name]) {
+        newState.data.user[data.name] = {}
+      }
+      newState.data.user[data.name].value = data.value
 
-      // return newState
-    //     })
-    //   }
-    // })
+      return newState
+        })
+      }
+    })
 
     // socket.on("samedoc-header-selection-change", data => {
     //   setIsLoaded(false)
@@ -112,7 +111,7 @@ const PreviewLoudSectionPage = (props) => {
     // })
 
     return () => {
-      // socket.off('setting-header-change-prop')
+      socket.off('page-normal-section-change-prop')
 
       socket.emit('server-samedoc-unsub-entity', { entity })
 

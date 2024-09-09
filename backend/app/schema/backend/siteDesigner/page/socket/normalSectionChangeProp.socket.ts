@@ -9,12 +9,10 @@ type input = {
 export default ({ socket, d }: input) => {
   socket.on('server-page-normal-section-change-prop', async (data) => {
 
-    const entity = `backendSiteDesignerPageSectionLoud_${data.id}`
-
     const sameDoc = makeCollaborateSameDoc(d)
 
     const record = await sameDoc.getByEntity({
-      entity,
+      entity: data.entity,
     })
 
     if (record.data?.updateUserAnswer) {
@@ -27,7 +25,7 @@ export default ({ socket, d }: input) => {
     if (record.data.sockets) {
       record.data.sockets.map(s => {
         s.socket.emit("page-normal-section-change-prop", {
-          entity,
+          entity: data.entity,
           name: data.name,
           value: data.value,
         })
