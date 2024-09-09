@@ -18,10 +18,42 @@
           "type": "WYSIWYG:V1",
           "label": "Description",
           "placeholder": "Unlock success with tailored solutions and expert guidance."
+        },
+        {
+          "prop": "ctaButtonColorNight",
+          "type": "COLOR_SELECTION:V1",
+          "label": "Button Color",
+          "isShowing": "isNightMode",
+          "defaultValue": {
+            "color": "rgb(31, 41, 55)",
+            "suggestedTextColor": "LIGHT"
+          }
+        },
+        {
+          "prop": "ctaButtonColorDay",
+          "type": "COLOR_SELECTION:V1",
+          "label": "Button Color",
+          "isShowing": "isDayMode",
+          "defaultValue": {
+            "color": "rgb(238, 238, 238)",
+            "suggestedTextColor": "DARK"
+          }
+        },
+        {
+          "prop": "ctaButtonText",
+          "type": "TEXTFIELD:V1",
+          "label": "Button Text",
+          "placeholder": "Get Started"
+        },
+        {
+          "prop": "ctaButtonLink",
+          "type": "LINK_SELECTION:V1",
+          "label": "Button Link",
+          "placeholder": "/p/cool-page"
         }
       ],
       "type": "CONTAINER:V1",
-      "header": "Basic Call-to-Action",
+      "header": "Vimeo Call-to-Action",
       "isShowing": {
         "prop": "isShowing"
       }
