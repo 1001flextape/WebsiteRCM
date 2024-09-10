@@ -1,7 +1,35 @@
 import React from 'react';
 import styles from './Testimonials.module.css'; // Updated file name
 
+const getTextColor = (suggestedTextColor) => {
+  switch (suggestedTextColor) {
+    case "LIGHT":
+      return "#f1f4f5"
+    case "DARK":
+      return "rgb(96, 96, 96)"
+    default:
+      return "#f1f4f5"
+  }
+}
+
 const Testimonials = (props) => {
+
+  const { system, user } = props.data;
+  const {
+    isDayMode,
+    isNightMode,
+    isDisplayMode,
+    isFunctionalMode,
+    isProdMode,
+    assetApiUrl,
+  } = system.state;
+  const {
+    navigate
+  } = system.utils
+
+  let isShowing = true
+  let header = "What People Are Saying"
+
   const testimonialsData = [
     {
       id: 1,
@@ -20,8 +48,22 @@ const Testimonials = (props) => {
     },
   ];
 
-  const { system } = props.data;
-  const { isNightMode } = system.state;
+  let backgroundStyle = {}
+
+  if (isFunctionalMode) {
+    isShowing = user?.isShowing?.value || true
+    header = user?.header?.value
+
+    backgroundStyle = {
+      backgroundColor: isNightMode
+        ? user?.backgroundColorNight?.value?.color
+        : user?.backgroundColorDay?.value?.color,
+      color: isNightMode
+        ? getTextColor(user?.backgroundColorNight?.value?.suggestedTextColor)
+        : getTextColor(user?.backgroundColorDay?.value?.suggestedTextColor),
+    }
+  }
+
 
   const sectionClass = isNightMode ? styles.sectionNight : styles.section;
   const headingClass = isNightMode ? styles.headingNight : styles.heading;
@@ -30,20 +72,28 @@ const Testimonials = (props) => {
   const nameClass = isNightMode ? styles.nameNight : styles.name;
 
   return (
-    <section className={sectionClass}>
-      <div className={styles.container}>
-        <h3 className={headingClass}>What People Are Saying</h3>
+    <>
+      {isShowing && (
 
-        <div className={styles.testimonials}>
-          {testimonialsData.map((testimonial) => (
-            <div key={testimonial.id} className={testimonialClass}>
-              <p className={textClass}>{testimonial.text}</p>
-              <p className={nameClass}>{testimonial.name}</p>
+        <section
+          className={sectionClass}
+          style={backgroundStyle}>
+          <div className={styles.container}>
+            <h3 className={headingClass}>{header}</h3>
+
+            <div className={styles.testimonials}>
+              {testimonialsData.map((testimonial) => (
+                <div key={testimonial.id} className={testimonialClass}>
+                  <p className={textClass}>{testimonial.text}</p>
+                  <p className={nameClass}>{testimonial.name}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
+          </div>
+        </section>
+      )}
+    </>
+
   );
 };
 
