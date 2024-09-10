@@ -1,9 +1,35 @@
 import React from 'react';
 import styles from './CardList.module.css';
 
+const getTextColor = (suggestedTextColor) => {
+  switch (suggestedTextColor) {
+    case "LIGHT":
+      return "#f1f4f5"
+    case "DARK":
+      return "rgb(96, 96, 96)"
+    default:
+      return "#f1f4f5"
+  }
+}
+
 const CardList = (props) => {
-  const { system } = props.data;
-  const { isNightMode } = system.state;
+
+  const { system, user } = props.data;
+  const {
+    isDayMode,
+    isNightMode,
+    isDisplayMode,
+    isFunctionalMode,
+    isProdMode,
+    assetApiUrl,
+  } = system.state;
+  const {
+    navigate
+  } = system.utils
+
+  let isShowing = true
+  let header = "Card List"
+  let description = "Discover our featured cards, each showcasing unique aspects of our offerings. Explore the details and find the perfect fit for your needs."
 
   const cardData = [
     {
@@ -29,29 +55,58 @@ const CardList = (props) => {
     // Add more cards as needed
   ];
 
+
+  let backgroundStyle = {}
+
+  if (isFunctionalMode) {
+    isShowing = user?.isShowing?.value || true
+    header = user?.header?.value
+    description = user?.description?.value
+
+
+    backgroundStyle = {
+      backgroundColor: isNightMode
+        ? user?.backgroundColorNight?.value?.color
+        : user?.backgroundColorDay?.value?.color,
+      color: isNightMode
+        ? getTextColor(user?.backgroundColorNight?.value?.suggestedTextColor)
+        : getTextColor(user?.backgroundColorDay?.value?.suggestedTextColor),
+    }
+  }
+
   return (
-    <section className={`${styles.section} ${isNightMode ? styles.sectionNight : ''}`}>
-      <div className={styles.container}>
-        <div className={styles.textCenter}>
-          <h3 className={`${styles.heading} ${isNightMode ? styles.headingNight : ''}`}>Card List</h3>
-          <p className={`${styles.description} ${isNightMode ? styles.descriptionNight : ''}`}>
-            Discover our featured cards, each showcasing unique aspects of our offerings. Explore the details and find the perfect fit for your needs.
-          </p>
-        </div>
-        <div className={styles.cardWrapper}>
-          {cardData.map((card, index) => (
-            <div key={index} className={styles.cardContainer}>
-              <div className={`${styles.card} ${isNightMode ? styles.cardNight : ''}`}>
-                <img src={card.imageUrl} alt={`Card ${index + 1}`} className={styles.cardImage} />
-                <div className={styles.cardContent}>
-                  <p className={`${styles.cardDescription} ${isNightMode ? styles.cardDescriptionNight : ''}`}>{card.description}</p>
-                </div>
+    <>
+      {isShowing && (
+
+        <section
+          className={`${styles.section} ${isNightMode ? styles.sectionNight : ''}`}
+          style={backgroundStyle}
+        >
+          <div className={styles.container}>
+            <div>
+              <h3 className={`${styles.heading} ${isNightMode ? styles.headingNight : ''}`}>{header}</h3>
+              <div
+                className={`${styles.description} ${isNightMode ? styles.descriptionNight : ''}`}
+                dangerouslySetInnerHTML={{ __html: description }}
+              >
               </div>
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
+            <div className={styles.cardWrapper}>
+              {cardData.map((card, index) => (
+                <div key={index} className={styles.cardContainer}>
+                  <div className={`${styles.card} ${isNightMode ? styles.cardNight : ''}`}>
+                    <img src={card.imageUrl} alt={`Card ${index + 1}`} className={styles.cardImage} />
+                    <div className={styles.cardContent}>
+                      <p className={`${styles.cardDescription} ${isNightMode ? styles.cardDescriptionNight : ''}`}>{card.description}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+    </>
   );
 };
 
