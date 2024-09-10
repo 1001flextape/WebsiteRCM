@@ -1,3 +1,57 @@
 {
-    
+  "menu": [
+    {
+      "data": [
+        {
+          "prop": "backgroundColorDay",
+          "type": "COLOR_SELECTION:V1",
+          "label": "Color",
+          "isShowing": "isDayMode",
+          "defaultValue": {
+            "color": "rgb(238, 238, 238)",
+            "suggestedTextColor": "DARK"
+          }
+        },
+        {
+          "prop": "backgroundColorNight",
+          "type": "COLOR_SELECTION:V1",
+          "label": "Color",
+          "isShowing": "isNightMode",
+          "defaultValue": {
+            "color": "rgb(31, 41, 55)",
+            "suggestedTextColor": "LIGHT"
+          }
+        },
+        {
+          "prop": "isHeaderShowing",
+          "type": "SWITCH:V1",
+          "label": "Show Header",
+          "defaultValue": true
+        },
+        {
+          "prop": "header",
+          "type": "TEXTFIELD:V1",
+          "label": "Header",
+          "placeholder": "Empower Your Business Growth"
+        },
+        {
+          "prop": "isJournalShowing",
+          "type": "SWITCH:V1",
+          "label": "Show Journal",
+          "defaultValue": true
+        },
+        {
+          "prop": "journal",
+          "type": "WYSIWYG:V1",
+          "label": "Journal",
+          "placeholder": "A good paragraph or two."
+        }
+      ],
+      "type": "CONTAINER:V1",
+      "header": "Section Header",
+      "isShowing": {
+        "prop": "isShowing"
+      }
+    }
+  ]
 }

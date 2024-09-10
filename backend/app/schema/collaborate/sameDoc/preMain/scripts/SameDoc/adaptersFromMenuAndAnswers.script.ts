@@ -199,6 +199,16 @@ export default function adaptersFromMenuAndAnswers(d: dependencies) {
       menu: []
     }
 
+    if (!args.menu?.menu?.length) {
+      return {
+        success: true,
+        data: {
+          adapters: [],
+          menu: null,
+        },
+      }
+    }
+
     for (let i = 0; i < args.menu.menu.length; i++) {
       const m = args.menu.menu[i];
 
