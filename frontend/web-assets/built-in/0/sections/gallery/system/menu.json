@@ -3,6 +3,26 @@
     {
       "data": [
         {
+          "prop": "backgroundColorDay",
+          "type": "COLOR_SELECTION:V1",
+          "label": "Color",
+          "isShowing": "isDayMode",
+          "defaultValue": {
+            "color": "rgb(238, 238, 238)",
+            "suggestedTextColor": "DARK"
+          }
+        },
+        {
+          "prop": "backgroundColorNight",
+          "type": "COLOR_SELECTION:V1",
+          "label": "Color",
+          "isShowing": "isNightMode",
+          "defaultValue": {
+            "color": "rgb(31, 41, 55)",
+            "suggestedTextColor": "LIGHT"
+          }
+        },
+        {
           "prop": "header",
           "type": "TEXTFIELD:V1",
           "label": "Header",
@@ -13,26 +33,6 @@
           "type": "WYSIWYG:V1",
           "label": "Description",
           "placeholder": "Take your small business to new heights by exploring innovative ideas and strategies. Our media collection provides insights to inspire and guide your journey forward."
-        },
-        {
-          "prop": "backgroundColorDay",
-          "type": "COLOR_SELECTION:V1",
-          "label": "Day Color",
-          "isShowing": "isDayMode",
-          "defaultValue": {
-            "color": "rgb(238, 238, 238)",
-            "suggestedTextColor": "DARK"
-          }
-        },
-        {
-          "prop": "backgroundColorNight",
-          "type": "COLOR_SELECTION:V1",
-          "label": "Night Color",
-          "isShowing": "isNightMode",
-          "defaultValue": {
-            "color": "rgb(31, 41, 55)",
-            "suggestedTextColor": "LIGHT"
-          }
         }
       ],
       "type": "CONTAINER:V1",
