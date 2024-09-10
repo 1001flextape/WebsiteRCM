@@ -1,9 +1,34 @@
 import React, { useState } from 'react';
 import styles from './QNA.module.css';
 
+const getTextColor = (suggestedTextColor) => {
+  switch (suggestedTextColor) {
+    case "LIGHT":
+      return "#f1f4f5"
+    case "DARK":
+      return "rgb(96, 96, 96)"
+    default:
+      return "#f1f4f5"
+  }
+}
+
 const QNA = (props) => {
-  const { system } = props.data;
-  const { isNightMode } = system.state;
+
+  const { system, user } = props.data;
+  const {
+    isDayMode,
+    isNightMode,
+    isDisplayMode,
+    isFunctionalMode,
+    isProdMode,
+    assetApiUrl,
+  } = system.state;
+  const {
+    navigate
+  } = system.utils
+
+  let isShowing = true
+  let header = "Questions and Answers"
 
   const questions = [
     {
@@ -33,6 +58,24 @@ const QNA = (props) => {
     }
   ];
 
+  let backgroundStyle = {}
+
+  if (isFunctionalMode) {
+    isShowing = user?.isShowing?.value || true
+    header = user?.header?.value
+
+
+    backgroundStyle = {
+      backgroundColor: isNightMode
+        ? user?.backgroundColorNight?.value?.color
+        : user?.backgroundColorDay?.value?.color,
+      color: isNightMode
+        ? getTextColor(user?.backgroundColorNight?.value?.suggestedTextColor)
+        : getTextColor(user?.backgroundColorDay?.value?.suggestedTextColor),
+    }
+  }
+
+
   const [expandedIndices, setExpandedIndices] = useState([]);
 
   const handleToggle = (index) => {
@@ -46,30 +89,37 @@ const QNA = (props) => {
   };
 
   return (
-    <section className={`${styles.section} ${isNightMode ? styles.sectionNight : ''}`}>
-      <div className={styles.container}>
-        <h3 className={`${styles.heading} ${isNightMode ? styles.headingNight : ''}`}>Questions and Answers</h3>
-        {questions.map((item, index) => (
-          <div
-            key={index}
-            className={`${styles.accordion} ${isNightMode ? styles.accordionNight : ''}`}
-            onClick={() => handleToggle(index)}
-          >
-            <div className={styles.accordionSummary}>
-              <h3 className={`${styles.question} ${isNightMode ? styles.questionNight : ''}`}>{item.question}</h3>
-              <span className={`${styles.icon} ${isNightMode ? styles.iconNight : ''}`}>
-                {expandedIndices.includes(index) ? '▲' : '▼'}
-              </span>
-            </div>
-            {expandedIndices.includes(index) && (
-              <div className={`${styles.answer} ${isNightMode ? styles.answerNight : ''}`}>
-                {item.answer}
+    <>
+      {isShowing && (
+        <section
+          className={`${styles.section} ${isNightMode ? styles.sectionNight : ''}`}
+          style={backgroundStyle}
+        >
+          <div className={styles.container}>
+            <h3 className={`${styles.heading} ${isNightMode ? styles.headingNight : ''}`}>{header}</h3>
+            {questions.map((item, index) => (
+              <div
+                key={index}
+                className={`${styles.accordion} ${isNightMode ? styles.accordionNight : ''}`}
+                onClick={() => handleToggle(index)}
+              >
+                <div className={styles.accordionSummary}>
+                  <h3 className={`${styles.question} ${isNightMode ? styles.questionNight : ''}`}>{item.question}</h3>
+                  <span className={`${styles.icon} ${isNightMode ? styles.iconNight : ''}`}>
+                    {expandedIndices.includes(index) ? '▲' : '▼'}
+                  </span>
+                </div>
+                {expandedIndices.includes(index) && (
+                  <div className={`${styles.answer} ${isNightMode ? styles.answerNight : ''}`}>
+                    {item.answer}
+                  </div>
+                )}
               </div>
-            )}
+            ))}
           </div>
-        ))}
-      </div>
-    </section>
+        </section>
+      )}
+    </>
   );
 };
 
