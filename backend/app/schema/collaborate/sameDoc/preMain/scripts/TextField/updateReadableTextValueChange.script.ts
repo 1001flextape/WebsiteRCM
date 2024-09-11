@@ -29,7 +29,7 @@ export default function updateReadableTextValueChange(d: dependencies) {
       name: args.name,
     })).data as RealTimeYDocAdapter
 
-    prop.updateReadableTextValue(args.readableTextValue)
+    prop?.updateReadableTextValue(args.readableTextValue)
 
     // nothing to broadcast, keeping update for fresh load.
 

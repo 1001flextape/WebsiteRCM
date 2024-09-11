@@ -90,7 +90,10 @@ function PageList({ sections }) {
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
                       >
-                        <MenuItem onClick={handleClose}>
+                        <MenuItem onClick={() => {
+                          navigate(`/portal/site/pages/${router.query.pageId}/section/${page.id}`);
+                          handleClose();
+                        }}>
                           <Edit fontSize="small" />
                           &nbsp; Edit
                         </MenuItem>

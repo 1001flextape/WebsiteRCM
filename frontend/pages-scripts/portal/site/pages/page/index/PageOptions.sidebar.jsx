@@ -21,7 +21,6 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import PageList from '@/layouts/pageBuilderLayout/components/components/PageList/PageList';
 import SettingsBackButton from '@/pages-scripts/portal/admin/settings/components/BackButton/BackButton.component';
 import { IconButton } from '@mui/material';
 
@@ -35,6 +34,8 @@ import LoudSectionItem from './components/LoudSectionItem';
 import { postPageGraphQL } from './store/SiteDesignerPage_upsert.store';
 import { enqueueSnackbar } from 'notistack';
 import DeleteLoudComponentModal from './modals/loudComponents/delete/DeleteLoudComponent.modal';
+import DeleteNormalComponentModal from './modals/normalComponents/delete/DeleteLoudComponent.modal';
+import PageList from './components/PageList';
 // const DynamicNavLinksWrapper = dynamic(() => import('../../components/NavLinks/NavLinksWrapper.component'), {
 //   ssr: false,
 // });
@@ -68,6 +69,7 @@ function SiteDesignerPageSidebar() {
     entity,
 
     loudSection, setLoudSection,
+    normalSection, setNormalSection,
     sections, setSections,
 
   } = useContext(SiteDesignerPageContext);
@@ -111,12 +113,12 @@ function SiteDesignerPageSidebar() {
             <HeaderRow label={"Loud Section"} />
             <LoudSectionItem
               onSelectCreateSummary={handleNewLoudSection}
-              onSelectDelete={({id, name, author}) => {
+              onSelectDelete={({ id, name, author }) => {
                 setLoudSectionDeleteModal(prevState => ({
                   ...prevState,
                   isOpened: true,
                   id,
-                  name, 
+                  name,
                   author,
                 }))
               }}
@@ -262,6 +264,16 @@ function SiteDesignerPageSidebar() {
               isOpened={loudSectionDeleteModal.isOpened}
               onClose={() => {
                 setLoudSectionDeleteModal(prevState => ({
+                  ...prevState,
+                  isOpened: false,
+                }))
+              }}
+            />
+
+            <DeleteNormalComponentModal
+              isOpened={normalSectionDeleteModal.isOpened}
+              onClose={() => {
+                setNormalSectionDeleteModal(prevState => ({
                   ...prevState,
                   isOpened: false,
                 }))

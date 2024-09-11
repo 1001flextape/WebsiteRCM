@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { createNormalSectionGraphQL } from '../store/createNormalSection.store';
 import { createLoudSectionGraphQL } from '../store/createLoudSection.story';
 import { deletePageLoudSectionGraphQL } from '../store/deleteLoudSection.store';
+import { deletePageNormalSectionGraphQL } from '../store/deleteNormalSection.store';
 
 export const SiteDesignerPageContext = React.createContext();
 
@@ -157,7 +158,20 @@ export function SiteDesignerPageProvider({ children }) {
       deletePageLoudSectionGraphQL({
         id: loudSectionDeleteModal?.id,
       }).then(response => {
+        enqueueSnackbar(`Deleted loud section!`)
         init();
+      })
+    }
+  }
+
+  const handleNormalSectionDeletion = () => {
+    if (normalSectionDeleteModal?.id) {
+      deletePageNormalSectionGraphQL({
+        id: normalSectionDeleteModal?.id,
+      }).then(response => {
+        enqueueSnackbar(`Deleted section!`)
+        init();
+
       })
     }
   }
@@ -196,8 +210,6 @@ export function SiteDesignerPageProvider({ children }) {
       const normalBuiltInData = response.data.backendSiteDesignerPageSectionNormalBuiltIn_getMany
       const sectionsData = response.data.backendSiteDesignerPageSectionNormal_getManyByPageId
       const loudSectionData = response.data.backendSiteDesignerPageSectionLoud_getOneByPageId
-
-      console.log('loudSectionData', loudSectionData)
 
 
       if (pageData) {
@@ -293,6 +305,7 @@ export function SiteDesignerPageProvider({ children }) {
       createLoudSection,
 
       handleLoudSectionDeletion,
+      handleNormalSectionDeletion,
     }}>
       {children}
     </SiteDesignerPageContext.Provider>
