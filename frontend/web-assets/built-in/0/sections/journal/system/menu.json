@@ -48,7 +48,7 @@
         }
       ],
       "type": "CONTAINER:V1",
-      "header": "Section Header",
+      "header": "Journal",
       "isShowing": {
         "prop": "isShowing"
       }

@@ -1,2 +1,2 @@
 // ./index.jsx
-export { default } from './GitHeader';
+export { default } from './GifHeader';

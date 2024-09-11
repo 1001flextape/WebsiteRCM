@@ -76,7 +76,7 @@
         }
       ],
       "type": "CONTAINER:V1",
-      "header": "Basic Call-to-Action",
+      "header": "Gif/Image Intro",
       "isShowing": {
         "prop": "isShowing"
       }

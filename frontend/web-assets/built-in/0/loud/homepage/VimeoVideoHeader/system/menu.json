@@ -53,7 +53,7 @@
         }
       ],
       "type": "CONTAINER:V1",
-      "header": "Vimeo Call-to-Action",
+      "header": "Vimeo Video Intro",
       "isShowing": {
         "prop": "isShowing"
       }

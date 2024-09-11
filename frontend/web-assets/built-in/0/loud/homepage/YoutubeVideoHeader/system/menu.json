@@ -53,7 +53,7 @@
         }
       ],
       "type": "CONTAINER:V1",
-      "header": "Basic Call-to-Action",
+      "header": "Youtube Video Intro",
       "isShowing": {
         "prop": "isShowing"
       }

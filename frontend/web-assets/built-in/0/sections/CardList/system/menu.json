@@ -36,7 +36,7 @@
         }
       ],
       "type": "CONTAINER:V1",
-      "header": "Gallery",
+      "header": "Card List",
       "isShowing": {
         "prop": "isShowing"
       }
