@@ -28,8 +28,7 @@ const PreviewLoudSectionPage = (props) => {
   const [loudSection, setLoudSection] = useState()
   const [normalSections, setNormalSections] = useState()
 
-  const initData = (isDayModeVar) => {
-    console.log('router.query.pageId,', router.query.pageId)
+  const initData = () => {
 
     getPageGraphQL({
       pageId: router.query.pageId,
@@ -37,6 +36,8 @@ const PreviewLoudSectionPage = (props) => {
 
       const loudSectionData = response.data.backendSiteDesignerPageSectionLoud_getOneByPageId
       const normalSectionData = response.data.backendSiteDesignerPageSectionNormal_getManyByPageId
+
+      console.log('userAnswersJsonB', loudSectionData.userAnswersJsonB)
 
       setLoudSection(loudSectionData)
       setNormalSections(normalSectionData)
@@ -134,8 +135,8 @@ const PreviewLoudSectionPage = (props) => {
                     // make API
                     assetApiUrl: "http://localhost:8080", // old term: serverUrl
                   },
-                  user: loudSection?.userAnswerJSONB
-                    ? JSON.parse(loudSection.userAnswerJSONB)
+                  user: loudSection?.userAnswersJsonB
+                    ? JSON.parse(loudSection.userAnswersJsonB)
                     : {},
 
                 })
@@ -162,8 +163,8 @@ const PreviewLoudSectionPage = (props) => {
                     // make API
                     assetApiUrl: "http://localhost:8080", // old term: serverUrl
                   },
-                  user: loudSection?.userAnswerJSONB
-                    ? JSON.parse(loudSection.userAnswerJSONB)
+                  user: n?.userAnswersJsonB
+                    ? JSON.parse(n.userAnswersJsonB)
                     : {},
 
                 })

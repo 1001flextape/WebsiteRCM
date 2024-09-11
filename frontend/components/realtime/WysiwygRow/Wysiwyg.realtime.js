@@ -112,7 +112,9 @@ function RealTimeWysiwyg({ onUpdate, onHtmlUpdate, onDeltaUpdate, onChangeByUser
         }
 
         if (onChangeByUser) {
-          onChangeByUser(quill.root.innerHTML)
+          onChangeByUser({
+            html: quill.root.innerHTML
+          })
         }
       }
 
@@ -201,7 +203,9 @@ function RealTimeWysiwyg({ onUpdate, onHtmlUpdate, onDeltaUpdate, onChangeByUser
           }
 
           if (onChangeByUser) {
-            onChangeByUser(quill.root.innerHTML)
+            onChangeByUser({
+              html: quill.root.innerHTML
+            })
           }
 
           if (!props?.data?.usersWhoChangedValue) {

@@ -42,7 +42,7 @@ const JournalSection = (props) => {
     isHeaderShowing = user?.isHeaderShowing?.value
     header = user?.header?.value
     isJournalShowing = user?.isJournalShowing?.value
-    journal = user?.journal?.value
+    journal = user?.journal?.value?.html
 
     backgroundStyle = {
       backgroundColor: isNightMode

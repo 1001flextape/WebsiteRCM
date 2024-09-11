@@ -39,7 +39,7 @@ const HalfImageHalfParagraph = (props) => {
     isShowing = user?.isShowing?.value || true
     image = assetApiUrl + user?.image?.value?.url
     header = user?.header?.value
-    description = user?.description?.value
+    description = user?.description?.value?.html
     isImageOnRight = user?.isImageOnRight?.value
 
     backgroundStyle = {

@@ -38,7 +38,7 @@ const BasicCtaHeader = (props) => {
   if (isFunctionalMode) {
     isShowing = user?.isShowing?.value || true;
     header = user?.header?.value
-    description = user?.description?.value
+    description = user?.description?.value?.html
     buttonText = user?.ctaButtonText?.value
 
     backgroundStyles = {

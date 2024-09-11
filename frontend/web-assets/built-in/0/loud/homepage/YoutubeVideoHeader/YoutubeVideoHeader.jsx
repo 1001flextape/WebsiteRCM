@@ -44,7 +44,7 @@ const YoutubeVideoHeader = (props) => {
     isShowing = user?.isShowing?.value || true
     videoId = user?.youtubeVideoId?.value
     header = user?.header?.value
-    description = user?.description?.value
+    description = user?.description?.value?.html
     buttonText = user?.ctaButtonText?.value
     buttonLink = user?.ctaButtonLink?.value
 

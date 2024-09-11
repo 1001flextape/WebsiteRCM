@@ -41,7 +41,7 @@ const GitHeader = (props) => {
   if (isFunctionalMode) {
     isShowing = user?.isShowing?.value || true;
     header = user?.header?.value
-    description = user?.description?.value
+    description = user?.description?.value?.html
     buttonText = user?.ctaButtonText?.value
     image = assetApiUrl + user?.image?.value?.url
     imageAlt = user?.image?.value?.alt
