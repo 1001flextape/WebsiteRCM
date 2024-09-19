@@ -9,6 +9,8 @@ import getOneBySlug from "./scripts/pageSql/getOneBySlug.script"
 import resetRecentlyCreated from "./scripts/pageSql/resetRecentlyCreated.script"
 import resetRecentlyDeleted from "./scripts/pageSql/resetRecentlyDeleted.script"
 import getDeletedOneById from "./scripts/pageSql/getDeletedOneById.script"
+import updateMany from "./scripts/pageSql/updateMany.script"
+import getManyPublishable from "./scripts/pageSql/getManyPublishable.script"
 
 export default function makeBackendSiteDesignerPageSql(d: dependencies) {
 
@@ -16,10 +18,12 @@ export default function makeBackendSiteDesignerPageSql(d: dependencies) {
     addOne: addOne(d),
     deleteOne: deleteOne(d),
     getManyWithPagination: getManyWithPagination(d),
+    getManyPublishable: getManyPublishable(d),
     getMany: getMany(d),
     getOneById: getOneById(d),
     getOneBySlug: getOneBySlug(d),
     updateOne: updateOne(d),
+    updateMany: updateMany(d),
     getDeletedOneById: getDeletedOneById(d),
     resetRecentlyCreated: resetRecentlyCreated(d),
     resetRecentlyDeleted: resetRecentlyDeleted(d),

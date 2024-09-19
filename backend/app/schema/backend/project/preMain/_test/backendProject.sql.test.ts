@@ -11,8 +11,6 @@ describe("test backendProject.sql.js", () => {
   beforeAll(async () => {
 
     d = await makeDTestObj()
-    
-    
 
   }, 100000)
 
@@ -22,6 +20,12 @@ describe("test backendProject.sql.js", () => {
     const getMany = await publishSql.getMany()
 
     expect(getMany.data.length).toBe(1)
+
+    // ending init project row for new row. Only one row has endedAt = null during runtime.
+    await publishSql.updateOne({
+      id: getMany.data[0].dataValues.id,
+      endedAt: new Date(),
+    })
   })
 
   test("addOne: can add record.", async () => {
@@ -64,9 +68,28 @@ describe("test backendProject.sql.js", () => {
       name: "test name2",
       color: "color2",
     })
-    
+
     expect(updatePage.data.dataValues.name).toBe("test name2")
     expect(updatePage.data.dataValues.color).toBe("color2")
+  })
+
+  test("updateCurrentOne: can update record.", async () => {
+    const publishSql = makeBackendProjectSql(d)
+
+    const updatePage = await publishSql.updateCurrentOne({
+      name: "test name3",
+      color: "color3",
+    })
+
+    expect(updatePage.data.dataValues.name).toBe("test name3")
+    expect(updatePage.data.dataValues.color).toBe("color3")
+
+    const getOneById = await publishSql.getOneById({
+      id: recordId,
+    })
+
+    expect(getOneById.data.dataValues.name).toBe("test name3")
+    expect(getOneById.data.dataValues.color).toBe("color3")
   })
 
   test("getManyWithPagination: can get many with pagination.", async () => {
@@ -75,7 +98,7 @@ describe("test backendProject.sql.js", () => {
     const getManyWithPagination = await publishSql.getManyWithPagination({})
     expect(getManyWithPagination.data.rows.length).toBeGreaterThan(0)
   })
-  
+
   test("deleteOne: can delete record.", async () => {
     const publishSql = makeBackendProjectSql(d)
 
@@ -97,7 +120,7 @@ describe("test backendProject.sql.js", () => {
   })
 
   afterAll(async () => {
-    
+
     await d.dbTransaction.rollback()
   })
 })

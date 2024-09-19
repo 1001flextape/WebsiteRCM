@@ -13,7 +13,6 @@ describe("test backendProject.main.js", () => {
 
     d = await makeDTestObj()
     
-
   }, 100000)
   
   test("getMany: can init record.", async () => {
@@ -22,6 +21,12 @@ describe("test backendProject.main.js", () => {
     const getMany = await publishMain.getMany()
 
     expect(getMany.data.length).toBe(1)
+    
+    // ending init project row for new row. Only one row has endedAt = null during runtime.
+    await publishMain.updateOne({
+      id: getMany.data[0].dataValues.id,
+      endedAt: new Date(),
+    })
   })
 
   test("addOne: can add record.", async () => {
@@ -67,6 +72,25 @@ describe("test backendProject.main.js", () => {
 
     expect(updatePage.data.dataValues.name).toBe("test name2")
     expect(updatePage.data.dataValues.color).toBe("color2")
+  })
+
+  test("updateCurrentOne: can update record.", async () => {
+    const publishMain = makeBackendProjectMain(d)
+
+    const updateCurrentOne = await publishMain.updateCurrentOne({
+      name: "test name3",
+      color: "color3",
+    })
+
+    expect(updateCurrentOne.data.dataValues.name).toBe("test name3")
+    expect(updateCurrentOne.data.dataValues.color).toBe("color3")
+
+    const getOneById = await publishMain.getOneById({
+      id: recordId,
+    })
+
+    expect(getOneById.data.dataValues.name).toBe("test name3")
+    expect(getOneById.data.dataValues.color).toBe("color3")
   })
 
   test("getManyWithPagination: can get many with pagination.", async () => {

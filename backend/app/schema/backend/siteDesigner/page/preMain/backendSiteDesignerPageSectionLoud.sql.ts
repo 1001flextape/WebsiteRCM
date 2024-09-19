@@ -4,6 +4,7 @@ import getOneById from "./scripts/sectionLoud/getOneById.script"
 import getMany from "./scripts/sectionLoud/getMany.script"
 import upsertOne from "./scripts/sectionLoud/upsertOne.script"
 import deleteOne from "./scripts/sectionLoud/deleteOne.script"
+import getManyPublishable from "./scripts/sectionLoud/getManyPublishable.script"
 
 export default function makeBackendSiteDesignerPageSectionLoudSql(d: dependencies) {
 
@@ -11,6 +12,7 @@ export default function makeBackendSiteDesignerPageSectionLoudSql(d: dependencie
     getOneByPageId: getOneByPageId(d),
     getOneById: getOneById(d),
     getMany: getMany(d),
+    getManyPublishable: getManyPublishable(d),
     upsertOne: upsertOne(d),
     deleteOne: deleteOne(d),
   }

@@ -1,5 +1,5 @@
 import sequelize from 'sequelize';
-import { Table, Column, Model, DataType, ForeignKey } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import backendSiteDesignerPage from './backendSiteDesignerPage.model';
 
 @Table({
@@ -42,4 +42,8 @@ export default class backendSiteDesignerPageLink extends Model {
     allowNull: false
   })
   pageId: string;
+  
+  // Add belongsTo association with backendSiteDesignerPage
+  @BelongsTo(() => backendSiteDesignerPage, { foreignKey: 'pageId' })
+  page: backendSiteDesignerPage;
 }

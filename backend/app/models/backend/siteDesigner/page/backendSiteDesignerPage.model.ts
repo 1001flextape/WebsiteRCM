@@ -1,5 +1,9 @@
 import sequelize from 'sequelize';
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, HasMany } from 'sequelize-typescript';
+import backendSiteDesignerPageBrowser from './backendSiteDesignerPageBrowser.model';
+import backendSiteDesignerPageLink from './backendSiteDesignerPageLink.model';
+import backendSiteDesignerPageSectionLoud from './backendSiteDesignerPageSectionLoud.model';
+import backendSiteDesignerPageSectionNormal from './backendSiteDesignerPageSectionNormal.model';
 
 export enum PageStatusEnum {
   New = "NEW",
@@ -14,7 +18,6 @@ export enum PageStatusEnum {
   tableName: "backendSiteDesignerPage",
 })
 export default class backendSiteDesignerPage extends Model {
-
   @Column({
     primaryKey: true,
     type: DataType.UUID,
@@ -40,19 +43,6 @@ export default class backendSiteDesignerPage extends Model {
   })
   status: PageStatusEnum;
 
-
-  // @Column({
-  //   type: sequelize.BOOLEAN,
-  //   defaultValue: false,
-  // })
-  // isPublished: boolean;
-
-  // @Column({
-  //   type: sequelize.BOOLEAN,
-  //   defaultValue: false,
-  // })
-  // isDraft: boolean;
-
   @Column({
     type: sequelize.BOOLEAN,
     defaultValue: false,
@@ -70,4 +60,21 @@ export default class backendSiteDesignerPage extends Model {
     defaultValue: false,
   })
   isRecentlyDeleted: boolean;
+
+  // Add hasMany association with backendSiteDesignerPageBrowser
+  @HasMany(() => backendSiteDesignerPageBrowser, { foreignKey: 'pageId' })
+  browsers: backendSiteDesignerPageBrowser[];
+  
+  // Add hasMany association with backendSiteDesignerPageBrowser
+  @HasMany(() => backendSiteDesignerPageLink, { foreignKey: 'pageId' })
+  links: backendSiteDesignerPageLink[];
+  
+  // Add hasMany association with backendSiteDesignerPageBrowser
+  @HasMany(() => backendSiteDesignerPageSectionLoud, { foreignKey: 'pageId' })
+  sectionLouds: backendSiteDesignerPageSectionLoud[];
+  
+  // Add hasMany association with backendSiteDesignerPageBrowser
+  @HasMany(() => backendSiteDesignerPageSectionNormal, { foreignKey: 'pageId' })
+  sectionNormals: backendSiteDesignerPageSectionNormal[];
+  
 }

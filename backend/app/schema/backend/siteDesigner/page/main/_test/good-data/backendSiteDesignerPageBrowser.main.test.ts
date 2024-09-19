@@ -2,6 +2,7 @@ import makeBackendSiteDesignerPageBrowserMain from "../../backendSiteDesignerPag
 import { dependencies } from "../../../../../../utils/dependencies/type/dependencyInjection.types";
 import { makeDTestObj } from "../../../../../../utils/dependencies/makeTestDependency";
 import makeBackendSiteDesignerPageMain from "../../backendSiteDesignerPage.main";
+import { PageStatusEnum } from "../../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 jest.setTimeout(100000)
 
 
@@ -19,7 +20,8 @@ describe("test backendSiteDesignerPageBrowser.main.js", () => {
     const pageMain = makeBackendSiteDesignerPageMain(d)
 
     const pageRecord = await pageMain.addOne({
-      slug: "/testing/should-never-be-saved-123012301230/123/123/123/"
+      slug: "/testing/should-never-be-saved-123012301230/123/123/123/",
+      status: PageStatusEnum.New,
     })
 
     pageRecordId = pageRecord.data.dataValues.id
@@ -67,6 +69,26 @@ describe("test backendSiteDesignerPageBrowser.main.js", () => {
     const pageMain = makeBackendSiteDesignerPageBrowserMain(d)
 
     const getMany = await pageMain.getMany()
+
+    expect(getMany.data.length).toBe(1)
+  })
+
+  test("getManyPublishable: can get all records.", async () => {
+    const main = makeBackendSiteDesignerPageBrowserMain(d)
+    const pageMain = makeBackendSiteDesignerPageMain(d)
+
+    // This record doesn't show up as publishable
+    const page2 = await pageMain.addOne({
+      slug: "/testing/should-never-be-saved-123012301230/123/123/123/",
+      status: PageStatusEnum.Draft,
+    })
+
+    await main.upsertOne({
+      pageId: page2.data.dataValues.id,
+      tabName: "blah",
+    })
+
+    const getMany = await main.getManyPublishable()
 
     expect(getMany.data.length).toBe(1)
   })

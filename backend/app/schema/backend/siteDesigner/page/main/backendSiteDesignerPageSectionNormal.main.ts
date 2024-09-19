@@ -6,6 +6,7 @@ import getMany from "./scripts/sectionNormal/getMany.script";
 import getOneById from "./scripts/sectionNormal/getOneById.script";
 import getOneRealTimeById from "./scripts/sectionNormal/getOneRealTimeById.script";
 import updateOne from "./scripts/sectionNormal/updateOne.script";
+import getManyPublishable from "./scripts/sectionNormal/getManyPublishable.script";
 
 export default function makeBackendSiteDesignerPageSectionNormalMain(d: dependencies) {
 
@@ -14,6 +15,7 @@ export default function makeBackendSiteDesignerPageSectionNormalMain(d: dependen
     deleteOne: deleteOne(d),
     getManyByPageId: getManyByPageId(d),
     getMany: getMany(d),
+    getManyPublishable: getManyPublishable(d),
     getOneById: getOneById(d),
     getOneRealTimeById: getOneRealTimeById(d),
     updateOne: updateOne(d),

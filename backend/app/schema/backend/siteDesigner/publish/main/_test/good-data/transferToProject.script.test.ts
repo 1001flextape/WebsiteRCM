@@ -2,17 +2,6 @@ import { v4 as uuidv4 } from "uuid";
 import { dependencies } from "../../../../../../utils/dependencies/type/dependencyInjection.types";
 import { makeDTestObj } from "../../../../../../utils/dependencies/makeTestDependency";
 import makeBackendSiteDesignerPublishMain from "../../backendSiteDesignerPublish.main";
-import makeClientSiteColorsMain from "../../../../../../client/site/main/clientSiteColors.main";
-import makeClientSiteBrowserMain from "../../../../../../client/site/main/clientSiteBrowser.main";
-import makeClientSiteFooterMain from "../../../../../../client/site/main/clientSiteFooter.main";
-import makeClientSiteHeaderMain from "../../../../../../client/site/main/clientSiteHeader.main";
-import makeClientSiteLinkMain from "../../../../../../client/site/main/clientSiteLink.main";
-import makeClientSiteOrganizationMain from "../../../../../../client/site/main/clientSiteOrganization.main";
-import makeClientSitePageMain from "../../../../../../client/site/main/clientSitePage.main";
-import makeClientSitePageBrowserMain from "../../../../../../client/site/main/clientSitePageBrowser.main";
-import makeClientSitePageLinkMain from "../../../../../../client/site/main/clientSitePageLink.main";
-import makeClientSitePageSectionLoudMain from "../../../../../../client/site/main/clientSitePageSectionLoud.main";
-import makeClientSitePageSectionNormalMain from "../../../../../../client/site/main/clientSitePageSectionNormal.main";
 import makeBackendSettingSiteMain from "../../../../../setting/site/main/backendSettingSite.main";
 import makeBackendSettingColorsMain from "../../../../../setting/colors/main/backendSettingColors.main";
 import makeBackendSettingFooterMain from "../../../../../setting/footer/main/backendSettingFooter.main";
@@ -25,9 +14,27 @@ import makeBackendSiteDesignerPageLinkMain from "../../../../page/main/backendSi
 import makeBackendSiteDesignerPageSectionLoudMain from "../../../../page/main/backendSiteDesignerPageSectionLoud.main";
 import makeBackendSiteDesignerPageSectionNormalMain from "../../../../page/main/backendSiteDesignerPageSectionNormal.main";
 import { SelectionTypeEnum } from "../../../../../../../models/backend/setting/backendSettingHeader.model";
+import makeBackendSettingBackgroundColorMain from "../../../../../setting/backgroundColor/main/backendSettingBackgroundColor.main";
+import makeBackendSettingFontMain from "../../../../../setting/font/main/backendSettingFont.main";
+import makeBackendSettingColumnMain from "../../../../../setting/column/main/backendSettingColumn.main";
+import makeBackendProjectBrowserMain from "../../../../../project/main/backendProjectBrowser.main";
+import makeBackendProjectColorsMain from "../../../../../project/main/backendProjectColors.main";
+import makeBackendProjectFooterMain from "../../../../../project/main/backendProjectFooter.main";
+import makeBackendProjectHeaderMain from "../../../../../project/main/backendProjectHeader.main";
+import makeBackendProjectLinkMain from "../../../../../project/main/backendProjectLink.main";
+import makeBackendProjectOrganizationMain from "../../../../../project/main/backendProjectOrganization.main";
+import makeBackendProjectBackgroundColorMain from "../../../../../project/main/backendProjectBackgroundColor.main";
+import makeBackendProjectColumnMain from "../../../../../project/main/backendProjectColumn.main";
+import makeBackendProjectFontMain from "../../../../../project/main/backendProjectFont.main";
+import makeBackendProjectPageMain from "../../../../../project/main/backendProjectPage.main";
+import makeBackendProjectPageBrowserMain from "../../../../../project/main/backendProjectPageBrowser.main";
+import makeBackendProjectPageLinkMain from "../../../../../project/main/backendProjectPageLink.main";
+import makeBackendProjectPageSectionLoudMain from "../../../../../project/main/backendProjectPageSectionLoud.main";
+import makeBackendProjectPageSectionNormalMain from "../../../../../project/main/backendProjectPageSectionNormal.main";
+import makeBackendProjectMain from "../../../../../project/main/backendProject.main";
 jest.setTimeout(100000)
 
-describe("test backendSiteDesignerPublish.main.js", () => {
+describe("test transferToClient.main.js", () => {
   let d: dependencies
 
   //uuids
@@ -36,8 +43,8 @@ describe("test backendSiteDesignerPublish.main.js", () => {
   beforeAll(async () => {
 
     d = await makeDTestObj()
-    
-    
+
+
 
     //import
     const backendSettingBrowser = makeBackendSettingSiteMain(d)
@@ -46,6 +53,11 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     const backendSettingLink = makeBackendSettingLinkMain(d)
     const backendSettingHeader = makeBackendSettingHeaderMain(d)
     const backendSettingOrganization = makeBackendSettingOrganizationMain(d)
+
+    const backendSettingBackgroundColor = makeBackendSettingBackgroundColorMain(d)
+    const backendSettingFont = makeBackendSettingFontMain(d)
+    const backendSettingColumn = makeBackendSettingColumnMain(d)
+
     const backendSiteDesignerPage = makeBackendSiteDesignerPageMain(d)
     const backendSiteDesignerPageBrowser = makeBackendSiteDesignerPageBrowserMain(d)
     const backendSiteDesignerPageLink = makeBackendSiteDesignerPageLinkMain(d)
@@ -55,7 +67,6 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     // updates
     await backendSettingBrowser.upsertOne({
       isReady: true,
-      favicon: "favicon",
       tab: "tab"
     })
     await backendSettingColors.upsertOne({
@@ -159,13 +170,11 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     await backendSettingLink.upsertOne({
       isReady: true,
       description: "description",
-      image: "image",
       title: "title",
     })
     await backendSettingOrganization.upsertOne({
       shouldApplyToTopNavMenu: false,
       name: "name",
-      logo: "logo",
 
       addressLine1: "addressLine1",
       addressLine2: "addressLine2",
@@ -182,6 +191,22 @@ describe("test backendSiteDesignerPublish.main.js", () => {
       socialX: "socialX",
       socialYouTube: "socialYouTube",
     })
+
+
+    await backendSettingBackgroundColor.upsertOne({
+      backgroundColor_day: "backgroundColor_day",
+      backgroundColor_night: "backgroundColor_night",
+    })
+
+    await backendSettingColumn.upsertOne({
+      width: "width",
+    })
+
+    await backendSettingFont.upsertOne({
+      font: "font",
+    })
+
+    //pages
     const page = await backendSiteDesignerPage.addOne({
       isReady: true,
       slug: "/slug/publish-test/should-not-be-saved"
@@ -194,7 +219,6 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     await backendSiteDesignerPageLink.upsertOne({
       pageId: backendSiteDesignerPageUuid,
       description: "description",
-      picture: "picture",
       pictureAlt: "pictureAlt",
       title: "title",
     })
@@ -224,20 +248,30 @@ describe("test backendSiteDesignerPublish.main.js", () => {
   test("publishSite: can publish site.", async () => {
     // main import
     const publish = makeBackendSiteDesignerPublishMain(d)
+    // get project
+    const backendProject = makeBackendProjectMain(d)
+
     // imports
-    const clientSiteBrowser = makeClientSiteBrowserMain(d)
-    const clientSiteColors = makeClientSiteColorsMain(d)
-    const clientSiteFooter = makeClientSiteFooterMain(d)
-    const clientSiteHeader = makeClientSiteHeaderMain(d)
-    const clientSiteLink = makeClientSiteLinkMain(d)
-    const clientSiteOrganization = makeClientSiteOrganizationMain(d)
-    const clientSitePage = makeClientSitePageMain(d)
-    const clientSitePageBrowser = makeClientSitePageBrowserMain(d)
-    const clientSitePageLink = makeClientSitePageLinkMain(d)
-    const clientSitePageSectionLoud = makeClientSitePageSectionLoudMain(d)
-    const clientSitePageSectionNormal = makeClientSitePageSectionNormalMain(d)
+    const backendProjectBrowser = makeBackendProjectBrowserMain(d)
+    const backendProjectColors = makeBackendProjectColorsMain(d)
+    const backendProjectFooter = makeBackendProjectFooterMain(d)
+    const backendProjectHeader = makeBackendProjectHeaderMain(d)
+    const backendProjectLink = makeBackendProjectLinkMain(d)
+    const backendProjectOrganization = makeBackendProjectOrganizationMain(d)
+    const backendProjectBackgroundColor = makeBackendProjectBackgroundColorMain(d)
+    const backendProjectColumn = makeBackendProjectColumnMain(d)
+    const backendProjectFont = makeBackendProjectFontMain(d)
 
 
+    const backendProjectPage = makeBackendProjectPageMain(d)
+    const backendProjectPageBrowser = makeBackendProjectPageBrowserMain(d)
+    const backendProjectPageLink = makeBackendProjectPageLinkMain(d)
+    const backendProjectPageSectionLoud = makeBackendProjectPageSectionLoudMain(d)
+    const backendProjectPageSectionNormal = makeBackendProjectPageSectionNormalMain(d)
+
+
+    //get project
+    const project = await backendProject.getCurrentOne()
 
     // target action being completed.
     // client site namespace gets a data mapping from backend settings/page
@@ -249,8 +283,9 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     // browser
     // =================================
 
-    const browser = await clientSiteBrowser.getOne()
-    expect(browser.data.dataValues.favicon).toEqual("favicon")
+    const browser = await backendProjectBrowser.getOneByProjectId({
+      projectId: project.data.dataValues.id,
+    })
     expect(browser.data.dataValues.tab).toEqual("tab")
 
 
@@ -261,7 +296,9 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     // colors
     // =================================
 
-    const colors = await clientSiteColors.getOne()
+    const colors = await backendProjectColors.getOneByProjectId({
+      projectId: project.data.dataValues.id,
+    })
     expect(colors.data.dataValues.color1).toEqual("color1")
     expect(colors.data.dataValues.color1Dark1).toEqual("color1Dark1")
     expect(colors.data.dataValues.color1Dark2).toEqual("color1Dark2")
@@ -352,9 +389,11 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     // footer
     // =================================
 
-    const footer = await clientSiteFooter.getOne()
+    const footer = await backendProjectFooter.getOneByProjectId({
+      projectId: project.data.dataValues.id,
+    })
     expect(footer.data.dataValues.userAnswersJsonB).toEqual("{}")
-    expect(footer.data.dataValues.webAssetImport).toEqual("built-in/footers/lite/Entry")
+    expect(footer.data.dataValues.webAssetImport).toEqual("built-in/0/footers/LiteFooter/")
 
 
 
@@ -363,9 +402,11 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     // header
     // =================================
 
-    const header = await clientSiteHeader.getOne()
+    const header = await backendProjectHeader.getOneByProjectId({
+      projectId: project.data.dataValues.id,
+    })
     expect(header.data.dataValues.userAnswersJsonB).toEqual("{}")
-    expect(header.data.dataValues.webAssetImport).toEqual("built-in/headers/lite/Entry")
+    expect(header.data.dataValues.webAssetImport).toEqual("built-in/0/headers/LiteHeader/")
 
 
 
@@ -374,9 +415,10 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     // link
     // =================================
 
-    const link = await clientSiteLink.getOne()
+    const link = await backendProjectLink.getOneByProjectId({
+      projectId: project.data.dataValues.id,
+    })
     expect(link.data.dataValues.description).toEqual("description")
-    expect(link.data.dataValues.image).toEqual("image")
     expect(link.data.dataValues.title).toEqual("title")
 
 
@@ -386,8 +428,9 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     // organization
     // =================================
 
-    const organization = await clientSiteOrganization.getOne()
-    expect(organization.data.dataValues.logo).toEqual("logo")
+    const organization = await backendProjectOrganization.getOneByProjectId({
+      projectId: project.data.dataValues.id,
+    })
     expect(organization.data.dataValues.name).toEqual("name")
     expect(organization.data.dataValues.addressLine1).toEqual("addressLine1")
     expect(organization.data.dataValues.addressLine2).toEqual("addressLine2")
@@ -403,13 +446,42 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     expect(organization.data.dataValues.stateProvinceRegion).toEqual("stateProvinceRegion")
 
 
+    /////////////////////////////////////
+    // Background Color
+    // =================================
+
+    const backgroundColor = await backendProjectBackgroundColor.getOneByProjectId({
+      projectId: project.data.dataValues.id,
+    })
+    expect(backgroundColor.data.dataValues.backgroundColor_day).toEqual("backgroundColor_day")
+    expect(backgroundColor.data.dataValues.backgroundColor_day).toEqual("backgroundColor_day")
+
+    /////////////////////////////////////
+    // Column
+    // =================================
+
+    const column = await backendProjectColumn.getOneByProjectId({
+      projectId: project.data.dataValues.id,
+    })
+    expect(column.data.dataValues.width).toEqual("width")
+
+    /////////////////////////////////////
+    // Font
+    // =================================
+
+    const font = await backendProjectFont.getOneByProjectId({
+      projectId: project.data.dataValues.id,
+    })
+    expect(font.data.dataValues.font).toEqual("font")
+
+
 
 
     /////////////////////////////////////
     // page
     // =================================
 
-    const page = await clientSitePage.getOneById({
+    const page = await backendProjectPage.getOneById({
       id: backendSiteDesignerPageUuid,
     })
     expect(page.data.dataValues.id).toEqual(backendSiteDesignerPageUuid)
@@ -422,7 +494,7 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     // page browser
     // =================================
 
-    const pageBrowser = await clientSitePageBrowser.getOneByPageId({
+    const pageBrowser = await backendProjectPageBrowser.getOneByPageId({
       pageId: backendSiteDesignerPageUuid,
     })
     expect(pageBrowser.data.dataValues.pageId).toEqual(backendSiteDesignerPageUuid)
@@ -435,13 +507,12 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     // page browser
     // =================================
 
-    const pageLink = await clientSitePageLink.getOneByPageId({
+    const pageLink = await backendProjectPageLink.getOneByPageId({
       pageId: backendSiteDesignerPageUuid,
     })
     expect(pageLink.data.dataValues.pageId).toEqual(backendSiteDesignerPageUuid)
     expect(pageLink.data.dataValues.title).toEqual("title")
     expect(pageLink.data.dataValues.description).toEqual("description")
-    expect(pageLink.data.dataValues.picture).toEqual("picture")
     expect(pageLink.data.dataValues.pictureAlt).toEqual("pictureAlt")
 
 
@@ -451,12 +522,12 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     // page browser
     // =================================
 
-    const pageSectionLoud = await clientSitePageSectionLoud.getOneByPageId({
+    const pageSectionLoud = await backendProjectPageSectionLoud.getOneByPageId({
       pageId: backendSiteDesignerPageUuid,
     })
     expect(pageSectionLoud.data.dataValues.pageId).toEqual(backendSiteDesignerPageUuid)
     expect(pageSectionLoud.data.dataValues.userAnswersJsonB).toEqual("{}")
-    expect(pageSectionLoud.data.dataValues.webAssetImport).toEqual("built-in/loud/homepage/gifIntro/Entry")
+    expect(pageSectionLoud.data.dataValues.webAssetImport).toEqual("built-in/0/loud/homepage/GifHeader/")
     expect(pageSectionLoud.data.dataValues.selectionId).toBe("a3cf9afa-262a-4c82-b290-f35e6eafca9d")
     expect(pageSectionLoud.data.dataValues.selectionType).toEqual(SelectionTypeEnum.BUILT_IN)
 
@@ -467,12 +538,12 @@ describe("test backendSiteDesignerPublish.main.js", () => {
     // page browser
     // =================================
 
-    const pageSectionNormal = await clientSitePageSectionNormal.getManyByPageId({
+    const pageSectionNormal = await backendProjectPageSectionNormal.getManyByPageId({
       pageId: backendSiteDesignerPageUuid,
     })
     expect(pageSectionNormal.data[0].dataValues.pageId).toEqual(backendSiteDesignerPageUuid)
     expect(pageSectionNormal.data[0].dataValues.userAnswersJsonB).toEqual("{}")
-    expect(pageSectionNormal.data[0].dataValues.webAssetImport).toEqual("built-in/sections/sectionHeader/Entry")
+    expect(pageSectionNormal.data[0].dataValues.webAssetImport).toEqual("built-in/0/sections/SectionHeader/index.jsx")
     expect(pageSectionNormal.data[0].dataValues.selectionId).toBe("f3c9ba04-9e0e-49ac-967e-e001eaecc1e6")
     expect(pageSectionNormal.data[0].dataValues.selectionType).toEqual(SelectionTypeEnum.BUILT_IN)
 
@@ -487,7 +558,7 @@ describe("test backendSiteDesignerPublish.main.js", () => {
   })
 
   afterAll(async () => {
-    
+
     await d.dbTransaction.rollback()
   })
 })

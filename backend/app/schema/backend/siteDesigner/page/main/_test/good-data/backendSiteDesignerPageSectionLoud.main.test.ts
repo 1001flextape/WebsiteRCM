@@ -1,4 +1,5 @@
 import { SelectionTypeEnum } from "../../../../../../../models/backend/setting/backendSettingHeader.model";
+import { PageStatusEnum } from "../../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 import { makeDTestObj } from "../../../../../../utils/dependencies/makeTestDependency";
 import { dependencies } from "../../../../../../utils/dependencies/type/dependencyInjection.types";
 import makeBackendSiteDesignerPageMain from "../../backendSiteDesignerPage.main";
@@ -14,8 +15,6 @@ describe("test backendSiteDesignerPageSectionLoud.main.js", () => {
   beforeAll(async () => {
 
     d = await makeDTestObj()
-    
-    
 
     const pageMain = makeBackendSiteDesignerPageMain(d)
 
@@ -87,8 +86,45 @@ describe("test backendSiteDesignerPageSectionLoud.main.js", () => {
     expect(getOneById.data).toBeNull()
   })
 
+  test("getManyPublishable: can get all records.", async () => {
+    const main = makeBackendSiteDesignerPageSectionLoudMain(d)
+    const page = makeBackendSiteDesignerPageMain(d)
+
+    // this shows up
+    const page1 = await page.addOne({
+      slug: "/test/this-is-test/should-not-be-saved/2",
+      status: PageStatusEnum.New,
+    })
+
+    await main.upsertOne({
+      pageId: page1.data.dataValues.id,
+      selectionId: "a3cf9afa-262a-4c82-b290-f35e6eafca9d",
+      selectionType: SelectionTypeEnum.BUILT_IN,
+      userAnswersJsonB: JSON.stringify({ testing: "testing" }),
+      isReady: true,
+    })
+
+    // This record doesn't show up as publishable
+    const page2 = await page.addOne({
+      slug: "/testing/should-never-be-saved-123012301230/123/123/123/",
+      status: PageStatusEnum.Draft,
+    })
+
+    await main.upsertOne({
+      pageId: page2.data.dataValues.id,
+      selectionId: "a3cf9afa-262a-4c82-b290-f35e6eafca9d",
+      selectionType: SelectionTypeEnum.BUILT_IN,
+      userAnswersJsonB: JSON.stringify({ testing: "testing" }),
+      isReady: true,
+    })
+
+    const getManyPublishable = await main.getManyPublishable()
+
+    expect(getManyPublishable.data.length).toBe(1)
+  })
+
   afterAll(async () => {
-    
+
     await d.dbTransaction.rollback()
   })
 })

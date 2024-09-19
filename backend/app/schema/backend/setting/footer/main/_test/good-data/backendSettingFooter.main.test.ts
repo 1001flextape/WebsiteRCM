@@ -12,8 +12,6 @@ describe("test backendSettingFooter.main.js", () => {
     
     d = await makeDTestObj()
     
-    
-
   }, 100000)
 
   test("upsertOne: can edit record.", async () => {
@@ -29,7 +27,8 @@ describe("test backendSettingFooter.main.js", () => {
     
     expect(updateOne.data.dataValues.menuJsonB).not.toBeNull()
     expect(updateOne.data.dataValues.userAnswersJsonB).toEqual(JSON.stringify({testing: "testing"}))
-    expect(updateOne.data.dataValues.webAssetImport).toEqual("built-in/footers/lite/Entry")
+    expect(updateOne.data.dataValues.webAssetImport).toEqual("built-in/0/footers/LiteFooter/")
+    expect(updateOne.data.dataValues.isChanged).toBe(true)
     expect(updateOne.data.dataValues.isReady).toBe(true)
 
   })
@@ -41,8 +40,20 @@ describe("test backendSettingFooter.main.js", () => {
 
     expect(getOne.data.dataValues.menuJsonB).not.toBeNull()
     expect(getOne.data.dataValues.userAnswersJsonB).toEqual(JSON.stringify({testing: "testing"}))
-    expect(getOne.data.dataValues.webAssetImport).toEqual("built-in/footers/lite/Entry")
+    expect(getOne.data.dataValues.webAssetImport).toEqual("built-in/0/footers/LiteFooter/")
+    expect(getOne.data.dataValues.isChanged).toBe(true)
     expect(getOne.data.dataValues.isReady).toBe(true)
+  })
+
+  test("resetIsChanged: remove is changed flag.", async () => {
+    const main = makeBackendSettingFooterMain(d)
+
+    await main.resetIsChanged()
+    
+    const getOne = await main.getOne()
+
+    expect(getOne.data.dataValues.isChanged).toBe(false)
+
   })
 
   afterAll(async () => {

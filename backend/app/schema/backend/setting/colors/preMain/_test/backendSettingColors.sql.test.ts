@@ -100,7 +100,7 @@ describe("test backendSettingColors.sql.js", () => {
       color9Light2: "color9Light2",
       color9Light3: "color9Light3",
       color9Light4: "color9Light4",
-
+      isReady: true,
     })
 
     expect(updateOne.data.dataValues.color1).toEqual("color1")
@@ -184,13 +184,15 @@ describe("test backendSettingColors.sql.js", () => {
     expect(updateOne.data.dataValues.color9Light2).toEqual("color9Light2")
     expect(updateOne.data.dataValues.color9Light3).toEqual("color9Light3")
     expect(updateOne.data.dataValues.color9Light4).toEqual("color9Light4")
+    expect(updateOne.data.dataValues.isChanged).toBe(true)
+    expect(updateOne.data.dataValues.isReady).toBe(true)
 
   })
 
   test("getOne: can get record.", async () => {
-    const settingColors = makeBackendSettingColors(d)
+    const sql = makeBackendSettingColors(d)
 
-    const getOne = await settingColors.getOne()
+    const getOne = await sql.getOne()
     
     expect(getOne.data.dataValues.color1).toEqual("color1")
     expect(getOne.data.dataValues.color1Dark1).toEqual("color1Dark1")
@@ -273,7 +275,20 @@ describe("test backendSettingColors.sql.js", () => {
     expect(getOne.data.dataValues.color9Light2).toEqual("color9Light2")
     expect(getOne.data.dataValues.color9Light3).toEqual("color9Light3")
     expect(getOne.data.dataValues.color9Light4).toEqual("color9Light4")
+    expect(getOne.data.dataValues.isChanged).toBe(true)
+    expect(getOne.data.dataValues.isReady).toBe(true)
 
+
+  })
+
+  test("resetIsChanged: remove is changed flag.", async () => {
+    const sql = makeBackendSettingColors(d)
+
+    await sql.resetIsChanged()
+    
+    const getOne = await sql.getOne()
+
+    expect(getOne.data.dataValues.isChanged).toBe(false)
 
   })
 

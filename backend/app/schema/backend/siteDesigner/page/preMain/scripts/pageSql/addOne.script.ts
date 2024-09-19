@@ -19,7 +19,10 @@ export default function addOne(d: dependencies) {
   return async (args: input): Promise<returningSuccessObj<Model<backendSiteDesignerPage> | null>> => {
 
     const data = await db.backendSiteDesignerPage.create(
-      args,
+      {
+        ...args,
+        isRecentlyCreated: args.isRecentlyCreated || true,
+      },
       {
         transaction: d.dbTransaction,
         returning: true,

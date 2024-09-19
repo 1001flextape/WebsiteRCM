@@ -1,5 +1,7 @@
+import { PageStatusEnum } from "../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 import { makeDTestObj } from "../../../../../utils/dependencies/makeTestDependency";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
+import makeBackendSiteDesignerPageMain from "../../main/backendSiteDesignerPage.main";
 import makeBackendSiteDesignerPageSql from "../backendSiteDesignerPage.sql";
 import makeBackendSiteDesignerPageSectionLoudSql from "../backendSiteDesignerPageSectionLoud.sql";
 jest.setTimeout(100000)
@@ -13,11 +15,12 @@ describe("test backendSiteDesignerPageSectionLoud.sql.js", () => {
   beforeAll(async () => {
 
     d = await makeDTestObj()
-    
+
     const pageSql = makeBackendSiteDesignerPageSql(d)
 
     const page = await pageSql.addOne({
       slug: "/test/this-is-test/should-not-be-saved",
+      status: PageStatusEnum.New,
     })
 
     pageId = page.data.dataValues.id
@@ -72,7 +75,7 @@ describe("test backendSiteDesignerPageSectionLoud.sql.js", () => {
     expect(getOneByPageId.data.dataValues.webAssetImport).toEqual("webAssetImport")
     expect(getOneByPageId.data.dataValues.isReady).toBe(true)
   })
-  
+
   test("getMany: can get all records.", async () => {
     const pageSql = makeBackendSiteDesignerPageSectionLoudSql(d)
 
@@ -97,8 +100,49 @@ describe("test backendSiteDesignerPageSectionLoud.sql.js", () => {
     expect(getOneByPageId.data).toBeNull()
   })
 
+  test("getManyPublishable: can get all records.", async () => {
+    const sql = makeBackendSiteDesignerPageSectionLoudSql(d)
+    const pageSql = makeBackendSiteDesignerPageMain(d)
+
+    // this shows up
+    const page1 =await pageSql.addOne({
+      slug: "/test/this-is-test/should-not-be-saved/2",
+      status: PageStatusEnum.New,
+    })
+
+    await sql.upsertOne({
+      pageId: page1.data.dataValues.id,
+      author: "author",
+      name: "name",
+      menuJsonB: JSON.stringify({ testing: "testing" }),
+      userAnswersJsonB: JSON.stringify({ testing: "testing" }),
+      webAssetImport: "webAssetImport",
+      isReady: true,
+    })
+
+    // This record doesn't show up as publishable
+    const page2 = await pageSql.addOne({
+      slug: "/testing/should-never-be-saved-123012301230/123/123/123/",
+      status: PageStatusEnum.Draft,
+    })
+
+    await sql.upsertOne({
+      pageId: page2.data.dataValues.id,
+      author: "author",
+      name: "name",
+      menuJsonB: JSON.stringify({ testing: "testing" }),
+      userAnswersJsonB: JSON.stringify({ testing: "testing" }),
+      webAssetImport: "webAssetImport",
+      isReady: true,
+    })
+
+    const getManyPublishable = await sql.getManyPublishable()
+
+    expect(getManyPublishable.data.length).toBe(1)
+  })
+
   afterAll(async () => {
-    
+
     await d.dbTransaction.rollback()
   })
 })

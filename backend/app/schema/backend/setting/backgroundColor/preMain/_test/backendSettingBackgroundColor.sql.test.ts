@@ -46,11 +46,11 @@ describe("test backendSettingBackgroundColor.sql.js", () => {
   })
 
   test("resetIsChanged: remove is changed flag.", async () => {
-    const settingBackgroundColor = makeBackendSettingBackgroundColorSql(d)
+    const sql = makeBackendSettingBackgroundColorSql(d)
 
-    await settingBackgroundColor.resetIsChanged()
+    await sql.resetIsChanged()
     
-    const getOne = await settingBackgroundColor.getOne()
+    const getOne = await sql.getOne()
 
     expect(getOne.data.dataValues.isChanged).toBe(false)
 

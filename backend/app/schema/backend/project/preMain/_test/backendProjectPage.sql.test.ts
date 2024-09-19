@@ -82,6 +82,21 @@ describe("test backendProjectPage.sql.js", () => {
     })
     expect(getManyWithPagination.data.rows.length).toBeGreaterThan(0)
   })
+
+  test("addMany: can add many records.", async () => {
+    const pageSql = makeBackendProjectPageSql(d)
+
+    await pageSql.addMany([{
+      projectId: project.id,
+      slug: "/test/should-not-be-saved2/",
+    }])
+
+    const getMany = await pageSql.getManyByProjectId({
+      projectId: project.id,
+    })
+                                              // there is at least 2, planning on possibly seeding data later
+    expect(getMany.data.length).toBeGreaterThan(1)
+  })
   
   afterAll(async () => {
     

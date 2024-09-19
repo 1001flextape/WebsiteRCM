@@ -2,6 +2,7 @@ import { dependencies } from "../../../../../utils/dependencies/type/dependencyI
 import { makeDTestObj } from "../../../../../utils/dependencies/makeTestDependency";
 import makeBackendSiteDesignerPageMain from "../../main/backendSiteDesignerPage.main";
 import makeBackendSiteDesignerPageLinkSql from "../backendSiteDesignerPageLink.sql";
+import { PageStatusEnum } from "../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 jest.setTimeout(100000)
 
 
@@ -17,7 +18,8 @@ describe("test backendSiteDesignerPageLink.sql.js", () => {
     const pageMain = makeBackendSiteDesignerPageMain(d)
 
     const pageRecord = await pageMain.addOne({
-      slug: "/testing/should-never-be-saved-123012301230/123/123/123/"
+      slug: "/testing/should-never-be-saved-123012301230/123/123/123/",
+      status: PageStatusEnum.New,
     })
 
     pageRecordId = pageRecord.data.dataValues.id
@@ -80,6 +82,29 @@ describe("test backendSiteDesignerPageLink.sql.js", () => {
     const pageSql = makeBackendSiteDesignerPageLinkSql(d)
 
     const getMany = await pageSql.getMany()
+
+    expect(getMany.data.length).toBe(1)
+  })
+
+  test("getManyPublishable: can get all records.", async () => {
+    const sql = makeBackendSiteDesignerPageLinkSql(d)
+    const pageMain = makeBackendSiteDesignerPageMain(d)
+
+    // This record doesn't show up as publishable
+    const page2 = await pageMain.addOne({
+      slug: "/testing/should-never-be-saved-123012301230/123/123/123/",
+      status: PageStatusEnum.Draft,
+    })
+
+    await sql.upsertOne({
+      pageId: page2.data.dataValues.id,
+      title: "title",
+      description: "description",
+      picture: "picture",
+      pictureAlt: "pictureAlt",
+    })
+
+    const getMany = await sql.getManyPublishable()
 
     expect(getMany.data.length).toBe(1)
   })

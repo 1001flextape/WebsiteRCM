@@ -27,6 +27,7 @@ describe("test backendSettingSite.sql.js", () => {
 
     expect(updateOne.data.dataValues.favicon).toEqual("favicon")
     expect(updateOne.data.dataValues.tab).toEqual("tab")
+    expect(updateOne.data.dataValues.isChanged).toBe(true)
     expect(updateOne.data.dataValues.isReady).toBe(true)
 
   })
@@ -38,7 +39,19 @@ describe("test backendSettingSite.sql.js", () => {
 
     expect(getOne.data.dataValues.favicon).toEqual("favicon")
     expect(getOne.data.dataValues.tab).toEqual("tab")
+    expect(getOne.data.dataValues.isChanged).toBe(true)
     expect(getOne.data.dataValues.isReady).toBe(true)
+  })
+
+  test("resetIsChanged: remove is changed flag.", async () => {
+    const sql = makeBackendSettingSiteSql(d)
+
+    await sql.resetIsChanged()
+    
+    const getOne = await sql.getOne()
+
+    expect(getOne.data.dataValues.isChanged).toBe(false)
+
   })
 
   afterAll(async () => {

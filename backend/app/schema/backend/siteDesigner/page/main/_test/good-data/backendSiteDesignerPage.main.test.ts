@@ -13,8 +13,6 @@ describe("test backendSiteDesignerPage.main.js", () => {
 
     d = await makeDTestObj()
     
-    
-
   }, 100000)
 
   test("addOne: can add record.", async () => {
@@ -40,6 +38,14 @@ describe("test backendSiteDesignerPage.main.js", () => {
     expect(getMany.data.length).toBe(1)
   })
 
+  test("getManyPublishable: can get all records.", async () => {
+    const main = makeBackendSiteDesignerPageMain(d)
+
+    const getManyPublishable = await main.getManyPublishable()
+
+    expect(getManyPublishable.data.length).toBe(1)
+  })
+
   test("getOneById: can get record.", async () => {
     const pageMain = makeBackendSiteDesignerPageMain(d)
 
@@ -51,9 +57,9 @@ describe("test backendSiteDesignerPage.main.js", () => {
   })
 
   test("getOneBySlug: can get record by slug.", async () => {
-    const pageSql = makeBackendSiteDesignerPageMain(d)
+    const pageMain = makeBackendSiteDesignerPageMain(d)
 
-    const getOneBySlug = await pageSql.getOneBySlug({
+    const getOneBySlug = await pageMain.getOneBySlug({
       slug: "/test/should-not-be-saved/"
     })
 
@@ -100,6 +106,78 @@ describe("test backendSiteDesignerPage.main.js", () => {
 
     expect(getOneById.data).toBe(null)
   })
+  
+  // updateMany: can update multiple records.
+  test("updateMany: can update multiple records.", async () => {
+    const pageMain = makeBackendSiteDesignerPageMain(d)
+
+    await pageMain.addOne({
+      slug: "/test/should-not-be-saved3/",
+      isReady: true,
+      isChanged: false,
+      status: PageStatusEnum.New,
+      isRecentlyCreated: true,
+      isRecentlyDeleted: false,
+    })
+    
+    await pageMain.addOne({
+      slug: "/test/should-not-be-saved2/",
+      isReady: true,
+      isChanged: true,
+      status: PageStatusEnum.Draft,
+      isRecentlyCreated: true,
+      isRecentlyDeleted: true,
+    })
+
+
+    const updateMany1 = await pageMain.updateMany({
+      where: null,
+      isRecentlyCreated: false
+    })
+
+    expect(updateMany1.success).toBe(false)
+    expect(updateMany1.data).toBeNull()
+
+    //sudo
+
+    // I will change the "status new" to "status published"
+    await pageMain.updateMany({
+      where: {
+        status: PageStatusEnum.New,
+      },
+      status: PageStatusEnum.Published,
+    })
+
+    const getMany2 = await pageMain.getMany()
+
+    expect(getMany2.data.filter(f => f.dataValues.status === PageStatusEnum.New).length).toBe(0)
+    expect(getMany2.data.filter(f => f.dataValues.status === PageStatusEnum.Draft).length).toBe(1)
+    expect(getMany2.data.filter(f => f.dataValues.status === PageStatusEnum.Published).length).toBe(1)
+
+
+    // I will be resetting all "isChanged", "isRecentlyCreated", "isRecentlyDeleted"
+    await pageMain.updateMany({
+      where: {},
+      paranoid: false,
+      isChanged: false,
+      isRecentlyCreated: false,
+      isRecentlyDeleted: false,
+    })
+
+
+    const getMany3 = await d.db.models.backendSiteDesignerPage.findAll({
+      transaction: d.dbTransaction,
+      paranoid: false,
+    })
+
+    expect(getMany3.filter(f => f.dataValues.isChanged === true).length).toBe(0)
+    expect(getMany3.filter(f => f.dataValues.isChanged === false).length).toBe(3)
+    expect(getMany3.filter(f => f.dataValues.isRecentlyCreated === true).length).toBe(0)
+    expect(getMany3.filter(f => f.dataValues.isRecentlyCreated === false).length).toBe(3)
+    expect(getMany3.filter(f => f.dataValues.isRecentlyDeleted === true).length).toBe(0)
+    expect(getMany3.filter(f => f.dataValues.isRecentlyDeleted === false).length).toBe(3)
+  })
+
 
   afterAll(async () => {
     

@@ -4,6 +4,7 @@ import getOneByPageId from "./scripts/sectionLoud/getOneByPageId.script";
 import getMany from "./scripts/sectionLoud/getMany.script";
 import getOneRealTimeByPageId from "./scripts/sectionLoud/getOneRealTimeByPageId.script";
 import upsertOne from "./scripts/sectionLoud/upsertOne.script";
+import getManyPublishable from "./scripts/sectionLoud/getManyPublishable.script";
 
 export default function makeBackendSiteDesignerPageSectionLoudMain(d: dependencies) {
 
@@ -11,6 +12,7 @@ export default function makeBackendSiteDesignerPageSectionLoudMain(d: dependenci
     deleteOne: deleteOne(d),
     getOneByPageId: getOneByPageId(d),
     getMany: getMany(d),
+    getManyPublishable: getManyPublishable(d),
     getOneRealTimeByPageId: getOneRealTimeByPageId(d),
     upsertOne: upsertOne(d),
   }

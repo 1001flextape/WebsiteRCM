@@ -1,4 +1,5 @@
 import { SelectionTypeEnum } from "../../../../../../../models/backend/setting/backendSettingHeader.model";
+import { PageStatusEnum } from "../../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 import { makeDTestObj } from "../../../../../../utils/dependencies/makeTestDependency";
 import { dependencies } from "../../../../../../utils/dependencies/type/dependencyInjection.types";
 import makeBackendSiteDesignerPageMain from "../../backendSiteDesignerPage.main";
@@ -127,6 +128,45 @@ describe("test backendSiteDesignerPageSectionNormal.main.js", () => {
     })
 
     expect(getOneById.data).toBeNull()
+  })
+
+  test("getManyPublishable: can get all records.", async () => {
+    const main = makeBackendSiteDesignerPageSectionNormalMain(d)
+    const pageMain = makeBackendSiteDesignerPageMain(d)
+
+    // this shows up
+    const page1 =await pageMain.addOne({
+      slug: "/test/this-is-test/should-not-be-saved/2",
+      status: PageStatusEnum.New,
+    })
+
+    await await main.addOne({
+      pageId: page1.data.dataValues.id,
+      selectionId: "f3c9ba04-9e0e-49ac-967e-e001eaecc1e6",
+      selectionType: SelectionTypeEnum.BUILT_IN,
+      orderNumber: 1,
+      userAnswersJsonB: JSON.stringify({ testing: "testing" }),
+      isReady: true,
+    })
+
+    // This record doesn't show up as publishable
+    const page2 = await pageMain.addOne({
+      slug: "/testing/should-never-be-saved-123012301230/123/123/123/",
+      status: PageStatusEnum.Draft,
+    })
+
+    await await main.addOne({
+      pageId: page2.data.dataValues.id,
+      selectionId: "f3c9ba04-9e0e-49ac-967e-e001eaecc1e6",
+      selectionType: SelectionTypeEnum.BUILT_IN,
+      orderNumber: 1,
+      userAnswersJsonB: JSON.stringify({ testing: "testing" }),
+      isReady: true,
+    })
+
+    const getManyPublishable = await main.getManyPublishable()
+
+    expect(getManyPublishable.data.length).toBe(1)
   })
 
   afterAll(async () => {

@@ -2,6 +2,7 @@ import { dependencies } from "../../../../../../utils/dependencies/type/dependen
 import { makeDTestObj } from "../../../../../../utils/dependencies/makeTestDependency";
 import makeBackendSiteDesignerPageMain from "../../backendSiteDesignerPage.main";
 import makeBackendSiteDesignerPageLinkMain from "../../backendSiteDesignerPageLink.main";
+import { PageStatusEnum } from "../../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 jest.setTimeout(100000)
 
 
@@ -14,8 +15,6 @@ describe("test backendSiteDesignerPageLink.main.js", () => {
 
     d = await makeDTestObj()
     
-    
-
     const pageMain = makeBackendSiteDesignerPageMain(d)
 
     const pageRecord = await pageMain.addOne({
@@ -82,6 +81,29 @@ describe("test backendSiteDesignerPageLink.main.js", () => {
     const pageMain = makeBackendSiteDesignerPageLinkMain(d)
 
     const getMany = await pageMain.getMany()
+
+    expect(getMany.data.length).toBe(1)
+  })
+
+  test("getManyPublishable: can get all records.", async () => {
+    const main = makeBackendSiteDesignerPageLinkMain(d)
+    const pageMain = makeBackendSiteDesignerPageMain(d)
+
+    // This record doesn't show up as publishable
+    const page2 = await pageMain.addOne({
+      slug: "/testing/should-never-be-saved-123012301230/123/123/123/",
+      status: PageStatusEnum.Draft,
+    })
+
+    await main.upsertOne({
+      pageId: page2.data.dataValues.id,
+      title: "title",
+      description: "description",
+      picture: "picture",
+      pictureAlt: "pictureAlt",
+    })
+
+    const getMany = await main.getManyPublishable()
 
     expect(getMany.data.length).toBe(1)
   })

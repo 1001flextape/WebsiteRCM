@@ -5,6 +5,7 @@ import getManyByPageId from "./scripts/sectionNormal/getManyByPageId.script"
 import getMany from "./scripts/sectionNormal/getMany.script"
 import getOneById from "./scripts/sectionNormal/getOneById.script"
 import updateOne from "./scripts/sectionNormal/updateOne.script"
+import getManyPublishable from "./scripts/sectionNormal/getManyPublishable.script"
 
 export default function makeBackendSiteDesignerPageSectionNormalSql(d: dependencies) {
 
@@ -12,6 +13,7 @@ export default function makeBackendSiteDesignerPageSectionNormalSql(d: dependenc
     addOne: addOne(d),
     getManyByPageId: getManyByPageId(d),
     getMany: getMany(d),
+    getManyPublishable: getManyPublishable(d),
     getOneById: getOneById(d),
     updateOne: updateOne(d),
     deleteOne: deleteOne(d),

@@ -6,6 +6,7 @@ import { dependencies } from "../../../../../utils/dependencies/type/dependencyI
 import makeBackendProjectSql from "../../../preMain/backendProject.sql"
 import makeBackendProjectPageSql from "../../../preMain/backendProjectPage.sql"
 import makeBackendProjectPageSectionLoudSql from "../../../preMain/backendProjectPageSectionLoud.sql"
+import makeBackendProjectPageMain from "../../backendProjectPage.main"
 
 jest.setTimeout(100000)
 
@@ -92,6 +93,27 @@ describe("test backendProjectPageSectionLoud.sql.js", () => {
     expect(getOneByPageId.data.dataValues.userAnswersJsonB).toEqual('{"test":"test"}')
     expect(getOneByPageId.data.dataValues.name).toEqual("name")
     expect(getOneByPageId.data.dataValues.webAssetImport).toEqual("webAssetImport")
+  })
+
+  test("addMany: can add many records.", async () => {
+    const pageSectionLoudMain = makeBackendProjectPageSectionLoudSql(d)    
+    const backendProjectPage = makeBackendProjectPageMain(d)
+
+    const newPage2 = await backendProjectPage.addOne({
+      projectId: project.id,
+      slug: "/test/shouldnt-save/123980-12038-test",
+    })
+
+    await pageSectionLoudMain.addMany([{
+      projectId: project.id,
+      pageId: newPage2.data.dataValues.id,
+    }])
+
+    const getMany = await pageSectionLoudMain.getManyByProjectId({
+      projectId: project.id,
+    })
+                                              // there is at least 2, planning on possibly seeding data later
+    expect(getMany.data.length).toBeGreaterThan(1)
   })
 
   afterAll(async () => {

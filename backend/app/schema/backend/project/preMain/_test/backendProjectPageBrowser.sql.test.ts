@@ -57,9 +57,9 @@ describe("test backendProjectPageBrowser.sql.js", () => {
   })
 
   test("getOneById: can get record.", async () => {
-    const pageSql = makeBackendProjectPageBrowserSql(d)
+    const pageBrowserSql = makeBackendProjectPageBrowserSql(d)
 
-    const getOneById = await pageSql.getOneById({
+    const getOneById = await pageBrowserSql.getOneById({
       id: record.id,
     })
 
@@ -68,9 +68,9 @@ describe("test backendProjectPageBrowser.sql.js", () => {
   })
 
   test("getOneByPageId: can get record.", async () => {
-    const pageSql = makeBackendProjectPageBrowserSql(d)
+    const pageBrowserSql = makeBackendProjectPageBrowserSql(d)
 
-    const getOneByPageId = await pageSql.getOneByPageId({
+    const getOneByPageId = await pageBrowserSql.getOneByPageId({
       pageId: page.id,
     })
 
@@ -78,6 +78,27 @@ describe("test backendProjectPageBrowser.sql.js", () => {
     expect(getOneByPageId.data.dataValues.tabName).toEqual("blah")
   })
 
+  test("addMany: can add many records.", async () => {
+    const pageBrowserSql = makeBackendProjectPageBrowserSql(d)    
+    const backendProjectPage = makeBackendProjectPageSql(d)
+
+    const newPage2 = await backendProjectPage.addOne({
+      projectId: project.id,
+      slug: "/test/shouldnt-save/123980-12038-test",
+    })
+
+    await pageBrowserSql.addMany([{
+      projectId: project.id,
+      pageId: newPage2.data.dataValues.id,
+    }])
+
+    const getMany = await pageBrowserSql.getManyByProjectId({
+      projectId: project.id,
+    })
+                                              // there is at least 2, planning on possibly seeding data later
+    expect(getMany.data.length).toBeGreaterThan(1)
+  })
+  
   afterAll(async () => {
     
     await d.dbTransaction.rollback()

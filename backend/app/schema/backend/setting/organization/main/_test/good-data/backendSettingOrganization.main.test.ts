@@ -1,11 +1,10 @@
-import makeBackendSettingOrganizationMain from "../backendSettingOrganization.main";
-import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
-import { makeDTestObj } from "../../../../../utils/dependencies/makeTestDependency";
+import makeBackendSettingOrganizationMain from "../../backendSettingOrganization.main";
+import { dependencies } from "../../../../../../utils/dependencies/type/dependencyInjection.types";
+import { makeDTestObj } from "../../../../../../utils/dependencies/makeTestDependency";
 jest.setTimeout(100000)
 
 describe("test backkendSettingOrganization.main.js", () => {
   let d: dependencies;
-  let recordId: string;
 
   beforeAll(async () => {
     
@@ -16,9 +15,9 @@ describe("test backkendSettingOrganization.main.js", () => {
   }, 100000)
 
   test("updateOne:can upsert record.", async () => {
-    const organizationMain = makeBackendSettingOrganizationMain(d)
+    const main = makeBackendSettingOrganizationMain(d)
 
-    const updateOne = await organizationMain.upsertOne({
+    const updateOne = await main.upsertOne({
       logo: "logo",
       name: "name",
       addressLine1: "addressLine1",
@@ -35,8 +34,8 @@ describe("test backkendSettingOrganization.main.js", () => {
       socialX: "socialX",
       socialYouTube: "socialYouTube",
       stateProvinceRegion: "stateProvinceRegion",
+      isReady: true,
     })
-    recordId = updateOne.data.dataValues.id
     expect(updateOne.data.dataValues.logo).toEqual("logo")
     expect(updateOne.data.dataValues.name).toEqual("name")
     expect(updateOne.data.dataValues.addressLine1).toEqual("addressLine1")
@@ -52,12 +51,14 @@ describe("test backkendSettingOrganization.main.js", () => {
     expect(updateOne.data.dataValues.socialX).toEqual("socialX")
     expect(updateOne.data.dataValues.socialYouTube).toEqual("socialYouTube")
     expect(updateOne.data.dataValues.stateProvinceRegion).toEqual("stateProvinceRegion")
+    expect(updateOne.data.dataValues.isReady).toBe(true)
+    expect(updateOne.data.dataValues.isChanged).toBe(true)
   })
 
-  test("getOne: backendSettingOrganization can get record.", async () => {
-    const backendUserRequestLogic = makeBackendSettingOrganizationMain(d)
+  test("getOne: backkendSettingOrganization can get record.", async () => {
+    const main = makeBackendSettingOrganizationMain(d)
 
-    const getOne = await backendUserRequestLogic.getOne()
+    const getOne = await main.getOne()
 
     expect(getOne.data.dataValues.logo).toEqual("logo")
     expect(getOne.data.dataValues.name).toEqual("name")
@@ -74,6 +75,19 @@ describe("test backkendSettingOrganization.main.js", () => {
     expect(getOne.data.dataValues.socialX).toEqual("socialX")
     expect(getOne.data.dataValues.socialYouTube).toEqual("socialYouTube")
     expect(getOne.data.dataValues.stateProvinceRegion).toEqual("stateProvinceRegion")
+    expect(getOne.data.dataValues.isReady).toBe(true)
+    expect(getOne.data.dataValues.isChanged).toBe(true)
+  })
+
+  test("resetIsChanged: remove is changed flag.", async () => {
+    const main = makeBackendSettingOrganizationMain(d)
+
+    await main.resetIsChanged()
+    
+    const getOne = await main.getOne()
+
+    expect(getOne.data.dataValues.isChanged).toBe(false)
+
   })
 
   afterAll(async () => {

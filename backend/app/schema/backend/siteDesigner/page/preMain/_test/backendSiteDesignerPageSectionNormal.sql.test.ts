@@ -1,6 +1,8 @@
 import { SelectionTypeEnum } from "../../../../../../models/backend/setting/backendSettingHeader.model";
+import { PageStatusEnum } from "../../../../../../models/backend/siteDesigner/page/backendSiteDesignerPage.model";
 import { makeDTestObj } from "../../../../../utils/dependencies/makeTestDependency";
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types";
+import makeBackendSiteDesignerPageMain from "../../main/backendSiteDesignerPage.main";
 import makeBackendSiteDesignerPageSql from "../backendSiteDesignerPage.sql";
 import makeBackendSiteDesignerPageSectionNormalSql from "../backendSiteDesignerPageSectionNormal.sql";
 jest.setTimeout(100000)
@@ -19,6 +21,7 @@ describe("test backendSiteDesignerPageSectionNormal.sql.js", () => {
 
     const page = await pageSql.addOne({
       slug: "/test/this-is-test/should-not-be-saved",
+      status: PageStatusEnum.New,
     })
 
     pageId = page.data.dataValues.id
@@ -144,6 +147,53 @@ describe("test backendSiteDesignerPageSectionNormal.sql.js", () => {
     })
 
     expect(getOneById.data).toBeNull()
+  })
+
+  test("getManyPublishable: can get all records.", async () => {
+    const sql = makeBackendSiteDesignerPageSectionNormalSql(d)
+    const pageSql = makeBackendSiteDesignerPageMain(d)
+
+    // this shows up
+    const page1 =await pageSql.addOne({
+      slug: "/test/this-is-test/should-not-be-saved/2",
+      status: PageStatusEnum.New,
+    })
+
+    await await sql.addOne({
+      pageId: page1.data.dataValues.id,
+      name: "name",
+      author: "author",
+      selectionId: "1ce59109-a2fb-4aef-b923-6d9c4c2fcbda",
+      selectionType: SelectionTypeEnum.BUILT_IN,
+      orderNumber: 1,
+      menuJsonB: JSON.stringify({ testing: "testing" }),
+      userAnswersJsonB: JSON.stringify({ testing: "testing" }),
+      webAssetImport: "webAssetImport",
+      isReady: true,
+    })
+
+    // This record doesn't show up as publishable
+    const page2 = await pageSql.addOne({
+      slug: "/testing/should-never-be-saved-123012301230/123/123/123/",
+      status: PageStatusEnum.Draft,
+    })
+
+    await await sql.addOne({
+      pageId: page2.data.dataValues.id,
+      name: "name",
+      author: "author",
+      selectionId: "1ce59109-a2fb-4aef-b923-6d9c4c2fcbda",
+      selectionType: SelectionTypeEnum.BUILT_IN,
+      orderNumber: 1,
+      menuJsonB: JSON.stringify({ testing: "testing" }),
+      userAnswersJsonB: JSON.stringify({ testing: "testing" }),
+      webAssetImport: "webAssetImport",
+      isReady: true,
+    })
+
+    const getManyPublishable = await sql.getManyPublishable()
+
+    expect(getManyPublishable.data.length).toBe(1)
   })
 
   afterAll(async () => {

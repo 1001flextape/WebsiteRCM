@@ -28,6 +28,7 @@ describe("test backendSettingFooter.sql.js", () => {
     expect(updateOne.data.dataValues.menuJsonB).toEqual(JSON.stringify({testing: "testing"}))
     expect(updateOne.data.dataValues.userAnswersJsonB).toEqual(JSON.stringify({testing: "testing"}))
     expect(updateOne.data.dataValues.webAssetImport).toEqual("webAssetImport")
+    expect(updateOne.data.dataValues.isChanged).toBe(true)
     expect(updateOne.data.dataValues.isReady).toBe(true)
 
   })
@@ -40,7 +41,19 @@ describe("test backendSettingFooter.sql.js", () => {
     expect(getOne.data.dataValues.menuJsonB).toEqual(JSON.stringify({testing: "testing"}))
     expect(getOne.data.dataValues.userAnswersJsonB).toEqual(JSON.stringify({testing: "testing"}))
     expect(getOne.data.dataValues.webAssetImport).toEqual("webAssetImport")
+    expect(getOne.data.dataValues.isChanged).toBe(true)
     expect(getOne.data.dataValues.isReady).toBe(true)
+  })
+
+  test("resetIsChanged: remove is changed flag.", async () => {
+    const sql = makeBackendSettingFooterSql(d)
+
+    await sql.resetIsChanged()
+    
+    const getOne = await sql.getOne()
+
+    expect(getOne.data.dataValues.isChanged).toBe(false)
+
   })
 
   afterAll(async () => {

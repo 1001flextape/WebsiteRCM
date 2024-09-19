@@ -1,5 +1,5 @@
 import sequelize from 'sequelize';
-import { Table, Column, Model, DataType, ForeignKey } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import backendSiteDesignerPage from './backendSiteDesignerPage.model';
 
 @Table({
@@ -9,7 +9,6 @@ import backendSiteDesignerPage from './backendSiteDesignerPage.model';
   tableName: "backendSiteDesignerPageBrowser",
 })
 export default class backendSiteDesignerPageBrowser extends Model {
-
   @Column({
     primaryKey: true,
     type: DataType.UUID,
@@ -28,4 +27,8 @@ export default class backendSiteDesignerPageBrowser extends Model {
     allowNull: false
   })
   pageId: string;
+
+  // Add belongsTo association with backendSiteDesignerPage
+  @BelongsTo(() => backendSiteDesignerPage, { foreignKey: 'pageId' })
+  page: backendSiteDesignerPage;
 }

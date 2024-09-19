@@ -1,5 +1,5 @@
 import sequelize from 'sequelize';
-import { Table, Column, Model, DataType, ForeignKey } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import { sameDocMenuType } from '../../../../schema/collaborate/sameDoc/preMain/scripts/SameDoc/adaptersFromMenuAndAnswers.script';
 import backendSiteDesignerPage from './backendSiteDesignerPage.model';
 import { SelectionTypeEnum } from '../../setting/backendSettingHeader.model';
@@ -70,4 +70,8 @@ export default class backendSiteDesignerPageSectionNormal extends Model {
     allowNull: false
   })
   pageId: string;
+  
+  // Add belongsTo association with backendSiteDesignerPage
+  @BelongsTo(() => backendSiteDesignerPage, { foreignKey: 'pageId' })
+  page: backendSiteDesignerPage;
 }

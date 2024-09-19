@@ -15,8 +15,8 @@ describe("test clientSitePageSectionNormal.sql.js", () => {
   beforeAll(async () => {
 
     d = await makeDTestObj()
-    
-    
+
+
 
     const pageSql = makeClientSitePageSql(d)
 
@@ -115,7 +115,7 @@ describe("test clientSitePageSectionNormal.sql.js", () => {
     })
 
     expect(deleteOne.success).toBe(true)
-    
+
     const getOneById = await normal.getOneById({
       id: record1Id,
     })
@@ -123,8 +123,101 @@ describe("test clientSitePageSectionNormal.sql.js", () => {
     expect(getOneById.data).toBeNull()
   })
 
+  test("setList: first time.", async () => {
+    const pageNormalSectionSql = makeClientSitePageSectionNormalSql(d)
+
+    const setList = await pageNormalSectionSql.setList([
+      {
+        pageId,
+
+        // permissionId: permissionId_1,
+        // roleId: roleId,
+      }
+    ])
+
+
+    expect(setList.success).toBe(true)
+  })
+
+  test("getOneByPageId: setList worked", async () => {
+    const pageNormalSectionSql = makeClientSitePageSectionNormalSql(d)
+
+    const getManyByRoleId = await pageNormalSectionSql.getManyByPageId({
+      pageId,
+    })
+
+    expect(getManyByRoleId.success).toBe(true)
+    expect(getManyByRoleId.data[0].dataValues.pageId).toBe(pageId)
+  })
+
+  test("setList & getOneByPageId: can update and get record.", async () => {
+    const pageNormalSectionSql = makeClientSitePageSectionNormalSql(d)
+    const pageSql = makeClientSitePageSql(d)
+
+    const page2 = await pageSql.addOne({
+      slug: "/asdf/asdf/asdf/test"
+    })
+
+    const getManyByRoleId = await pageNormalSectionSql.getManyByPageId({
+      pageId,
+    })
+
+    const setList = await pageNormalSectionSql.setList([
+      { ...getManyByRoleId.data[0].dataValues },
+      {
+        pageId: page2.data.dataValues.id,
+      },
+      {
+        pageId: page2.data.dataValues.id,
+      }
+    ])
+
+    expect(setList.success).toEqual(true)
+
+    const getOneByPageId = await pageNormalSectionSql.getManyByPageId({
+      pageId,
+    })
+
+    expect(getOneByPageId.success).toBe(true)
+    expect(getOneByPageId.data[0].dataValues.pageId).toBe(pageId)
+    expect(getOneByPageId.data.length).toBe(1)
+
+    const getOneByPageId2 = await pageNormalSectionSql.getManyByPageId({
+      pageId: page2.data.dataValues.id,
+    })
+
+    expect(getOneByPageId2.success).toBe(true)
+    expect(getOneByPageId2.data[0].dataValues.pageId).toBe(page2.data.dataValues.id)
+    expect(getOneByPageId2.data[1].dataValues.pageId).toBe(page2.data.dataValues.id)
+    expect(getOneByPageId2.data.length).toBe(2)
+
+    //remove page2
+
+    const setListRemovePage2 = await pageNormalSectionSql.setList([
+      { ...getManyByRoleId.data[0].dataValues }
+    ])
+
+    expect(setListRemovePage2.success).toEqual(true)
+
+    const getOneByPageIdAgain = await pageNormalSectionSql.getManyByPageId({
+      pageId,
+    })
+
+    expect(getOneByPageIdAgain.success).toBe(true)
+    expect(getOneByPageIdAgain.data[0].dataValues.pageId).toBe(pageId)
+    expect(getOneByPageIdAgain.data.length).toBe(1)
+
+    const getOneByPageIdAgain2 = await pageNormalSectionSql.getManyByPageId({
+      pageId: page2.data.dataValues.id,
+    })
+
+    expect(getOneByPageIdAgain2.success).toBe(true)
+    expect(getOneByPageIdAgain2.data.length).toBe(0)
+
+  })
+
   afterAll(async () => {
-    
+
     await d.dbTransaction.rollback()
   })
 })

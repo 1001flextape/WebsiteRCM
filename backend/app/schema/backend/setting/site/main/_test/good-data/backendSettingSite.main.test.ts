@@ -1,6 +1,6 @@
 import makeBackendSettingSiteMain from "../../backendSettingSite.main"
-import { makeDTestObj } from "../../../../../../utils/dependencies/makeTestDependency";
 import { dependencies } from "../../../../../../utils/dependencies/type/dependencyInjection.types";
+import { makeDTestObj } from "../../../../../../utils/dependencies/makeTestDependency";
 jest.setTimeout(100000)
 
 
@@ -27,6 +27,7 @@ describe("test backendSettingSite.main.js", () => {
 
     expect(updateOne.data.dataValues.favicon).toEqual("favicon")
     expect(updateOne.data.dataValues.tab).toEqual("tab")
+    expect(updateOne.data.dataValues.isChanged).toBe(true)
     expect(updateOne.data.dataValues.isReady).toBe(true)
 
   })
@@ -38,7 +39,19 @@ describe("test backendSettingSite.main.js", () => {
 
     expect(getOne.data.dataValues.favicon).toEqual("favicon")
     expect(getOne.data.dataValues.tab).toEqual("tab")
+    expect(getOne.data.dataValues.isChanged).toBe(true)
     expect(getOne.data.dataValues.isReady).toBe(true)
+  })
+
+  test("resetIsChanged: remove is changed flag.", async () => {
+    const main = makeBackendSettingSiteMain(d)
+
+    await main.resetIsChanged()
+    
+    const getOne = await main.getOne()
+
+    expect(getOne.data.dataValues.isChanged).toBe(false)
+
   })
 
   afterAll(async () => {

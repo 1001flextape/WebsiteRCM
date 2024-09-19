@@ -15,9 +15,9 @@ describe("test backkendSettingOrganization.sql.js", () => {
   }, 100000)
 
   test("updateOne:can upsert record.", async () => {
-    const organizationSql = makeBackendSettingOrganizationSql(d)
+    const sql = makeBackendSettingOrganizationSql(d)
 
-    const updateOne = await organizationSql.upsertOne({
+    const updateOne = await sql.upsertOne({
       logo: "logo",
       name: "name",
       addressLine1: "addressLine1",
@@ -34,6 +34,7 @@ describe("test backkendSettingOrganization.sql.js", () => {
       socialX: "socialX",
       socialYouTube: "socialYouTube",
       stateProvinceRegion: "stateProvinceRegion",
+      isReady: true,
     })
     expect(updateOne.data.dataValues.logo).toEqual("logo")
     expect(updateOne.data.dataValues.name).toEqual("name")
@@ -50,12 +51,14 @@ describe("test backkendSettingOrganization.sql.js", () => {
     expect(updateOne.data.dataValues.socialX).toEqual("socialX")
     expect(updateOne.data.dataValues.socialYouTube).toEqual("socialYouTube")
     expect(updateOne.data.dataValues.stateProvinceRegion).toEqual("stateProvinceRegion")
+    expect(updateOne.data.dataValues.isReady).toBe(true)
+    expect(updateOne.data.dataValues.isChanged).toBe(true)
   })
 
   test("getOne: backkendSettingOrganization can get record.", async () => {
-    const backendUserRequestLogic = makeBackendSettingOrganizationSql(d)
+    const sql = makeBackendSettingOrganizationSql(d)
 
-    const getOne = await backendUserRequestLogic.getOne()
+    const getOne = await sql.getOne()
 
     expect(getOne.data.dataValues.logo).toEqual("logo")
     expect(getOne.data.dataValues.name).toEqual("name")
@@ -72,6 +75,19 @@ describe("test backkendSettingOrganization.sql.js", () => {
     expect(getOne.data.dataValues.socialX).toEqual("socialX")
     expect(getOne.data.dataValues.socialYouTube).toEqual("socialYouTube")
     expect(getOne.data.dataValues.stateProvinceRegion).toEqual("stateProvinceRegion")
+    expect(getOne.data.dataValues.isReady).toBe(true)
+    expect(getOne.data.dataValues.isChanged).toBe(true)
+  })
+
+  test("resetIsChanged: remove is changed flag.", async () => {
+    const sql = makeBackendSettingOrganizationSql(d)
+
+    await sql.resetIsChanged()
+    
+    const getOne = await sql.getOne()
+
+    expect(getOne.data.dataValues.isChanged).toBe(false)
+
   })
 
   afterAll(async () => {

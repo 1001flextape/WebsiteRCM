@@ -66,9 +66,9 @@ describe("test backendProjectPageSectionNormal.sql.js", () => {
   })
 
   test("getOneById: can get record.", async () => {
-    const pageSql = makeBackendProjectPageSectionNormalSql(d)
+    const pageNormalSectionSql = makeBackendProjectPageSectionNormalSql(d)
 
-    const getOneById = await pageSql.getOneById({
+    const getOneById = await pageNormalSectionSql.getOneById({
       id: record.id,
     })
 
@@ -81,13 +81,34 @@ describe("test backendProjectPageSectionNormal.sql.js", () => {
   })
 
   test("getManyByPageId: can get record.", async () => {
-    const pageSql = makeBackendProjectPageSectionNormalSql(d)
+    const pageNormalSectionSql = makeBackendProjectPageSectionNormalSql(d)
 
-    const getManyByPageId = await pageSql.getManyByPageId({
+    const getManyByPageId = await pageNormalSectionSql.getManyByPageId({
       pageId: page.id,
     })
 
     expect(getManyByPageId.data.length).toBe(1)
+  })
+
+  test("addMany: can add many records.", async () => {
+    const pageNormalSectionSql = makeBackendProjectPageSectionNormalSql(d)   
+    const backendProjectPage = makeBackendProjectPageSql(d)
+
+    const newPage2 = await backendProjectPage.addOne({
+      projectId: project.id,
+      slug: "/test/shouldnt-save/123980-12038-test",
+    })
+
+    await pageNormalSectionSql.addMany([{
+      projectId: project.id,
+      pageId: newPage2.data.dataValues.id,
+    }])
+
+    const getMany = await pageNormalSectionSql.getManyByProjectId({
+      projectId: project.id,
+    })
+                                              // there is at least 2, planning on possibly seeding data later
+    expect(getMany.data.length).toBeGreaterThan(1)
   })
 
   afterAll(async () => {

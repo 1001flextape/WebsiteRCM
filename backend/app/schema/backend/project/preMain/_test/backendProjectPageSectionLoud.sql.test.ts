@@ -65,9 +65,9 @@ describe("test backendProjectPageSectionLoud.sql.js", () => {
   })
 
   test("getOneById: can get record.", async () => {
-    const pageSql = makeBackendProjectPageSectionLoudSql(d)
+    const pageLoudSectionSql = makeBackendProjectPageSectionLoudSql(d)
 
-    const getOneById = await pageSql.getOneById({
+    const getOneById = await pageLoudSectionSql.getOneById({
       id: record.id,
     })
 
@@ -80,9 +80,9 @@ describe("test backendProjectPageSectionLoud.sql.js", () => {
   })
 
   test("getOneByPageId: can get record.", async () => {
-    const pageSql = makeBackendProjectPageSectionLoudSql(d)
+    const pageLoudSectionSql = makeBackendProjectPageSectionLoudSql(d)
 
-    const getOneByPageId = await pageSql.getOneByPageId({
+    const getOneByPageId = await pageLoudSectionSql.getOneByPageId({
       pageId: page.id,
     })
 
@@ -92,6 +92,27 @@ describe("test backendProjectPageSectionLoud.sql.js", () => {
     expect(getOneByPageId.data.dataValues.userAnswersJsonB).toEqual('{"test":"test"}')
     expect(getOneByPageId.data.dataValues.name).toEqual("name")
     expect(getOneByPageId.data.dataValues.webAssetImport).toEqual("webAssetImport")
+  })
+
+  test("addMany: can add many records.", async () => {
+    const pageLoudSectionSql = makeBackendProjectPageSectionLoudSql(d)   
+    const backendProjectPage = makeBackendProjectPageSql(d)
+
+    const newPage2 = await backendProjectPage.addOne({
+      projectId: project.id,
+      slug: "/test/shouldnt-save/123980-12038-test",
+    })
+
+    await pageLoudSectionSql.addMany([{
+      projectId: project.id,
+      pageId: newPage2.data.dataValues.id,
+    }])
+
+    const getMany = await pageLoudSectionSql.getManyByProjectId({
+      projectId: project.id,
+    })
+                                              // there is at least 2, planning on possibly seeding data later
+    expect(getMany.data.length).toBeGreaterThan(1)
   })
 
   afterAll(async () => {

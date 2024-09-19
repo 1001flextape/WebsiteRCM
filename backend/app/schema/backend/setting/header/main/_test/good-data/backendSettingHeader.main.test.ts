@@ -29,7 +29,8 @@ describe("test backendSettingHeader.main.js", () => {
 
     expect(updateOne.data.dataValues.menuJsonB).not.toBeNull()
     expect(updateOne.data.dataValues.userAnswersJsonB).toEqual(JSON.stringify({ testing: "testing" }))
-    expect(updateOne.data.dataValues.webAssetImport).toEqual("built-in/headers/lite/Entry")
+    expect(updateOne.data.dataValues.webAssetImport).toEqual("built-in/0/headers/LiteHeader/")
+    expect(updateOne.data.dataValues.isChanged).toBe(true)
     expect(updateOne.data.dataValues.isReady).toBe(true)
 
   })
@@ -41,8 +42,20 @@ describe("test backendSettingHeader.main.js", () => {
 
     expect(getOne.data.dataValues.menuJsonB).not.toBeNull()
     expect(getOne.data.dataValues.userAnswersJsonB).toEqual(JSON.stringify({ testing: "testing" }))
-    expect(getOne.data.dataValues.webAssetImport).toEqual("built-in/headers/lite/Entry")
+    expect(getOne.data.dataValues.webAssetImport).toEqual("built-in/0/headers/LiteHeader/")
+    expect(getOne.data.dataValues.isChanged).toBe(true)
     expect(getOne.data.dataValues.isReady).toBe(true)
+  })
+
+  test("resetIsChanged: remove is changed flag.", async () => {
+    const main = makeBackendSettingHeaderMain(d)
+
+    await main.resetIsChanged()
+    
+    const getOne = await main.getOne()
+
+    expect(getOne.data.dataValues.isChanged).toBe(false)
+
   })
 
   afterAll(async () => {

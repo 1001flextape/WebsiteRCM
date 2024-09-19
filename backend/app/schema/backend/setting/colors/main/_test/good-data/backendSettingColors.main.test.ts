@@ -1,6 +1,6 @@
 import makeBackendSettingColors from "../../backendSettingColors.main"
-import { makeDTestObj } from "../../../../../../utils/dependencies/makeTestDependency";
 import { dependencies } from "../../../../../../utils/dependencies/type/dependencyInjection.types";
+import { makeDTestObj } from "../../../../../../utils/dependencies/makeTestDependency";
 jest.setTimeout(100000)
 
 
@@ -8,9 +8,11 @@ describe("test backendSettingColors.main.js", () => {
   let d: dependencies
 
   beforeAll(async () => {
-   d = await makeDTestObj()
-   
-   
+    
+    d = await makeDTestObj()
+    
+    
+
   }, 100000)
 
   test("upsertOne: can edit record.", async () => {
@@ -98,7 +100,7 @@ describe("test backendSettingColors.main.js", () => {
       color9Light2: "color9Light2",
       color9Light3: "color9Light3",
       color9Light4: "color9Light4",
-
+      isReady: true,
     })
 
     expect(updateOne.data.dataValues.color1).toEqual("color1")
@@ -182,13 +184,15 @@ describe("test backendSettingColors.main.js", () => {
     expect(updateOne.data.dataValues.color9Light2).toEqual("color9Light2")
     expect(updateOne.data.dataValues.color9Light3).toEqual("color9Light3")
     expect(updateOne.data.dataValues.color9Light4).toEqual("color9Light4")
+    expect(updateOne.data.dataValues.isChanged).toBe(true)
+    expect(updateOne.data.dataValues.isReady).toBe(true)
 
   })
 
   test("getOne: can get record.", async () => {
-    const settingColors = makeBackendSettingColors(d)
+    const main = makeBackendSettingColors(d)
 
-    const getOne = await settingColors.getOne()
+    const getOne = await main.getOne()
     
     expect(getOne.data.dataValues.color1).toEqual("color1")
     expect(getOne.data.dataValues.color1Dark1).toEqual("color1Dark1")
@@ -271,7 +275,20 @@ describe("test backendSettingColors.main.js", () => {
     expect(getOne.data.dataValues.color9Light2).toEqual("color9Light2")
     expect(getOne.data.dataValues.color9Light3).toEqual("color9Light3")
     expect(getOne.data.dataValues.color9Light4).toEqual("color9Light4")
+    expect(getOne.data.dataValues.isChanged).toBe(true)
+    expect(getOne.data.dataValues.isReady).toBe(true)
 
+
+  })
+
+  test("resetIsChanged: remove is changed flag.", async () => {
+    const main = makeBackendSettingColors(d)
+
+    await main.resetIsChanged()
+    
+    const getOne = await main.getOne()
+
+    expect(getOne.data.dataValues.isChanged).toBe(false)
 
   })
 

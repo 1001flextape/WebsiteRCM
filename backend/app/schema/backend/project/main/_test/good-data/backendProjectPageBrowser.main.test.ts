@@ -3,14 +3,14 @@ import backendProjectPage from "../../../../../../models/backend/project/backend
 import backendProjectPageBrowser from "../../../../../../models/backend/project/backendProjectPageBrowser.model"
 import { makeDTestObj } from "../../../../../utils/dependencies/makeTestDependency"
 import { dependencies } from "../../../../../utils/dependencies/type/dependencyInjection.types"
-import makeBackendProjectSql from "../../../preMain/backendProject.sql"
-import makeBackendProjectPageSql from "../../../preMain/backendProjectPage.sql"
-import makeBackendProjectPageBrowserSql from "../../../preMain/backendProjectPageBrowser.sql"
+import makeBackendProjectMain from "../../backendProject.main"
+import makeBackendProjectPageMain from "../../backendProjectPage.main"
+import makeBackendProjectPageBrowserMain from "../../backendProjectPageBrowser.main"
 
 jest.setTimeout(100000)
 
 
-describe("test backendProjectPageBrowser.sql.js", () => {
+describe("test backendProjectPageBrowser.main.js", () => {
 
   let d: dependencies
   let record: backendProjectPageBrowser
@@ -22,8 +22,8 @@ describe("test backendProjectPageBrowser.sql.js", () => {
     d = await makeDTestObj()
     
 
-    const backendProject = makeBackendProjectSql(d)
-    const backendProjectPage = makeBackendProjectPageSql(d)
+    const backendProject = makeBackendProjectMain(d)
+    const backendProjectPage = makeBackendProjectPageMain(d)
 
     const newProject = await backendProject.addOne({
       name: "Test",
@@ -43,9 +43,9 @@ describe("test backendProjectPageBrowser.sql.js", () => {
 
 
   test("addOne: can add record.", async () => {
-    const sql = makeBackendProjectPageBrowserSql(d)
+    const main = makeBackendProjectPageBrowserMain(d)
 
-    const addOne = await sql.addOne({
+    const addOne = await main.addOne({
       projectId: project.id,
       pageId: page.id,
       tabName: "blah",
@@ -57,9 +57,9 @@ describe("test backendProjectPageBrowser.sql.js", () => {
   })
 
   test("getOneById: can get record.", async () => {
-    const pageSql = makeBackendProjectPageBrowserSql(d)
+    const pageMain = makeBackendProjectPageBrowserMain(d)
 
-    const getOneById = await pageSql.getOneById({
+    const getOneById = await pageMain.getOneById({
       id: record.id,
     })
 
@@ -68,9 +68,9 @@ describe("test backendProjectPageBrowser.sql.js", () => {
   })
 
   test("getOneByPageId: can get record.", async () => {
-    const pageSql = makeBackendProjectPageBrowserSql(d)
+    const pageMain = makeBackendProjectPageBrowserMain(d)
 
-    const getOneByPageId = await pageSql.getOneByPageId({
+    const getOneByPageId = await pageMain.getOneByPageId({
       pageId: page.id,
     })
 
@@ -78,6 +78,27 @@ describe("test backendProjectPageBrowser.sql.js", () => {
     expect(getOneByPageId.data.dataValues.tabName).toEqual("blah")
   })
 
+  test("addMany: can add many records.", async () => {
+    const pageBrowserMain = makeBackendProjectPageBrowserMain(d)    
+    const backendProjectPage = makeBackendProjectPageMain(d)
+
+    const newPage2 = await backendProjectPage.addOne({
+      projectId: project.id,
+      slug: "/test/shouldnt-save/123980-12038-test",
+    })
+
+    await pageBrowserMain.addMany([{
+      projectId: project.id,
+      pageId: newPage2.data.dataValues.id,
+    }])
+
+    const getMany = await pageBrowserMain.getManyByProjectId({
+      projectId: project.id,
+    })
+                                              // there is at least 2, planning on possibly seeding data later
+    expect(getMany.data.length).toBeGreaterThan(1)
+  })
+  
   afterAll(async () => {
     await d.dbTransaction.rollback()
   })

@@ -6,6 +6,7 @@ import getMany from "./scripts/projectSql/getMany.script"
 import getOneById from "./scripts/projectSql/getOneById.script"
 import updateOne from "./scripts/projectSql/updateOne.script"
 import getCurrentProject from "./scripts/projectSql/getCurrentProject.script"
+import updateCurrentOne from "./scripts/projectSql/updateCurrentOne.script"
 
 export default function makeBackendProjectSql(d: dependencies) {
 
@@ -17,5 +18,6 @@ export default function makeBackendProjectSql(d: dependencies) {
     getOneById: getOneById(d),
     getCurrentProject: getCurrentProject(d),
     updateOne: updateOne(d),
+    updateCurrentOne: updateCurrentOne(d),
   }
 }
