@@ -8,83 +8,36 @@ import DynamicComponent from '@/components/previews/DynamicComponent/DynamicComp
 import { useTheme } from '@mui/material';
 import { getClientPageIdBySlugGraphQL } from '@/pages-scripts/p/store/getClientPageId.store';
 import { getClientPageGraphQL } from '@/pages-scripts/p/store/getClientPage.store';
-
-const createComponentProps = ({ organization, userAnswers, webAssetImport }) => {
-  if (typeof (userAnswers) === "string") {
-    userAnswers = JSON.parse(userAnswers)
-  }
-
-  return {
-    webAssetImport,
-    data: {
-      user: userAnswers,
-      system: {
-        state: {
-          isDisplayMode: false,
-          isFunctionalMode: true,
-          // isDayMode: //added later
-          // isNightMode //added later 
-        },
-        // socials
-      }
-
-    },
-  };
-}
+import { getRcmProps } from '@/components/rcm-components/getRcmProps';
 
 const Page = (props) => {
   const router = useRouter()
   const theme = useTheme()
 
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [componentProps, setComponentProps] = useState({})
-  const [webAssetImport, setWebAssetImport] = useState()
+  console.log('props', props)
+
+  const [isLoaded, setIsLoaded] = useState(true)
   const [backgroundColor, setBackgroundColor] = useState()
 
-  useEffect(() => {
-    const { webAssetImport: webAssetQueryParam, mode: modeQueryParam } = router.query;
-
-    // Check if the query parameter is present before setting the state
-    if (webAssetQueryParam) {
-      setWebAssetImport(webAssetQueryParam.toString());
-
-      switch (modeQueryParam.toString()) {
-        case "night":
-          setBackgroundColor(theme.palette.grey[800])
-          break;
-        case "day":
-          setBackgroundColor(theme.palette.grey[200])
-          break;
-
-        default:
-          setBackgroundColor(theme.palette.grey[800])
-          break;
-      }
+  const createComponentProps = ({ organization, userAnswers, webAssetImport }) => {
+    if (typeof (userAnswers) === "string") {
+      userAnswers = JSON.parse(userAnswers)
     }
 
-    if (modeQueryParam) {
-      setComponentProps({
-        props: {
-          data: {
-            system: {
-              state: {
-                isDisplayMode: true,
-                isFunctionalMode: false,
-                isDayMode: modeQueryParam.toString() === "day",
-                isNightMode: modeQueryParam.toString() === "night",
-              },
-              // socials
-            }
-          }
-        },
-      })
-    }
+    console.log('userAnswers', userAnswers)
 
-    setIsLoaded(true)
-
-
-
-  }, [router.query]);
+    return getRcmProps({
+      user: userAnswers,
+      state: {
+        isFunctionalMode: true,
+        isDisplayMode: false,
+        isProdMode: true,
+        isDevMode: false,
+        // isDayMode: //added later
+        // isNightMode //added later 
+      },
+    })
+  }
 
   return (
     <>
@@ -98,21 +51,33 @@ const Page = (props) => {
           {props?.header?.webAssetImport && (
             <DynamicComponent
               filePath={props.header.webAssetImport}
-              props={props.header}
+              props={
+                createComponentProps({
+                  userAnswers: props.header.userAnswers,
+                })
+              }
             />
           )}
 
           {props?.loudSection?.webAssetImport && (
             <DynamicComponent
               filePath={props.loudSection.webAssetImport}
-              props={props.loudSection}
+              props={
+                createComponentProps({
+                  userAnswers: props.loudSection.userAnswers,
+                })
+              }
             />
           )}
 
           {props?.sections && props?.sections.map(section => (
             <DynamicComponent
               filePath={section.webAssetImport}
-              props={section}
+              props={
+                createComponentProps({
+                  userAnswers: section.userAnswers,
+                })
+              }
             />
           )
           )}
@@ -121,7 +86,11 @@ const Page = (props) => {
           {props?.footer?.webAssetImport && (
             <DynamicComponent
               filePath={props.footer.webAssetImport}
-              props={props.footer}
+              props={
+                createComponentProps({
+                  userAnswers: props.footer.userAnswers,
+                })
+              }
             />
           )}
         </div>
@@ -145,23 +114,23 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      header: createComponentProps({
+      header: {
         webAssetImport: pageData.clientSiteHeader_getOne.webAssetImport,
         userAnswers: JSON.parse(pageData.clientSiteHeader_getOne?.userAnswersJsonB || "{}"),
-      }),
-      footer: createComponentProps({
+      },
+      footer: {
         webAssetImport: pageData.clientSiteFooter_getOne.webAssetImport,
         userAnswers: JSON.parse(pageData.clientSiteFooter_getOne?.userAnswersJsonB || "{}"),
-      }),
-      loudSection: createComponentProps({
+      },
+      loudSection: {
         webAssetImport: pageData.clientSitePageSectionLoud_getOneByPageId.webAssetImport,
         userAnswers: JSON.parse(pageData.clientSitePageSectionLoud_getOneByPageId?.userAnswersJsonB || "{}"),
-      }),
+      },
       sections: pageData.clientSitePageSectionNormal_getManyByPageId.map(section => {
-        return createComponentProps({
+        return {
           webAssetImport: section.webAssetImport,
           userAnswers: JSON.parse(section?.userAnswersJsonB || "{}"),
-        })
+        }
       })
     }
   }

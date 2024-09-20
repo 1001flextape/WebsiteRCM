@@ -10,92 +10,49 @@ import { getClientPageIdBySlugGraphQL } from '@/pages-scripts/p/store/getClientP
 import { getClientPageGraphQL } from '@/pages-scripts/p/store/getClientPage.store';
 import UnderConstructionScene from '@/components/under-contruction/UnderConstructionScene';
 import { callApiMiddleware } from '@/utils/graphql/backend-api.middleware';
-
-const createComponentProps = ({ organization, userAnswers, webAssetImport }) => {
-  if (typeof (userAnswers) === "string") {
-    userAnswers = JSON.parse(userAnswers)
-  }
-
-  return {
-    webAssetImport,
-    data: {
-      user: userAnswers,
-      system: {
-        state: {
-          isDisplayMode: false,
-          isFunctionalMode: true,
-          // isDayMode: //added later
-          // isNightMode //added later 
-        },
-        // socials
-      }
-
-    },
-  };
-}
+import { getRcmProps } from '@/components/rcm-components/getRcmProps';
 
 const Page = (props) => {
+  console.log('props', props)
   const router = useRouter()
   const theme = useTheme()
 
-  const [isLoaded, setIsLoaded] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(true)
   const [componentProps, setComponentProps] = useState({})
   const [webAssetImport, setWebAssetImport] = useState()
   const [backgroundColor, setBackgroundColor] = useState()
 
-  useEffect(() => {
-    const { webAssetImport: webAssetQueryParam, mode: modeQueryParam } = router.query;
-
-    // Check if the query parameter is present before setting the state
-    if (webAssetQueryParam) {
-      setWebAssetImport(webAssetQueryParam.toString());
-
-      switch (modeQueryParam.toString()) {
-        case "night":
-          setBackgroundColor(theme.palette.grey[800])
-          break;
-        case "day":
-          setBackgroundColor(theme.palette.grey[200])
-          break;
-
-        default:
-          setBackgroundColor(theme.palette.grey[800])
-          break;
-      }
+  const createComponentProps = ({ organization, userAnswers, webAssetImport }) => {
+    if (typeof (userAnswers) === "string") {
+      userAnswers = JSON.parse(userAnswers)
     }
 
-    if (modeQueryParam) {
-      setComponentProps({
-        props: {
-          data: {
-            system: {
-              state: {
-                isDisplayMode: true,
-                isFunctionalMode: false,
-                isDayMode: modeQueryParam.toString() === "day",
-                isNightMode: modeQueryParam.toString() === "night",
-              },
-              // socials
-            }
-          }
-        },
-      })
-    }
+    return getRcmProps({
+      user: userAnswers,
+      state: {
+        isFunctionalMode: true,
+        isDisplayMode: false,
+        isProdMode: true,
+        isDevMode: false,
+        // isDayMode: //added later
+        // isNightMode //added later 
+      },
+    })
+    // {
+    //   user: userAnswers,
+    //   system: {
+    //     state: {
+    //       isDisplayMode: false,
+    //       isFunctionalMode: true,
+    //       // isDayMode: //added later
+    //       // isNightMode //added later 
+    //     },
+    //     // socials
+    //   }
 
-    setIsLoaded(true)
+    // },
 
-
-
-  }, [router.query]);
-
-  useEffect(() => {
-    console.log('!!!!!!!!blah', props)
-
-    if (props.isConstructionPage) {
-      setIsLoaded(true)
-      console.log('!!!!!!!!Loaded')
-    }
-  }, [])
+  }
 
   return (
     <>
@@ -115,21 +72,34 @@ const Page = (props) => {
                 {props?.header?.webAssetImport && (
                   <DynamicComponent
                     filePath={props.header.webAssetImport}
-                    props={props.header}
+                    props={
+                      createComponentProps({
+                        userAnswers: props.header.userAnswers,
+                      })
+                    }
                   />
                 )}
 
                 {props?.loudSection?.webAssetImport && (
                   <DynamicComponent
                     filePath={props.loudSection.webAssetImport}
-                    props={props.loudSection}
+                    props={
+                      createComponentProps({
+                        userAnswers: props.loudSection.userAnswers,
+                      })
+                    }
                   />
                 )}
 
                 {props?.sections && props?.sections.map(section => (
                   <DynamicComponent
                     filePath={section.webAssetImport}
-                    props={section}
+                    props={
+                      createComponentProps({
+                        userAnswers: section.userAnswers,
+                        webAssetImport: section.webAssetImport,
+                      })
+                    }
                   />
                 )
                 )}
@@ -138,7 +108,12 @@ const Page = (props) => {
                 {props?.footer?.webAssetImport && (
                   <DynamicComponent
                     filePath={props.footer.webAssetImport}
-                    props={props.footer}
+                    props={
+                      createComponentProps({
+                        userAnswers: props.footer.userAnswers,
+                        webAssetImport: props.footer.webAssetImport,
+                      })
+                    }
                   />
                 )}
               </div>
@@ -152,19 +127,9 @@ const Page = (props) => {
 
 export async function getServerSideProps(context) {
 
-  const response = await callApiMiddleware({
+  const response = await getClientPageIdBySlugGraphQL({
     slug: `/`,
   })
-
-  console.log('response', response)
-
-  if (!response?.clientSitePage_getOneBySlug?.id) {
-    return {
-      props: {
-        isConstructionPage: true,
-      },
-    }
-  }
 
   const pageId = response.clientSitePage_getOneBySlug.id
 
@@ -174,24 +139,23 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      isConstructionPage: false,
-      header: createComponentProps({
+      header: {
         webAssetImport: pageData.clientSiteHeader_getOne.webAssetImport,
         userAnswers: JSON.parse(pageData.clientSiteHeader_getOne?.userAnswersJsonB || "{}"),
-      }),
-      footer: createComponentProps({
+      },
+      footer: {
         webAssetImport: pageData.clientSiteFooter_getOne.webAssetImport,
         userAnswers: JSON.parse(pageData.clientSiteFooter_getOne?.userAnswersJsonB || "{}"),
-      }),
-      loudSection: createComponentProps({
+      },
+      loudSection: {
         webAssetImport: pageData.clientSitePageSectionLoud_getOneByPageId.webAssetImport,
         userAnswers: JSON.parse(pageData.clientSitePageSectionLoud_getOneByPageId?.userAnswersJsonB || "{}"),
-      }),
+      },
       sections: pageData.clientSitePageSectionNormal_getManyByPageId.map(section => {
-        return createComponentProps({
+        return {
           webAssetImport: section.webAssetImport,
           userAnswers: JSON.parse(section?.userAnswersJsonB || "{}"),
-        })
+        }
       })
     }
   }
