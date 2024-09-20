@@ -9,6 +9,7 @@ import { useTheme } from '@mui/material';
 import { getClientPageIdBySlugGraphQL } from '@/pages-scripts/p/store/getClientPageId.store';
 import { getClientPageGraphQL } from '@/pages-scripts/p/store/getClientPage.store';
 import UnderConstructionScene from '@/components/under-contruction/UnderConstructionScene';
+import { callApiMiddleware } from '@/utils/graphql/backend-api.middleware';
 
 const createComponentProps = ({ organization, userAnswers, webAssetImport }) => {
   if (typeof (userAnswers) === "string") {
@@ -151,9 +152,11 @@ const Page = (props) => {
 
 export async function getServerSideProps(context) {
 
-  const response = await getClientPageIdBySlugGraphQL({
+  const response = await callApiMiddleware({
     slug: `/`,
   })
+
+  console.log('response', response)
 
   if (!response?.clientSitePage_getOneBySlug?.id) {
     return {

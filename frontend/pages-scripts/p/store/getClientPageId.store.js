@@ -1,9 +1,9 @@
-import { callSubDomainApiMiddlewareWithToken } from "@/utils/graphql/backend-api.middleware"
+import { callApiMiddleware, callSubDomainApiMiddlewareWithToken } from "@/utils/graphql/backend-api.middleware"
 
 export const getClientPageIdBySlugGraphQL = ({ slug }) => {
   return new Promise(async (resolve) => {
 
-    const response = await callSubDomainApiMiddlewareWithToken({
+    const response = await callApiMiddleware({
       query: `
       query($slug: String!) {
         clientSitePage_getOneBySlug(slug: $slug) {

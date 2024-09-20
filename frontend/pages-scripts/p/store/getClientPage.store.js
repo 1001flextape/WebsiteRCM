@@ -1,9 +1,9 @@
-import { callSubDomainApiMiddlewareWithToken } from "@/utils/graphql/backend-api.middleware"
+import { callApiMiddleware } from "@/utils/graphql/backend-api.middleware"
 
 export const getClientPageGraphQL = ({ pageId }) => {
   return new Promise(async (resolve) => {
 
-    const response = await callSubDomainApiMiddlewareWithToken({
+    const response = await callApiMiddleware({
       query: `
       query($pageId: ID!) {
         clientSiteFooter_getOne {
